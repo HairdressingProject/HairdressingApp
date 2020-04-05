@@ -28,3 +28,12 @@ folder: mydoc
 
 ## Pictures
 {% include image.html file="/wireframes/Pictures - Web 1920x1080.png" alt="Sign in screenshot" caption="Permissions 1" %}
+
+## Forgot Password
+{% include image.html file="/wireframes/Forgot Password - Web 1920x1080.png" alt="Sign in screenshot" caption="Forgot password" %}
+{% include image.html file="/wireframes/Forgot Password 2 - Web 1920x1080.png" alt="Sign in screenshot" caption="Forgot password 2" %}
+{% include image.html file="/wireframes/Forgot Password 3 - Web 1920x1080.png" alt="Sign in screenshot" caption="Forgot password 3" %}
+
+## New Password
+{% include image.html file="/wireframes/New Password - Web 1920x1080.png" alt="Sign in screenshot" caption="New password" %}
+{% include image.html file="/wireframes/New Password 2 - Web 1920x1080.png" alt="Sign in screenshot" caption="New password 2" %}

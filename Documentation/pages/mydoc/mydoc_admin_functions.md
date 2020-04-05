@@ -19,14 +19,14 @@ folder: mydoc
 
 
 
-<ul id="sign_up_functionTabs" class="nav nav-tabs">
-    <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-    <li><a href="#fields" data-toggle="tab">Fields</a></li>
+<ul id="signUpfunctionTabs" class="nav nav-tabs">
+    <li class="active"><a href="#signUpDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#signUpFields" data-toggle="tab">Fields</a></li>
 </ul>
 
 <div class="tab-content">
 
-<div role="tabpanel" class="tab-pane active" id="details">
+<div role="tabpanel" class="tab-pane active" id="signUpDetails">
     <ul>
         <li>Every new user must enter the details outlined above to register in the admin portal</li>
         <li>Basic password validation will make accounts slightly more secure</li>
@@ -36,7 +36,7 @@ folder: mydoc
     </ul>
 </div>
 
-<div role="tabpanel" class="tab-pane" id="fields">
+<div role="tabpanel" class="tab-pane" id="signUpFields">
     <ol>
         <li>Given name input <span class="label label-warning">required</span></li>
         <li>Family name input</li>
@@ -80,14 +80,14 @@ folder: mydoc
 
 {% include links.html %} -->
 
-<ul id="sign_in_functionTabs" class="nav nav-tabs">
-    <li class="active"><a href="#sign_in_details" data-toggle="tab">Details</a></li>
-    <li><a href="#sign_in_fields" data-toggle="tab">Fields</a></li>
+<ul id="signInFunctionTabs" class="nav nav-tabs">
+    <li class="active"><a href="#signInDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#signInFields" data-toggle="tab">Fields</a></li>
 </ul>
 
 <div class="tab-content">
 
-<div role="tabpanel" class="tab-pane active" id="sign_in_details">
+<div role="tabpanel" class="tab-pane active" id="signInDetails">
     <ul>
         <li>Users have the option to enter either their username or email to sign in</li>
         <li>A pop-up message should be displayed if either field is incorrect</li>
@@ -97,13 +97,82 @@ folder: mydoc
     </ul>
 </div>
 
-<div role="tabpanel" class="tab-pane" id="sign_in_fields">
+<div role="tabpanel" class="tab-pane" id="signInFields">
     <ol>
         <li>Username or Email input <span class="label label-warning">required</span></li>
         <li>Password input <span class="label label-warning">required</span></li>
         <li>Remember me checkbox</li>
         <li>Forgot password link</li>
         <li>Sign in button (submit form)</li>
+        <li>Sign up link</li>
+    </ol>
+</div>
+
+</div>
+
+## Forgot Password
+
+{% include image.html file="forgotPassword.png" alt="Sign in screenshot" caption="Forgot password form" %}
+{% include image.html file="forgotPassword2.png" alt="Sign in screenshot" caption="Email sent notification" %}
+{% include image.html file="forgotPassword3.png" alt="Sign in screenshot" caption="No email notification" %}
+
+<ul id="forgotPasswordTabs" class="nav nav-tabs">
+    <li class="active"><a href="#forgotPasswordDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#forgotPasswordFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="forgotPasswordDetails">
+    <ul>
+        <li>Users can enter either username or email to recover their account</li>
+        <li>If an account associated with the information entered is found, an email will be sent to the user with instructions on how to create a new password. Additionally, a success message should pop up at the top of the window to let the user know.</li>
+        <li>If no account is found, an error message should pop up at the top of the window to inform the user.</li>
+        <li>If the username/email input field is invalid or empty, the “recover password” button should be inactive.</li>
+        <li>The sign in/ sign up links below the form should redirect users to the corresponding pages.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="forgotPasswordFields">
+    <ol>
+        <li>Username or Email input <span class="label label-warning">required</span></li>
+        <li>Recover Password button (submit form)</li>
+        <li>Sign in link</li>
+        <li>Sign up link</li>
+    </ol>
+</div>
+
+</div>
+
+
+## New Password
+
+{% include image.html file="newPassword.png" alt="Sign in screenshot" caption="Sign up form" %}
+
+<ul id="newPasswordTabs" class="nav nav-tabs">
+    <li class="active"><a href="#newPasswordDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#newPasswordFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="newPasswordDetails">
+    <ul>
+        <li>The “email” field is read-only and lets users be aware of which email is associated with the account that they wish to recover.</li>
+        <li>Both the “new password” and “confirm new password” input fields have basic validation and must match.</li>
+        <li>If any of the fields is invalid, empty or the passwords do not match, the “change password” button should be inactive.</li>
+        <li>If all inputs are valid, clicking on the “change password” button should redirect users to the dashboard page, with a success message at the top of the window informing them that their password has changed (possibly along with an email).</li>
+        <li>The sign in/ sign up links below the form should redirect users to the corresponding pages.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="newPasswordFields">
+    <ol>
+        <li>Email (read-only)</li>
+        <li>New password input <span class="label label-warning">required</span></li>
+        <li>Confirm new password input <span class="label label-warning">required</span></li>
+        <li>Change Password button (submit form)</li>
+        <li>Sign in link</li>
         <li>Sign up link</li>
     </ol>
 </div>
