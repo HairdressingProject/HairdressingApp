@@ -255,7 +255,7 @@ folder: mydoc
 </div>
 
 
-## 6.1. Databases - Add entry modal
+### 6.1. Databases - Add entry modal
 
 {% include image.html file="databases_add_entry_modal.png" alt="Sign in screenshot" caption="Add entry modal" %}
 
@@ -279,23 +279,23 @@ folder: mydoc
 
 <div role="tabpanel" class="tab-pane" id="addEntryModalFields">
     <ol>
-        <li>user_name input field (<b><u>required</b></u>)</li>
-        <li>user_email input field (<b><u>required</b></u>)</li>
-        <li>user_password input field (<b><u>required</b></u>)</li>
-        <li>first_name input field (<b><u>required</b></u>)</li>
+        <li>user_name input field (<b><u>required</u></b>)</li>
+        <li>user_email input field (<b><u>required</u></b>)</li>
+        <li>user_password input field (<b><u>required</u></b>)</li>
+        <li>first_name input field (<b><u>required</u></b>)</li>
         <li>last_name input field</li>
-        <li>user_role dropdown (<b><u>required</b></u>)</li>
+        <li>user_role dropdown (<b><u>required</u></b>)</li>
         <li>Cancel add entry button</li>
         <li>Add entry button</li>
         <li>Clear all fields button</li>
     </ol>
 </div>
-
-<p><b>Note:</b> The users table was only shown as an example here. The same concepts apply to all other tables.</p> 
 </div>
 
+<p><b>Note:</b> The users table was only shown as an example here. The same concepts apply to all other tables.</p> 
 
-## 6.2. Databases - Edit entry modal
+
+### 6.2. Databases - Edit entry modal
 
 {% include image.html file="databases_edit_entry_modal.png" alt="Sign in screenshot" caption="Edit entry modal" %}
 
@@ -324,7 +324,7 @@ folder: mydoc
 </div>
 </div>
 
-## 6.3. Databases - Delete entry modal
+### 6.3. Databases - Delete entry modal
 
 {% include image.html file="databases_delete_entry_modal.png" alt="Sign in screenshot" caption="Delete entry modal" %}
 
