@@ -221,7 +221,7 @@ folder: mydoc
 
 ## Databases
 
-{% include image.html file="databases.png" alt="Sign in screenshot" caption="Database page" %}
+{% include image.html file="databases.png" alt="Sign in screenshot" caption="Databases page" %}
 
 <ul id="databasesTabs" class="nav nav-tabs">
     <li class="active"><a href="#databasesDetails" data-toggle="tab">Details</a></li>
@@ -232,28 +232,123 @@ folder: mydoc
 
 <div role="tabpanel" class="tab-pane active" id="databasesDetails">
     <ul>
-        <li>The databases page should show all tables contained in each database (highlighted by (1)), with timestamps for created at and last updated dates.</li>
-        <li>When users select a row in the tables section, a new section should pop up at the right (2), showing all entries of the table selected. If no row in the latter is selected, the “edit” and “delete” buttons should remain inactive.</li>
-        <li>The “add” button allows users to create new entries in the selected table and the “edit” and “delete” buttons enable modification of the selected entry.</li>
-        <li>TODO:</li>
-            <ul>
-                <li>Add modals for add, edit and delete entries</li>
-                <li>Add search entry input field</li>
-            </ul>
+        <li>The databases page should show all tables contained in each database (highlighted by (3)), with timestamps for created at and last updated dates.</li>
+        <li>When users select a row in the tables section, a new section should pop up at the right (4), showing all entries of the table selected. If no row in the latter is selected, the “edit” and “delete” buttons should remain inactive.</li>
+        <li>The search input fields (1, 2, 5) let users look for a specific database, table or entry, respectively. As they type, the respective table should automatically display only relevant results. Clearing a field should restore the respective table to show all records.</li>
+        <li>The “add” button (6) allows users to create new entries in the selected table and the “edit” (7) and “delete” (8) buttons enable modification of the selected entry. See 6.1. (Add entry modal), 6.2. (Edit entry modal) and 6.3. (Delete entry modal) for more details.</li>
         <li>All other UI elements not outlined in the previous picture have already been covered.</li>
     </ul>
 </div>
 
 <div role="tabpanel" class="tab-pane" id="databasesFields">
     <ol>
-        <li>Tables section (for each database)</li>
-        <li>Selected table section</li>
+        <li>Search for a database input</li>
+        <li>Search for a table input</li>
+        <li>Tables section</li>
+        <li>Entries section</li>
+        <li>Search for an entry input</li>
         <li>Add new entry button</li>
-        <li>Edit entry button</li>
-        <li>Delete entry button</li>
+        <li>Edit selected entry button</li>
+        <li>Delete selected entry button</li>
+    </ol>
+</div>
+</div>
+
+
+## 6.1. Databases - Add entry modal
+
+{% include image.html file="databases_add_entry_modal.png" alt="Sign in screenshot" caption="Add entry modal" %}
+
+<ul id="addEntryModalTabs" class="nav nav-tabs">
+    <li class="active"><a href="#addEntryModalDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#addEntryModalFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="addEntryModalDetails">
+    <ul>
+        <li>The add entry modal should pop up when users click on the “add” button from the databases page.</li>
+        <li>When users click on the “cancel” button (7) or when they click outside of this modal, it should close.</li>
+        <li>When users click on the “clear” button (9), all input fields should be cleared.</li>
+        <li>Fields marked with (*) are required. A validation tooltip should appear when an input field is invalid.</li>
+        <li>The “add” button (8) should be disabled as long as at least one field is invalid or empty. If all fields are valid, it should turn active. Clicking on it should add a new entry to the selected table, close the modal and display a feedback message at the top of the window.</li>
+        <li><b>TODO:</b> Add error handling.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="addEntryModalFields">
+    <ol>
+        <li>user_name input field (<b><u>required</b></u>)</li>
+        <li>user_email input field (<b><u>required</b></u>)</li>
+        <li>user_password input field (<b><u>required</b></u>)</li>
+        <li>first_name input field (<b><u>required</b></u>)</li>
+        <li>last_name input field</li>
+        <li>user_role dropdown (<b><u>required</b></u>)</li>
+        <li>Cancel add entry button</li>
+        <li>Add entry button</li>
+        <li>Clear all fields button</li>
     </ol>
 </div>
 
+<p><b>Note:</b> The users table was only shown as an example here. The same concepts apply to all other tables.</p> 
+</div>
+
+
+## 6.2. Databases - Edit entry modal
+
+{% include image.html file="databases_edit_entry_modal.png" alt="Sign in screenshot" caption="Edit entry modal" %}
+
+<ul id="editEntryModalTabs" class="nav nav-tabs">
+    <li class="active"><a href="#editEntryModalDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#editEntryModalFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="editEntryModalDetails">
+    <ul>
+        <li>The edit entry modal should pop up when users click on the “edit” button from the databases page.</li>
+        <li>When users click on the “restore” button (3), all input fields should be overwritten with their respective initial values.</li>
+        <li>The “edit” button (2) should be disabled as long as at least one field is invalid or empty. If all fields are valid, it should turn active. Clicking on it should edit the selected entry of the current table, close the modal and display a feedback message at the top of the window.</li>
+        <li>Every other UI element not mentioned here works in the way as 6.1.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="editEntryModalFields">
+    <ol>
+        <li>Cancel edit entry button</li>
+        <li>Edit entry button</li>
+        <li>Restore all fields button</li>
+    </ol>
+</div>
+</div>
+
+## 6.3. Databases - Delete entry modal
+
+{% include image.html file="databases_delete_entry_modal.png" alt="Sign in screenshot" caption="Delete entry modal" %}
+
+<ul id="deleteEntryModalTabs" class="nav nav-tabs">
+    <li class="active"><a href="#deleteEntryModalDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#deleteEntryModalFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="deleteEntryModalDetails">
+    <ul>
+        <li>The delete entry modal should pop up when users click on the “delete” button from the databases page.</li>
+        <li>The “cancel” button (1) should close the modal and the “confirm” (2) button should delete the selected entry from the table, close the modal and then display a feedback message at the top of the window.</li>
+        <li>In this modal all fields should be read-only, since there is no need to modify any of them.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="deleteEntryModalFields">
+    <ol>
+        <li>Cancel delete entry button</li>
+        <li>Confirm delete entry button</li>
+    </ol>
+</div>
 </div>
 
 

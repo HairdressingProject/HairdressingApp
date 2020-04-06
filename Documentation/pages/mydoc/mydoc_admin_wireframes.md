@@ -15,9 +15,13 @@ folder: mydoc
 ## Dashboard
 {% include image.html file="/wireframes/Dashboard - Web 1920x1080.png" alt="Sign in screenshot" caption="Dashboard" %}
 ## Databases
-{% include image.html file="/wireframes/Databases 1 - Web - 1920x1080.png" alt="Sign in screenshot" caption="Databases 1" %}
-{% include image.html file="/wireframes/Databases 2 - Web - 1920x1080.png" alt="Sign in screenshot" caption="Databases 2" %}
-{% include image.html file="/wireframes/Databases 3 - Web - 1920x1080.png" alt="Sign in screenshot" caption="Databases 3" %}
+{% include image.html file="/wireframes/Databases 1 - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Databases 1" %}
+{% include image.html file="/wireframes/Databases 2 - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Databases 2" %}
+{% include image.html file="/wireframes/Databases 3 - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Databases 3" %}
+
+{% include image.html file="/wireframes/Databases - Add Entry - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Add entry modal" %}
+{% include image.html file="/wireframes/Databases - Edit Entry - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Edit entry modal" %}
+{% include image.html file="/wireframes/Databases - Delete Entry - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Delete entry modal" %}
 
 ## Permissions
 {% include image.html file="/wireframes/Permissions - Web 1920x1080.png" alt="Sign in screenshot" caption="Permissions 1" %}
