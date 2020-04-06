@@ -147,7 +147,7 @@ folder: mydoc
 
 ## New Password
 
-{% include image.html file="newPassword.png" alt="Sign in screenshot" caption="Sign up form" %}
+{% include image.html file="newPassword.png" alt="Sign in screenshot" caption="New password form" %}
 
 <ul id="newPasswordTabs" class="nav nav-tabs">
     <li class="active"><a href="#newPasswordDetails" data-toggle="tab">Details</a></li>
@@ -178,3 +178,176 @@ folder: mydoc
 </div>
 
 </div>
+
+
+## Dashboard
+
+{% include image.html file="dashboard.png" alt="Sign in screenshot" caption="Dashboard page" %}
+
+<ul id="dashboardTabs" class="nav nav-tabs">
+    <li class="active"><a href="#dashboardDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#dashboardFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="dashboardDetails">
+    <ul>
+        <li>The dashboard is the home page of the admin portal. It is the first page that users see after signing in.</li>
+        <li>The settings button exposes a menu containing links for account information, logout and more.</li>
+        <li>Clicking on the notifications button should show a small panel with the latest (important) changes in the databases or in the current user’s account, such as password or permissions. It should also display a switch button with the option to disable such notifications.</li>
+        <li>The sidebar is the main navigation element of the admin portal. Clicking on each button should redirect users to the respective page.</li>
+        <li>Recently updated tables should show which column/row has been modified, with the name of the respective table and database and a timestamp.</li>
+        <li>The statistics section should display a simple pie chart or graph with useful data about users.</li>
+        <li>Activity log refers to the latest changes specifically made by registered users of the application, with a timestamp.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="dashboardFields">
+    <ol>
+        <li>Settings button</li>
+        <li>Notifications button</li>
+        <li>Profile picture and name</li>
+        <li>Sidebar with links</li>
+        <li>Collapse sidebar button</li>
+        <li>Recently updated tables</li>
+        <li>Statistics pie chart</li>
+        <li>Activity log table</li>
+    </ol>
+</div>
+
+</div>
+
+
+## Databases
+
+{% include image.html file="databases.png" alt="Sign in screenshot" caption="Database page" %}
+
+<ul id="databasesTabs" class="nav nav-tabs">
+    <li class="active"><a href="#databasesDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#databasesFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="databasesDetails">
+    <ul>
+        <li>The databases page should show all tables contained in each database (highlighted by (1)), with timestamps for created at and last updated dates.</li>
+        <li>When users select a row in the tables section, a new section should pop up at the right (2), showing all entries of the table selected. If no row in the latter is selected, the “edit” and “delete” buttons should remain inactive.</li>
+        <li>The “add” button allows users to create new entries in the selected table and the “edit” and “delete” buttons enable modification of the selected entry.</li>
+        <li>TODO:</li>
+            <ul>
+                <li>Add modals for add, edit and delete entries</li>
+                <li>Add search entry input field</li>
+            </ul>
+        <li>All other UI elements not outlined in the previous picture have already been covered.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="databasesFields">
+    <ol>
+        <li>Tables section (for each database)</li>
+        <li>Selected table section</li>
+        <li>Add new entry button</li>
+        <li>Edit entry button</li>
+        <li>Delete entry button</li>
+    </ol>
+</div>
+
+</div>
+
+
+## Traffic
+
+{% include image.html file="traffic.png" alt="Sign in screenshot" caption="Traffic page" %}
+
+<ul id="trafficTabs" class="nav nav-tabs">
+    <li class="active"><a href="#trafficDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#trafficFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="trafficDetails">
+    <ul>
+        <li>The traffic page should show relevant data regarding usage of the Hairdressing application. </li>
+        <li>The first section (1) should display the number of times that the application has been browsed so far. The total views could optionally count only unique users.</li>
+        <li>The second section (2) should present a graph that summarises user activity in the Hairdressing application by date, which could distinguish registered users from anonymous ones.</li>
+        <li>Ideally, a well-supported JavaScript library would be used to handle data visualisation for this page, so that users would be able to hover or click on specific points in the graph to see more details about the corresponding dates.</li>
+        <li>All other UI elements not outlined in the previous picture have already been covered.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="trafficFields">
+    <ol>
+        <li>Total views data</li>
+        <li>User activity data</li>
+    </ol>
+</div>
+
+</div>
+
+
+
+## Permissions
+
+{% include image.html file="permissions.png" alt="Sign in screenshot" caption="permissions page" %}
+
+<ul id="permissionsTabs" class="nav nav-tabs">
+    <li class="active"><a href="#permissionsDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#permissionsFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="permissionsDetails">
+    <ul>
+        <li>The permissions page allows admins to change the role of any registered user. As such, it can only be viewed by users with “admin” as their user_role</li>
+        <li>The main section of the page (1) shows all entries of the “users” table. If there is no entry currently selected, the “change user_role to” button (2) should be disabled.</li>
+        <li>Once a user is selected, clicking on the “change user_role to” button (2) should open a small drop-right with all the available user roles as radio buttons (3).</li>
+        <li>After a user role is chosen, the “users” table should be automatically updated. A feedback message should be displayed at the top of the page.</li>
+        <li>All other UI elements not outlined in the previous picture have already been covered.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="permissionsFields">
+    <ol>
+        <li>Users table (main section)</li>
+        <li>Change user_role to button </li>
+        <li>User role drop-right</li>
+    </ol>
+</div>
+
+</div>
+
+
+## Dashboard
+
+{% include image.html file="pictures.png" alt="Sign in screenshot" caption="pictures page" %}
+
+<ul id="picturesTabs" class="nav nav-tabs">
+    <li class="active"><a href="#picturesDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#picturesFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="picturesDetails">
+    <ul>
+        <li>The pictures page should display user-submitted pictures from the Hairdressing application. Those pictures are not present in the databases, they are stored in a separate cloud instance (possibly AWS S3), which is why this page is needed.</li>
+        <li>The main section of this page (1) should show all pictures available in the cloud storage in a table, sorted by user/user id.</li>
+        <li>Double-clicking on a row should bring users to the URL where pictures submitted by that particular user is stored in the cloud.</li>
+        <li>Note: See the project specification document for more info about how pictures are handled in this project.</li>
+        <li>All other UI elements not outlined in the previous picture have already been covered.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="picturesFields">
+    <ol>
+        <li>Pictures uploaded (main section)</li>
+    </ol>
+</div>
+
+</div>
+
+
