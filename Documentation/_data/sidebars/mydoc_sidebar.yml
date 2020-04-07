@@ -80,6 +80,14 @@ entries:
       url: /mydoc_admin_functions.html
       output: web, pdf
 
+  - title: Database
+    output: web, pdf
+    folderitems:
+
+    - title: Design
+      url: /mydoc_database_design.html
+      output: web, pdf
+
   # - title: Authoring
   #   output: web, pdf
 
