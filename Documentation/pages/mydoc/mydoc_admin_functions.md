@@ -1,7 +1,7 @@
 ---
 title: Admin Functions
 keywords: Admin portal, admin
-last_updated: July 3, 2016
+last_updated: April 4, 2020
 tags: [admin]
 summary: "This document outlines the various functions of UI elements found on each Admin page."
 sidebar: mydoc_sidebar
@@ -9,7 +9,7 @@ permalink: mydoc_admin_functions.html
 folder: mydoc
 ---
 
-## Sign Up
+## 1. Sign Up
 
 {% include image.html file="sign_up.png" alt="Sign in screenshot" caption="Sign up form" %}
 
@@ -65,7 +65,7 @@ folder: mydoc
 | | | (8) Sign in link -->
 
 
-## Sign In
+## 2. Sign In
 
 
 {% include image.html file="sign_in.png" alt="Sign in screenshot" caption="Sign in form" %}
@@ -110,7 +110,7 @@ folder: mydoc
 
 </div>
 
-## Forgot Password
+## 3. Forgot Password
 
 {% include image.html file="forgotPassword.png" alt="Sign in screenshot" caption="Forgot password form" %}
 {% include image.html file="forgotPassword2.png" alt="Sign in screenshot" caption="Email sent notification" %}
@@ -145,7 +145,7 @@ folder: mydoc
 </div>
 
 
-## New Password
+## 4. New Password
 
 {% include image.html file="newPassword.png" alt="Sign in screenshot" caption="New password form" %}
 
@@ -180,7 +180,7 @@ folder: mydoc
 </div>
 
 
-## Dashboard
+## 5. Dashboard
 
 {% include image.html file="dashboard.png" alt="Sign in screenshot" caption="Dashboard page" %}
 
@@ -219,7 +219,7 @@ folder: mydoc
 </div>
 
 
-## Databases
+## 6. Databases
 
 {% include image.html file="databases.png" alt="Sign in screenshot" caption="Databases page" %}
 
@@ -352,7 +352,7 @@ folder: mydoc
 </div>
 
 
-## Traffic
+## 7. Traffic
 
 {% include image.html file="traffic.png" alt="Sign in screenshot" caption="Traffic page" %}
 
@@ -384,7 +384,7 @@ folder: mydoc
 
 
 
-## Permissions
+## 8. Permissions
 
 {% include image.html file="permissions.png" alt="Sign in screenshot" caption="permissions page" %}
 
@@ -416,7 +416,7 @@ folder: mydoc
 </div>
 
 
-## Dashboard
+## 9. Dashboard
 
 {% include image.html file="pictures.png" alt="Sign in screenshot" caption="pictures page" %}
 
