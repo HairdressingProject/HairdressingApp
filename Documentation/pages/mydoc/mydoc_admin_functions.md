@@ -279,12 +279,12 @@ folder: mydoc
 
 <div role="tabpanel" class="tab-pane" id="addEntryModalFields">
     <ol>
-        <li>user_name input field (<b><u>required</u></b>)</li>
-        <li>user_email input field (<b><u>required</u></b>)</li>
-        <li>user_password input field (<b><u>required</u></b>)</li>
-        <li>first_name input field (<b><u>required</u></b>)</li>
+        <li>user_name input field <span class="label label-warning">required</span></li>
+        <li>user_email input field <span class="label label-warning">required</span></li>
+        <li>user_password input field <span class="label label-warning">required</span></li>
+        <li>first_name input field <span class="label label-warning">required</span></li>
         <li>last_name input field</li>
-        <li>user_role dropdown (<b><u>required</u></b>)</li>
+        <li>user_role dropdown <span class="label label-warning">required</span></li>
         <li>Cancel add entry button</li>
         <li>Add entry button</li>
         <li>Clear all fields button</li>
