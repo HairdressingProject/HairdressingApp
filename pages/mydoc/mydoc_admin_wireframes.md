@@ -14,6 +14,15 @@ folder: mydoc
 {% include image.html file="/wireframes/Sign in - Web 1920x1080.png" alt="Sign in screenshot" caption="Sign in form" %}
 ## Dashboard
 {% include image.html file="/wireframes/Dashboard - Web 1920x1080.png" alt="Sign in screenshot" caption="Dashboard" %}
+{% include image.html file="/wireframes/Dashboard 2 - Web 1920x1080.jpg" alt="Sign in screenshot" caption="Dashboard" %}
+{% include image.html file="/wireframes/Dashboard 3 - Web 1920x1080.jpg" alt="Sign in screenshot" caption="Dashboard" %}
+{% include image.html file="/wireframes/Dashboard 4 - Web 1920x1080.jpg" alt="Sign in screenshot" caption="Dashboard" %}
+
+## My account
+{% include image.html file="/wireframes/My account - Web 1920x1080.jpg" alt="Sign in screenshot" caption="My account" %}
+{% include image.html file="my_account_success_message.jpg" alt="Sign in screenshot" caption="Account updated success message" %}
+{% include image.html file="my_account_error_message.jpg" alt="Sign in screenshot" caption="Account updated error message" %}
+
 ## Databases
 {% include image.html file="/wireframes/Databases 1 - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Databases 1" %}
 {% include image.html file="/wireframes/Databases 2 - Web - 1920x1080.jpg" alt="Sign in screenshot" caption="Databases 2" %}

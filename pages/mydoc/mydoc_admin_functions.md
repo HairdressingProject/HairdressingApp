@@ -218,6 +218,14 @@ folder: mydoc
 
 </div>
 
+### 5.1. Dashboard - Settings dropdown
+
+### 5.2. Dashboard - Notifications dropdown
+
+### 5.3. Dashboard - Account dropdown
+
+
+
 
 ## 6. Databases
 
