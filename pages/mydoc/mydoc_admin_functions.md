@@ -43,7 +43,7 @@ folder: mydoc
         <li>Username input <span class="label label-warning">required</span></li>
         <li>Email input <span class="label label-warning">required</span></li>
         <li>Password input <span class="label label-warning">required</span></li>
-        <li>Privacy polocy checkbox <span class="label label-warning">required</span></li>
+        <li>Privacy policy checkbox <span class="label label-warning">required</span></li>
         <li>Signup button <span class="label label-warning">required</span></li>
         <li>Sign in link <span class="label label-warning">required</span></li>
     </ol>
@@ -302,7 +302,7 @@ folder: mydoc
 
 <div role="tabpanel" class="tab-pane" id="accountDropdownFields">
     <ol>
-        <li>account dropdown</li>
+        <li>Account dropdown</li>
         <li>My account link</li>
         <li>Logout link</li>
     </ol>
@@ -336,11 +336,11 @@ folder: mydoc
 <div role="tabpanel" class="tab-pane" id="myAccountFields">
     <ol>
         <li>Account container</li>
-        <li>user_name input field (required)</li>
-        <li>user_email input field (required)</li>
-        <li>first_name input field (required)</li>
-        <li>user_password input field (required)</li>
-        <li>Confirm password input field (required)</li>
+        <li>user_name input field <span class="label label-warning">required</span></li>
+        <li>user_email input field <span class="label label-warning">required</span></li>
+        <li>first_name input field <span class="label label-warning">required</span></li>
+        <li>user_password input field <span class="label label-warning">required</span></li>
+        <li>Confirm password input field <span class="label label-warning">required</span></li>
         <li>Restore all fields button</li>
         <li>Save changes button</li>
     </ol>
