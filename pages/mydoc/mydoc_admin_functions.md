@@ -220,14 +220,135 @@ folder: mydoc
 
 ### 5.1. Dashboard - Settings dropdown
 
+{% include image.html file="dashboard_settings_dropdown.jpg" alt="Sign in screenshot" caption="Settings dropdown" %}
+
+<ul id="settingsDropdownTabs" class="nav nav-tabs">
+    <li class="active"><a href="#settingsDropdownDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#settingsDropdownFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="settingsDropdownDetails">
+    <ul>
+        <li>This dropdown menu is displayed when users click on the settings (gear) icon.</li>
+        <li>It provides four elements: a link to the application’s privacy policy (2), another link to the cloud instance where user pictures are stored (3), a toggle button to show or turn off notifications (4) and another toggle button to enable or disable dark mode (5).</li>
+        <li>Clicking on the settings icon again or clicking anywhere outside of the settings dropdown (1) should close it.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="settingsDropdownFields">
+    <ol>
+        <li>Settings dropdown</li>
+        <li>Privacy policy link</li>
+        <li>Pictures storage link</li>
+        <li>Show notifications toggle button</li>
+        <li>Dark mode toggle button</li>
+    </ol>
+</div>
+
+</div>
+
+
+
 ### 5.2. Dashboard - Notifications dropdown
+
+{% include image.html file="dashboard_notifications_dropdown.jpg" alt="Sign in screenshot" caption="Notifications dropdown" %}
+
+<ul id="notificationsDropdownTabs" class="nav nav-tabs">
+    <li class="active"><a href="#notificationsDropdownDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#notificationsDropdownFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="notificationsDropdownDetails">
+    <ul>
+        <li>This dropdown menu is displayed when users click on the notifications (bell) icon.</li>
+        <li>The notifications to be shown should sorted by date/time (most recent ones at the top) and unread notifications should be highlighted (a badge with unread notifications count should also be displayed before clicking on the notifications icon). </li>
+        <li>The nature of these notifications remains to be decided, although they should be relevant enough to not be spammy.</li>
+        <li>Clicking on the notifications icon again or clicking anywhere outside of the notifications dropdown (1) should close it.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="notificationsDropdownFields">
+    <ol>
+        <li>Notifications dropdown</li>
+    </ol>
+</div>
+
+</div>
+
+
 
 ### 5.3. Dashboard - Account dropdown
 
+{% include image.html file="dashboard_account_dropdown.jpg" alt="Sign in screenshot" caption="Account dropdown" %}
 
+<ul id="accountDropdownTabs" class="nav nav-tabs">
+    <li class="active"><a href="#accountDropdownDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#accountDropdownFields" data-toggle="tab">Fields</a></li>
+</ul>
 
+<div class="tab-content">
 
-## 6. Databases
+<div role="tabpanel" class="tab-pane active" id="accountDropdownDetails">
+    <ul>
+        <li>This dropdown menu is displayed when users click on the small chevron (arrow) down at the right of the current user’s name.</li>
+        <li>It should contain two links: “My account” (2) brings users to the My account page (see section 6 for more details) and “Logout” (3) ends the current session and redirects users to the Sign in page (see section 2).</li>
+        <li>Clicking on the small chevron down again or clicking anywhere outside of the account dropdown (1) should close it.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="accountDropdownFields">
+    <ol>
+        <li>account dropdown</li>
+        <li>My account link</li>
+        <li>Logout link</li>
+    </ol>
+</div>
+
+</div>
+
+## 6. My Account
+
+{% include image.html file="my_account.jpg" alt="Sign in screenshot" caption="My account page" %}
+{% include image.html file="my_account_success_message.jpg" alt="Sign in screenshot" caption="My account success feedback message" %}
+{% include image.html file="my_account_error_message.jpg" alt="Sign in screenshot" caption="My account error feedback message" %}
+
+<ul id="myAccountTabs" class="nav nav-tabs">
+    <li class="active"><a href="#myAccountDetails" data-toggle="tab">Details</a></li>
+    <li><a href="#myAccountFields" data-toggle="tab">Fields</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane active" id="myAccountDetails">
+    <ul>
+        <li>This page should display the current user’s information and allow modifications.</li>
+        <li>At the top of the account container (1), users should see their account’s profile picture (which can be changed by clicking on it), their first_name and last_name in the title and their user_role below their names. The user_role cannot be directly modified by the current user, an admin or another suitable user should do it for them.</li>
+        <li>Any changes made to the current user’s account details should be saved (by clicking on the “Save changes” button (8)) to persist in the database, which should then bring users to the dashboard page and display a feedback message, as shown in the previous pictures. Before that, the current user must confirm their password in the “Confirm password” input field (6).</li>
+        <li>The restore button (7) should overwrite all input fields with their respective initial states.</li>
+        <li>See section 7.1 for more details regarding validation of input fields.</li>
+    </ul>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="myAccountFields">
+    <ol>
+        <li>Account container</li>
+        <li>user_name input field (required)</li>
+        <li>user_email input field (required)</li>
+        <li>first_name input field (required)</li>
+        <li>user_password input field (required)</li>
+        <li>Confirm password input field (required)</li>
+        <li>Restore all fields button</li>
+        <li>Save changes button</li>
+    </ol>
+</div>
+
+</div>
+
+## 7. Databases
 
 {% include image.html file="databases.png" alt="Sign in screenshot" caption="Databases page" %}
 
@@ -263,7 +384,7 @@ folder: mydoc
 </div>
 
 
-### 6.1. Databases - Add entry modal
+### 7.1. Databases - Add entry modal
 
 {% include image.html file="databases_add_entry_modal.png" alt="Sign in screenshot" caption="Add entry modal" %}
 
@@ -303,7 +424,7 @@ folder: mydoc
 <p><b>Note:</b> The users table was only shown as an example here. The same concepts apply to all other tables.</p> 
 
 
-### 6.2. Databases - Edit entry modal
+### 7.2. Databases - Edit entry modal
 
 {% include image.html file="databases_edit_entry_modal.png" alt="Sign in screenshot" caption="Edit entry modal" %}
 
@@ -332,7 +453,7 @@ folder: mydoc
 </div>
 </div>
 
-### 6.3. Databases - Delete entry modal
+### 7.3. Databases - Delete entry modal
 
 {% include image.html file="databases_delete_entry_modal.png" alt="Sign in screenshot" caption="Delete entry modal" %}
 
@@ -360,7 +481,7 @@ folder: mydoc
 </div>
 
 
-## 7. Traffic
+## 8. Traffic
 
 {% include image.html file="traffic.png" alt="Sign in screenshot" caption="Traffic page" %}
 
@@ -392,7 +513,7 @@ folder: mydoc
 
 
 
-## 8. Permissions
+## 9. Permissions
 
 {% include image.html file="permissions.png" alt="Sign in screenshot" caption="permissions page" %}
 
@@ -424,7 +545,7 @@ folder: mydoc
 </div>
 
 
-## 9. Pictures
+## 10. Pictures
 
 {% include image.html file="pictures.png" alt="Sign in screenshot" caption="pictures page" %}
 
