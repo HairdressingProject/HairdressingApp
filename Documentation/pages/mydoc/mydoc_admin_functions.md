@@ -199,7 +199,7 @@ folder: mydoc
         <li>The sidebar is the main navigation element of the admin portal. Clicking on each button should redirect users to the respective page.</li>
         <li>Recently updated tables should show which column/row has been modified, with the name of the respective table and database and a timestamp.</li>
         <li>The statistics section should display a simple pie chart or graph with useful data about users.</li>
-        <li>Activity log refers to the latest changes specifically made by registered users of the application, with a timestamp.</li>
+        <li>Activity log refers to the latest changes specifically made by registered users of the application, with timestamp.</li>
     </ul>
 </div>
 
@@ -311,7 +311,7 @@ folder: mydoc
         <li>The edit entry modal should pop up when users click on the “edit” button from the databases page.</li>
         <li>When users click on the “restore” button (3), all input fields should be overwritten with their respective initial values.</li>
         <li>The “edit” button (2) should be disabled as long as at least one field is invalid or empty. If all fields are valid, it should turn active. Clicking on it should edit the selected entry of the current table, close the modal and display a feedback message at the top of the window.</li>
-        <li>Every other UI element not mentioned here works in the way as 6.1.</li>
+        <li>Every other UI element not mentioned here works in the same way as 6.1.</li>
     </ul>
 </div>
 
@@ -416,7 +416,7 @@ folder: mydoc
 </div>
 
 
-## 9. Dashboard
+## 9. Pictures
 
 {% include image.html file="pictures.png" alt="Sign in screenshot" caption="pictures page" %}
 
