@@ -11,7 +11,8 @@ folder: mydoc
 
 ## 1. Design
 
-https://dbdiagram.io/d/5e82af534495b02c3b890292
+[Database design diagram](https://dbdiagram.io/d/5e82af534495b02c3b890292)
+
 
 ## 2. Database and user creation
 
