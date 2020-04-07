@@ -32,7 +32,21 @@ FLUSH PRIVILEGES;
 
 ### 3.1 Users table
 
-{% include image.html file="/DB_design/users_table.png" alt="Users table" caption="Users table" %}
+<!-- {% include image.html file="/DB_design/users_table.png" alt="Users table" caption="Users table" %} -->
+
+| users |
+|-------|---------|
+| id | bigint|
+| username | varchar(32) |
+| user_password | varchar(512) |
+| user_emal | varchar(512) |
+| first_name | varchar(128) | 
+| last_name | varchar(128) |
+| role | ENUM('admin', 'developer', 'user') |
+| date_created | datetime |
+| date_updated | datetime |
+
+
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.users
@@ -55,7 +69,19 @@ ENGINE = INNODB;
 
 ### 3.2 User Features table
 
-{% include image.html file="/DB_design/user_features_table.png" alt="User features table" caption="User features table" %}
+<!-- {% include image.html file="/DB_design/user_features_table.png" alt="User features table" caption="User features table" %} -->
+
+| user_features |
+|-------|---------|
+| id | bigint |
+| user_id | bigint |
+| face_shape_id | bigint |
+| skin_tone_id | bigint |
+| hair_style_id | bigint | 
+| hair_length_id | bigint |
+| hair_colour_id | bigint |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.user_features
@@ -81,7 +107,15 @@ ENGINE = INNODB;
 
 ### 3.3 Face shapes table
 
-{% include image.html file="/DB_design/face_shapes_table.png" alt="Face shapes table" caption="Face shapes table" %}
+<!-- {% include image.html file="/DB_design/face_shapes_table.png" alt="Face shapes table" caption="Face shapes table" %} -->
+
+| face_shapes |
+|-------|---------|
+| id | bigint |
+| shape_name | varchar(128) |
+| date_created | datetime |
+| date_updated | datetime |
+
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.face_shapes
@@ -99,7 +133,16 @@ ENGINE = INNODB;
 
 ### 3.4 Face shape links table
 
-{% include image.html file="/DB_design/face_shape_links_table.png" alt="Face shape links table" caption="Face shape links table" %}
+<!-- {% include image.html file="/DB_design/face_shape_links_table.png" alt="Face shape links table" caption="Face shape links table" %} -->
+
+| face_shape_links |
+|-------|---------|
+| id | bigint |
+| face_shape_id | bigint |
+| link_name | varchar(128) |
+| link_url | varchar(512) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.face_shape_links
@@ -122,7 +165,14 @@ ENGINE = INNODB;
 
 ### 3.5 Hair styles table
 
-{% include image.html file="/DB_design/hair_styles_table.png" alt="Hair styles table" caption="Hair styles table" %}
+<!-- {% include image.html file="/DB_design/hair_styles_table.png" alt="Hair styles table" caption="Hair styles table" %} -->
+
+| hair_styles |
+|-------|---------|
+| id | bigint |
+| hair_style_name | varchar(128) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.hair_styles
@@ -140,7 +190,16 @@ ENGINE = INNODB;
 
 ### 3.6 Hair style links table
 
-{% include image.html file="/DB_design/hair_style_links_table.png" alt="Hair style links table" caption="Hair style links table" %}
+<!-- {% include image.html file="/DB_design/hair_style_links_table.png" alt="Hair style links table" caption="Hair style links table" %} -->
+
+| hair_style_links |
+|-------|---------|
+| id | bigint |
+| hair_style_id | bigint |
+| link_name | varchar(128) |
+| link_url | varchar(512) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.hair_style_links
@@ -163,7 +222,14 @@ ENGINE = INNODB;
 
 ### 3.7 Hair lengths table
 
-{% include image.html file="/DB_design/hair_lengths_table.png" alt="Hair lengths table" caption="Hair lengths table" %}
+<!-- {% include image.html file="/DB_design/hair_lengths_table.png" alt="Hair lengths table" caption="Hair lengths table" %} -->
+
+| hair_lengths |
+|-------|---------|
+| id | bigint |
+| hair_length_name | varchar(128) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.hair_lengths
@@ -181,7 +247,16 @@ ENGINE = INNODB;
 
 ### 3.8 Hair length links table
 
-{% include image.html file="/DB_design/hair_length_links_table.png" alt="Hair length links table" caption="Hair length links table" %}
+<!-- {% include image.html file="/DB_design/hair_length_links_table.png" alt="Hair length links table" caption="Hair length links table" %} -->
+
+| hair_length_links |
+|-------|---------|
+| id | bigint |
+| hair_length_id | bigint |
+| link_name | varchar(128) |
+| link_url | varchar(512) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.hair_length_links
@@ -204,7 +279,15 @@ ENGINE = INNODB;
 
 ### 3.9 Skin tones table
 
-{% include image.html file="/DB_design/skin_tones_table.png" alt="Skin tones table" caption="Skin tones table" %}
+<!-- {% include image.html file="/DB_design/skin_tones_table.png" alt="Skin tones table" caption="Skin tones table" %} -->
+
+| skin_tones |
+|-------|---------|
+| id | bigint |
+| skin_tone_name | varchar(128) |
+| skin_tone_colour_id | bigint |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.skin_tones
@@ -222,7 +305,16 @@ ENGINE = INNODB;
 
 ### 3.10 Skin tone links table
 
-{% include image.html file="/DB_design/skin_tone_links_table.png" alt="Skin tone links table" caption="Skin tone links table" %}
+<!-- {% include image.html file="/DB_design/skin_tone_links_table.png" alt="Skin tone links table" caption="Skin tone links table" %} -->
+
+| skin_tone_links |
+|-------|---------|
+| id | bigint |
+| skin_tone_id | bigint |
+| link_name | varchar(128) |
+| link_url | varchar(512) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.skis_tone_links
@@ -245,7 +337,15 @@ ENGINE = INNODB;
 
 ### 3.11 Colours table
 
-{% include image.html file="/DB_design/colours_table.png" alt="Colours table" caption="Colours table" %}
+<!-- {% include image.html file="/DB_design/colours_table.png" alt="Colours table" caption="Colours table" %} -->
+
+| colours |
+|-------|---------|
+| id | bigint |
+| colour_name | varchar(64) |
+| colour_haSH | varchar(64) |
+| date_created | datetime |
+| date_updated | datetime |
 
 ```mysql
 CREATE TABLE IF NOT EXISTS hair_project_db.colours
