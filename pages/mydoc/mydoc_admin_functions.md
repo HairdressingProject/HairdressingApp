@@ -21,7 +21,7 @@ folder: mydoc
 
 <ul id="signUpfunctionTabs" class="nav nav-tabs">
     <li class="active"><a href="#signUpDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#signUpFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#signUpFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -44,8 +44,8 @@ folder: mydoc
         <li>Email input <span class="label label-warning">required</span></li>
         <li>Password input <span class="label label-warning">required</span></li>
         <li>Privacy policy checkbox <span class="label label-warning">required</span></li>
-        <li>Signup button <span class="label label-warning">required</span></li>
-        <li>Sign in link <span class="label label-warning">required</span></li>
+        <li>Sign up button</li>
+        <li>Sign in link</li>
     </ol>
 </div>
 
@@ -82,7 +82,7 @@ folder: mydoc
 
 <ul id="signInFunctionTabs" class="nav nav-tabs">
     <li class="active"><a href="#signInDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#signInFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#signInFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -118,7 +118,7 @@ folder: mydoc
 
 <ul id="forgotPasswordTabs" class="nav nav-tabs">
     <li class="active"><a href="#forgotPasswordDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#forgotPasswordFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#forgotPasswordFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -151,7 +151,7 @@ folder: mydoc
 
 <ul id="newPasswordTabs" class="nav nav-tabs">
     <li class="active"><a href="#newPasswordDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#newPasswordFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#newPasswordFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -186,7 +186,7 @@ folder: mydoc
 
 <ul id="dashboardTabs" class="nav nav-tabs">
     <li class="active"><a href="#dashboardDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#dashboardFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#dashboardFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -224,7 +224,7 @@ folder: mydoc
 
 <ul id="settingsDropdownTabs" class="nav nav-tabs">
     <li class="active"><a href="#settingsDropdownDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#settingsDropdownFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#settingsDropdownFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -257,7 +257,7 @@ folder: mydoc
 
 <ul id="notificationsDropdownTabs" class="nav nav-tabs">
     <li class="active"><a href="#notificationsDropdownDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#notificationsDropdownFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#notificationsDropdownFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -287,7 +287,7 @@ folder: mydoc
 
 <ul id="accountDropdownTabs" class="nav nav-tabs">
     <li class="active"><a href="#accountDropdownDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#accountDropdownFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#accountDropdownFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -318,7 +318,7 @@ folder: mydoc
 
 <ul id="myAccountTabs" class="nav nav-tabs">
     <li class="active"><a href="#myAccountDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#myAccountFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#myAccountFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -354,7 +354,7 @@ folder: mydoc
 
 <ul id="databasesTabs" class="nav nav-tabs">
     <li class="active"><a href="#databasesDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#databasesFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#databasesFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -390,7 +390,7 @@ folder: mydoc
 
 <ul id="addEntryModalTabs" class="nav nav-tabs">
     <li class="active"><a href="#addEntryModalDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#addEntryModalFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#addEntryModalFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -430,7 +430,7 @@ folder: mydoc
 
 <ul id="editEntryModalTabs" class="nav nav-tabs">
     <li class="active"><a href="#editEntryModalDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#editEntryModalFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#editEntryModalFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -459,7 +459,7 @@ folder: mydoc
 
 <ul id="deleteEntryModalTabs" class="nav nav-tabs">
     <li class="active"><a href="#deleteEntryModalDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#deleteEntryModalFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#deleteEntryModalFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -487,7 +487,7 @@ folder: mydoc
 
 <ul id="trafficTabs" class="nav nav-tabs">
     <li class="active"><a href="#trafficDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#trafficFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#trafficFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -519,7 +519,7 @@ folder: mydoc
 
 <ul id="permissionsTabs" class="nav nav-tabs">
     <li class="active"><a href="#permissionsDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#permissionsFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#permissionsFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
@@ -551,7 +551,7 @@ folder: mydoc
 
 <ul id="picturesTabs" class="nav nav-tabs">
     <li class="active"><a href="#picturesDetails" data-toggle="tab">Details</a></li>
-    <li><a href="#picturesFields" data-toggle="tab">Fields</a></li>
+    <li><a href="#picturesFields" data-toggle="tab">Sections/Fields</a></li>
 </ul>
 
 <div class="tab-content">
