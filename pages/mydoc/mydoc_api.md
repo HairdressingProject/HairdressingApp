@@ -33,6 +33,7 @@ dotnet tool install --global dotnet-aspnet-codegenerator
 ```
 
 ## 4. Edit appsettings.json
+Edit AdminApi/appsettings.json and add:
 ```json
 "ConnectionStrings": {
     "HairDesignDB": "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;"
@@ -49,6 +50,8 @@ dotnet ef dbcontext scaffold "Server=localhost;Database=hair_project_db;User=dev
 This create the Models folder with all classes and the database context.
 
 ## 6. Register the database context
+
+Edit AdminApi/Startup.cs to register the database context
 
 ```c#
 
