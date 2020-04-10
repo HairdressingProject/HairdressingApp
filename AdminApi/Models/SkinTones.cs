@@ -7,7 +7,7 @@ namespace AdminApi.Models
     {
         public SkinTones()
         {
-            SkisToneLinks = new HashSet<SkisToneLinks>();
+            skinTonesLinks = new HashSet<skinTonesLinks>();
         }
 
         public ulong Id { get; set; }
@@ -15,6 +15,6 @@ namespace AdminApi.Models
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ICollection<SkisToneLinks> SkisToneLinks { get; set; }
+        public virtual ICollection<skinTonesLinks> skinTonesLinks { get; set; }
     }
 }
