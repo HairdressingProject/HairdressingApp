@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 
@@ -36,9 +31,9 @@ namespace AdminApi
             options
             .UseMySql(Configuration.GetConnectionString("HairDesignDB"), mySqlOptions =>
             mySqlOptions
-            .ServerVersion(new ServerVersion(new Version(5, 7, 24), ServerType.MySql))
+            .ServerVersion(new ServerVersion(new Version(8, 0, 19), ServerType.MySql))
             ));
-            
+
             services.AddControllers();
         }
 

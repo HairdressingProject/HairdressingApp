@@ -32,7 +32,7 @@ namespace AdminApi.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;database=hair_project_db;user=dev_admin;password=administrator;treattinyasboolean=true", x => x.ServerVersion("5.7.24-mysql"));
+                optionsBuilder.UseMySql("server=localhost;database=hair_project_db;user=dev_admin;password=administrator;treattinyasboolean=true", x => x.ServerVersion("8.0.19"));
             }
         }
 

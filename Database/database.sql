@@ -6,10 +6,11 @@ CREATE DATABASE IF NOT EXISTS hair_project_db CHARACTER SET utf8mb4 COLLATE utf8
 CREATE USER IF NOT EXISTS 'dev_admin'@'localhost' IDENTIFIED BY 'administrator';
 
 -- Provide all permissions on the database for the user
-GRANT ALL PRIVILEGES ON hair_project_db.* TO 'dev_admin'@'localhost' IDENTIFIED BY 'administrator';
+GRANT ALL PRIVILEGES ON hair_project_db.* TO 'dev_admin'@'localhost';
 FLUSH PRIVILEGES;
 
 -- Log out then login with the admin user
+-- exit
 -- mysql -u dev_admin -p
 
 -- Select database
@@ -165,7 +166,7 @@ ENGINE = INNODB;
 -- SKIN_TONE_LINKS table
 CREATE TABLE IF NOT EXISTS hair_project_db.skin_tone_links
 (
-    `id`            BIGINT UNSIGNED NOT NULLgit AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `skin_tone_id`  BIGINT UNSIGNED NOT NULL,
     `link_name`     VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
     `link_url`      VARCHAR(512) NOT NULL DEFAULT '** ERROR: missing category **',
