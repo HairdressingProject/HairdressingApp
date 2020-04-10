@@ -88,3 +88,8 @@ dotnet aspnet-codegenerator controller -name FaceShapeLinksController -async -ap
 dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Colours -dc hair_project_dbContext -outDir Controllers
 ```
 
+## 8. Start the server
+```bash
+dotnet run
+```
+
