@@ -11,7 +11,7 @@ folder: mydoc
 
 ## Requirements
 - .NET Core 3.1 SDK or later
-- MySql server running with the database and tables already created
+- MySql server (preferrably v8.0.19 or later) running with the database and tables already created
 
 ## 1. Create a aspnet core web api
 
@@ -89,6 +89,9 @@ dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Co
 ```
 
 ## 8. Start the server
+
+From the _AdminApi/_ directory, execute:
+
 ```bash
 dotnet run
 ```
