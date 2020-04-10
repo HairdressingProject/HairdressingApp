@@ -23,7 +23,7 @@ namespace AdminApi.Models
         public virtual DbSet<HairStyleLinks> HairStyleLinks { get; set; }
         public virtual DbSet<HairStyles> HairStyles { get; set; }
         public virtual DbSet<SkinTones> SkinTones { get; set; }
-        public virtual DbSet<skinTonesLinks> skinTonesLinks { get; set; }
+        public virtual DbSet<SkinToneLinks> SkinToneLinks { get; set; }
         public virtual DbSet<UserFeatures> UserFeatures { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -346,9 +346,9 @@ namespace AdminApi.Models
                     .HasCollation("utf8mb4_general_ci");
             });
 
-            modelBuilder.Entity<skinTonesLinks>(entity =>
+            modelBuilder.Entity<SkinToneLinks>(entity =>
             {
-                entity.ToTable("skis_tone_links");
+                entity.ToTable("skin_tone_links");
 
                 entity.HasIndex(e => e.Id)
                     .HasName("id_2");
@@ -391,9 +391,9 @@ namespace AdminApi.Models
                     .HasColumnType("bigint(20) unsigned");
 
                 entity.HasOne(d => d.SkinTone)
-                    .WithMany(p => p.skinTonesLinks)
+                    .WithMany(p => p.SkinToneLinks)
                     .HasForeignKey(d => d.SkinToneId)
-                    .HasConstraintName("skis_tone_links_ibfk_1");
+                    .HasConstraintName("skin_tone_links_ibfk_1");
             });
 
             modelBuilder.Entity<UserFeatures>(entity =>

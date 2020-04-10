@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AdminApi.Models
 {
-    public partial class skinTonesLinks
+    public partial class SkinToneLinks
     {
         public ulong Id { get; set; }
         public ulong SkinToneId { get; set; }
