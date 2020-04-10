@@ -163,7 +163,7 @@ COLLATE utf8mb4_general_ci
 ENGINE = INNODB;
 
 -- SKIN_TONE_LINKS table
-CREATE TABLE IF NOT EXISTS hair_project_db.skis_tone_links
+CREATE TABLE IF NOT EXISTS hair_project_db.skin_tone_links
 (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `skin_tone_id`  BIGINT UNSIGNED NOT NULL,
