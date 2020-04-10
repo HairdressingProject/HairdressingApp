@@ -10,7 +10,8 @@ folder: mydoc
 ---
 
 ## Requirements
-.NET Core 3.1 SDK or later
+- .NET Core 3.1 SDK or later
+- MySql server running with the database and tables already created
 
 ## 1. Create a aspnet core web api
 
