@@ -88,6 +88,14 @@ entries:
       url: /mydoc_database_design.html
       output: web, pdf
 
+  - title: Api
+    output: web, pdf
+    folderitems:
+
+    - title: Guide
+      url: /mydoc_api.html
+      output: web, pdf
+
   # - title: Authoring
   #   output: web, pdf
 
