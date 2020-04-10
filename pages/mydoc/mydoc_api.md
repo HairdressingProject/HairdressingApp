@@ -33,9 +33,12 @@ dotnet tool install --global dotnet-aspnet-codegenerator
 ```
 
 ## 4. Edit appsettings.json
+```json
 "ConnectionStrings": {
     "HairDesignDB": "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;"
 }
+```
+
 
 ## 5. Scaffold database
 
