@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.users
     `first_name`    VARCHAR(128) NOT NULL DEFAULT 'user',
     `last_name`     VARCHAR(128),
     `user_role`     ENUM('admin', 'developer', 'user') NOT NULL DEFAULT 'user',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`)
 )
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.user_features
     `hair_style_id`  BIGINT NOT NULL,
     `hair_length_id` BIGINT NOT NULL,
     `hair_colour_id` BIGINT NOT NULL,
-    `date_createdt`  DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`  DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`  DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`),
     FOREIGN KEY (`user_id`)
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.face_shapes
 (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `shape_name`    VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`)
 )
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.face_shape_links
     `face_shape_id` BIGINT UNSIGNED NOT NULL,
     `link_name`     VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
     `link_url`      VARCHAR(512) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX(`id`),
     FOREIGN KEY (`face_shape_id`)
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.hair_styles
 (
     `id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `hair_style_name` VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt`   DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`   DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`   DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`)
 )
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.hair_style_links
     `hair_style_id` BIGINT UNSIGNED NOT NULL,
     `link_name`     VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
     `link_url`      VARCHAR(512) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX(`id`),
     FOREIGN KEY (`hair_style_id`)
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.hair_lengths
 (
     `id`               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `hair_length_name` VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt`    DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`    DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`    DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`)
 )
@@ -265,7 +265,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.hair_length_links
     `hair_length_id` BIGINT UNSIGNED NOT NULL,
     `link_name`      VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
     `link_url`       VARCHAR(512) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt`  DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`  DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`  DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX(`id`),
     FOREIGN KEY (`hair_length_id`)
@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.skin_tones
 (
     `id`             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `skin_tone_name` VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt`  DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`  DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`  DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX (`id`)
 )
@@ -317,13 +317,13 @@ ENGINE = INNODB;
 | date_updated | datetime |
 
 ```mysql
-CREATE TABLE IF NOT EXISTS hair_project_db.skis_tone_links
+CREATE TABLE IF NOT EXISTS hair_project_db.skin_tone_links
 (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `skin_tone_id`  BIGINT UNSIGNED NOT NULL,
     `link_name`     VARCHAR(128) NOT NULL DEFAULT '** ERROR: missing category **',
     `link_url`      VARCHAR(512) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX(`id`),
     FOREIGN KEY (`skin_tone_id`)
@@ -353,7 +353,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.colours
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `colour_name`   VARCHAR(64) NOT NULL DEFAULT '** ERROR: missing category **',
     `colour_hash`   VARCHAR(64) NOT NULL DEFAULT '** ERROR: missing category **',
-    `date_createdt` DATETIME NOT NULL DEFAULT NOW(),
+    `date_created` DATETIME NOT NULL DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
     INDEX(`id`)
 )
