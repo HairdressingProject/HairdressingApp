@@ -39,5 +39,5 @@ msbuild.wrn
 
 #
 
-AdminApi/bin
-AdminApi/obj
+AdminApi/bin/Debug
+AdminApi/obj/Debug
