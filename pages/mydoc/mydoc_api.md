@@ -69,16 +69,7 @@ dotnet tool install --global dotnet-ef
 dotnet tool install --global dotnet-aspnet-codegenerator
 ```
 
-## 4. Edit appsettings.json
-Edit `AdminApi/appsettings.json` and add:
-```json
-"ConnectionStrings": {
-    "HairDesignDB": "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;"
-}
-```
-
-
-## 5. Reverse Engineering (Scaffolding) the database
+## 4. Reverse Engineering (Scaffolding) the database
 We are going to use the `dotnet ef dbcontext scaffold` [command](https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding) to generate a Model and a database context from our existing database.
 
 
@@ -97,7 +88,7 @@ The DbContext is an important class in Entity Framework API. It is a bridge betw
 [Configuration and User Secrets](https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding#configuration-and-user-secrets)
 
 
-## 6. Register the database context
+## 5. Register the database context
 
 Edit `AdminApi/Startup.cs` to register the database context
 
@@ -120,8 +111,15 @@ public void ConfigureServices(IServiceCollection services)
 // ...
 ```
 
+Edit `AdminApi/appsettings.json` and add:
+```json
+"ConnectionStrings": {
+    "HairDesignDB": "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;"
+}
+```
 
-## 7. Scaffold Controllers
+
+## 6. Scaffold Controllers
 
 Using `dotnet aspnet-codegenerator` command (terminal or Visual Studio Code terminal)
 
@@ -153,7 +151,7 @@ dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Co
 {% include image.html file="/api/scaffold_controller_1.png" alt="Scaffold" caption="" %}
 {% include image.html file="/api/scaffold_controller_2.png" alt="Scaffold" caption="" %}
 
-## 8. Start the server
+## 7. Start the server
 
 In a terminal, from the `../AdminApi/` directory, execute:
 
