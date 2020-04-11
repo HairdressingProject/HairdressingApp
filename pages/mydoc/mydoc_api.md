@@ -9,8 +9,10 @@ permalink: mydoc_api.html
 folder: mydoc
 ---
 
+{% include important.html content="This walktrouth guide explains how to build the Admin api using a command-line interface and/or Visual Studio Code. Some settings differ when using Visual Studio." %}
+
 ## Requirements
-- .NET Core 3.1 SDK or later [How to install](https://docs.microsoft.com/en-us/dotnet/core/install/sdk?pivots=os-windows)
+- .NET Core 3.1 SDK or later. [How to install](https://docs.microsoft.com/en-us/dotnet/core/install/sdk?pivots=os-windows)
 - MySql server (preferrably v8.0.19 or later) running with the database and tables already created
 
 The .NET Core CLI is included with the .NET Core SDK. To check that you have it installed open a terminal and run:
@@ -22,12 +24,14 @@ dotnet --info
 ...
 ```
 
+
 ## 1. Create a aspnet core web api
-cd to your proyect directory
+cd to your proyect directory and then run:
 
 ```bash
 dotnet new webapi -o AdminApi
 ```
+
 
 ## 2. Install Packages
 ```bash
@@ -39,15 +43,28 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
+{% include tip.html content="If you're using Visual Studio, we recommend the Package Manager Console tools instead." %}
+
+
 ## 3. Install tools
 ### Entity Framework Core
 [Entity Framework (EF) Core](https://docs.microsoft.com/en-us/ef/core/) is a lightweight, extensible, open source and cross-platform version of the popular Entity Framework data access technology.
 
 EF Core can serve as an object-relational mapper (O/RM), enabling developers to work with a database using .NET objects, and eliminating the need for most of the data-access code they usually need to write.
 
+{% include note.html content="Object-relational mapping (ORM, O/RM, and O/R mapping tool) is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language." %}
+
+
+`dotnet ef` must be installed as a global or local tool. Most developers will install dotnet ef as a global tool with the following command:
 
 ```bash
 dotnet tool install --global dotnet-ef
+```
+
+### dotnet aspnet-codegenerator
+`dotnet aspnet-codegenerator` -runs the ASP.NET Core scaffolding engine. `dotnet aspnet-codegenerator` is only required to scaffold from the command line, it's not needed to use scaffolding with Visual Studio.
+
+```bash
 dotnet tool install --global dotnet-aspnet-codegenerator
 ```
 
@@ -71,7 +88,7 @@ This create the Models folder with all classes and the database context.
 
 The DbContext is an important class in Entity Framework API. It is a bridge between your domain or entity classes and the database.
 - The primary class that is responsible for interacting with data as objects DbContext.
-- - DbContext APIs simplify your application interaction with the database.
+- DbContext APIs simplify your application interaction with the database.
 
 ## 6. Register the database context
 
@@ -95,6 +112,8 @@ public void ConfigureServices(IServiceCollection services)
 
 
 ## 7. Scaffold Controllers
+
+
 ```bash
 dotnet aspnet-codegenerator controller -name UsersController -async -api -m Users -dc hair_project_dbContext -outDir Controllers
 dotnet aspnet-codegenerator controller -name UserFeaturesController -async -api -m UserFeatures -dc hair_project_dbContext -outDir Controllers
@@ -111,7 +130,7 @@ dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Co
 
 ## 8. Start the server
 
-From the _AdminApi/_ directory, execute:
+From the _/AdminApi/_ directory, execute:
 
 ```bash
 dotnet run
