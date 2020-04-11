@@ -99,9 +99,10 @@ The DbContext is an important class in Entity Framework API. It is a bridge betw
 
 ## 6. Register the database context
 
-Edit AdminApi/Startup.cs to register the database context
+Edit `AdminApi/Startup.cs` to register the database context
 
 ```c#
+// ...
 
 public void ConfigureServices(IServiceCollection services)
         {
@@ -115,11 +116,14 @@ public void ConfigureServices(IServiceCollection services)
             
             services.AddControllers();
         }
+
+// ...
 ```
 
 
 ## 7. Scaffold Controllers
 
+Using `dotnet aspnet-codegenerator` command (terminal or Visual Studio Code terminal)
 
 ```bash
 dotnet aspnet-codegenerator controller -name UsersController -async -api -m Users -dc hair_project_dbContext -outDir Controllers
@@ -135,9 +139,23 @@ dotnet aspnet-codegenerator controller -name FaceShapeLinksController -async -ap
 dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Colours -dc hair_project_dbContext -outDir Controllers
 ```
 
+{% include note.html content="If using Visual Studio" %}
+
+- Right-click the Controllers folder.
+- Select Add > New Scaffolded Item.
+- Select API Controller with actions, using Entity Framework, and then select Add.
+- In the Add API Controller with actions, using Entity Framework dialog:
+- - Select _ClassName_ (_AdminApi.Models_) in the Model class.
+- - Select TodoContext (TodoApi.Models) in the Data context class.
+- - Select Add.
+
+{% include image.html file="/api/scaffold_controller_0.png" alt="Scaffold" caption="" %}
+{% include image.html file="/api/scaffold_controller_1.png" alt="Scaffold" caption="" %}
+{% include image.html file="/api/scaffold_controller_2.png" alt="Scaffold" caption="" %}
+
 ## 8. Start the server
 
-From the _/AdminApi/_ directory, execute:
+In a terminal, from the `../AdminApi/` directory, execute:
 
 ```bash
 dotnet run
