@@ -9,7 +9,7 @@ permalink: mydoc_api.html
 folder: mydoc
 ---
 
-{% include important.html content="This walktrouth guide explains how to build the Admin api using a command-line interface and/or Visual Studio Code. Some settings differ when using Visual Studio." %}
+{% include important.html content="This Walkthrough guide explains how to build the Admin api using a command-line interface and/or Visual Studio Code. Some settings differ when using Visual Studio." %}
 
 ## Requirements
 - .NET Core 3.1 SDK or later. [How to install](https://docs.microsoft.com/en-us/dotnet/core/install/sdk?pivots=os-windows)
@@ -145,9 +145,9 @@ dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Co
 - Select Add > New Scaffolded Item.
 - Select API Controller with actions, using Entity Framework, and then select Add.
 - In the Add API Controller with actions, using Entity Framework dialog:
-- - Select _ClassName_ (_AdminApi.Models_) in the Model class.
-- - Select TodoContext (TodoApi.Models) in the Data context class.
-- - Select Add.
+- Select _ClassName_ (_AdminApi.Models_) in the Model class.git 
+    - Select TodoContext (TodoApi.Models) in the Data context class.
+    - Select Add.
 
 {% include image.html file="/api/scaffold_controller_0.png" alt="Scaffold" caption="" %}
 {% include image.html file="/api/scaffold_controller_1.png" alt="Scaffold" caption="" %}
