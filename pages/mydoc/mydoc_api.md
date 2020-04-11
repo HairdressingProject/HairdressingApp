@@ -143,7 +143,7 @@ dotnet aspnet-codegenerator controller -name ColoursController -async -api -m Co
 - Select Add > New Scaffolded Item.
 - Select API Controller with actions, using Entity Framework, and then select Add.
 - In the Add API Controller with actions, using Entity Framework dialog:
-- Select _ClassName_ (_AdminApi.Models_) in the Model class.git 
+    - Select _ClassName_ (_AdminApi.Models_) in the Model class.git 
     - Select TodoContext (TodoApi.Models) in the Data context class.
     - Select Add.
 
