@@ -4,7 +4,7 @@ topnav:
 - title: Topnav
   items:
     - title: GitHub
-      external_url: https://github.com/ggornes/HairdressingApp
+      external_url: https://github.com/HairdressingProject/HairdressingApp
 
 #Topnav dropdowns
 # topnav_dropdowns:
