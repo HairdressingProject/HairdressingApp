@@ -10,10 +10,20 @@ folder: mydoc
 ---
 
 ## Requirements
-- .NET Core 3.1 SDK or later
+- .NET Core 3.1 SDK or later [How to install](https://docs.microsoft.com/en-us/dotnet/core/install/sdk?pivots=os-windows)
 - MySql server (preferrably v8.0.19 or later) running with the database and tables already created
 
+The .NET Core CLI is included with the .NET Core SDK. To check that you have it installed open a terminal and run:
+```bash
+dotnet --info
+#Output
+.NET Core SDK (reflecting any global.json):
+ Version:   3.1.200
+...
+```
+
 ## 1. Create a aspnet core web api
+cd to your proyect directory
 
 ```bash
 dotnet new webapi -o AdminApi
@@ -21,6 +31,8 @@ dotnet new webapi -o AdminApi
 
 ## 2. Install Packages
 ```bash
+cd AdminApi
+
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Pomelo.EntityFrameworkCore.MySql
 dotnet add package Microsoft.EntityFrameworkCore.Design
@@ -28,6 +40,12 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
 ## 3. Install tools
+### Entity Framework Core
+[Entity Framework (EF) Core](https://docs.microsoft.com/en-us/ef/core/) is a lightweight, extensible, open source and cross-platform version of the popular Entity Framework data access technology.
+
+EF Core can serve as an object-relational mapper (O/RM), enabling developers to work with a database using .NET objects, and eliminating the need for most of the data-access code they usually need to write.
+
+
 ```bash
 dotnet tool install --global dotnet-ef
 dotnet tool install --global dotnet-aspnet-codegenerator
@@ -43,12 +61,17 @@ Edit AdminApi/appsettings.json and add:
 
 
 ## 5. Scaffold database
+We are going to use EF Core to generate a Model and a database context from our existing database.
 
 ```bash
 dotnet ef dbcontext scaffold "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;TreatTinyAsBoolean=true;" "Pomelo.EntityFrameworkCore.MySql" -o Models
 ```
 
 This create the Models folder with all classes and the database context.
+
+The DbContext is an important class in Entity Framework API. It is a bridge between your domain or entity classes and the database.
+- The primary class that is responsible for interacting with data as objects DbContext.
+- - DbContext APIs simplify your application interaction with the database.
 
 ## 6. Register the database context
 
@@ -58,9 +81,7 @@ Edit AdminApi/Startup.cs to register the database context
 
 public void ConfigureServices(IServiceCollection services)
         {
-            /****************************************************/
-            /************** Register DB Context *****************/
-            /*****************************************************/
+            // Register DB Context
             services.AddDbContext<hair_project_dbContext>(options =>
             options
             .UseMySql(Configuration.GetConnectionString("HairDesignDB"), mySqlOptions =>
