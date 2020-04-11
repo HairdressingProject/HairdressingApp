@@ -15,7 +15,7 @@ folder: mydoc
 - .NET Core 3.1 SDK or later. [How to install](https://docs.microsoft.com/en-us/dotnet/core/install/sdk?pivots=os-windows)
 - MySql server (preferrably v8.0.19 or later) running with the database and tables already created
 
-The .NET Core CLI is included with the .NET Core SDK. To check that you have it installed open a terminal and run:
+The .NET Core CLI is included with the .NET Core SDK. To check that you have it installed, open a terminal and run:
 ```bash
 dotnet --info
 #Output
@@ -52,14 +52,15 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 
 EF Core can serve as an object-relational mapper (O/RM), enabling developers to work with a database using .NET objects, and eliminating the need for most of the data-access code they usually need to write.
 
-{% include note.html content="Object-relational mapping (ORM, O/RM, and O/R mapping tool) is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language." %}
-
-
 `dotnet ef` must be installed as a global or local tool. Most developers will install dotnet ef as a global tool with the following command:
 
 ```bash
 dotnet tool install --global dotnet-ef
 ```
+
+{% include note.html content="Object-relational mapping (ORM, O/RM, and O/R mapping tool) is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a <i>virtual object database</i> that can be used from within the programming language." %}
+
+
 
 ### dotnet aspnet-codegenerator
 `dotnet aspnet-codegenerator` -runs the ASP.NET Core scaffolding engine. `dotnet aspnet-codegenerator` is only required to scaffold from the command line, it's not needed to use scaffolding with Visual Studio.
