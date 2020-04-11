@@ -70,7 +70,7 @@ dotnet tool install --global dotnet-aspnet-codegenerator
 ```
 
 ## 4. Edit appsettings.json
-Edit AdminApi/appsettings.json and add:
+Edit `AdminApi/appsettings.json` and add:
 ```json
 "ConnectionStrings": {
     "HairDesignDB": "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;"
@@ -78,8 +78,9 @@ Edit AdminApi/appsettings.json and add:
 ```
 
 
-## 5. Scaffold database
-We are going to use EF Core to generate a Model and a database context from our existing database.
+## 5. Reverse Engineering (Scaffolding) the database
+We are going to use the `dotnet ef dbcontext scaffold` [command](https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding) to generate a Model and a database context from our existing database.
+
 
 ```bash
 dotnet ef dbcontext scaffold "Server=localhost;Database=hair_project_db;User=dev_admin;Password=administrator;TreatTinyAsBoolean=true;" "Pomelo.EntityFrameworkCore.MySql" -o Models
@@ -90,6 +91,11 @@ This create the Models folder with all classes and the database context.
 The DbContext is an important class in Entity Framework API. It is a bridge between your domain or entity classes and the database.
 - The primary class that is responsible for interacting with data as objects DbContext.
 - DbContext APIs simplify your application interaction with the database.
+
+{% include tip.html content="To not expose the connection string configurations, we can use the Secret Manager tool to keep the database passwords hidden" %}
+
+[Configuration and User Secrets](https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding#configuration-and-user-secrets)
+
 
 ## 6. Register the database context
 
