@@ -33,6 +33,10 @@ namespace AdminApi
             .ServerVersion(new ServerVersion(new Version(8, 0, 19), ServerType.MySql))
             ));
 
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             services.AddControllers();
         }
 
