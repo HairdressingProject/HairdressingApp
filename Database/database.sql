@@ -27,8 +27,10 @@ CREATE TABLE IF NOT EXISTS hair_project_db.users
     `first_name`    VARCHAR(128) NOT NULL DEFAULT 'user',
     `last_name`     VARCHAR(128),
     `user_role`     ENUM('admin', 'developer', 'user') NOT NULL DEFAULT 'user',
-    `date_created`  DATETIME NOT NULL DEFAULT NOW(),
+    `date_created`  DATETIME DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
+    UNIQUE (`user_name`),
+    UNIQUE (`user_email`),
     INDEX (`id`)
 )
 CHARACTER SET utf8mb4
