@@ -24,21 +24,31 @@ namespace AdminApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+
+            var mappedUsers = await MapFeaturesToUsers();
+
+            return Ok(mappedUsers);
+
+            // return await _context.Users.ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Users>> GetUsers(ulong id)
         {
-            var users = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (users == null)
+            if (user == null)
             {
                 return NotFound();
             }
+            else
+            {
+                var mappedUser = await MapFeaturesToUsers(user);
+                return Ok(user);
+            }
 
-            return users;
+            // return users;
         }
 
         // PUT: api/Users/5
@@ -105,5 +115,39 @@ namespace AdminApi.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+        private async Task<Users> MapFeaturesToUsers(Users user) 
+        {
+            // map user features to this user
+            var userFeatures = await _context.UserFeatures
+            .Where(uf => uf.UserId == user.Id)
+            .ToListAsync();
+
+            user.UserFeatures = userFeatures;
+
+            return user;
+
+        }
+
+
+        public async Task<IEnumerable<Users>> MapFeaturesToUsers()
+        {
+            
+            var users = await _context.Users.ToListAsync();
+            var userFeatures = await _context.UserFeatures.ToListAsync();
+
+            var mappedUsers = users.Select(u => 
+            {
+                // map user features to all users
+                var correspondingFeatures = userFeatures.FindAll(uf => (uf.UserId == u.Id));
+                u.UserFeatures = correspondingFeatures;
+
+                return u;
+            });
+
+            return mappedUsers;
+
+        }
+
+
     }
 }
