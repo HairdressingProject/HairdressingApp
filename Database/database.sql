@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.user_features
     `hair_colour_id` BIGINT NOT NULL,
     `date_created`   DATETIME NOT NULL DEFAULT NOW(),
     `date_modified`  DATETIME DEFAULT NULL ON UPDATE NOW(),
+    UNIQUE (`user_id`, `face_shape_id`,`skin_tone_id`,`hair_style_id`,`hair_length_id`,`hair_colour_id`),
     INDEX (`id`),
     FOREIGN KEY (`user_id`)
         REFERENCES hair_project_db.users (`id`)
