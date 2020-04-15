@@ -34,19 +34,19 @@ namespace AdminApi.Models
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
 
-        [Required] // Throw status 400 error. If not, throws mysql error
+        //[Required] // Throw status 400 error. If not, throws mysql error
         [JsonPropertyName("user_name")]
         public string UserName { get; set; }
 
-        [Required]
+        //[Required]
         [JsonPropertyName("user_password")]
         public string UserPassword { get; set; }
 
-        [Required]
+        //[Required]
         [JsonPropertyName("user_email")]
         public string UserEmail { get; set; }
 
-        [Required]
+        //[Required]
         [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
 
