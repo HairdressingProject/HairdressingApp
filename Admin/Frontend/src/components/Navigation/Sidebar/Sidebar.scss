@@ -1,7 +1,10 @@
 .sidebar {
     &-container {
         margin: 0;
-        padding: 2rem;
+        padding: 0;
+        height: 100vh;
+        font-size: 1.4rem;
+        text-align: center;
         background: rgb(218,250,255);
         background: -moz-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
         background: -webkit-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
@@ -9,9 +12,15 @@
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#dafaff",endColorstr="#eafffa",GradientType=1);
     }
 
-    &-link {
-        a {
-            color: #0C1853;
+    &-items-container {
+        list-style-type: none;
+        margin: 0 0 3rem 0;
+        padding: 0;
+    }
+
+    a {
+        &:active, &:focus, &:visited {
+            color: inherit;
         }
     }
 }

@@ -1,0 +1,41 @@
+.item {
+    &-container {
+        position: relative;
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+        border-radius: 50px;
+        background-color: rgba($color: #FCFCFC, $alpha: .94);
+
+        &-active {
+            background-color:#6FA0B3;
+        }
+    }
+
+    &-btn {
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        color: #0C1853;
+
+        &:active, &:focus {
+            outline: none;
+        }
+
+        &-active {
+            color: white;
+        }
+    }
+
+    &-img {
+        position: relative;
+        width: 20px;
+        height: 20px;
+    }
+
+    &-active {
+        position: relative;
+        width: 20px;
+        height: 20px;
+    }
+}

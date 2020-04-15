@@ -1,8 +1,8 @@
 import React from 'react';
 import "./App.scss";
 import { Switch, Route } from 'react-router-dom';
-import { Sidebar } from '../Sidebar';
-import { Topbar } from '../Topbar';
+import { Sidebar } from '../Navigation/Sidebar';
+import { Topbar } from '../Navigation/Topbar';
 import { Dashboard } from '../Dashboard';
 import { SignIn } from '../SignIn';
 import { SignUp } from '../SignUp';
@@ -60,12 +60,21 @@ const routes = [
 export const App = () => {
     return (
         <div className="grid-x">
-            <div className="cell">
-                <Topbar />
+            <div className="cell small-7 large-2">
+                <Sidebar routes={
+                    routes.filter(route => 
+                            route.path.includes('dashboard') ||
+                            route.path.includes('databases') ||
+                            route.path.includes('traffic') ||
+                            route.path.includes('permissions') ||
+                            route.path.includes('pictures')
+                        )
+                    } 
+                />
             </div>
             
-            <div className="cell small-7 large-2">
-                <Sidebar routes={routes} />
+            <div className="cell small-5 large-10">
+                <Topbar />
             </div>
             
             <div className="cell small-5 large-10">

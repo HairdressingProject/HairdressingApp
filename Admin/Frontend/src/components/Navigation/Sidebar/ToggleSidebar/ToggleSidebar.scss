@@ -1,0 +1,7 @@
+.toggle-menu {
+    &-container {
+        &:active, &:focus {
+            outline: none;
+        }
+    }
+}
