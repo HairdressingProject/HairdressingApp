@@ -51,6 +51,7 @@ namespace AdminApi.Controllers
             // return users;
         }
 
+// ********************************************************************************************************************************************        
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -82,6 +83,57 @@ namespace AdminApi.Controllers
 
             return NoContent();
         }
+
+// ********************************************************************************************************************************************
+
+
+        // PUT: api/Users/5/permissions : Method to change user password. ToDo: Must be authorized
+        
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}/permissions")]
+        public async Task<IActionResult> SetNewPassword(ulong id, Users users)
+        {
+
+            // Console.WriteLine(users.UserPassword); 
+
+            var userMod = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+
+
+            if (userMod == null)
+            {
+                return BadRequest();
+            }
+
+
+
+            userMod.UserPassword = users.UserPassword;
+
+
+            _context.Entry(userMod).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsersExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+
+
+        }
+
+// ********************************************************************************************************************************************        
 
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
