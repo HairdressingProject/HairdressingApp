@@ -6,6 +6,10 @@
         padding: 1rem 0;
     }
 
+    &-sidebar-closed {
+        display: none;
+    }
+
     &-btn {
         position: relative;
         width: 100%;

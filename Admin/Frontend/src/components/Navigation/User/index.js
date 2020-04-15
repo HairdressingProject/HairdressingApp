@@ -3,7 +3,15 @@ import "./User.scss";
 import user from '../../../img/icons/user.svg';
 import userSettings from '../../../img/icons/caret-down.svg';
 
-export const User = () => {
+export const User = ({isSidebarOpen}) => {
+    const userNameClasses = ['user-name'];
+    const userSettingsClasses = ['user-settings'];
+
+    if (!isSidebarOpen) {
+        userNameClasses.push('user-sidebar-closed');
+        userSettingsClasses.push('user-sidebar-closed');
+    }
+
     return (
         <div className="user-container grid-container">
             <button className="user-btn grid-x">
@@ -11,12 +19,16 @@ export const User = () => {
                     <img src={user} alt="User" className="user-img" />
                 </div>
                 <div className="cell small-4">
-                    <span className="user-name">
+                    <span className={userNameClasses.join(' ')}>
                         User
                     </span>
                 </div>
                 <div className="cell small-4">
-                    <img src={userSettings} alt="User settings" className="user-settings" />
+                    <img 
+                        src={userSettings} 
+                        alt="User settings" 
+                        className={userSettingsClasses.join(' ')}
+                    />
                 </div>
             </button>
         </div>

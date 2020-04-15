@@ -1,6 +1,19 @@
 .top-bar {
     background-color: #FAFFFF;
+    padding: 2rem .5rem;
+
     ul {
         background-color: #FAFFFF;
+    }
+
+    &-logo {
+        position: relative;
+        width: 25px;
+        margin-right: 1rem;
+    }
+
+    &-text {
+        position: relative;
+        width: 88px;
     }
 }

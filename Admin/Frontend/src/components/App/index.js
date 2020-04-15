@@ -59,12 +59,6 @@ const routes = [
 
 export const App = () => {
     return (
-        <div>
-        <div className="grid-x">
-            <div className="cell small-12 large-12">
-                <Topbar />
-            </div>            
-        </div>
         <div className="grid-x">
             <div className="cell small-7 large-2">
                 <Sidebar routes={
@@ -79,23 +73,26 @@ export const App = () => {
                 />
             </div>
             
+            <div className="grid-x small-5 right-container">
+                <div className="cell small-auto right-container-topbar">
+                    <Topbar />
+                </div>
 
-            
-            <div className="cell small-5 large-10">
-                <Switch>
-                    {
-                        routes.map((route, index) => (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                exact={route.exact}
-                                children={<route.content />}
-                            />
-                        ))
-                    }
-                </Switch>
+                <div className="cell small-auto right-container-content">
+                    <Switch>
+                        {
+                            routes.map((route, index) => (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    children={<route.content />}
+                                />
+                            ))
+                        }
+                    </Switch>
+                </div>
             </div>
-        </div>
         </div>
     )
 }

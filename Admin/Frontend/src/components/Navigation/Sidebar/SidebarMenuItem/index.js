@@ -2,42 +2,56 @@ import React from 'react';
 import activeItem from '../../../../img/icons/caret-right-light.svg'
 import './SidebarMenuItem.scss';
 
-export const SidebarMenuItem = ({icon, text, isActive}) => (
-    <div 
-        className={
-            isActive ? 
-            ['item-container', 'item-container-active', 'grid-container'].join(' ')
-            :
-            ['item-container', 'grid-container'].join(' ')
-    }>
-        <button 
-            className={
-              isActive ?
-              ['item-btn', 'item-btn-active', 'grid-x'].join(' ')
-              :
-              ['item-btn', 'grid-x'].join(' ')  
-            }
-        >
-            <div className="cell small-4">
-                <img 
-                    src={isActive ? icon.light : icon.dark} 
-                    alt={text} 
-                    className="item-img"
-                />
-            </div>
-            <div className="cell small-4">
-                <span className="item-name">
-                    {text}
-                </span>
-            </div>
-            <div className="cell small-4">
-                {
-                    isActive ? 
-                    <img src={activeItem} alt="Active item" className="item-active" />
-                    :
-                    ''
+export const SidebarMenuItem = ({icon, text, isActive, isSidebarOpen}) => {
+    const itemContainerClasses = ['item-container', 'grid-container'];
+    const itemTextClasses = ['item-name'];
+    const activeItemClasses = ['item-active'];
+
+    if (isActive) {
+        itemContainerClasses.push('item-container-active');
+    }
+
+    if (!isSidebarOpen) {
+        itemContainerClasses.push('item-container-closed');
+        itemTextClasses.push('item-name-closed');
+        activeItemClasses.push('item-name-closed');
+    }
+
+    return (
+        <div className={itemContainerClasses.join(' ')}>
+            <button 
+                className={
+                isActive ?
+                ['item-btn', 'item-btn-active', 'grid-x'].join(' ')
+                :
+                ['item-btn', 'grid-x'].join(' ')  
                 }
-            </div>
-        </button>
+            >
+                <div className="cell small-4">
+                    <img 
+                        src={isActive ? icon.light : icon.dark} 
+                        alt={text} 
+                        className="item-img"
+                    />
+                </div>
+                <div className="cell small-4">
+                    <span className={itemTextClasses.join(' ')}>
+                        {text}
+                    </span>
+                </div>
+                <div className="cell small-4">
+                    {
+                        isActive ? 
+                        <img 
+                            src={activeItem} 
+                            alt="Active item" 
+                            className={activeItemClasses.join(' ')} 
+                        />
+                        :
+                        ''
+                    }
+                </div>
+            </button>
     </div>
-)
+    );
+}
