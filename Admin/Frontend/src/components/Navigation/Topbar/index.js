@@ -17,7 +17,7 @@ export const Topbar = () => {
 
     return (
         <div className="top-bar">
-                    <div className="grid-x">
+                    <div className="top-bar-left grid-x">
                         <div class="cell small-2"></div>
                         <div class="cell small-2"><img src={hair}/></div>
                         <div class="cell small-6"><img src={hairText}/></div>
@@ -26,7 +26,7 @@ export const Topbar = () => {
 
 
                 {/* <div className="top-bar-right cell small-4 large-2"> */}
-                    <div className="grid-x">
+                    <div className="top-bar-right">
                     <ul className="top-bar-items-container">
                     {
                         menuItems.map((item, index) => (
