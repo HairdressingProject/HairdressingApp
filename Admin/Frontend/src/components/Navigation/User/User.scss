@@ -23,6 +23,12 @@
 
     &-img {
         position: relative;
-        width: 50px;
+        max-width: 50px;
+        transform: translateX(0);
+        transition: transform 200ms ease;
+
+        &-closed {
+            transform: translateX(100%);
+        }
     }
 }

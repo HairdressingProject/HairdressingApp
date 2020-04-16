@@ -6,6 +6,7 @@ export const SidebarMenuItem = ({icon, text, isActive, isSidebarOpen}) => {
     const itemContainerClasses = ['item-container', 'grid-container'];
     const itemTextClasses = ['item-name'];
     const activeItemClasses = ['item-active'];
+    const itemImgClasses = ['item-img', 'cell', 'small-4'];
 
     if (isActive) {
         itemContainerClasses.push('item-container-active');
@@ -15,6 +16,7 @@ export const SidebarMenuItem = ({icon, text, isActive, isSidebarOpen}) => {
         itemContainerClasses.push('item-container-closed');
         itemTextClasses.push('item-name-closed');
         activeItemClasses.push('item-name-closed');
+        itemImgClasses.push('item-img-closed');
     }
 
     return (
@@ -27,11 +29,11 @@ export const SidebarMenuItem = ({icon, text, isActive, isSidebarOpen}) => {
                 ['item-btn', 'grid-x'].join(' ')  
                 }
             >
-                <div className="cell small-4">
+                <div className={itemImgClasses.join(' ')}>
                     <img 
                         src={isActive ? icon.light : icon.dark} 
                         alt={text} 
-                        className="item-img"
+                        style={{position: 'relative', width: '100%', height: '100%'}}
                     />
                 </div>
                 <div className="cell small-4">

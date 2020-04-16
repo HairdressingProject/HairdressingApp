@@ -17,8 +17,7 @@ import picturesLight from '../../../img/icons/pictures-light.svg';
 import picturesDark from '../../../img/icons/pictures-dark.svg';
 import { ToggleSidebar } from './ToggleSidebar';
 
-export const Sidebar = ({routes}) => {
-
+export const Sidebar = ({routes, isOpen, setOpen}) => {
     const menuItems = ['menu', ...routes.map(route => route.path.slice(1))];
     const menuItemImgs = [
         {
@@ -47,13 +46,13 @@ export const Sidebar = ({routes}) => {
         }
     ];
 
-    const [isOpen, setOpen] = useState(true);
+    
     const [activeItem, setActiveItem] = useState(menuItems[1]);
 
-    const sidebarContainerClasses = ['sidebar-container'];
+    const sidebarContainerClasses = ['sidebar'];
     
     if (!isOpen) {
-        sidebarContainerClasses.push('sidebar-container-closed');
+        sidebarContainerClasses.push('sidebar-closed');
     }
 
     return (

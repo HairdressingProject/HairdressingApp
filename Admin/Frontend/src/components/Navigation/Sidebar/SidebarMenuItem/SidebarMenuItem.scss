@@ -40,6 +40,12 @@
         position: relative;
         width: 20px;
         height: 20px;
+        transform: translateX(0);
+        transition: transform 200ms ease;
+
+        &-closed {
+            transform: translateX(100%);
+        }
     }
 
     &-active {

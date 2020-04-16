@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./App.scss";
 import { Switch, Route } from 'react-router-dom';
 import { Sidebar } from '../Navigation/Sidebar';
@@ -58,10 +58,23 @@ const routes = [
 ];
 
 export const App = () => {
+    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
+    const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
+
+    if (!isSidebarOpen)
+    {
+        sidebarContainerClasses.push('sidebar-container-closed');
+        topbarContainerClasses.push('right-container-closed');
+    }
+
     return (
         <div className="grid-x">
-            <div className="cell small-7 large-2">
-                <Sidebar routes={
+            <div className={sidebarContainerClasses.join(' ')}>
+                <Sidebar 
+                    isOpen = {isSidebarOpen}
+                    setOpen={setSidebarOpen}
+                    routes={
                     routes.filter(route => 
                             route.path.includes('dashboard') ||
                             route.path.includes('databases') ||
@@ -73,7 +86,7 @@ export const App = () => {
                 />
             </div>
             
-            <div className="grid-x small-5 right-container">
+            <div className={topbarContainerClasses.join(' ')}>
                 <div className="cell small-auto right-container-topbar">
                     <Topbar />
                 </div>
