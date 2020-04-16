@@ -1,7 +1,6 @@
 .right-container {
     position: relative;
     transition: width 200ms ease;
-    transform: translateX(0);
 
     &-topbar {
         height: 80px;
@@ -21,9 +20,9 @@
 .sidebar-container {
     position: relative;
     transition: width 200ms ease;
-    width: 58.3333%;
+    width: 58.3333% !important;
 
     &-closed {
-        width: 20%;
+        width: 20% !important;
     }
 }

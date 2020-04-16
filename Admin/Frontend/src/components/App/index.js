@@ -13,6 +13,7 @@ import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
+import { Menu } from '../Navigation/Menu';
 
 const routes = [
     {
@@ -59,6 +60,8 @@ const routes = [
 
 export const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isMenuOpen, setMenuOpen] = useState(true);
+
     const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
     const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
 
@@ -74,6 +77,8 @@ export const App = () => {
                 <Sidebar 
                     isOpen = {isSidebarOpen}
                     setOpen={setSidebarOpen}
+                    isMenuOpen={isMenuOpen}
+                    setMenuOpen={setMenuOpen}
                     routes={
                     routes.filter(route => 
                             route.path.includes('dashboard') ||
@@ -92,6 +97,7 @@ export const App = () => {
                 </div>
 
                 <div className="cell small-auto right-container-content">
+                    <Menu isOpen={isMenuOpen} />
                     <Switch>
                         {
                             routes.map((route, index) => (

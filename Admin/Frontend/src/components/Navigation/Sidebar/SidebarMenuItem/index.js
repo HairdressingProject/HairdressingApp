@@ -54,6 +54,6 @@ export const SidebarMenuItem = ({icon, text, isActive, isSidebarOpen}) => {
                     }
                 </div>
             </button>
-    </div>
+        </div>
     );
 }
