@@ -12,33 +12,42 @@ import { TopbarMenuItem } from './TopBarMenuItem';
 
 
 export const Topbar = () => {
-    const menuItems = ['settings', 'notifications', 'profile'];
-    const menuItemImgs = [settings, notifications, profile];
+    const menuItems = ['settings', 'notifications'];
+    const menuItemImgs = [settings, notifications];
 
     return (
         <div className="top-bar">
-            <div className="top-bar-left">
-                <img src={hair}/>
-                <img src={hairText}/>
-            </div>
-            <div className="top-bar-right">
-                <ul className="menu">
-                {
-                    menuItems.map((item, index) => (
-                        <li
-                            
-                            key={index}
-                        >
-                            <TopbarMenuItem
-                                icon={menuItemImgs[index]}
-                                text={item[0].toUpperCase().concat(item.slice(1))}
-                            />
-                        </li>
-                    ))
-                }
-                </ul>
-                
-            </div>
+                    <div className="grid-x">
+                        <div class="cell small-2"></div>
+                        <div class="cell small-2"><img src={hair}/></div>
+                        <div class="cell small-6"><img src={hairText}/></div>
+                        <div class="cell small-2"></div>
+                    </div>                
+
+
+                {/* <div className="top-bar-right cell small-4 large-2"> */}
+                    <div className="grid-x">
+                    <ul className="top-bar-items-container">
+                    {
+                        menuItems.map((item, index) => (
+                            <li
+                                
+                                key={index}
+                            >
+                                <TopbarMenuItem
+                                    icon={menuItemImgs[index]}
+                                    text={item[0].toUpperCase().concat(item.slice(1))}
+                                />
+                            </li>
+                        ))
+                    }
+                    </ul>
+                    </div>
+                    
+                {/* </div> */}
+
+
+            
 
         </div>
     )

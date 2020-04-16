@@ -1,6 +1,42 @@
-.top-bar {
-    background-color: #FAFFFF;
+.top-bar-right {
+    background-color: rgb(68, 52, 110);
     ul {
-        background-color: #FAFFFF;
+        background-color: rgb(68, 52, 110);
+    }
+}
+
+.top-bar-items-container {
+    background-color: rgb(68, 52, 110);
+}
+
+
+.top-bar {
+    &-container {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        font-size: 1.4rem;
+        text-align: center;
+        background: rgb(68, 52, 110);
+        background: rgb(68, 52, 110);
+        background: rgb(68, 52, 110);
+        background: rgb(68, 52, 110);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#dafaff",endColorstr="#eafffa",GradientType=1);
+    }
+
+        &-items-container {
+        list-style-type: none;
+        margin: 3rem 0 3rem 0;
+        padding: 0;
+    }
+
+    &-logo-container {
+        background: rgb(218,250,255);
+    }
+
+    a {
+        &:active, &:focus, &:visited {
+            color: inherit;
+        }
     }
 }

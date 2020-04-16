@@ -61,11 +61,6 @@ export const App = () => {
     return (
         <div>
         <div className="grid-x">
-            <div className="cell small-12 large-12">
-                <Topbar />
-            </div>            
-        </div>
-        <div className="grid-x">
             <div className="cell small-7 large-2">
                 <Sidebar routes={
                     routes.filter(route => 
@@ -78,8 +73,11 @@ export const App = () => {
                     } 
                 />
             </div>
+            <div className="cell small-5 large-10">
+                <Topbar />
+            </div>
             
-
+            
             
             <div className="cell small-5 large-10">
                 <Switch>

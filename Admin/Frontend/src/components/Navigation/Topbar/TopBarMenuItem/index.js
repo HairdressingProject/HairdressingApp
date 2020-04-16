@@ -9,18 +9,20 @@ export const TopbarMenuItem =({icon, text}) => (
             ['item-btn', 'grid-x'].join(' ')
         }
         >
-            <div className="cell small-4">
+            <div className="cell small-2"></div>
+            <div className="cell small-2">
                 <img
                     src={icon}
                     alt={text}
                     className="item-img"
                 />
             </div>
-            <div className="cell small-4">
+            <div className="cell small-6">
                 <span className="item-name">
                     {text}
                 </span>
             </div>
+            <div className="cell small-2"></div>
 
         </button>
     </div>
