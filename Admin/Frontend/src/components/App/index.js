@@ -59,7 +59,7 @@ const routes = [
 ];
 
 export const App = () => {
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
     const [isMenuOpen, setMenuOpen] = useState(true);
 
     const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
