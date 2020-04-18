@@ -1,0 +1,21 @@
+.modal {
+
+    &-container {
+        position: fixed;
+        z-index: 10000;
+        background-color: lightgray;
+
+        &-closed {
+            display: none;
+        }
+    }
+
+    &-title {
+        font-size: 2rem;
+    }
+
+    &-close {
+        font-size: 2.5rem;
+        color: rgba(0, 0, 0, .5);
+    }
+}

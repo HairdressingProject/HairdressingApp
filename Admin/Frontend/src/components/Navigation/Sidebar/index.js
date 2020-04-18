@@ -48,7 +48,7 @@ export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
     ];
 
     
-    const [activeItem, setActiveItem] = useState(menuItems[0]);
+    const [activeItem, setActiveItem] = useState(menuItems[1]);
 
     const sidebarContainerClasses = ['sidebar'];
     

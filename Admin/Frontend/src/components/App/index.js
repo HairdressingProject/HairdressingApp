@@ -14,6 +14,7 @@ import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
 import { Menu } from '../Navigation/Menu';
+import Modal from 'react-foundation-modal';
 
 const routes = [
     {
@@ -62,6 +63,19 @@ export const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
     const [isMenuOpen, setMenuOpen] = useState(true);
 
+    // Modal set up
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const showPopup = status => {
+        setModalOpen(status);
+    }
+
+    const overlayStyle = {
+        'backgroundColor': 'rgba(33,10,10,.45)'
+    };
+
+    // End of modal set up
+
     const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
     const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
 
@@ -73,10 +87,6 @@ export const App = () => {
 
     return (
         <div className="grid-x">
-<<<<<<< HEAD
-            <div className="cell small-7 large-2">
-                <Sidebar routes={
-=======
             <div className={sidebarContainerClasses.join(' ')}>
                 <Sidebar 
                     isOpen = {isSidebarOpen}
@@ -84,7 +94,6 @@ export const App = () => {
                     isMenuOpen={isMenuOpen}
                     setMenuOpen={setMenuOpen}
                     routes={
->>>>>>> 8a61ca1991658daa95bd5198026875d74bb99c24
                     routes.filter(route => 
                             route.path.includes('dashboard') ||
                             route.path.includes('databases') ||
@@ -95,27 +104,7 @@ export const App = () => {
                     } 
                 />
             </div>
-            <div className="cell small-5 large-10">
-                <Topbar />
-            </div>
             
-            
-<<<<<<< HEAD
-            
-            <div className="cell small-5 large-10">
-                <Switch>
-                    {
-                        routes.map((route, index) => (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                exact={route.exact}
-                                children={<route.content />}
-                            />
-                        ))
-                    }
-                </Switch>
-=======
             <div className={topbarContainerClasses.join(' ')}>
                 <div className="cell small-auto right-container-topbar">
                     <Topbar />
@@ -123,6 +112,38 @@ export const App = () => {
 
                 <div className="cell small-auto right-container-content">
                     <Menu isOpen={isMenuOpen} />
+
+                    {/* Modal code */}
+                    <p>
+                        <button
+                            className="button"
+                            onClick={() => showPopup(true)}
+                        >
+                            Open modal
+                        </button>
+                    </p>
+                    
+                    <Modal
+                        open={isModalOpen}
+                        closeModal={showPopup}
+                        isModal={true}
+                        size="large"
+                        overlayStyle={overlayStyle}
+                        >
+                            <h1>Awesome. I Have It.</h1>
+                            <p className="lead">Your couch. It is mine.</p>
+                            <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+                            <button 
+                                className="button" 
+                                type="button" 
+                                onClick={() => showPopup(false)} 
+                            >
+                                Close
+                            </button>
+                    </Modal>
+
+                    {/* End of modal code */}
+
                     <Switch>
                         {
                             routes.map((route, index) => (
@@ -136,7 +157,6 @@ export const App = () => {
                         }
                     </Switch>
                 </div>
->>>>>>> 8a61ca1991658daa95bd5198026875d74bb99c24
             </div>
         </div>
     )
