@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./App.scss";
 import { Switch, Route } from 'react-router-dom';
 import { Sidebar } from '../Navigation/Sidebar';
@@ -13,6 +13,7 @@ import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
+import { Menu } from '../Navigation/Menu';
 
 const routes = [
     {
@@ -58,11 +59,32 @@ const routes = [
 ];
 
 export const App = () => {
+    const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
+    const [isMenuOpen, setMenuOpen] = useState(true);
+
+    const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
+    const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
+
+    if (!isSidebarOpen)
+    {
+        sidebarContainerClasses.push('sidebar-container-closed');
+        topbarContainerClasses.push('right-container-closed');
+    }
+
     return (
-        <div>
         <div className="grid-x">
+<<<<<<< HEAD
             <div className="cell small-7 large-2">
                 <Sidebar routes={
+=======
+            <div className={sidebarContainerClasses.join(' ')}>
+                <Sidebar 
+                    isOpen = {isSidebarOpen}
+                    setOpen={setSidebarOpen}
+                    isMenuOpen={isMenuOpen}
+                    setMenuOpen={setMenuOpen}
+                    routes={
+>>>>>>> 8a61ca1991658daa95bd5198026875d74bb99c24
                     routes.filter(route => 
                             route.path.includes('dashboard') ||
                             route.path.includes('databases') ||
@@ -78,6 +100,7 @@ export const App = () => {
             </div>
             
             
+<<<<<<< HEAD
             
             <div className="cell small-5 large-10">
                 <Switch>
@@ -92,8 +115,29 @@ export const App = () => {
                         ))
                     }
                 </Switch>
+=======
+            <div className={topbarContainerClasses.join(' ')}>
+                <div className="cell small-auto right-container-topbar">
+                    <Topbar />
+                </div>
+
+                <div className="cell small-auto right-container-content">
+                    <Menu isOpen={isMenuOpen} />
+                    <Switch>
+                        {
+                            routes.map((route, index) => (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    children={<route.content />}
+                                />
+                            ))
+                        }
+                    </Switch>
+                </div>
+>>>>>>> 8a61ca1991658daa95bd5198026875d74bb99c24
             </div>
-        </div>
         </div>
     )
 }

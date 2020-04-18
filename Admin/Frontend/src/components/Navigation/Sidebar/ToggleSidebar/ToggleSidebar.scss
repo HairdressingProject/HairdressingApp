@@ -1,5 +1,8 @@
 .toggle-menu {
     &-container {
+        position: relative;
+        transform: translateX(0);
+        cursor: pointer;
         &:active, &:focus {
             outline: none;
         }

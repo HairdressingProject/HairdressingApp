@@ -1,0 +1,13 @@
+.menu {
+    &-container {
+        position: relative;
+        padding: 0 1rem;
+        background-color: rgba(12, 24, 83, .62);
+        height: calc(100vh - 80px);
+        text-align: center;
+
+        &-closed {
+            display: none;
+        }
+    }
+}

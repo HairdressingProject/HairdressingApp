@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import './Sidebar.scss';
 import { User } from '../User';
+import { Menu2 } from '../Menu2';
 import { SidebarMenuItem } from './SidebarMenuItem';
 import menuLight from '../../../img/icons/menu-light.svg';
 import menuDark from '../../../img/icons/menu-dark.svg';
@@ -17,7 +18,7 @@ import picturesLight from '../../../img/icons/pictures-light.svg';
 import picturesDark from '../../../img/icons/pictures-dark.svg';
 import { ToggleSidebar } from './ToggleSidebar';
 
-export const Sidebar = ({routes}) => {
+export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
     const menuItems = ['menu', ...routes.map(route => route.path.slice(1))];
     const menuItemImgs = [
         {
@@ -46,35 +47,47 @@ export const Sidebar = ({routes}) => {
         }
     ];
 
-    const [isOpen, setOpen] = useState(true);
-    const [activeItem, setActiveItem] = useState(menuItems[1]);
+    
+    const [activeItem, setActiveItem] = useState(menuItems[0]);
+
+    const sidebarContainerClasses = ['sidebar'];
+    
+    if (!isOpen) {
+        sidebarContainerClasses.push('sidebar-closed');
+    }
+
+    if (activeItem === menuItems[0]) {
+        setMenuOpen(true);
+    } 
+    else {
+        setMenuOpen(false);
+    }
 
     return (
-        <div className="sidebar-container">     
+        <div className={sidebarContainerClasses.join(' ')}>     
+            <User isSidebarOpen={isOpen} />
+            {/* <Menu2 isSidebarOpen={isOpen} />  */}
+            <ul className="sidebar-items-container">
+                {
+                    menuItems.map((item, index) => (
+                        <li 
+                            onClick={() => setActiveItem(menuItems[index])}
+                            key={index}
+                        >
+                            <Link to={`/${item}`}>
+                                <SidebarMenuItem 
+                                    icon={menuItemImgs[index]}
+                                    text={item[0].toUpperCase().concat(item.slice(1))}
+                                    isActive={activeItem === item}
+                                    isSidebarOpen={isOpen}
+                                />
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
 
-        <User /> 
-
-        <ul className="sidebar-items-container">
-            {
-                menuItems.map((item, index) => (
-                    <li 
-                        onClick={() => setActiveItem(menuItems[index])}
-                        key={index}
-                    >
-                        <Link to={`/${item}`}>
-                            <SidebarMenuItem 
-                                icon={menuItemImgs[index]}
-                                text={item[0].toUpperCase().concat(item.slice(1))}
-                                isActive={activeItem === item}
-                            />
-                        </Link>
-                    </li>
-                ))
-            }
-        </ul>
-
-        <ToggleSidebar isOpen={isOpen} setOpen={setOpen} />
-
+            <ToggleSidebar isOpen={isOpen} setOpen={setOpen} />
         </div>
     )
 }

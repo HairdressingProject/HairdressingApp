@@ -5,15 +5,24 @@
         margin-bottom: 2rem;
         border-radius: 50px;
         background-color: rgba($color: #FCFCFC, $alpha: .94);
+        transform: translateX(0);
+        transition: transform 100ms ease;
 
         &-active {
             background-color:#6FA0B3;
         }
     }
 
+    &-name {
+        &-closed {
+            display: none;
+        }
+    }
+
     &-btn {
         position: relative;
         justify-content: center;
+        cursor: pointer;
         align-items: center;
         width: 100%;
         color: #0C1853;
@@ -31,6 +40,12 @@
         position: relative;
         width: 20px;
         height: 20px;
+        transform: translateX(0);
+        transition: transform 200ms ease;
+
+        &-closed {
+            transform: translateX(100%);
+        }
     }
 
     &-active {

@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 .top-bar-right {
     background-color: rgb(68, 52, 110);
+=======
+.top-bar {
+    background-color: #FAFFFF;
+    padding: 2rem .5rem;
+    text-align: center;
+
+>>>>>>> 8a61ca1991658daa95bd5198026875d74bb99c24
     ul {
         background-color: rgb(68, 52, 110);
     }
@@ -38,5 +46,16 @@
         &:active, &:focus, &:visited {
             color: inherit;
         }
+    }
+
+    &-logo {
+        position: relative;
+        width: 25px;
+        margin-right: 1rem;
+    }
+
+    &-text {
+        position: relative;
+        width: 88px;
     }
 }
