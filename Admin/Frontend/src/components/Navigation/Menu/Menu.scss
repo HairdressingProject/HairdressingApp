@@ -1,34 +1,56 @@
 .menu {
     &-container {
         position: relative;
-        width: 100%;
-        margin-bottom: 1rem;
-        padding: 1rem 0;
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+        border-radius: 50px;
+        background-color: rgba($color: #FCFCFC, $alpha: .94);
+        transform: translateX(0);
+        transition: transform 100ms ease;
+
+        &-active {
+            background-color:#6FA0B3;
+        }
     }
 
-    &-sidebar-closed {
-        display: none;
+    &-name {
+        &-closed {
+            display: none;
+        }
     }
 
     &-btn {
         position: relative;
-        width: 100%;
         justify-content: center;
+        cursor: pointer;
         align-items: center;
+        width: 100%;
+        color: #0C1853;
 
         &:active, &:focus {
             outline: none;
+        }
+
+        &-active {
+            color: white;
         }
     }
 
     &-img {
         position: relative;
-        max-width: 50px;
+        width: 20px;
+        height: 20px;
         transform: translateX(0);
         transition: transform 200ms ease;
 
         &-closed {
             transform: translateX(100%);
         }
+    }
+
+    &-active {
+        position: relative;
+        width: 20px;
+        height: 20px;
     }
 }

@@ -13,8 +13,10 @@ import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
-import { Menu } from '../Navigation/Menu';
+import {MenuItem} from '../Navigation/Menu/MenuItem';
 import Modal from 'react-foundation-modal';
+import settingsDark from '../../img/icons/settings-dark.svg';
+import notificationsDark from '../../img/icons/notifications-dark.svg';
 
 const routes = [
     {
@@ -61,18 +63,32 @@ const routes = [
 
 export const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
-    const [isMenuOpen, setMenuOpen] = useState(true);
-
+    
     // Modal set up
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isMenuOpen, setMenuOpen] = useState(false);
 
-    const showPopup = status => {
-        setModalOpen(status);
+    const showMenu = status => {
+        setMenuOpen(status);
     }
 
     const overlayStyle = {
-        'backgroundColor': 'rgba(33,10,10,.45)'
+        'backgroundColor': 'rgba(12, 24, 83, 0.62)'
     };
+
+    const revealStyle = {
+        'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+    };
+
+    const menuItems = [
+        {
+            text: 'Settings',
+            icon: settingsDark
+        },
+        {
+            text: 'Notifications',
+            icon: notificationsDark
+        }
+    ];
 
     // End of modal set up
 
@@ -92,7 +108,7 @@ export const App = () => {
                     isOpen = {isSidebarOpen}
                     setOpen={setSidebarOpen}
                     isMenuOpen={isMenuOpen}
-                    setMenuOpen={setMenuOpen}
+                    setMenuOpen={showMenu}
                     routes={
                     routes.filter(route => 
                             route.path.includes('dashboard') ||
@@ -111,38 +127,26 @@ export const App = () => {
                 </div>
 
                 <div className="cell small-auto right-container-content">
-                    {/* <Menu isOpen={isMenuOpen} /> */} 
 
-                    {/* Modal code */}
-                    <p>
-                        <button
-                            className="button"
-                            onClick={() => showPopup(true)}
-                        >
-                            Open modal
-                        </button>
-                    </p>
-                    
+                    {/* Testing menu modal outside of the sidebar */}
                     <Modal
-                        open={isModalOpen}
-                        closeModal={showPopup}
+                        open={isMenuOpen}
+                        closeModal={setMenuOpen}
                         isModal={true}
-                        size="large"
+                        size="full"
                         overlayStyle={overlayStyle}
-                        >
-                            <h1>Awesome. I Have It.</h1>
-                            <p className="lead">Your couch. It is mine.</p>
-                            <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-                            <button 
-                                className="button" 
-                                type="button" 
-                                onClick={() => showPopup(false)} 
-                            >
-                                Close
-                            </button>
+                        revealStyle={revealStyle}
+                    >
+                        {
+                            menuItems.map((item, index) => (
+                                <MenuItem
+                                    key={index}
+                                    text={item.text}
+                                    icon={item.icon}
+                                />
+                            ))
+                        }
                     </Modal>
-
-                    {/* End of modal code */}
 
                     <Switch>
                         {
