@@ -29,7 +29,11 @@ export const Menu2 = ({isSidebarOpen}) => {
     }
 
     const overlayStyle = {
-        'backgroundColor': 'rgba(33,10,10,.45)'
+        'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+    };
+
+    const revealStyle = {
+        'backgroundColor': 'rgba(12, 24, 83, 0.62)'
     };
 
     const menuItems = [
@@ -65,11 +69,6 @@ export const Menu2 = ({isSidebarOpen}) => {
                     </span>
                 </div>
                 <div className="cell small-4">
-                    <img 
-                        src={menu2Settings} 
-                        alt="Menu settings" 
-                        className={menu2SettingsClasses.join(' ')}
-                    />
                     </div>
             </button>
 
@@ -77,8 +76,9 @@ export const Menu2 = ({isSidebarOpen}) => {
                         open={isModalOpen}
                         closeModal={showPopup}
                         isModal={true}
-                        size="large"
+                        size="full"
                         overlayStyle={overlayStyle}
+                        revealStyle={revealStyle}
                         >
                             
                             <div className={"menu-classes"}>
