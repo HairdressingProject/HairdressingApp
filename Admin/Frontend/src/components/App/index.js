@@ -111,7 +111,7 @@ export const App = () => {
                 </div>
 
                 <div className="cell small-auto right-container-content">
-                    <Menu isOpen={isMenuOpen} />
+                    {/* <Menu isOpen={isMenuOpen} /> */} 
 
                     {/* Modal code */}
                     <p>

@@ -19,12 +19,13 @@ import picturesDark from '../../../img/icons/pictures-dark.svg';
 import { ToggleSidebar } from './ToggleSidebar';
 
 export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
-    const menuItems = ['menu', ...routes.map(route => route.path.slice(1))];
+    // const menuItems = ['menu', ...routes.map(route => route.path.slice(1))];
+    const menuItems = [...routes.map(route => route.path.slice(1))];
     const menuItemImgs = [
-        {
-            light: menuLight,
-            dark: menuDark
-        },
+        // {
+        //     light: menuLight,
+        //     dark: menuDark
+        // },
         {
             light: dashboardLight,
             dark: dashboardDark
