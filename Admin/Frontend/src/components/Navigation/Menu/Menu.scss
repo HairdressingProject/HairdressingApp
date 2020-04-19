@@ -1,13 +1,34 @@
 .menu {
     &-container {
         position: relative;
-        padding: 0 1rem;
-        background-color: rgba(12, 24, 83, .62);
-        height: calc(100vh - 80px);
-        text-align: center;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 1rem 0;
+    }
+
+    &-sidebar-closed {
+        display: none;
+    }
+
+    &-btn {
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        &:active, &:focus {
+            outline: none;
+        }
+    }
+
+    &-img {
+        position: relative;
+        max-width: 50px;
+        transform: translateX(0);
+        transition: transform 200ms ease;
 
         &-closed {
-            display: none;
+            transform: translateX(100%);
         }
     }
 }

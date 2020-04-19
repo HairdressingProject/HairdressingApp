@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import './Sidebar.scss';
 import { User } from '../User';
-import { Menu2 } from '../Menu2';
+import { Menu } from '../Menu';
 import { SidebarMenuItem } from './SidebarMenuItem';
 import menuLight from '../../../img/icons/menu-light.svg';
 import menuDark from '../../../img/icons/menu-dark.svg';
@@ -67,7 +67,7 @@ export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
     return (
         <div className={sidebarContainerClasses.join(' ')}>     
             <User isSidebarOpen={isOpen} />
-            <Menu2 isSidebarOpen={isOpen} /> 
+            <Menu isSidebarOpen={isOpen} /> 
             <ul className="sidebar-items-container">
                 {
                     menuItems.map((item, index) => (
