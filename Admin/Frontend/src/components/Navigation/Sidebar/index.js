@@ -66,7 +66,7 @@ export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
     return (
         <div className={sidebarContainerClasses.join(' ')}>     
             <User isSidebarOpen={isOpen} />
-            {/* <Menu2 isSidebarOpen={isOpen} />  */}
+            <Menu2 isSidebarOpen={isOpen} /> 
             <ul className="sidebar-items-container">
                 {
                     menuItems.map((item, index) => (
