@@ -16,11 +16,13 @@ export const Menu = ({isOpen}) => {
     const menuItems = [
         {
             text: 'Settings',
-            icon: settingsDark
+            icon: settingsDark,
+            subItems: ['Privacy Policy', 'Pictures Storage', 'Show Notifications', 'Dark Mode']
         },
         {
             text: 'Notifications',
-            icon: notificationsDark
+            icon: notificationsDark,
+            subItems: ['notificaction1', 'notification2']
         }
     ];
 
@@ -32,6 +34,7 @@ export const Menu = ({isOpen}) => {
                         key={index}
                         text={item.text}
                         icon={item.icon}
+                        subItems={item.subItems}
                     />
                 ))
             }
