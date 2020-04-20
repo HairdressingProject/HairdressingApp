@@ -15,6 +15,8 @@
         align-items: center;
         justify-content: center;
         width: 100%;
+        outline: none;
+        cursor: pointer;
     }
 
     &-name {
@@ -24,5 +26,31 @@
     &-img {
         position: relative;
         height: 25px;
+    }
+}
+
+.dropdown {
+    &-pane {
+        background-color:rgba(223, 226, 240, 1);
+        border-color: rgba(12, 24, 83, .62);
+        width: auto;
+        padding: 2rem !important;
+    }
+
+    &-menu-item {
+        position: relative;
+        text-align: center;
+        border-color: rgba(12, 24, 83, .62);
+        color: #0C1853;
+        font-size: 1.2rem;
+        letter-spacing: .05rem;
+
+        &:not(:last-child) {
+            margin-bottom: 2.5rem;
+        }
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 }

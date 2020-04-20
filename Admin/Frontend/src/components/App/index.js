@@ -82,11 +82,39 @@ export const App = () => {
     const menuItems = [
         {
             text: 'Settings',
-            icon: settingsDark
+            icon: settingsDark,
+            subItems: [
+                {
+                    text: 'Privacy Policy',
+                    type: 'link'
+                },
+                {
+                    text: 'Pictures Storage',
+                    type: 'link'
+                },
+                {
+                    text: 'Show Notifications',
+                    type: 'switch',
+                    defaultChecked: true
+                },
+                {
+                    text: 'Dark Mode',
+                    type: 'switch',
+                    defaultChecked: false
+                }
+            ]
         },
         {
             text: 'Notifications',
-            icon: notificationsDark
+            icon: notificationsDark,
+            subItems: [
+                {
+                    text: 'Notification 1'
+                },
+                {
+                    text: 'Notification 2'
+                }
+            ]
         }
     ];
 
@@ -143,6 +171,7 @@ export const App = () => {
                                     key={index}
                                     text={item.text}
                                     icon={item.icon}
+                                    subItems={item.subItems}
                                 />
                             ))
                         }
