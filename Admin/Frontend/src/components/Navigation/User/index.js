@@ -19,6 +19,7 @@ export const User = ({isSidebarOpen}) => {
     return (
         <div className="user-container grid-container">
             <LinkWithDropdown
+            closeOnClickOutside
             dropdownContent={
                 <div className="user-dropdown-container">
                     <button className="user-dropdown-btn grid-x">
@@ -41,7 +42,7 @@ export const User = ({isSidebarOpen}) => {
                 </div>
             }
             >
-                
+
             <button className="user-btn grid-x" dropdown>
                 <div className="cell small-4">
                     <img src={user} alt="User" className={userImgClasses.join(' ')} />

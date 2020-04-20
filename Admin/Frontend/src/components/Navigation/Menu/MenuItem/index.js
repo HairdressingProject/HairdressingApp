@@ -1,7 +1,7 @@
 import React from 'react';
 import './MenuItem.scss';
 
-import { LinkWithDropdown } from 'react-foundation-components';
+import { Switch, LinkWithDropdown } from 'react-foundation-components';
 
 export const MenuItem = ({text, icon, subItems}) => {
 
@@ -10,14 +10,22 @@ export const MenuItem = ({text, icon, subItems}) => {
             <div className="dropdown-container grid-container">
 
             <LinkWithDropdown
+                closeOnClickOutside
                 dropdownContent={
 
                     subItems.map((item, index) =>(
                     // <p key={index}>{item}</p>
                     <button key={index} className="dropdown-item-btn grid-x">
-                        <div className="menu-item-img cell small-12">
+                        <div className="dropdown-menu-item cell small-12">
                             {item}
+                            {item == 'Show Notifications' &&
+                                <Switch defaultChecked />
+                            }
+                            {item == 'Dark Mode' &&
+                                <Switch />
+                            }
                         </div>
+
                     </button>
                     ))
                 }
