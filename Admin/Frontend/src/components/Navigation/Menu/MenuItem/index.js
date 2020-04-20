@@ -7,13 +7,18 @@ export const MenuItem = ({text, icon, subItems}) => {
 
     return (
         <div className="menu-item-container">
-            <div className="dropdown-container">
+            <div className="dropdown-container grid-container">
 
             <LinkWithDropdown
                 dropdownContent={
 
                     subItems.map((item, index) =>(
-                    <p key={index}>{item}</p>
+                    // <p key={index}>{item}</p>
+                    <button key={index} className="dropdown-item-btn grid-x">
+                        <div className="menu-item-img cell small-12">
+                            {item}
+                        </div>
+                    </button>
                     ))
                 }
             >
