@@ -13,9 +13,9 @@ export const MenuItem = ({text, icon, subItems}) => {
                 dropdownPosition="bottom"
                 dropdownStyle={{
                     zIndex: 10000,
-                    '-webkit-box-shadow': '0px 0px 20px 0px rgba(166,166,166,0.8)',
-                    '-moz-box-shadow': '0px 0px 20px 0px rgba(166,166,166,0.8)',
-                    'box-shadow': '0px 0px 20px 0px rgba(166,166,166,0.8)'
+                    WebkitBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                    MozBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                    boxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)'
                 }}
                 dropdownContent={
                     subItems ?
@@ -55,7 +55,7 @@ export const MenuItem = ({text, icon, subItems}) => {
                     }) : ''
                 }
             >
-               <button className="menu-item-btn grid-x" dropdown>
+               <button className="menu-item-btn grid-x" dropdown="true">
                     <div className="menu-item-img cell small-4">
                         <img 
                             src={icon} 

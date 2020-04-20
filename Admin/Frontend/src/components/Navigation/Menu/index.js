@@ -26,8 +26,11 @@ export const Menu = ({isActive, isSidebarOpen, setMenuOpen}) => {
                 className="menu-btn grid-x" 
                 onClick={() => setMenuOpen(true)}
             >
-                <div className="cell small-4">
-                    <img src={menu} alt="Menu" className={menuImgClasses.join(' ')} />
+                <div className={menuImgClasses.join(' ')}>
+                    <img 
+                        src={menu} alt="Menu" 
+                        style={{position: 'relative', width: '100%', height: '100%'}}
+                    />
                 </div>
                 <div className="cell small-4">
                     <span className={menuTextClasses.join(' ')}>
