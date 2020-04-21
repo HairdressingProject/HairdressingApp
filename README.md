@@ -13,7 +13,7 @@ To start working on the Admin Portal, a few steps are necessary:
 ### 3 - Create your own branch (important!)
 `git checkout -b [your branch's name]`
 
-> The `-b` flag switches to your newly created branch.
+> The `-b` flag creates a new branch.
 
 ### 4 - Update your branch to a more recent version
 For this step, you can use any remote branch that has recent commits. For instance:
