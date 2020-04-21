@@ -21,6 +21,13 @@ export const User = ({isSidebarOpen}) => {
 
 
         <LinkWithDropdown
+            closeOnClickOutside
+            dropdownStyle={{
+                zIndex: 10000,
+                WebkitBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                MozBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                boxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)'
+            }}
             dropdownContent={
                 <div className="user-dropdown-container">
                     <button className="user-dropdown-btn grid-x">
