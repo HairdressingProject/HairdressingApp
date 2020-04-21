@@ -3,22 +3,74 @@ import "./User.scss";
 import user from '../../../img/icons/user.svg';
 import userSettings from '../../../img/icons/caret-down.svg';
 
-export const User = () => {
+import { LinkWithDropdown } from 'react-foundation-components';
+
+export const User = ({isSidebarOpen}) => {
+    const userNameClasses = ['user-name'];
+    const userSettingsClasses = ['user-settings'];
+    const userImgClasses = ['user-img'];
+
+    if (!isSidebarOpen) {
+        userNameClasses.push('user-sidebar-closed');
+        userSettingsClasses.push('user-sidebar-closed');
+        userImgClasses.push('user-img-closed');
+    }
+
     return (
         <div className="user-container grid-container">
+
+
+        <LinkWithDropdown
+            closeOnClickOutside
+            dropdownStyle={{
+                zIndex: 10000,
+                WebkitBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                MozBoxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)',
+                boxShadow: '0px 0px 20px 0px rgba(166,166,166,0.8)'
+            }}
+            dropdownContent={
+                <div className="user-dropdown-container">
+                    <button className="user-dropdown-btn grid-x">
+                        <div className="cell small-12">
+                        <span className="menu-item-name">
+                            My Account
+                        </span>
+                        </div>
+                    </button>
+
+                    <button className="user-dropdown-btn grid-x">
+                        <div className="cell small-12">
+                        <span className="menu-item-name">
+                            Logout
+                        </span>
+                        </div>
+                    </button>
+                    
+
+                </div>
+            }
+        >
+
+        
+
             <button className="user-btn grid-x">
                 <div className="cell small-4">
-                    <img src={user} alt="User" className="user-img" />
+                    <img src={user} alt="User" className={userImgClasses.join(' ')} />
                 </div>
                 <div className="cell small-4">
-                    <span className="user-name">
+                    <span className={userNameClasses.join(' ')}>
                         User
                     </span>
                 </div>
                 <div className="cell small-4">
-                    <img src={userSettings} alt="User settings" className="user-settings" />
+                    <img 
+                        src={userSettings} 
+                        alt="User settings" 
+                        className={userSettingsClasses.join(' ')}
+                    />
                 </div>
             </button>
+        </LinkWithDropdown>
         </div>
     )
 }

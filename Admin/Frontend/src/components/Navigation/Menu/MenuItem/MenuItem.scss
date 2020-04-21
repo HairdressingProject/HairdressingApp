@@ -1,35 +1,31 @@
-.user {
+.menu-item {
     &-container {
         position: relative;
-        width: 100%;
-        margin-bottom: 1rem;
-        padding: 1rem 0;
-    }
-
-    &-sidebar-closed {
-        display: none;
+        background-color: white;
+        width: 113.325px;
+        top: 5vh;
+        margin-bottom: 2rem;
+        border-radius: 3rem;
+        padding: 1.5rem .5rem;
+        margin: 0 auto 2rem auto;
     }
 
     &-btn {
         position: relative;
-        width: 100%;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        width: 100%;
+        outline: none;
+        cursor: pointer;
+    }
 
-        &:active, &:focus {
-            outline: none;
-        }
+    &-name {
+        font-size: 1.2rem;
     }
 
     &-img {
         position: relative;
-        max-width: 50px;
-        transform: translateX(0);
-        transition: transform 200ms ease;
-
-        &-closed {
-            transform: translateX(100%);
-        }
+        height: 25px;
     }
 }
 

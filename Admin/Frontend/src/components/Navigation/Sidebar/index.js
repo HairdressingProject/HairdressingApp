@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import './Sidebar.scss';
 import { User } from '../User';
+import { Menu } from '../Menu';
 import { SidebarMenuItem } from './SidebarMenuItem';
-import menuLight from '../../../img/icons/menu-light.svg';
-import menuDark from '../../../img/icons/menu-dark.svg';
 import dashboardLight from '../../../img/icons/home-light.svg';
 import dashboardDark from '../../../img/icons/home-dark.svg';
 import databasesLight from '../../../img/icons/databases-light.svg';
@@ -17,13 +16,9 @@ import picturesLight from '../../../img/icons/pictures-light.svg';
 import picturesDark from '../../../img/icons/pictures-dark.svg';
 import { ToggleSidebar } from './ToggleSidebar';
 
-export const Sidebar = ({routes}) => {
-    const menuItems = ['menu', ...routes.map(route => route.path.slice(1))];
+export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
+    const menuItems = [...routes.map(route => route.path.slice(1))];
     const menuItemImgs = [
-        {
-            light: menuLight,
-            dark: menuDark
-        },
         {
             light: dashboardLight,
             dark: dashboardDark
@@ -46,35 +41,57 @@ export const Sidebar = ({routes}) => {
         }
     ];
 
-    const [isOpen, setOpen] = useState(true);
-    const [activeItem, setActiveItem] = useState(menuItems[1]);
+    // Initialise sidebar with the correct active item from the initial route
+    // If there's no match, default to Dashboard
+    const location = useLocation();
+    const currentRoute = location.pathname.slice(1).toLowerCase();
+
+    let initialActiveItem;
+
+    if (menuItems.indexOf(currentRoute) > -1) {
+        initialActiveItem = menuItems[menuItems.indexOf(currentRoute)]
+    } 
+    else {
+        initialActiveItem = menuItems[0];
+    }
+
+    const [activeItem, setActiveItem] = useState(initialActiveItem);
+
+    const sidebarContainerClasses = ['sidebar'];
+    
+    if (!isOpen) {
+        sidebarContainerClasses.push('sidebar-closed');
+    }
 
     return (
-        <div className="sidebar-container">     
+        <div className={sidebarContainerClasses.join(' ')}>     
+            <User isSidebarOpen={isOpen} />
+            <Menu 
+                isActive={isMenuOpen}
+                isSidebarOpen={isOpen} 
+                setMenuOpen={setMenuOpen}
+            /> 
+            <ul className="sidebar-items-container">
+                {
+                    menuItems.map((item, index) => (
+                        <li 
+                            onClick={() => setActiveItem(menuItems[index])}
+                            key={index}
+                        >
+                            <Link to={`/${item}`}>
+                                <SidebarMenuItem 
+                                    icon={menuItemImgs[index]}
+                                    text={item[0].toUpperCase().concat(item.slice(1))}
+                                    isActive={activeItem === item}
+                                    isSidebarOpen={isOpen}
+                                />
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
 
-        <User /> 
-
-        <ul className="sidebar-items-container">
-            {
-                menuItems.map((item, index) => (
-                    <li 
-                        onClick={() => setActiveItem(menuItems[index])}
-                        key={index}
-                    >
-                        <Link to={`/${item}`}>
-                            <SidebarMenuItem 
-                                icon={menuItemImgs[index]}
-                                text={item[0].toUpperCase().concat(item.slice(1))}
-                                isActive={activeItem === item}
-                            />
-                        </Link>
-                    </li>
-                ))
-            }
-        </ul>
-
-        <ToggleSidebar isOpen={isOpen} setOpen={setOpen} />
-
+            <ToggleSidebar isOpen={isOpen} setOpen={setOpen} />
         </div>
     )
 }

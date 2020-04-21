@@ -1,7 +1,11 @@
 import React from 'react';
+import './Dashboard.scss';
 
-export const Dashboard = () => (
-    <div>
-        dashboard
-    </div>
-);
+export const Dashboard = () => {
+
+    return (
+        <div className="dashboard-container">
+            dashboard
+        </div>
+    );
+}

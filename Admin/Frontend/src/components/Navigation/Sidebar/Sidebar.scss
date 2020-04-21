@@ -1,15 +1,19 @@
 .sidebar {
-    &-container {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        font-size: 1.4rem;
-        text-align: center;
-        background: rgb(218,250,255);
-        background: -moz-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
-        background: -webkit-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
-        background: linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#dafaff",endColorstr="#eafffa",GradientType=1);
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-size: 1.4rem;
+    text-align: center;
+    background: rgb(218,250,255);
+    background: -moz-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
+    background: linear-gradient(0deg, rgba(218,250,255,1) 0%, rgba(234,255,250,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#dafaff",endColorstr="#eafffa",GradientType=1);
+    transform: translateX(0);
+    transition: transform 200ms ease;
+    
+    &-closed {
     }
 
     &-items-container {

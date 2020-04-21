@@ -1,0 +1,116 @@
+.signin {
+    &-container {
+        background: 
+        url('../../img/background_top.svg') center top no-repeat, 
+        url('../../img/background_bottom.svg') center bottom no-repeat;
+
+        & input[type="checkbox"] {
+            position: relative;
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-title-container {
+        margin-bottom: 1.5rem;
+        padding-top: 4rem;
+        
+        & h1 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: .05rem;
+            color: #172B4D;
+        }
+    }
+
+    &-subtitle-container {
+        margin-bottom: 3rem;
+        
+        & h2 {
+            font-size: 1.2rem;
+            letter-spacing: .04rem;
+            color: #172B4D;
+        }
+        
+    }
+
+    &-form {
+        font-size: 1.2rem;
+        background-color: #F7FAFC;
+        border-radius: 10px;
+        height: 90vh;
+
+        &-input {
+            position: relative;
+            height: 100%;
+        }
+
+        &-field {
+            margin-bottom: 2rem;
+
+            &:last-child {
+                margin-top: 4rem;
+            }
+        }
+
+        &-label, &-checkbox-label {
+            font-size: 1.2rem !important;
+            letter-spacing: .05rem !important;
+            color: #172B4D !important;
+        }
+
+        &-checkbox-label {
+            text-align: left;
+        }
+
+        &-input-field {
+            margin-bottom: 0 !important;
+            font-size: 1.2rem !important;
+            padding: 1.5rem !important;
+            color: #172B4D;
+        }
+
+        &-checkbox-container {
+            position: relative;
+            height: 100%;
+            padding: 0 1rem;
+
+            & > .signin-form-input {
+                position: relative;
+                height: 1.5rem;
+                padding: 0;
+            }
+        }
+
+        &-submit {
+            margin-top: 6rem;
+
+            &-button {
+                font-size: 1.4rem;
+                letter-spacing: .1rem;
+                background-color: #11CDEF;
+                border-radius: 5px !important;
+                padding: 1.5rem 4rem;
+            }
+        }
+    }
+}
+
+.signup {
+    position: relative;
+    height: 10vh;
+    margin-top: 1rem;
+
+    &-text {
+        color: white;
+    }
+
+    &-link, &-link:visited {
+        color: #11CDEF;
+    }
+    &-text, &-link {
+        font-size: 1.4rem;
+        letter-spacing: .05rem;
+    }
+}
