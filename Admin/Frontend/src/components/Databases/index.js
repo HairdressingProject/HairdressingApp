@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { Table } from 'react-foundation-components';
 
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+//axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const Databases = () => 
     {
@@ -32,19 +32,23 @@ export const Databases = () =>
                 <Table scroll>
                     <thead>
                         <tr>
-                            <th>User id</th>
+                            <th>Id</th>
                             <th>User Name</th>
-                            <th>User First Name</th>
-                            <th>User Last Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>User Email</th>
+                            <th>User Role</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.map(item => (
-                            <tr>
+                            <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.userName}</td>
                                 <td>{item.firstName}</td>
                                 <td>{item.lastName}</td>
+                                <td>{item.userEmail}</td>
+                                <td>{item.userRole}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -52,8 +56,6 @@ export const Databases = () =>
 
 
 
-
-                
             </div>
         )
 
