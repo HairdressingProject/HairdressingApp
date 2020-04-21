@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./App.scss";
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { Sidebar } from '../Navigation/Sidebar';
 import { Topbar } from '../Navigation/Topbar';
 import { Dashboard } from '../Dashboard';
@@ -129,7 +129,9 @@ export const App = () => {
         topbarContainerClasses.push('right-container-closed');
     }
 
-    return (
+    const location = useLocation();
+
+    const MainApp = (
         <div className="grid-x">
             <div className={sidebarContainerClasses.join(' ')}>
                 <Sidebar 
@@ -192,5 +194,31 @@ export const App = () => {
                 </div>
             </div>
         </div>
-    )
+    );
+
+    const LandingPages = (
+        <Switch>
+            {
+                routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        children={<route.content />}
+                    />
+                ))
+            }
+        </Switch>
+    );
+
+    if (
+        location.pathname !== '/sign_in' &&
+        location.pathname !== '/sign_up' &&
+        location.pathname !== '/forgot_password' &&
+        location.pathname !== '/new_password'
+    ) {
+        return MainApp;
+    }
+
+    return LandingPages;
 }

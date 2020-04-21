@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import './Sidebar.scss';
 import { User } from '../User';
 import { Menu } from '../Menu';
@@ -41,8 +41,21 @@ export const Sidebar = ({routes, isOpen, setOpen, isMenuOpen, setMenuOpen}) => {
         }
     ];
 
-    
-    const [activeItem, setActiveItem] = useState(menuItems[1]);
+    // Initialise sidebar with the correct active item from the initial route
+    // If there's no match, default to Dashboard
+    const location = useLocation();
+    const currentRoute = location.pathname.slice(1).toLowerCase();
+
+    let initialActiveItem;
+
+    if (menuItems.indexOf(currentRoute) > -1) {
+        initialActiveItem = menuItems[menuItems.indexOf(currentRoute)]
+    } 
+    else {
+        initialActiveItem = menuItems[0];
+    }
+
+    const [activeItem, setActiveItem] = useState(initialActiveItem);
 
     const sidebarContainerClasses = ['sidebar'];
     
