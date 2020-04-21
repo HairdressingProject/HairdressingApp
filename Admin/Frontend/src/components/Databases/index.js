@@ -10,7 +10,7 @@ export const Databases = () =>
                 'https://hn.algolia.com/api/v1/search?query=redux'
             );
             setData(result.data);
-        });
+        }, []);
 
         return(
             <div>
