@@ -4,11 +4,66 @@ import axios from 'axios';
 
 import { Button, Table } from 'react-foundation-components';
 
+import DataTable from 'react-data-table-component'
+import { orderBy } from 'lodash';
+
 //axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const Databases = () => 
     {
+        const columns = [
+            {
+                name: 'Id',
+                selector: 'id',
+                sortable: true,
+              },
+              {
+                name: 'User Name',
+                selector: 'userName',
+                sortable: true,
+              },
+              {
+                name: 'First Name',
+                selector: 'firstName',
+                sortable: true,
+              },
+              {
+                name: 'Last Name',
+                selector: 'lastName',
+                sortable: true,
+              },
+              {
+                name: 'User Email',
+                selector: 'userEmail',
+                sortable: true,
+              },
+              {
+                name: 'User role',
+                selector: 'userRole',
+                sortable: true,
+              },
+        ]
+
+// DataTable settings
+        const [loading, setLoading] = useState(false);
+        //const [items, setData] = useState(data);
+
+        const handleSort = (column, sortDirection) => {
+            // simulate server sort
+            setLoading(true);
         
+            // instead of setTimeout this is where you would handle your API call.
+            setTimeout(() => {
+              setData(orderBy(data, column.selector, sortDirection));
+              setLoading(false);
+            }, 100);
+          };
+
+          const [selectableRows, setSelectableRows] = React.useState(false);
+          
+// DataTable settings
+
+
         const [data, setData] = useState([]);
 
         useEffect(async () => {
@@ -24,11 +79,27 @@ export const Databases = () =>
             
             
             setData(result.data);
+            setSelectableRows(!selectableRows)
+
+
         }, []);
 
         return(
             <div>
                 databases
+
+                <DataTable
+                    title="Users"
+                    columns={columns}
+                    data={data}
+                    onSort={handleSort}
+                    selectableRows={selectableRows}
+                    sortServer
+                    progressPending={loading}
+                    persistTableHead
+                    />
+
+
                 <div className="database-container">
                     <Table scroll>
                         <thead>
