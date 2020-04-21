@@ -39,7 +39,7 @@ If you had any issues along the way, see the FAQ below.
 
 ## FAQ
 
-### My branch is missing lots of files and it looks completely different than the others.
+### My branch is missing lots of files and it looks completely different from the others.
 Most likely something went wrong when you tried to update your branch. Ask us on Slack and we will figure it out.
 
 ### How can I check another person's branch to compare it to mine?
