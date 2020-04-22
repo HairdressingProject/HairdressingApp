@@ -10,6 +10,8 @@ import {
     FormFieldButton,
     FormFieldHelp
 } from 'react-foundation-components/lib/forms';
+import mail from '../../img/icons/mail.svg';
+import password from '../../img/icons/password.svg';
 
 import './SignIn.scss';
 const cloneDeep = require('lodash.clonedeep');
@@ -107,31 +109,29 @@ export const SignIn = () => {
                         }
                         else {
                             return (
-                                <FormField key={index} id={field.label} className="signin-form-field">
-                                    <Row>
-                                        <Column small={12}>
-                                            <FormFieldLabel
-                                                className="signin-form-label"
-                                            >
-                                                {field.label}
-                                            </FormFieldLabel>
-                                        </Column>
-                                    </Row>
-                                    <Row>
-                                        <Column
-                                            small={8}
-                                            smallCentered="centered"
-                                            className="signin-form-input"
-                                        >
-                                            <FormFieldInput
-                                                type={field.type}
-                                                value={field.input}
-                                                onChange={e => setInputValue(field, e)}
-                                                className="signin-form-input-field"
-                                            />
-                                        </Column>
-                                    </Row>
-                                </FormField>
+                                <Row className="signin-form-row">
+                                    <Column small={8} smallCentered="centered">
+                                        <FormField key={index} id={field.label} className="signin-form-field">
+                                            <FormFieldLabel></FormFieldLabel>
+                                            <FormFieldInline>
+                                                <FormFieldLabel className="signin-form-label">
+                                                    {
+                                                        field.label === 'Username or email' ?
+                                                            <img src={mail} alt="Email" className="signin-form-mail" /> :
+                                                            <img src={password} alt="Password" className="signin-form-password" />
+                                                    }
+                                                </FormFieldLabel>
+                                                <FormFieldInput
+                                                    type={field.type}
+                                                    value={field.input}
+                                                    onChange={e => setInputValue(field, e)}
+                                                    className="signin-form-input-field"
+                                                    placeholder={field.label}
+                                                />
+                                            </FormFieldInline>
+                                        </FormField>
+                                    </Column>
+                                </Row>
                             )
                         }
                     })

@@ -25,7 +25,7 @@
     }
 
     &-subtitle-container {
-        margin-bottom: 3rem;
+        margin-bottom: 5rem;
         
         & h2 {
             font-size: 1.2rem;
@@ -47,28 +47,65 @@
         }
 
         &-field {
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
+        }
 
-            &:last-child {
-                margin-top: 4rem;
+        & &-label {
+            padding: 0;
+            width: 15%;
+            height: 100%;
+            border: 0;
+            background-color: lighten($color: #000000, $amount: 90%);
+            border-radius: 2px;
+            box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
+
+            &:focus {
+                outline: none;
+                border: 0;
+                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .18);
             }
         }
 
-        &-label, &-checkbox-label {
-            font-size: 1.2rem !important;
-            letter-spacing: .05rem !important;
-            color: #172B4D !important;
+        & &-label, & &-checkbox-label {
+            font-size: 1.2rem;
+            letter-spacing: .05rem;
+            color: #172B4D;
+        }
+
+        &-mail, &-password {
+            position: relative;
+            width: 50%;
         }
 
         &-checkbox-label {
             text-align: left;
         }
 
-        &-input-field {
-            margin-bottom: 0 !important;
-            font-size: 1.2rem !important;
-            padding: 1.5rem !important;
+        & &-input-field {
+            margin-bottom: 0;
+            font-size: 1.2rem;
+            padding: 1.5rem;
             color: #172B4D;
+            border: 0;
+            border-radius: 2px;
+            box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
+
+            &::placeholder {
+                font-size: 1.2rem;
+                letter-spacing: .05rem;
+                color: #172B4D;
+                opacity: .6;
+            }
+
+            &:focus {
+                outline: none;
+                border: 0;
+                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .18);
+            }
+
+            &[type="checkbox"] {
+                box-shadow: none;
+            }
         }
 
         &-checkbox-container {
@@ -84,13 +121,13 @@
         }
 
         &-submit {
-            margin-top: 6rem;
+            margin-top: 8rem;
 
-            &-button {
+            & &-button {
                 font-size: 1.4rem;
                 letter-spacing: .1rem;
                 background-color: #11CDEF;
-                border-radius: 5px !important;
+                border-radius: 5px;
                 padding: 1.5rem 4rem;
             }
         }
