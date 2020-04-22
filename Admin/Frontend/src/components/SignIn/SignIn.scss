@@ -1,8 +1,8 @@
 .signin {
     &-container {
         background: 
-        url('../../img/background_top.svg') center top no-repeat, 
-        url('../../img/background_bottom.svg') center bottom no-repeat;
+        center top / contain no-repeat url('../../img/background_top.svg'), 
+        center bottom / contain no-repeat url('../../img/background_bottom.svg');
 
         & input[type="checkbox"] {
             position: relative;
@@ -100,7 +100,7 @@
 .signup {
     position: relative;
     height: 10vh;
-    margin-top: 1rem;
+    margin: 1rem auto 0 auto;
 
     &-text {
         color: white;
