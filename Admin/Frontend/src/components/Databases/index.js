@@ -66,21 +66,20 @@ export const Databases = () =>
 
         const [data, setData] = useState([]);
 
-        useEffect(async () => {
-            const result = await axios(
-                //'https://128.199.233.190:5001/api/Users'
-                'https://localhost:5001/api/Users'
-            );
-            console.log("Result:");
-            console.log(result);
+        useEffect(() => {
 
-            console.log("Result.data:");
-            console.log(result.data);
-            
-            
-            setData(result.data);
-            setSelectableRows(!selectableRows)
+            const fetchData = async () => {
+                const result = await axios(
+                    'https://localhost:5001/api/Users'
+                    //'https://128.199.233.190:5001/api/Users'
+                );
 
+                console.log("Result.data:");
+                console.log(result.data);
+                setData(result.data);
+            }
+
+            fetchData();
 
         }, []);
 
@@ -160,7 +159,7 @@ export const Databases = () =>
                     <div className="table-btn-container grid-container">
                         <div className="btn-container grid-x">
                             <div className="cell small-4">
-                                <Button class="table-btn grid-x">
+                                <Button className="table-btn grid-x">
                                     <div className="cell small-12">
                                         <span>Add</span>
                                     </div>
@@ -168,7 +167,7 @@ export const Databases = () =>
                             </div>
 
                             <div className="cell small-4">
-                                <Button class="table-btn grid-x">
+                                <Button className="table-btn grid-x">
                                     <div className="cell small-12">
                                         <span>Edit</span>
                                     </div>
@@ -176,7 +175,7 @@ export const Databases = () =>
                             </div>
 
                             <div className="cell small-4">
-                                <Button class="table-btn grid-x">
+                                <Button className="table-btn grid-x">
                                     <div className="cell small-12">
                                         <span>Delete</span>
                                     </div>
