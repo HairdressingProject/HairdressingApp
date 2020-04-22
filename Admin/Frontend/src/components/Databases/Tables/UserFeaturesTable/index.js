@@ -81,7 +81,7 @@ export const UserFeaturesTable = () => {
 
     return (
         <DataTable
-                    title="Users"
+                    title="User Features"
                     columns={userFeaturesTableColumns}
                     data={userFeaturesData}
                     onSort={handleSort}
