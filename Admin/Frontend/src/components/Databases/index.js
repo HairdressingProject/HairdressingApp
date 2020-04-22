@@ -5,6 +5,7 @@ import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
 import { FaceShapesTable } from './Tables/FaceShapes';
+import { HairLengthsTable } from './Tables/HairLengths';
 
 //import { Button, Table } from 'react-foundation-components';
 
@@ -156,6 +157,8 @@ export const Databases = () =>
                     <SkinTonesTable/>
 
                     <FaceShapesTable/>
+
+                    <HairLengthsTable/>
 
                     {/* <div className="table-btn-container grid-container">
                         <div className="btn-container grid-x">
