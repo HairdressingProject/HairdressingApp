@@ -146,6 +146,7 @@
 
                 &-invalid {
                     background-color: lighten($color: #000000, $amount: 50%);
+                    opacity: 1;
                 }
             }
         }
