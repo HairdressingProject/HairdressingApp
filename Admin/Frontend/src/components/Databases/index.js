@@ -1,10 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import './Databases.scss';
-import axios from 'axios';
+//import axios from 'axios';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
+import { SkinTonesTable } from './Tables/SkinTonesTable';
+import { FaceShapesTable } from './Tables/FaceShapes';
 
-import { Button, Table } from 'react-foundation-components';
+//import { Button, Table } from 'react-foundation-components';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
@@ -150,6 +152,10 @@ export const Databases = () =>
 
                     {/* User Features table */}
                     <UserFeaturesTable/>
+
+                    <SkinTonesTable/>
+
+                    <FaceShapesTable/>
 
                     {/* <div className="table-btn-container grid-container">
                         <div className="btn-container grid-x">
