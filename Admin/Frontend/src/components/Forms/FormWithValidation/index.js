@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 const cloneDeep = require('lodash.clonedeep');
 
-export const FormWithValidation = ({ action, initialFormFields, ...props }) => {
+export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ...props }) => {
     const [formFields, setFormFields] = useState(cloneDeep(initialFormFields));
     const [isFormValid, setFormValidation] = useState(false);
 
@@ -78,11 +78,6 @@ export const FormWithValidation = ({ action, initialFormFields, ...props }) => {
         setFormValidation(isFormValid);
     }
 
-    const handleSubmit = () => {
-        // handle form submission here
-        console.log('form submitted');
-    }
-
     return (
         <form method="POST" action={action || '#'} onSubmit={handleSubmit}>
             {
@@ -90,10 +85,8 @@ export const FormWithValidation = ({ action, initialFormFields, ...props }) => {
                     formFields,
                     setInputValue,
                     setFieldTouched,
-                    setFormValidation,
                     isFormValid,
-                    handleBlur,
-                    handleSubmit
+                    handleBlur
                 )
             }
         </form>

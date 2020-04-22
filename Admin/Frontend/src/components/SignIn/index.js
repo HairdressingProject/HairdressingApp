@@ -104,11 +104,14 @@ export const SignIn = () => {
 
                 <FormWithValidation
                     initialFormFields={initialFormFields}
+                    handleSubmit={() => {
+                        // handle form submission here
+                        console.log('form submitted');
+                    }}
                     fields={(
                         formFields,
                         setInputValue,
                         setFieldTouched,
-                        setFormValidation,
                         isFormValid,
                         handleBlur) => (
                             <>
