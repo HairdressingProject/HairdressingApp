@@ -1,5 +1,11 @@
-.table-container {
+.db-table-container {
     border: 1px solid rgba(255, 0, 0, 0.336);
+}
 
+.selected-table-container {
+    border: 1px solid rgba(11, 108, 165, 0.466);
+}
 
+.rdt_TableHeader {
+    text-align: right;
 }
