@@ -1,162 +1,245 @@
 import React, { useState, useEffect} from 'react';
 import './Databases.scss';
-import axios from 'axios';
-
-import { Button, Table } from 'react-foundation-components';
+//import axios from 'axios';
+import { UsersTable } from './Tables/UsersTable';
+import { UserFeaturesTable } from './Tables/UserFeaturesTable';
+import { SkinTonesTable } from './Tables/SkinTonesTable';
+import { FaceShapesTable } from './Tables/FaceShapes';
+import { HairLengthsTable } from './Tables/HairLengths';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
-//axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-
 export const Databases = () => 
     {
-        const columns = [
+
+        const db_tables_columns = [
             {
-                name: 'Id',
-                selector: 'id',
+                name: 'Table Id',
+                selector: 'tableId',
                 sortable: true,
-              },
-              {
-                name: 'User Name',
-                selector: 'userName',
+            },
+            {
+                name: 'Table Name',
+                selector: 'tableName',
                 sortable: true,
-              },
-              {
-                name: 'First Name',
-                selector: 'firstName',
+            },
+            {
+                name: 'Created',
+                selector: 'created',
                 sortable: true,
-              },
-              {
-                name: 'Last Name',
-                selector: 'lastName',
+            },
+            {
+                name: 'Last Update',
+                selector: 'updated',
                 sortable: true,
-              },
-              {
-                name: 'User Email',
-                selector: 'userEmail',
-                sortable: true,
-              },
-              {
-                name: 'User role',
-                selector: 'userRole',
-                sortable: true,
-              },
-        ]
+            },
+        ];
+
+        const db_tables_rows = [
+            {
+                tableId: 0,
+                tableName: "Users",
+                created: "20/03/2020",
+                updated: "28/03/2020"
+            },
+            {
+                tableId: 1,
+                tableName: "User Features",
+                created: "20/03/2020",
+                updated: "22/03/2020"
+            },
+            {
+                tableId: 2,
+                tableName: "Skin Tones",
+                created: "20/03/2020",
+                updated: "21/03/2020"
+            },
+            {
+                tableId: 3,
+                tableName: "Face Shapes",
+                created: "20/03/2020",
+                updated: "21/03/2020"
+            },
+            {
+                tableId: 4,
+                tableName: "Hair Lengths",
+                created: "20/03/2020",
+                updated: "21/03/2020"
+            },
+        ];
+
+
+
 
 // DataTable settings
         const [loading, setLoading] = useState(false);
-        //const [items, setData] = useState(data);
 
+        // Logic to handle tabel sorting
         const handleSort = (column, sortDirection) => {
             // simulate server sort
             setLoading(true);
-        
+                    
             // instead of setTimeout this is where you would handle your API call.
             setTimeout(() => {
-              setData(orderBy(data, column.selector, sortDirection));
+              setDBTables(orderBy(DBTables, column.selector, sortDirection));
+
               setLoading(false);
             }, 100);
           };
 
-          const [selectableRows, setSelectableRows] = React.useState(false);
+        // Logic to handle selected row
+        var tablesI = [0,0,0,0,0];
+
+          const handleChange = (row) => {
+            var tablesToShow = row.selectedRows;
+            
+            
+            console.log("Selected tables: ");
+            console.log(tablesToShow);
+
+            // setSelectedTables(row.SelectedRows);
+
+            if (tablesToShow.length > 0) {
+                tablesToShow.map((item, index) => {
+                    console.log(item.tableId);
+                    tablesI[item.tableId] = 1;
+                });
+            } else{
+                tablesI=[0,0,0,0,0]
+            }
+
+            console.log('tablesI[0]: ', tablesI[0]);
+            console.log('tablesI[1]: ', tablesI[1]);
+            console.log('tablesI[2]: ', tablesI[2]);
+            console.log('tablesI[3]: ', tablesI[3]);
+
+            if (tablesI.length > 0) {
+                if (tablesI[0] == 0) {
+                    setShowUsersTable(false);
+                } else {
+                    setShowUsersTable(true);
+                };
+    
+                if (tablesI[1] == 0) {
+                    setShowUserFeaturesTable(false);
+                } else {
+                    setShowUserFeaturesTable(true);
+                };  
+
+                if (tablesI[2] == 0) {
+                    setShowSkinTonesTable(false);
+                } else {
+                    setShowSkinTonesTable(true);
+                };
+
+                if (tablesI[3] == 0) {
+                    setShowFaceShapesTable(false);
+                } else {
+                    setShowFaceShapesTable(true);
+                };  
+
+                if (tablesI[4] == 0) {
+                    setShowHairLengthsTable(false);
+                } else {
+                    setShowHairLengthsTable(true);
+                };  
+            }
+            };
+
           
-// DataTable settings
+// End of DataTable settings
 
-
-        const [data, setData] = useState([]);
+        // Initialize state variables 
+        const [DBTables, setDBTables] = useState([]);
+        
+        const [showUsersTable, setShowUsersTable] = React.useState(false);
+        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
+        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
+        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
         useEffect(() => {
 
-            const fetchData = async () => {
-                const result = await axios(
-                    'https://localhost:5001/api/Users'
-                    //'https://128.199.233.190:5001/api/Users'
-                );
-
-                console.log("Result.data:");
-                console.log(result.data);
-                setData(result.data);
-            }
-
-            fetchData();
+            setDBTables(db_tables_rows);
 
         }, []);
 
         return(
             <div>
                 databases
-
-                <DataTable
-                    title="Users"
-                    columns={columns}
-                    data={data}
-                    onSort={handleSort}
-                    selectableRows={selectableRows}
-                    sortServer
-                    progressPending={loading}
-                    persistTableHead
+                {/* Table that shows all tables on the database */}
+                <div className="db-table-container">
+                    <DataTable
+                        title="hairdress_db Tables"
+                        columns={db_tables_columns}
+                        data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
+                        onSort={handleSort}
+                        sortServer
+                        progressPending={loading}
+                        persistTableHead
+                        highlightOnHover
+                        selectableRows
+                        selectableRowsHighlight
+                        onSelectedRowsChange={handleChange}
                     />
-
-
-                <div className="database-container">
-                    <Table scroll>
-                        <thead>
-                            <tr>
-                                <th>Table Name</th>
-                                <th>Created</th>
-                                <th>Last Update</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Users</td>
-                                <td>20/03/2020</td> 
-                                <td>25/03/2020</td>                               
-                                
-                            </tr>
-                            <tr>
-                                <td>User Features</td>
-                                <td>20/03/2020</td>
-                                <td>25/03/2020</td>
-                            </tr>
-                            <tr>
-                                <td>Face Shapes</td>                                
-                                <td>25/03/2020</td>
-                                <td>27/03/2020</td>
-                            </tr>                            
-                        </tbody>
-                    </Table>
-
                 </div>
 
-                <div className="table-container">
-                    <Table scroll>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>User Email</th>
-                                <th>User Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map(item => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.userName}</td>
-                                    <td>{item.firstName}</td>
-                                    <td>{item.lastName}</td>
-                                    <td>{item.userEmail}</td>
-                                    <td>{item.userRole}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                
+                    {/* Users table */}
 
-                    <div className="table-btn-container grid-container">
+                    { showUsersTable ?
+                    <div className="selected-table-container">
+                    <UsersTable/>
+                    </div>
+                    :
+                    null}
+                
+
+                
+                { showUserFeaturesTable ?
+                    <div className="selected-table-container">
+                    <UserFeaturesTable/>
+                    </div>
+                    :
+                    null}
+                
+
+                
+                { showSkinTonesTable ?
+                    <div className="selected-table-container">
+                    <SkinTonesTable/>
+                    </div>
+                    :
+                    null}
+                
+
+                
+                { showFaceShapesTable ?
+                    <div className="selected-table-container">
+                    <FaceShapesTable/>
+                    </div>
+                    :
+                    null}
+                
+
+                { showHairLengthsTable ?
+                    <div className="selected-table-container">
+                    <HairLengthsTable/>
+                    </div>
+                    :
+                    null}
+
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    {/* <div className="table-btn-container grid-container">
                         <div className="btn-container grid-x">
                             <div className="cell small-4">
                                 <Button className="table-btn grid-x">
@@ -182,16 +265,10 @@ export const Databases = () =>
                                 </Button>
                             </div>
 
-
                         </div>
+                    </div> */}
 
-
-                    </div>
-                </div>
-
-
-
-
+                
             </div>
         )
 
