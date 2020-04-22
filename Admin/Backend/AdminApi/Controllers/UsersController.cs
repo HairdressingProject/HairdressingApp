@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace AdminApi.Controllers
 {
@@ -21,6 +22,7 @@ namespace AdminApi.Controllers
         }
 
         // GET: api/Users
+        [EnableCors("Policy1")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
