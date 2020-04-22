@@ -148,17 +148,33 @@ export const Databases = () =>
                     />
                     :
                     null}
+                </div>
 
-
-
-                    {/* User Features table */}
+                <div className="selected-table-container">
                     <UserFeaturesTable/>
+                </div>
 
+                <div className="selected-table-container">
                     <SkinTonesTable/>
+                </div>
 
+                <div className="selected-table-container">
                     <FaceShapesTable/>
+                </div>
 
+                <div className="selected-table-container">
                     <HairLengthsTable/>
+                </div>
+
+
+
+                    
+
+                    
+
+                    
+
+                    
 
                     {/* <div className="table-btn-container grid-container">
                         <div className="btn-container grid-x">
@@ -189,7 +205,7 @@ export const Databases = () =>
                         </div>
                     </div> */}
 
-                </div>
+                
             </div>
         )
 
