@@ -7,12 +7,8 @@ import { SkinTonesTable } from './Tables/SkinTonesTable';
 import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
 
-//import { Button, Table } from 'react-foundation-components';
-
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-
-//axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const Databases = () => 
     {
@@ -42,20 +38,32 @@ export const Databases = () =>
 
         const db_tables_rows = [
             {
-                tableId: 1,
+                tableId: 0,
                 tableName: "Users",
                 created: "20/03/2020",
                 updated: "28/03/2020"
             },
             {
-                tableId: 2,
+                tableId: 1,
                 tableName: "User Features",
                 created: "20/03/2020",
                 updated: "22/03/2020"
             },
             {
+                tableId: 2,
+                tableName: "Skin Tones",
+                created: "20/03/2020",
+                updated: "21/03/2020"
+            },
+            {
                 tableId: 3,
                 tableName: "Face Shapes",
+                created: "20/03/2020",
+                updated: "21/03/2020"
+            },
+            {
+                tableId: 4,
+                tableName: "Hair Lengths",
                 created: "20/03/2020",
                 updated: "21/03/2020"
             },
@@ -81,28 +89,62 @@ export const Databases = () =>
           };
 
         // Logic to handle selected row
+        var tablesI = [0,0,0,0,0];
+
           const handleChange = (row) => {
             var tablesToShow = row.selectedRows;
+            
             
             console.log("Selected tables: ");
             console.log(tablesToShow);
 
             // setSelectedTables(row.SelectedRows);
 
-            // tablesToShow.map((item, index) => {
-            //     console.log(item.tableId);
-            //     switch(item.tableId) {
-            //         case 1:
-            //             setShowUsersTable(!showUsersTable);
-            //         default:
+            if (tablesToShow.length > 0) {
+                tablesToShow.map((item, index) => {
+                    console.log(item.tableId);
+                    tablesI[item.tableId] = 1;
+                });
+            } else{
+                tablesI=[0,0,0,0,0]
+            }
 
-            //     }
+            console.log('tablesI[0]: ', tablesI[0]);
+            console.log('tablesI[1]: ', tablesI[1]);
+            console.log('tablesI[2]: ', tablesI[2]);
+            console.log('tablesI[3]: ', tablesI[3]);
 
-            // });
+            if (tablesI.length > 0) {
+                if (tablesI[0] == 0) {
+                    setShowUsersTable(false);
+                } else {
+                    setShowUsersTable(true);
+                };
+    
+                if (tablesI[1] == 0) {
+                    setShowUserFeaturesTable(false);
+                } else {
+                    setShowUserFeaturesTable(true);
+                };  
 
+                if (tablesI[2] == 0) {
+                    setShowSkinTonesTable(false);
+                } else {
+                    setShowSkinTonesTable(true);
+                };
 
-            setShowUsersTable(!showUsersTable);
+                if (tablesI[3] == 0) {
+                    setShowFaceShapesTable(false);
+                } else {
+                    setShowFaceShapesTable(true);
+                };  
 
+                if (tablesI[4] == 0) {
+                    setShowHairLengthsTable(false);
+                } else {
+                    setShowHairLengthsTable(true);
+                };  
+            }
             };
 
           
@@ -112,6 +154,10 @@ export const Databases = () =>
         const [DBTables, setDBTables] = useState([]);
         
         const [showUsersTable, setShowUsersTable] = React.useState(false);
+        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
+        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
+        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
         useEffect(() => {
 
@@ -139,33 +185,50 @@ export const Databases = () =>
                     />
                 </div>
 
-                <div className="selected-table-container">
+                
                     {/* Users table */}
 
                     { showUsersTable ?
-                    <UsersTable
-                        //data={usersData}
-                    />
+                    <div className="selected-table-container">
+                    <UsersTable/>
+                    </div>
                     :
                     null}
-                </div>
+                
 
-                <div className="selected-table-container">
+                
+                { showUserFeaturesTable ?
+                    <div className="selected-table-container">
                     <UserFeaturesTable/>
-                </div>
+                    </div>
+                    :
+                    null}
+                
 
-                <div className="selected-table-container">
+                
+                { showSkinTonesTable ?
+                    <div className="selected-table-container">
                     <SkinTonesTable/>
-                </div>
+                    </div>
+                    :
+                    null}
+                
 
-                <div className="selected-table-container">
+                
+                { showFaceShapesTable ?
+                    <div className="selected-table-container">
                     <FaceShapesTable/>
-                </div>
+                    </div>
+                    :
+                    null}
+                
 
-                <div className="selected-table-container">
+                { showHairLengthsTable ?
+                    <div className="selected-table-container">
                     <HairLengthsTable/>
-                </div>
-
+                    </div>
+                    :
+                    null}
 
 
                     
