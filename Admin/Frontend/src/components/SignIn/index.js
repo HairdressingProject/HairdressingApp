@@ -83,7 +83,7 @@ export const SignIn = () => {
                                                 defaultChecked={field.type === 'checkbox' && field.defaultChecked}
                                                 value={field.input}
                                                 onChange={e => setInputValue(field, e)}
-                                                className="signin-form-input-field"
+                                                className="signin-form-input-field sign-form-input-checkbox"
                                             />
                                         </Column>
                                         <Column small={6}>
@@ -109,7 +109,7 @@ export const SignIn = () => {
                         }
                         else {
                             return (
-                                <Row className="signin-form-row">
+                                <Row className="signin-form-row" key={index}>
                                     <Column small={8} smallCentered="centered">
                                         <FormField key={index} id={field.label} className="signin-form-field">
                                             <FormFieldLabel></FormFieldLabel>

@@ -52,17 +52,17 @@
 
         & &-label {
             padding: 0;
-            width: 15%;
+            width: 17%;
             height: 100%;
             border: 0;
-            background-color: lighten($color: #000000, $amount: 90%);
+            background-color: lighten($color: #000000, $amount: 85%);
             border-radius: 2px;
-            box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
+            box-shadow: 0 0 5px 0 rgba(23, 23, 23, .3);
 
             &:focus {
                 outline: none;
                 border: 0;
-                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .18);
+                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .5);
             }
         }
 
@@ -83,8 +83,9 @@
 
         & &-input-field {
             margin-bottom: 0;
-            font-size: 1.2rem;
-            padding: 1.5rem;
+            font-size: 1.4rem;
+            letter-spacing: .12rem;
+            padding: 2rem;
             color: #172B4D;
             border: 0;
             border-radius: 2px;
