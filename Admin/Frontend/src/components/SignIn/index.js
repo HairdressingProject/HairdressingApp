@@ -22,21 +22,59 @@ export const SignIn = () => {
             label: 'Username or email',
             input: '',
             type: 'text',
-            validation: {
-                errors: true,
-                errorMessages: [
-                    "Invalid username"
-                ]
-            }
+            touched: false,
+            validation: [
+                {
+                    error: false,
+                    errorMessage: 'This field is required',
+                    check: (input) => {
+                        return !input.trim();
+                    }
+                },
+                {
+                    error: false,
+                    errorMessage: 'Spaces are not allowed in this field',
+                    check: (input) => {
+                        return /\s/g.test(input.trim());
+                    }
+                },
+                {
+                    error: false,
+                    errorMessage: 'Maximum 512 characters allowed',
+                    check: (input) => {
+                        return input.length > 512;
+                    }
+                }
+            ]
         },
         {
             label: 'Password',
             input: '',
             type: 'password',
-            validation: {
-                errors: false,
-                errorMessages: []
-            }
+            touched: false,
+            validation: [
+                {
+                    error: false,
+                    errorMessage: 'This field is required',
+                    check: (input) => {
+                        return !input.trim();
+                    }
+                },
+                {
+                    error: false,
+                    errorMessage: 'Spaces are not allowed in this field',
+                    check: (input) => {
+                        return /\s/g.test(input.trim());
+                    }
+                },
+                {
+                    error: false,
+                    errorMessage: 'Maximum 512 characters allowed',
+                    check: (input) => {
+                        return input.length > 512;
+                    }
+                }
+            ]
         },
         {
             label: 'Remember Me',
@@ -48,18 +86,69 @@ export const SignIn = () => {
 
     const [formFields, setFormFields] = useState(cloneDeep(initialFormFields));
 
+    const validateField = (field, input) => {
+        if (!input) {
+            // no input was received
+            return field;
+        }
+        const fieldCopy = cloneDeep(field);
+        const { validation } = fieldCopy || [];
+
+        if (!validation.length) {
+            // no validation is required
+            return field;
+        }
+
+        fieldCopy.validation = validation.map(v => ({
+            ...v,
+            error: v.check(input)
+        }));
+
+        return fieldCopy;
+    }
+
     const setInputValue = (field, e) => {
         const { value } = e.target;
 
         const currentFormFields = cloneDeep(formFields);
-        currentFormFields[currentFormFields.indexOf(currentFormFields.find(f => f.label === field.label))].input = value;
+
+        const currentFormFieldIndex = currentFormFields.indexOf(
+            currentFormFields.find(f => f.label === field.label)
+        );
+
+        const currentFormField = currentFormFields[currentFormFieldIndex];
+        currentFormField.input = value;
+        const validatedFormField = validateField(currentFormField, value);
+
+        currentFormFields[currentFormFieldIndex] = validatedFormField;
 
         setFormFields(currentFormFields);
     };
 
+    const setFieldTouched = (field) => {
+        console.log('clicked');
+        // avoid changing this property unnecessarily
+        if (field.touched) {
+            return;
+        }
+
+        const currentFormFields = cloneDeep(formFields);
+
+        const currentFormFieldIndex = currentFormFields.indexOf(
+            currentFormFields.find(f => f.label === field.label)
+        );
+
+        const currentFormField = currentFormFields[currentFormFieldIndex];
+        currentFormField.touched = true;
+
+        currentFormFields[currentFormFieldIndex] = currentFormField;
+
+        setFormFields(currentFormFields);
+    }
+
     const signInSubmitButtonClasses = ["signin-form-submit-button"];
 
-    if (formFields.some(f => f.validation.errors)) {
+    if (formFields.some(f => f.validation?.some(v => v.error))) {
         signInSubmitButtonClasses.push("signin-form-submit-button-invalid")
     }
 
@@ -102,6 +191,7 @@ export const SignIn = () => {
                                                     defaultChecked={field.type === 'checkbox' && field.defaultChecked}
                                                     value={field.input}
                                                     onChange={e => setInputValue(field, e)}
+                                                    onFocus={() => setFieldTouched(field)}
                                                     className="signin-form-input-field sign-form-input-checkbox"
                                                 />
                                             </Column>
@@ -127,7 +217,7 @@ export const SignIn = () => {
                                                 key={index}
                                                 id={field.label.toLowerCase().split(' ').join('-')}
                                                 className="signin-form-field signin-form-field-text-input"
-                                                error={field.validation.errors}
+                                                error={field.validation?.some(v => v.error)}
                                             >
                                                 <FormFieldLabel></FormFieldLabel>
                                                 <FormFieldInline>
@@ -147,14 +237,18 @@ export const SignIn = () => {
                                                     />
                                                 </FormFieldInline>
                                                 {
-                                                    field.validation.errorMessages.map((msg, i) => (
-                                                        <FormFieldError
-                                                            key={i}
-                                                            className="signin-form-input-field-error"
-                                                        >
-                                                            {msg}
-                                                        </FormFieldError>
-                                                    ))
+                                                    field
+                                                        .validation
+                                                        .filter(v => v.error)
+                                                        .map(v => v.errorMessage)
+                                                        .map((msg, i) => (
+                                                            <FormFieldError
+                                                                key={i}
+                                                                className="signin-form-input-field-error"
+                                                            >
+                                                                {msg}
+                                                            </FormFieldError>
+                                                        ))
                                                 }
 
                                             </FormField>
