@@ -6,12 +6,20 @@ import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
 import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
+import Modal from 'react-foundation-modal';
+import { Button } from 'react-foundation-components/lib/button';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
 export const Databases = () => 
     {
+        // Add Modal Setup
+        const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+        const showAddModal = status => {
+            setAddModalOpen(status);
+        }
 
         const db_tables_columns = [
             {
@@ -216,9 +224,11 @@ export const Databases = () =>
 
                 
                 { showFaceShapesTable ?
-                    <div className="selected-table-container">
-                    <FaceShapesTable/>
-                    </div>
+
+                    <FaceShapesTable
+                        setAddModalOpen={showAddModal}
+                    />
+
                     :
                     null}
                 
@@ -229,6 +239,18 @@ export const Databases = () =>
                     </div>
                     :
                     null}
+
+                {/* FaceShapes Modal */}
+                <Modal
+                    open={isAddModalOpen}
+                    closeModal={setAddModalOpen}
+                    isModal={true}
+                    size="full"
+                >
+                    Add new entry to "tableName" form
+                </Modal>
+
+                <Button onClick={showAddModal}>Add</Button>
 
 
                     
