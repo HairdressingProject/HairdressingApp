@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
 import {
@@ -221,7 +222,9 @@ export const SignUp = () => {
                                                                 <FormFieldLabel
                                                                     className={classes["signup-form-checkbox-label"]}
                                                                 >
-                                                                    {field.label}
+                                                                    <span>
+                                                                        I agree with <Link to="/privacy_policy">Privacy Policy</Link>
+                                                                    </span>
                                                                 </FormFieldLabel>
                                                             </Column>
                                                         </Row>
@@ -300,7 +303,7 @@ export const SignUp = () => {
             <Row className={classes["signin"]}>
                 <Column small={12} className={classes["signin-container"]}>
                     <p className={classes["signin-text"]}>
-                        Returning user? <span className={classes["signin-span"]}><a href="#" className={classes["signin-link"]}>Sign In</a></span>
+                        Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signin-link"]}>Sign In</Link></span>
                     </p>
                 </Column>
             </Row>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
 import {
@@ -153,12 +154,12 @@ export const ForgotPassword = () => {
             <Row className={classes["links-container"]}>
                 <Column small={12} className={classes["signin-container"]}>
                     <p className={classes["signin-text"]}>
-                        Returning user? <span className={classes["signin-span"]}><a href="#" className={classes["signup-link"]}>Sign In</a></span>
+                        Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signup-link"]}>Sign In</Link></span>
                     </p>
                 </Column>
                 <Column small={12} className={classes["signup-container"]}>
                     <p className={classes["signup-text"]}>
-                        New user? <span className={classes["signup-span"]}><a href="#" className={classes["signup-link"]}>Sign Up</a></span>
+                        New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
                     </p>
                 </Column>
             </Row>

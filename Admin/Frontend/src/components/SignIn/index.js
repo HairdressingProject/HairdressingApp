@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
 import {
@@ -150,7 +151,7 @@ export const SignIn = () => {
                                                                 </FormFieldLabel>
                                                             </Column>
                                                             <Column small={5}>
-                                                                <a href="#">Forgot Password?</a>
+                                                                <Link to="/forgot_password">Forgot Password?</Link>
                                                             </Column>
                                                         </Row>
                                                     </FormField>
@@ -232,7 +233,7 @@ export const SignIn = () => {
             <Row className={classes["signup"]}>
                 <Column small={12} className={classes["signup-container"]}>
                     <p className={classes["signup-text"]}>
-                        New user? <span className={classes["signup-span"]}><a href="#" className={classes["signup-link"]}>Sign Up</a></span>
+                        New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
                     </p>
                 </Column>
             </Row>
