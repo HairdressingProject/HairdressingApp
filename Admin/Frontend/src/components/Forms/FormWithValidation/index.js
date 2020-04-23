@@ -9,7 +9,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
         const fieldCopy = cloneDeep(field);
         const { validation } = fieldCopy || [];
 
-        if (!validation.length) {
+        if (!validation || !validation.length) {
             // no validation is required
             return field;
         }
@@ -34,6 +34,17 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
         return [currentFormField, currentFormFieldIndex, currentFormFields];
     };
 
+    const validateForm = currentFormFields => {
+        const allRequiredFieldsTouched =
+            currentFormFields
+                .filter(f => f.required)
+                .every(requiredField => requiredField.touched);
+
+        const isFormValid = allRequiredFieldsTouched && !currentFormFields.some(f => f.validation?.some(v => v.error));
+
+        return isFormValid;
+    }
+
     const setInputValue = (field, e) => {
         const { value } = e.target;
 
@@ -43,8 +54,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
         const validatedFormField = validateField(currentFormField, value);
 
         currentFormFields[currentFormFieldIndex] = validatedFormField;
-
-        const isFormValid = !currentFormFields.some(f => f.validation?.some(v => v.error));
+        const isFormValid = validateForm(currentFormFields);
 
         setFormFields(currentFormFields);
         setFormValidation(isFormValid);
@@ -72,7 +82,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
         const validatedField = validateField(currentFormField, input);
         currentFormFields[currentFormFieldIndex] = validatedField;
 
-        const isFormValid = !currentFormFields.some(f => f.validation?.some(v => v.error));
+        const isFormValid = validateForm(currentFormFields);
 
         setFormFields(currentFormFields);
         setFormValidation(isFormValid);
