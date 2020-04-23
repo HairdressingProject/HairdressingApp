@@ -119,7 +119,7 @@ export const NewPassword = ({ userEmail }) => {
                 <Row className={classes["newpassword-subtitle-container"]}>
                     <Column small={12}>
                         <h2>
-                            Welcome back! Please login to continue.
+                            Enter your new password below:
                         </h2>
                     </Column>
                 </Row>
@@ -199,7 +199,7 @@ export const NewPassword = ({ userEmail }) => {
                                             }
                                             disabled={!isFormValid}
                                         >
-                                            Sign in
+                                            Change password
                                         </Button>
                                     </Column>
                                 </Row>
