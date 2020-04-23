@@ -83,89 +83,50 @@ export const ForgotPassword = () => {
                         handleBlur) => (
                             <>
                                 {
-                                    formFields.map((field, index) => {
-
-                                        if (field.type === 'checkbox') {
-                                            return (
+                                    formFields.map((field, index) => (
+                                        <Row className={classes["forgotpassword-form-row"]} key={index}>
+                                            <Column small={8} smallCentered="centered">
                                                 <FormField
                                                     key={index}
-                                                    className={classes["forgotpassword-form-field"]}
                                                     id={field.label.toLowerCase().split(' ').join('-')}
+                                                    className={[classes["forgotpassword-form-field"], classes["forgotpassword-form-field-text-input"]].join(' ')}
+                                                    error={field.validation?.some(v => v.error)}
                                                 >
-                                                    <Row className={classes["forgotpassword-form-checkbox-container"]}>
-                                                        <Column
-                                                            small={1}
-                                                            className={classes["forgotpassword-form-input"]}
-                                                        >
-                                                            <FormFieldInput
-                                                                type={field.type}
-                                                                defaultChecked={field.type === 'checkbox' && field.defaultChecked}
-                                                                value={field.input}
-                                                                onChange={e => setInputValue(field, e)}
-                                                                className={[classes["forgotpassword-form-input-field"], classes["sign-form-input-checkbox"]].join(' ')}
-                                                            />
-                                                        </Column>
-                                                        <Column small={6}>
-                                                            <FormFieldLabel
-                                                                className={classes["forgotpassword-form-checkbox-label"]}
-                                                            >
-                                                                {field.label}
-                                                            </FormFieldLabel>
-                                                        </Column>
-                                                        <Column small={5}>
-                                                            <a href="#">Forgot Password?</a>
-                                                        </Column>
-                                                    </Row>
-                                                </FormField>
-                                            )
-                                        }
-                                        else {
-                                            return (
-                                                <Row className={classes["forgotpassword-form-row"]} key={index}>
-                                                    <Column small={8} smallCentered="centered">
-                                                        <FormField
-                                                            key={index}
-                                                            id={field.label.toLowerCase().split(' ').join('-')}
-                                                            className={[classes["forgotpassword-form-field"], classes["forgotpassword-form-field-text-input"]].join(' ')}
-                                                            error={field.validation?.some(v => v.error)}
-                                                        >
-                                                            <FormFieldLabel></FormFieldLabel>
-                                                            <FormFieldInline>
-                                                                <FormFieldLabel className={classes["forgotpassword-form-label"]}>
-                                                                    <img src={mail} alt="Email" className={classes["forgotpassword-form-mail"]} />
-                                                                </FormFieldLabel>
-                                                                <FormFieldInput
-                                                                    type={field.type}
-                                                                    value={field.input}
-                                                                    required={field.required}
-                                                                    onChange={e => setInputValue(field, e)}
-                                                                    onFocus={() => setFieldTouched(field)}
-                                                                    onBlur={e => handleBlur(field, e)}
-                                                                    className={classes["forgotpassword-form-input-field"]}
-                                                                    placeholder={field.label}
-                                                                />
-                                                            </FormFieldInline>
-                                                            {
-                                                                field
-                                                                    .validation
-                                                                    .filter(v => v.error)
-                                                                    .map(v => v.errorMessage)
-                                                                    .map((msg, i) => (
-                                                                        <FormFieldError
-                                                                            key={i}
-                                                                            className={classes["forgotpassword-form-input-field-error"]}
-                                                                        >
-                                                                            {msg}
-                                                                        </FormFieldError>
-                                                                    ))
-                                                            }
+                                                    <FormFieldLabel></FormFieldLabel>
+                                                    <FormFieldInline>
+                                                        <FormFieldLabel className={classes["forgotpassword-form-label"]}>
+                                                            <img src={mail} alt="Email" className={classes["forgotpassword-form-mail"]} />
+                                                        </FormFieldLabel>
+                                                        <FormFieldInput
+                                                            type={field.type}
+                                                            value={field.input}
+                                                            required={field.required}
+                                                            onChange={e => setInputValue(field, e)}
+                                                            onFocus={() => setFieldTouched(field)}
+                                                            onBlur={e => handleBlur(field, e)}
+                                                            className={classes["forgotpassword-form-input-field"]}
+                                                            placeholder={field.label}
+                                                        />
+                                                    </FormFieldInline>
+                                                    {
+                                                        field
+                                                            .validation
+                                                            .filter(v => v.error)
+                                                            .map(v => v.errorMessage)
+                                                            .map((msg, i) => (
+                                                                <FormFieldError
+                                                                    key={i}
+                                                                    className={classes["forgotpassword-form-input-field-error"]}
+                                                                >
+                                                                    {msg}
+                                                                </FormFieldError>
+                                                            ))
+                                                    }
 
-                                                        </FormField>
-                                                    </Column>
-                                                </Row>
-                                            )
-                                        }
-                                    })
+                                                </FormField>
+                                            </Column>
+                                        </Row>
+                                    ))
                                 }
                                 <Row className={classes["forgotpassword-form-submit"]}>
                                     <Column small={12} className={classes["forgotpassword-form-submit-container"]}>
