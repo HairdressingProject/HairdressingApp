@@ -50,7 +50,12 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
 
         const [currentFormField, currentFormFieldIndex, currentFormFields] = copyFormFields(field);
 
-        currentFormField.input = value;
+        if (e.target.type === 'checkbox') {
+            currentFormField.input = !currentFormField.input;
+        } else {
+            currentFormField.input = value;
+        }
+
         const validatedFormField = validateField(currentFormField, value);
 
         currentFormFields[currentFormFieldIndex] = validatedFormField;
@@ -89,7 +94,11 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
     }
 
     return (
-        <form method="POST" action={action || '#'} onSubmit={handleSubmit}>
+        <form
+            method="POST"
+            action={action || '#'}
+            onSubmit={e => handleSubmit(e, isFormValid, formFields)}
+        >
             {
                 props.fields(
                     formFields,
