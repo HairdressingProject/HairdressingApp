@@ -104,9 +104,10 @@ export const SignIn = () => {
 
                 <FormWithValidation
                     initialFormFields={initialFormFields}
-                    handleSubmit={() => {
+                    handleSubmit={e => {
                         // handle form submission here
-                        console.log('form submitted');
+                        e.preventDefault();
+                        console.log('sign in form submitted');
                     }}
                     fields={(
                         formFields,

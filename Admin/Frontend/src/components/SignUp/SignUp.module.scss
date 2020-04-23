@@ -1,10 +1,10 @@
-.signin {
+.signup {
     &-container {
         position: relative;
-        min-height: 100vh;
         background: 
-        center top / contain no-repeat url('../../img/background_top.svg'), 
+        center top / contain no-repeat url('../../img/background_top.svg'),
         center bottom / contain no-repeat url('../../img/background_bottom.svg');
+        min-height: 100vh;
 
         & input[type="checkbox"] {
             position: relative;
@@ -126,7 +126,7 @@
             height: 100%;
             padding: 0 1rem;
 
-            & > .signin-form-input {
+            & > .signup-form-input {
                 position: relative;
                 height: 1.5rem;
                 padding: 0;
@@ -153,7 +153,7 @@
     }
 }
 
-.signup {
+.signin {
     position: relative;
     padding: 2rem 0;
 
