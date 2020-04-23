@@ -180,10 +180,12 @@ export const SignUp = () => {
 
                     <FormWithValidation
                         initialFormFields={initialFormFields}
-                        handleSubmit={e => {
+                        handleSubmit={(e, isFormValid, formFields) => {
                             // handle form submission here
                             e.preventDefault();
                             console.log('sign up form submitted');
+                            console.log(isFormValid);
+                            console.dir(formFields);
                         }}
                         fields={(
                             formFields,
