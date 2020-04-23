@@ -1,17 +1,33 @@
 import React, { useState, useEffect} from 'react';
 import './Databases.scss';
-//import axios from 'axios';
+import axios from 'axios';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
 import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
+import Modal from 'react-foundation-modal';
+import { Button } from 'react-foundation-components/lib/button';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
+import {
+    FormField,
+    FormFieldInput,
+    FormFieldLabel,
+    FormFieldError,
+    FormFieldInline
+} from 'react-foundation-components/lib/forms';
+import { FormWithValidation } from '../Forms/FormWithValidation';
 
 export const Databases = () => 
     {
+        // Add Modal Setup
+        const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+        const showAddModal = status => {
+            setAddModalOpen(status);
+        }
 
         const db_tables_columns = [
             {
@@ -66,6 +82,32 @@ export const Databases = () =>
                 tableName: "Hair Lengths",
                 created: "20/03/2020",
                 updated: "21/03/2020"
+            },
+        ];
+
+        const initialFormFields = [
+            {
+                label: 'Face Shape Id',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: false,
+            },
+            {
+                label: 'Face Shape Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                validation: [
+                    {
+                        error: false,
+                        errorMessage: 'This field is required',
+                        check: (input) => {
+                            return !input || !input.trim();
+                        }
+                    }
+                ]
             },
         ];
 
@@ -216,9 +258,11 @@ export const Databases = () =>
 
                 
                 { showFaceShapesTable ?
-                    <div className="selected-table-container">
-                    <FaceShapesTable/>
-                    </div>
+
+                    <FaceShapesTable
+                        setAddModalOpen={showAddModal}
+                    />
+
                     :
                     null}
                 
@@ -229,6 +273,85 @@ export const Databases = () =>
                     </div>
                     :
                     null}
+
+                {/* FaceShapes Modal */}
+                <Modal
+                    open={isAddModalOpen}
+                    closeModal={setAddModalOpen}
+                    isModal={true}
+                    size="full"
+                >
+                    Add new entry to "tableName" form
+                    <FormWithValidation
+                        initialFormFields={initialFormFields}
+                        handleSubmit={(e, formFields) => {
+                            e.preventDefault();
+                            console.log("form submited");
+
+                            return axios
+                                .post(
+                                    'https://localhost:5001/api/faceShapes', {
+                                        id: 21,
+                                        shapeName: "test21"
+                                    }, {
+                                        headers: { "Content-type": "application/json" }
+                                    }
+                                )
+                                .then((res) => {
+                                    console.log(res);
+                                    if (res.status === 200) {
+                                        alert("added");
+                                    } else {
+                                        alert("Error while trying to add new");
+                                    }
+                        
+                        
+                                })
+
+                        }}
+                        fields={(
+                            formFields,
+                            setInputValue,
+                            setFieldTouched,
+                            isFormValid,
+                            handleBlur) => (
+                                <>
+                                {
+                                    formFields.map((field, index) => {
+                                        return(
+                                            <>
+                                            <FormField
+                                                key={index}
+                                                id={field.label.toLowerCase().split(' ').join('-')}
+                                                className="addFaceShape-form-field addFaceShape-form-field-text-input"
+                                            >
+                                                <FormFieldInline>
+                                                    <FormFieldLabel className="addFaceShape-form-label">
+                                                    </FormFieldLabel>
+                                                    <FormFieldInput
+                                                        type={field.type}
+                                                        value={field.input}
+                                                        required={field.required}
+                                                        onChange={e => setInputValue(field, e)}
+                                                        onFocus={() => setFieldTouched(field)}
+                                                        onBlur={e => handleBlur(field, e)}
+                                                        className="signin-form-input-field"
+                                                        placeholder={field.label}
+                                                    />                                                    
+                                                </FormFieldInline>
+
+                                            </FormField>
+                                            </>
+                                        );
+                                    })
+                                }
+                            <Button type="submit">OK</Button>
+                            </>
+                            )}
+                    />
+                </Modal>
+
+                {/* <Button onClick={showAddModal}>Add</Button> */}
 
 
                     
