@@ -86,147 +86,149 @@ export const SignIn = () => {
 
     return (
         <div className={[classes["signin-container"], "text-center"].join(' ')}>
-            <div className={classes["signin-form"]}>
-                <Row className={classes["signin-title-container"]}>
-                    <Column small={12}>
-                        <h1>
-                            Hairdressing Application - Admin Portal
+            <Row>
+                <Column small={12} medium={6} mediumCentered="centered" className={classes["signin-form"]}>
+                    <Row className={classes["signin-title-container"]}>
+                        <Column small={12}>
+                            <h1>
+                                Hairdressing Application - Admin Portal
                         </h1>
-                    </Column>
-                </Row>
-                <Row className={classes["signin-subtitle-container"]}>
-                    <Column small={12}>
-                        <h2>
-                            Welcome back! Please login to continue.
+                        </Column>
+                    </Row>
+                    <Row className={classes["signin-subtitle-container"]}>
+                        <Column small={12}>
+                            <h2>
+                                Welcome back! Please login to continue.
                         </h2>
-                    </Column>
-                </Row>
+                        </Column>
+                    </Row>
 
-                <FormWithValidation
-                    initialFormFields={initialFormFields}
-                    handleSubmit={(e, isFormValid, formFields) => {
-                        // handle form submission here
-                        e.preventDefault();
-                        console.log('sign in form submitted');
-                        console.log(isFormValid);
-                        console.dir(formFields);
-                    }}
-                    fields={(
-                        formFields,
-                        setInputValue,
-                        setFieldTouched,
-                        isFormValid,
-                        handleBlur) => (
-                            <>
-                                {
-                                    formFields.map((field, index) => {
+                    <FormWithValidation
+                        initialFormFields={initialFormFields}
+                        handleSubmit={(e, isFormValid, formFields) => {
+                            // handle form submission here
+                            e.preventDefault();
+                            console.log('sign in form submitted');
+                            console.log(isFormValid);
+                            console.dir(formFields);
+                        }}
+                        fields={(
+                            formFields,
+                            setInputValue,
+                            setFieldTouched,
+                            isFormValid,
+                            handleBlur) => (
+                                <>
+                                    {
+                                        formFields.map((field, index) => {
 
-                                        if (field.type === 'checkbox') {
-                                            return (
-                                                <FormField
-                                                    key={index}
-                                                    className={classes["signin-form-field"]}
-                                                    id={field.label.toLowerCase().split(' ').join('-')}
-                                                >
-                                                    <Row className={classes["signin-form-checkbox-container"]}>
-                                                        <Column
-                                                            small={1}
-                                                            className={classes["signin-form-input"]}
-                                                        >
-                                                            <FormFieldInput
-                                                                type={field.type}
-                                                                defaultChecked={field.type === 'checkbox' && field.defaultChecked}
-                                                                value={field.input}
-                                                                onChange={e => setInputValue(field, e)}
-                                                                className={[classes["signin-form-input-field"], classes["sign-form-input-checkbox"]].join(' ')}
-                                                            />
-                                                        </Column>
-                                                        <Column small={6}>
-                                                            <FormFieldLabel
-                                                                className={classes["signin-form-checkbox-label"]}
+                                            if (field.type === 'checkbox') {
+                                                return (
+                                                    <FormField
+                                                        key={index}
+                                                        className={classes["signin-form-field"]}
+                                                        id={field.label.toLowerCase().split(' ').join('-')}
+                                                    >
+                                                        <Row className={classes["signin-form-checkbox-container"]}>
+                                                            <Column
+                                                                small={1}
+                                                                className={classes["signin-form-input"]}
                                                             >
-                                                                {field.label}
-                                                            </FormFieldLabel>
-                                                        </Column>
-                                                        <Column small={5}>
-                                                            <a href="#">Forgot Password?</a>
-                                                        </Column>
-                                                    </Row>
-                                                </FormField>
-                                            )
-                                        }
-                                        else {
-                                            return (
-                                                <Row className={classes["signin-form-row"]} key={index}>
-                                                    <Column small={8} smallCentered="centered">
-                                                        <FormField
-                                                            key={index}
-                                                            id={field.label.toLowerCase().split(' ').join('-')}
-                                                            className={[classes["signin-form-field"], classes["signin-form-field-text-input"]].join(' ')}
-                                                            error={field.validation?.some(v => v.error)}
-                                                        >
-                                                            <FormFieldLabel></FormFieldLabel>
-                                                            <FormFieldInline>
-                                                                <FormFieldLabel className={classes["signin-form-label"]}>
-                                                                    {
-                                                                        field.label === 'Username or email' ?
-                                                                            <img src={mail} alt="Email" className={classes["signin-form-mail"]} /> :
-                                                                            <img src={password} alt="Password" className={classes["signin-form-password"]} />
-                                                                    }
-                                                                </FormFieldLabel>
                                                                 <FormFieldInput
                                                                     type={field.type}
+                                                                    defaultChecked={field.type === 'checkbox' && field.defaultChecked}
                                                                     value={field.input}
-                                                                    required={field.required}
                                                                     onChange={e => setInputValue(field, e)}
-                                                                    onFocus={() => setFieldTouched(field)}
-                                                                    onBlur={e => handleBlur(field, e)}
-                                                                    className={classes["signin-form-input-field"]}
-                                                                    placeholder={field.label}
+                                                                    className={[classes["signin-form-input-field"], classes["sign-form-input-checkbox"]].join(' ')}
                                                                 />
-                                                            </FormFieldInline>
-                                                            {
-                                                                field
-                                                                    .validation
-                                                                    .filter(v => v.error)
-                                                                    .map(v => v.errorMessage)
-                                                                    .map((msg, i) => (
-                                                                        <FormFieldError
-                                                                            key={i}
-                                                                            className={classes["signin-form-input-field-error"]}
-                                                                        >
-                                                                            {msg}
-                                                                        </FormFieldError>
-                                                                    ))
-                                                            }
-
-                                                        </FormField>
-                                                    </Column>
-                                                </Row>
-                                            )
-                                        }
-                                    })
-                                }
-                                <Row className={classes["signin-form-submit"]}>
-                                    <Column small={12} className={classes["signin-form-submit-container"]}>
-                                        <Button
-                                            type="submit"
-                                            className={
-                                                isFormValid ?
-                                                    classes["signin-form-submit-button"] :
-                                                    [classes["signin-form-submit-button"], classes["signin-form-submit-button-invalid"]].join(' ')
+                                                            </Column>
+                                                            <Column small={6}>
+                                                                <FormFieldLabel
+                                                                    className={classes["signin-form-checkbox-label"]}
+                                                                >
+                                                                    {field.label}
+                                                                </FormFieldLabel>
+                                                            </Column>
+                                                            <Column small={5}>
+                                                                <a href="#">Forgot Password?</a>
+                                                            </Column>
+                                                        </Row>
+                                                    </FormField>
+                                                )
                                             }
-                                            disabled={!isFormValid}
-                                        >
-                                            Sign in
+                                            else {
+                                                return (
+                                                    <Row className={classes["signin-form-row"]} key={index}>
+                                                        <Column small={8} smallCentered="centered">
+                                                            <FormField
+                                                                key={index}
+                                                                id={field.label.toLowerCase().split(' ').join('-')}
+                                                                className={[classes["signin-form-field"], classes["signin-form-field-text-input"]].join(' ')}
+                                                                error={field.validation?.some(v => v.error)}
+                                                            >
+                                                                <FormFieldLabel></FormFieldLabel>
+                                                                <FormFieldInline>
+                                                                    <FormFieldLabel className={classes["signin-form-label"]}>
+                                                                        {
+                                                                            field.label === 'Username or email' ?
+                                                                                <img src={mail} alt="Email" className={classes["signin-form-icon"]} /> :
+                                                                                <img src={password} alt="Password" className={classes["signin-form-icon"]} />
+                                                                        }
+                                                                    </FormFieldLabel>
+                                                                    <FormFieldInput
+                                                                        type={field.type}
+                                                                        value={field.input}
+                                                                        required={field.required}
+                                                                        onChange={e => setInputValue(field, e)}
+                                                                        onFocus={() => setFieldTouched(field)}
+                                                                        onBlur={e => handleBlur(field, e)}
+                                                                        className={classes["signin-form-input-field"]}
+                                                                        placeholder={field.label}
+                                                                    />
+                                                                </FormFieldInline>
+                                                                {
+                                                                    field
+                                                                        .validation
+                                                                        .filter(v => v.error)
+                                                                        .map(v => v.errorMessage)
+                                                                        .map((msg, i) => (
+                                                                            <FormFieldError
+                                                                                key={i}
+                                                                                className={classes["signin-form-input-field-error"]}
+                                                                            >
+                                                                                {msg}
+                                                                            </FormFieldError>
+                                                                        ))
+                                                                }
+
+                                                            </FormField>
+                                                        </Column>
+                                                    </Row>
+                                                )
+                                            }
+                                        })
+                                    }
+                                    <Row className={classes["signin-form-submit"]}>
+                                        <Column small={12} className={classes["signin-form-submit-container"]}>
+                                            <Button
+                                                type="submit"
+                                                className={
+                                                    isFormValid ?
+                                                        classes["signin-form-submit-button"] :
+                                                        [classes["signin-form-submit-button"], classes["signin-form-submit-button-invalid"]].join(' ')
+                                                }
+                                                disabled={!isFormValid}
+                                            >
+                                                Sign in
                                         </Button>
-                                    </Column>
-                                </Row>
-                            </>
-                        )
-                    }
-                />
-            </div>
+                                        </Column>
+                                    </Row>
+                                </>
+                            )
+                        }
+                    />
+                </Column>
+            </Row>
             <Row className={classes["signup"]}>
                 <Column small={12} className={classes["signup-container"]}>
                     <p className={classes["signup-text"]}>

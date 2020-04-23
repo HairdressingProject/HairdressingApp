@@ -161,8 +161,8 @@ export const SignUp = () => {
 
     return (
         <div className={[classes['signup-container'], "text-center"].join(' ')}>
-            <Row className={classes['signup-form']}>
-                <Column small={12}>
+            <Row>
+                <Column small={12} medium={6} mediumCentered="centered" className={classes['signup-form']}>
                     <Row className={classes['signup-title-container']}>
                         <Column small={12} smallCentered="centered">
                             <h1>

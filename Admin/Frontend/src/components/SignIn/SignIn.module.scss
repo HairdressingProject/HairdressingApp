@@ -78,9 +78,8 @@
             color: #172B4D;
         }
 
-        &-mail, &-password {
+        &-icon {
             position: relative;
-            width: 50%;
         }
 
         &-checkbox-label {
@@ -124,7 +123,8 @@
         &-checkbox-container {
             position: relative;
             height: 100%;
-            padding: 0 1rem;
+            margin-top: 2rem;
+            padding: 0 1rem 0 2rem;
 
             & > .signin-form-input {
                 position: relative;
@@ -172,5 +172,58 @@
     &-text, &-link {
         font-size: 1.4rem;
         letter-spacing: .05rem;
+    }
+}
+
+
+/**************************************************************************************************/
+/************************************** MEDIA QUERIES *********************************************/
+/**************************************************************************************************/
+
+/* Galaxy S5, Moto G4 and bigger */
+@media only screen and (min-width: 360px) {
+    .signin {
+       &-container {
+            padding-top: 10%;
+        }
+
+        &-form {
+            &-checkbox-container {
+                padding: 0 1rem 0 4rem;
+            }
+        }
+    }
+
+    .signup {
+        &-link, &-link:visited {
+            color: rgb(18, 247, 255);
+        }
+    }
+}
+
+/* iPad and bigger */
+@media only screen and (min-width: 768px) {
+    .signin {
+       &-container {
+            padding-top: 25%;
+        }
+    }
+}
+
+/* Common laptops */
+@media only screen and (min-width: 1366px) {
+    .signin {
+        &-container {
+            padding-top: 5%;
+        }
+    }
+}
+
+/* Desktop */
+@media only screen and (min-width: 1920px) {
+    .signin {
+        &-form {
+            padding: 4rem 0 6rem 0;
+        }
     }
 }
