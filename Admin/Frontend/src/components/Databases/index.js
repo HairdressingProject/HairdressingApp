@@ -11,6 +11,14 @@ import { Button } from 'react-foundation-components/lib/button';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
+import {
+    FormField,
+    FormFieldInput,
+    FormFieldLabel,
+    FormFieldError,
+    FormFieldInline
+} from 'react-foundation-components/lib/forms';
+import { FormWithValidation } from '../Forms/FormWithValidation';
 
 export const Databases = () => 
     {
@@ -74,6 +82,32 @@ export const Databases = () =>
                 tableName: "Hair Lengths",
                 created: "20/03/2020",
                 updated: "21/03/2020"
+            },
+        ];
+
+        const initialFormFields = [
+            {
+                label: 'Face Shape Id',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: false,
+            },
+            {
+                label: 'Face Shape Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                validation: [
+                    {
+                        error: false,
+                        errorMessage: 'This field is required',
+                        check: (input) => {
+                            return !input || !input.trim();
+                        }
+                    }
+                ]
             },
         ];
 
@@ -248,9 +282,54 @@ export const Databases = () =>
                     size="full"
                 >
                     Add new entry to "tableName" form
+                    <FormWithValidation
+                        initialFormFields={initialFormFields}
+                        handleSubmit={() => {
+                            console.log("form submited");
+                        }}
+                        fields={(
+                            formFields,
+                            setInputValue,
+                            setFieldTouched,
+                            isFormValid,
+                            handleBlur) => (
+                                <>
+                                {
+                                    formFields.map((field, index) => {
+                                        return(
+                                            <>
+                                            <FormField
+                                                key={index}
+                                                id={field.label.toLowerCase().split(' ').join('-')}
+                                                className="addFaceShape-form-field addFaceShape-form-field-text-input"
+                                            >
+                                                <FormFieldInline>
+                                                    <FormFieldLabel className="addFaceShape-form-label">
+                                                    </FormFieldLabel>
+                                                    <FormFieldInput
+                                                        type={field.type}
+                                                        value={field.input}
+                                                        required={field.required}
+                                                        onChange={e => setInputValue(field, e)}
+                                                        onFocus={() => setFieldTouched(field)}
+                                                        onBlur={e => handleBlur(field, e)}
+                                                        className="signin-form-input-field"
+                                                        placeholder={field.label}
+                                                    />                                                    
+                                                </FormFieldInline>
+
+                                            </FormField>
+                                            </>
+                                        );
+                                    })
+                                }
+                            <Button>OK</Button>
+                            </>
+                            )}
+                    />
                 </Modal>
 
-                <Button onClick={showAddModal}>Add</Button>
+                {/* <Button onClick={showAddModal}>Add</Button> */}
 
 
                     

@@ -19,7 +19,8 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
             selector: 'shapeName',
             sortable: true,
           },
-    ]
+    ];
+
 
 // DataTable settings
     const [loading, setLoading] = useState(false);
@@ -158,7 +159,7 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
             <Row className="btn-container">
                 <Column small={12} className="btn-add">
                     {/* <Button onClick={handleAdd}>Add</Button> */}
-                    <Button onClick={() => setAddModalOpen(true)}>Add</Button>
+                    {/* <Button onClick={() => setAddModalOpen(true)}>Add</Button> */}
 
                 </Column>
             </Row>
