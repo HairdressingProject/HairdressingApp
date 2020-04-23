@@ -1,5 +1,7 @@
 .signin {
     &-container {
+        position: relative;
+        min-height: 100vh;
         background: 
         center top / contain no-repeat url('../../img/background_top.svg'), 
         center bottom / contain no-repeat url('../../img/background_bottom.svg');
@@ -39,7 +41,7 @@
         font-size: 1.2rem;
         background-color: #F7FAFC;
         border-radius: 10px;
-        height: 90vh;
+        padding-bottom: 4rem;
 
         &-input {
             position: relative;
@@ -47,22 +49,26 @@
         }
 
         &-field {
-            margin-bottom: 4rem;
+            margin-bottom: 0rem;
+
+            &-text-input {
+                margin-bottom: 3rem;
+            }
         }
 
         & &-label {
             padding: 0;
-            width: 15%;
+            width: 17%;
             height: 100%;
             border: 0;
-            background-color: lighten($color: #000000, $amount: 90%);
+            background-color: lighten($color: #000000, $amount: 85%);
             border-radius: 2px;
-            box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
+            box-shadow: 0 0 5px 0 rgba(23, 23, 23, .3);
 
             &:focus {
                 outline: none;
                 border: 0;
-                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .18);
+                box-shadow: 0 0 15px 0 rgba(23, 23, 23, .5);
             }
         }
 
@@ -83,12 +89,19 @@
 
         & &-input-field {
             margin-bottom: 0;
-            font-size: 1.2rem;
-            padding: 1.5rem;
+            font-size: 1.4rem;
+            letter-spacing: .12rem;
+            padding: 2rem;
             color: #172B4D;
             border: 0;
             border-radius: 2px;
             box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
+
+            &-error {
+                margin-top: 1.5rem;
+                text-align: left;
+                font-size: 1.2rem;
+            }
 
             &::placeholder {
                 font-size: 1.2rem;
@@ -121,14 +134,20 @@
         }
 
         &-submit {
-            margin-top: 8rem;
+            margin-top: 7rem;
 
             & &-button {
+                cursor: pointer;
                 font-size: 1.4rem;
                 letter-spacing: .1rem;
                 background-color: #11CDEF;
                 border-radius: 5px;
                 padding: 1.5rem 4rem;
+
+                &-invalid {
+                    background-color: lighten($color: #000000, $amount: 50%);
+                    opacity: 1;
+                }
             }
         }
     }
@@ -136,11 +155,16 @@
 
 .signup {
     position: relative;
-    height: 10vh;
-    margin: 1rem auto 0 auto;
+    padding: 2rem 0;
+    background: url('../../img/background_bottom.svg');
 
-    &-text {
+    & &-container {
+        padding: 0;
+    }
+
+    & &-text {
         color: white;
+        margin-bottom: 0;
     }
 
     &-link, &-link:visited {
