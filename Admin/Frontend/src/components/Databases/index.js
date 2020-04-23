@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import './Databases.scss';
-//import axios from 'axios';
+import axios from 'axios';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
@@ -284,8 +284,30 @@ export const Databases = () =>
                     Add new entry to "tableName" form
                     <FormWithValidation
                         initialFormFields={initialFormFields}
-                        handleSubmit={() => {
+                        handleSubmit={(e, formFields) => {
+                            e.preventDefault();
                             console.log("form submited");
+
+                            return axios
+                                .post(
+                                    'https://localhost:5001/api/faceShapes', {
+                                        id: 21,
+                                        shapeName: "test21"
+                                    }, {
+                                        headers: { "Content-type": "application/json" }
+                                    }
+                                )
+                                .then((res) => {
+                                    console.log(res);
+                                    if (res.status === 200) {
+                                        alert("added");
+                                    } else {
+                                        alert("Error while trying to add new");
+                                    }
+                        
+                        
+                                })
+
                         }}
                         fields={(
                             formFields,
@@ -323,7 +345,7 @@ export const Databases = () =>
                                         );
                                     })
                                 }
-                            <Button>OK</Button>
+                            <Button type="submit">OK</Button>
                             </>
                             )}
                     />

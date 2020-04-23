@@ -54,6 +54,18 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
         setSelectedRows(state.selectedRows);
         console.log("state.selectedRows: ", state.selectedRows);
         console.log("selectedRows: ", selectedRows);
+
+
+
+        if (state.selectedRows.length == 0 || state.selectedRows.length == 1) {
+            setToggleEditBtn(true);
+            console.log("Should be true")
+        } else {
+            setToggleEditBtn(false);
+            console.log("should be false")
+        }
+        console.log(toggleEditBtn);
+
       }, []);
 
     const actions = <Button key="add" onClick={() => setAddModalOpen(true)}>Add</Button>;
@@ -67,16 +79,16 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
 
     const contextActions = React.useMemo(() => { //useState() ?
 
-        console.log('selected rows length: ', selectedRows.length);
+        // console.log('selected rows length: ', selectedRows.length);
 
-        if (selectedRows.length == 0 || selectedRows.length == 1) {
-            setToggleEditBtn(true);
-            console.log("Should be true")
-        } else {
-            setToggleEditBtn(false);
-            console.log("should be false")
-        }
-        console.log(toggleEditBtn);
+        // if (selectedRows.length == 0 || selectedRows.length == 1) {
+        //     setToggleEditBtn(true);
+        //     console.log("Should be true")
+        // } else {
+        //     setToggleEditBtn(false);
+        //     console.log("should be false")
+        // }
+        // console.log(toggleEditBtn);
 
         const handleDelete = () => {
 
