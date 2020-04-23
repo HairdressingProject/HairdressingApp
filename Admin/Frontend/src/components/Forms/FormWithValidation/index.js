@@ -5,7 +5,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
     const [formFields, setFormFields] = useState(cloneDeep(initialFormFields));
     const [isFormValid, setFormValidation] = useState(false);
 
-    const validateField = (field, input) => {
+    const validateField = (field, input, allFormFields = []) => {
         const fieldCopy = cloneDeep(field);
         const { validation } = fieldCopy || [];
 
@@ -16,7 +16,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
 
         fieldCopy.validation = validation.map(v => ({
             ...v,
-            error: v.check(input)
+            error: allFormFields && allFormFields.length ? v.check(input, allFormFields) : v.check(input)
         }));
 
         return fieldCopy;
@@ -56,7 +56,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
             currentFormField.input = value;
         }
 
-        const validatedFormField = validateField(currentFormField, value);
+        const validatedFormField = validateField(currentFormField, value, currentFormFields);
 
         currentFormFields[currentFormFieldIndex] = validatedFormField;
         const isFormValid = validateForm(currentFormFields);
@@ -84,7 +84,7 @@ export const FormWithValidation = ({ action, initialFormFields, handleSubmit, ..
 
         const [currentFormField, currentFormFieldIndex, currentFormFields] = copyFormFields(field);
 
-        const validatedField = validateField(currentFormField, input);
+        const validatedField = validateField(currentFormField, input, currentFormFields);
         currentFormFields[currentFormFieldIndex] = validatedField;
 
         const isFormValid = validateForm(currentFormFields);
