@@ -21,6 +21,7 @@ import {
 } from 'react-foundation-components/lib/forms';
 import { FormWithValidation } from '../Forms/FormWithValidation';
 import { AddFaceShapesForm } from './AddEntry/FaceShapes';
+import { EditFaceShapesForm } from './EditEntry/FaceShapes';
 
 export const Databases = () => 
     {
@@ -29,10 +30,21 @@ export const Databases = () =>
         const addFaceShapeRevealStyle = {
             'backgroundColor': 'rgba(12, 24, 83, 0.62)'
         };
+
+        const editFaceShapeRevealStyle = {
+            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+        };
+
         const [isAddModalOpen, setAddModalOpen] = useState(false);
 
         const showAddModal = status => {
             setAddModalOpen(status);
+        }
+
+        const [isEditModalOpen, setEditModalOpen] = useState(false);
+
+        const showEditModal = status => {
+            setEditModalOpen(status);
         }
 
         const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
@@ -252,16 +264,16 @@ export const Databases = () =>
                     :
                     null}
 
-                {/* FaceShapes ******************************************************************** */}
+                {/* FaceShapes **************************************** */}
 
                 { showFaceShapesTable ?
                     <FaceShapesTable
                         setAddModalOpen={showAddModal}
+                        setEditModalOpen={showEditModal}
                     />
                     :
                     null
                 }
-
 
                 <Modal
                     open={isAddModalOpen}
@@ -272,9 +284,22 @@ export const Databases = () =>
                 >
 
                     <AddFaceShapesForm/>
+
                 </Modal>
 
-                {/* FaceShapes ******************************************************************** */}
+                <Modal
+                    open={isEditModalOpen}
+                    closeModal={setEditModalOpen}
+                    isModal={true}
+                    size="full"
+                    revealStyle={editFaceShapeRevealStyle}
+                >
+
+                    <EditFaceShapesForm/>
+                    
+                </Modal>
+
+                {/* end of FaceShapes ******************************** */}
 
                 
             </div>

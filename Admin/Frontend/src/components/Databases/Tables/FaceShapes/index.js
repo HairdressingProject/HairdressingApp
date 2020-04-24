@@ -6,7 +6,7 @@ import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const FaceShapesTable = ({setAddModalOpen}) => {
+export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
 
     const columns = [
         {
@@ -122,7 +122,7 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
+                        <Button key="edit" onClick={() => setEditModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
                         :
                         null}
                     </Column>
