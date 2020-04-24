@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
     FormField,
     FormFieldInput,
@@ -7,16 +6,46 @@ import {
     FormFieldError,
     FormFieldInline
 } from 'react-foundation-components/lib/forms';
-import { FormWithValidation } from '../../Forms/FormWithValidation';
+import { FormWithValidation } from '../../../Forms/FormWithValidation';
 import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const AddEntry = ({title, initialFormFields}) => {
+
+
+
+export const EditUsersForm = () => {
+
+
+    const initialFormFields = [
+        {
+            label: 'Id',
+            input: '',
+            type: 'text',
+            touched: false,
+        },
+        {
+            label: 'User Name',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            validation: [
+                {
+                    error: false,
+                    errorMessage: 'This field is required',
+                    check: (input) => {
+                        return !input || !input.trim();
+                    }
+                }
+            ]
+        },
+    ];
+    
 
     return (
-        <div className="add-form-container">
-            <h1>Add a new entry to {title} table</h1>
+        <div className="face-shapes-add-form-container">
+            <h1>Edit entry from Face Shapes table</h1>
 
             <FormWithValidation
                 initialFormFields={initialFormFields}
@@ -25,33 +54,27 @@ export const AddEntry = ({title, initialFormFields}) => {
                     console.log(e);
                     console.log(formFields);
 
-                    // return axios
-                    //     .post(
-                    //         'https://localhost:5001/api/Users', {
-                    //             userName: "test500",
-                    //             userPassword: "test500",
-                    //             userEmail: "test500@mail.com",
-                    //             firstName: "testName",
-                    //             lastName: "testLastName",
-                    //             userRole: "user"
-                    //         }, 
-                    //         {
-                    //             headers: { "Content-type": "application/json" }
-                    //         }
-                    //     )
-                    //     .then((res) => {
-                    //         console.log(res);
-                    //         if (res.status === 200) {
-                    //             alert("added");
-                    //         } else {
-                    //             alert("Error while trying to add new");
-                    //         }
+                    return axios
+                        .put(
+                            'https://localhost:5001/api/faceShapes/21', {
+                                shapeName: "w00t21"
+                            }, 
+                            {
+                                headers: { "Content-type": "application/json" }
+                            }
+                        )
+                        .then((res) => {
+                            console.log(res);
+                            if (res.status === 200) {
+                                alert("added");
+                            } else {
+                                alert("Error while trying to add new");
+                            }
                 
                 
-                    //     })
+                        })
 
-                    }
-                }
+                }}
 
                 fields={(
                     formFields,
@@ -67,10 +90,10 @@ export const AddEntry = ({title, initialFormFields}) => {
                                     <FormField
                                         key={index}
                                         id={field.label.toLowerCase().split(' ').join('-')}
-                                        className="add-form-field add-form-field-text-input"
+                                        className="editFaceShape-form-field editFaceShape-form-field-text-input"
                                     >
                                         <FormFieldInline>
-                                            <FormFieldLabel className="add-form-label">
+                                            <FormFieldLabel className="editFaceShape-form-label">
                                                 {field.label}
                                             </FormFieldLabel>
                                             <FormFieldInput
@@ -105,8 +128,10 @@ export const AddEntry = ({title, initialFormFields}) => {
                         </>
                     )}
             />
-        </div>
-        
+    </div>
     )
+
+
+    
 
 };

@@ -8,26 +8,161 @@ import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
 import Modal from 'react-foundation-modal';
 import { Button } from 'react-foundation-components/lib/button';
+import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
-import { FormWithValidation } from '../Forms/FormWithValidation';
+
+import { AddFaceShapesForm } from './AddEntry/FaceShapes';
+import { EditFaceShapesForm } from './EditEntry/FaceShapes';
+
+import { AddUsersForm } from './AddEntry/Users';
+import { EditUsersForm } from './EditEntry/Users';
+
+import { AddEntry } from './AddEntry';
 
 export const Databases = () => 
     {
+
+        // *************************** Users Setup
         // Add Modal Setup
+        const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
+        const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+
+        const showAddUserModal = status => {
+            setAddUserModalOpen(status);
+        }
+
+        const showEditUserModal = status => {
+            setEditUserModalOpen(status);
+        }
+
+        const [showUsersTable, setShowUsersTable] = React.useState(false);
+
+
+
+        const initialFormFields = [
+            {
+                label: 'User Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                validation: [
+                    {
+                        error: false,
+                        errorMessage: 'This field is required',
+                        check: (input) => {
+                            return !input || !input.trim();
+                        }
+                    }
+                ]
+            },
+            {
+                label: 'User Email',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'User Password',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'First Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'Last Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'User Role',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+        ];
+
+
+        // **************************** end of Users Setup
+
+
+
+        // *************************** Face Shapes Setup
+        // Add Modal Setup
+
         const [isAddModalOpen, setAddModalOpen] = useState(false);
 
         const showAddModal = status => {
             setAddModalOpen(status);
         }
+
+        const [isEditModalOpen, setEditModalOpen] = useState(false);
+
+        const showEditModal = status => {
+            setEditModalOpen(status);
+        }
+
+        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+
+        // *************************** End of Face Shapes Setup
 
         const db_tables_columns = [
             {
@@ -85,33 +220,12 @@ export const Databases = () =>
             },
         ];
 
-        const initialFormFields = [
-            {
-                label: 'Face Shape Id',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: false,
-            },
-            {
-                label: 'Face Shape Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                validation: [
-                    {
-                        error: false,
-                        errorMessage: 'This field is required',
-                        check: (input) => {
-                            return !input || !input.trim();
-                        }
-                    }
-                ]
-            },
-        ];
 
 
+// Modal Set Up
+        const revealStyle = {
+            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+        };
 
 
 // DataTable settings
@@ -157,31 +271,31 @@ export const Databases = () =>
             console.log('tablesI[3]: ', tablesI[3]);
 
             if (tablesI.length > 0) {
-                if (tablesI[0] == 0) {
+                if (tablesI[0] === 0) {
                     setShowUsersTable(false);
                 } else {
                     setShowUsersTable(true);
                 };
     
-                if (tablesI[1] == 0) {
+                if (tablesI[1] === 0) {
                     setShowUserFeaturesTable(false);
                 } else {
                     setShowUserFeaturesTable(true);
                 };  
 
-                if (tablesI[2] == 0) {
+                if (tablesI[2] === 0) {
                     setShowSkinTonesTable(false);
                 } else {
                     setShowSkinTonesTable(true);
                 };
 
-                if (tablesI[3] == 0) {
+                if (tablesI[3] === 0) {
                     setShowFaceShapesTable(false);
                 } else {
                     setShowFaceShapesTable(true);
                 };  
 
-                if (tablesI[4] == 0) {
+                if (tablesI[4] === 0) {
                     setShowHairLengthsTable(false);
                 } else {
                     setShowHairLengthsTable(true);
@@ -195,10 +309,8 @@ export const Databases = () =>
         // Initialize state variables 
         const [DBTables, setDBTables] = useState([]);
         
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
         const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
         const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
         const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
         useEffect(() => {
@@ -228,14 +340,47 @@ export const Databases = () =>
                 </div>
 
                 
-                    {/* Users table */}
+                {/* Users ********************************************** */}
 
                     { showUsersTable ?
-                    <div className="selected-table-container">
-                    <UsersTable/>
-                    </div>
+                    <UsersTable
+                        setAddUserModalOpen={showAddUserModal}
+                        setEditUserModalOpen={showEditUserModal}
+                        
+                    />
                     :
-                    null}
+                    null
+                    }
+
+                    <Modal
+                        open={isAddUserModalOpen}
+                        closeModal={setAddUserModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        {/* <AddUsersForm/> */}
+                        <AddEntry
+                            title="Users"
+                            initialFormFields={initialFormFields}
+                        />
+
+                    </Modal>
+
+                    <Modal
+                        open={isEditUserModalOpen}
+                        closeModal={setEditUserModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        <EditUsersForm/>
+                        
+                    </Modal>
+
+                {/* end of Users ********************************************** */}
                 
 
                 
@@ -257,14 +402,7 @@ export const Databases = () =>
                 
 
                 
-                { showFaceShapesTable ?
 
-                    <FaceShapesTable
-                        setAddModalOpen={showAddModal}
-                    />
-
-                    :
-                    null}
                 
 
                 { showHairLengthsTable ?
@@ -274,122 +412,42 @@ export const Databases = () =>
                     :
                     null}
 
-                {/* FaceShapes Modal */}
+                {/* FaceShapes **************************************** */}
+
+                { showFaceShapesTable ?
+                    <FaceShapesTable
+                        setAddModalOpen={showAddModal}
+                        setEditModalOpen={showEditModal}
+                    />
+                    :
+                    null
+                }
+
                 <Modal
                     open={isAddModalOpen}
                     closeModal={setAddModalOpen}
                     isModal={true}
                     size="full"
+                    revealStyle={revealStyle}
                 >
-                    Add new entry to "tableName" form
-                    <FormWithValidation
-                        initialFormFields={initialFormFields}
-                        handleSubmit={(e, formFields) => {
-                            e.preventDefault();
-                            console.log("form submited");
 
-                            return axios
-                                .post(
-                                    'https://localhost:5001/api/faceShapes', {
-                                        id: 21,
-                                        shapeName: "test21"
-                                    }, {
-                                        headers: { "Content-type": "application/json" }
-                                    }
-                                )
-                                .then((res) => {
-                                    console.log(res);
-                                    if (res.status === 200) {
-                                        alert("added");
-                                    } else {
-                                        alert("Error while trying to add new");
-                                    }
-                        
-                        
-                                })
+                    <AddFaceShapesForm/>
 
-                        }}
-                        fields={(
-                            formFields,
-                            setInputValue,
-                            setFieldTouched,
-                            isFormValid,
-                            handleBlur) => (
-                                <>
-                                {
-                                    formFields.map((field, index) => {
-                                        return(
-                                            <>
-                                            <FormField
-                                                key={index}
-                                                id={field.label.toLowerCase().split(' ').join('-')}
-                                                className="addFaceShape-form-field addFaceShape-form-field-text-input"
-                                            >
-                                                <FormFieldInline>
-                                                    <FormFieldLabel className="addFaceShape-form-label">
-                                                    </FormFieldLabel>
-                                                    <FormFieldInput
-                                                        type={field.type}
-                                                        value={field.input}
-                                                        required={field.required}
-                                                        onChange={e => setInputValue(field, e)}
-                                                        onFocus={() => setFieldTouched(field)}
-                                                        onBlur={e => handleBlur(field, e)}
-                                                        className="signin-form-input-field"
-                                                        placeholder={field.label}
-                                                    />                                                    
-                                                </FormFieldInline>
-
-                                            </FormField>
-                                            </>
-                                        );
-                                    })
-                                }
-                            <Button type="submit">OK</Button>
-                            </>
-                            )}
-                    />
                 </Modal>
 
-                {/* <Button onClick={showAddModal}>Add</Button> */}
+                <Modal
+                    open={isEditModalOpen}
+                    closeModal={setEditModalOpen}
+                    isModal={true}
+                    size="full"
+                    revealStyle={revealStyle}
+                >
 
-
+                    <EditFaceShapesForm/>
                     
+                </Modal>
 
-                    
-
-                    
-
-                    
-
-                    {/* <div className="table-btn-container grid-container">
-                        <div className="btn-container grid-x">
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Add</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Edit</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Delete</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                        </div>
-                    </div> */}
+                {/* end of FaceShapes ******************************** */}
 
                 
             </div>
