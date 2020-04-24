@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
@@ -112,6 +113,12 @@ export const SignIn = () => {
                             console.log('sign in form submitted');
                             console.log(isFormValid);
                             console.dir(formFields);
+
+                            if (isFormValid) {
+                                axios
+                                    .get('https://localhost:5001/api/users')
+                                    .then(console.log);
+                            }
                         }}
                         fields={(
                             formFields,
