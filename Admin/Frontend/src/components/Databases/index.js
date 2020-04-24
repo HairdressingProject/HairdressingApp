@@ -19,6 +19,8 @@ import { EditFaceShapesForm } from './EditEntry/FaceShapes';
 import { AddUsersForm } from './AddEntry/Users';
 import { EditUsersForm } from './EditEntry/Users';
 
+import { AddEntry } from './AddEntry';
+
 export const Databases = () => 
     {
 
@@ -36,6 +38,107 @@ export const Databases = () =>
         }
 
         const [showUsersTable, setShowUsersTable] = React.useState(false);
+
+
+
+        const initialFormFields = [
+            {
+                label: 'User Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                validation: [
+                    {
+                        error: false,
+                        errorMessage: 'This field is required',
+                        check: (input) => {
+                            return !input || !input.trim();
+                        }
+                    }
+                ]
+            },
+            {
+                label: 'User Email',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'User Password',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'First Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'Last Name',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+            {
+                label: 'User Role',
+                input: '',
+                type: 'text',
+                touched: false,
+                required: true,
+                // validation: [
+                //     {
+                //         error: false,
+                //         errorMessage: 'This field is required',
+                //         check: (input) => {
+                //             return !input || !input.trim();
+                //         }
+                //     }
+                //]
+            },
+        ];
 
 
         // **************************** end of Users Setup
@@ -257,7 +360,11 @@ export const Databases = () =>
                         revealStyle={revealStyle}
                     >
 
-                        <AddUsersForm/>
+                        {/* <AddUsersForm/> */}
+                        <AddEntry
+                            title="Users"
+                            initialFormFields={initialFormFields}
+                        />
 
                     </Modal>
 

@@ -7,16 +7,16 @@ import {
     FormFieldError,
     FormFieldInline
 } from 'react-foundation-components/lib/forms';
-import { FormWithValidation } from '../../../Forms/FormWithValidation';
+import { FormWithValidation } from '../../Forms/FormWithValidation';
 import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const AddEntry = ({initialFormFields, }) => {
+export const AddEntry = ({title, initialFormFields}) => {
 
     return (
-        <div className="users-add-form-container">
-            <h1>Add a new entry to *tableName* table</h1>
+        <div className="add-form-container">
+            <h1>Add a new entry to {title} table</h1>
 
             <FormWithValidation
                 initialFormFields={initialFormFields}
@@ -25,32 +25,33 @@ export const AddEntry = ({initialFormFields, }) => {
                     console.log(e);
                     console.log(formFields);
 
-                    return axios
-                        .post(
-                            'https://localhost:5001/api/Users', {
-                                userName: "test500",
-                                userPassword: "test500",
-                                userEmail: "test500@mail.com",
-                                firstName: "testName",
-                                lastName: "testLastName",
-                                userRole: "user"
-                            }, 
-                            {
-                                headers: { "Content-type": "application/json" }
-                            }
-                        )
-                        .then((res) => {
-                            console.log(res);
-                            if (res.status === 200) {
-                                alert("added");
-                            } else {
-                                alert("Error while trying to add new");
-                            }
+                    // return axios
+                    //     .post(
+                    //         'https://localhost:5001/api/Users', {
+                    //             userName: "test500",
+                    //             userPassword: "test500",
+                    //             userEmail: "test500@mail.com",
+                    //             firstName: "testName",
+                    //             lastName: "testLastName",
+                    //             userRole: "user"
+                    //         }, 
+                    //         {
+                    //             headers: { "Content-type": "application/json" }
+                    //         }
+                    //     )
+                    //     .then((res) => {
+                    //         console.log(res);
+                    //         if (res.status === 200) {
+                    //             alert("added");
+                    //         } else {
+                    //             alert("Error while trying to add new");
+                    //         }
                 
                 
-                        })
+                    //     })
 
-                }}
+                    }
+                }
 
                 fields={(
                     formFields,
@@ -66,10 +67,10 @@ export const AddEntry = ({initialFormFields, }) => {
                                     <FormField
                                         key={index}
                                         id={field.label.toLowerCase().split(' ').join('-')}
-                                        className="addUser-form-field addUser-form-field-text-input"
+                                        className="add-form-field add-form-field-text-input"
                                     >
                                         <FormFieldInline>
-                                            <FormFieldLabel className="addUser-form-label">
+                                            <FormFieldLabel className="add-form-label">
                                                 {field.label}
                                             </FormFieldLabel>
                                             <FormFieldInput
