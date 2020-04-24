@@ -157,31 +157,31 @@ export const Databases = () =>
             console.log('tablesI[3]: ', tablesI[3]);
 
             if (tablesI.length > 0) {
-                if (tablesI[0] == 0) {
+                if (tablesI[0] === 0) {
                     setShowUsersTable(false);
                 } else {
                     setShowUsersTable(true);
                 };
     
-                if (tablesI[1] == 0) {
+                if (tablesI[1] === 0) {
                     setShowUserFeaturesTable(false);
                 } else {
                     setShowUserFeaturesTable(true);
                 };  
 
-                if (tablesI[2] == 0) {
+                if (tablesI[2] === 0) {
                     setShowSkinTonesTable(false);
                 } else {
                     setShowSkinTonesTable(true);
                 };
 
-                if (tablesI[3] == 0) {
+                if (tablesI[3] === 0) {
                     setShowFaceShapesTable(false);
                 } else {
                     setShowFaceShapesTable(true);
                 };  
 
-                if (tablesI[4] == 0) {
+                if (tablesI[4] === 0) {
                     setShowHairLengthsTable(false);
                 } else {
                     setShowHairLengthsTable(true);

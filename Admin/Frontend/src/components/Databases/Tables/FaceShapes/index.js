@@ -57,7 +57,7 @@ export const FaceShapesTable = ({setAddModalOpen}) => {
 
 
 
-        if (state.selectedRows.length == 0 || state.selectedRows.length == 1) {
+        if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
             setToggleEditBtn(true);
             console.log("Should be true")
         } else {
