@@ -20,9 +20,11 @@ import {
     FormFieldInline
 } from 'react-foundation-components/lib/forms';
 import { FormWithValidation } from '../Forms/FormWithValidation';
+import { AddFaceShapesForm } from './AddEntry/FaceShapes';
 
 export const Databases = () => 
     {
+        // *************************** Face Shapes Setup
         // Add Modal Setup
         const addFaceShapeRevealStyle = {
             'backgroundColor': 'rgba(12, 24, 83, 0.62)'
@@ -32,6 +34,10 @@ export const Databases = () =>
         const showAddModal = status => {
             setAddModalOpen(status);
         }
+
+        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+
+        // *************************** End of Face Shapes Setup
 
         const db_tables_columns = [
             {
@@ -89,24 +95,7 @@ export const Databases = () =>
             },
         ];
 
-        const initialFormFields = [
-            {
-                label: 'Face Shape Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                validation: [
-                    {
-                        error: false,
-                        errorMessage: 'This field is required',
-                        check: (input) => {
-                            return !input || !input.trim();
-                        }
-                    }
-                ]
-            },
-        ];
+
 
 
 
@@ -195,7 +184,6 @@ export const Databases = () =>
         const [showUsersTable, setShowUsersTable] = React.useState(false);
         const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
         const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
         const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
         useEffect(() => {
@@ -254,14 +242,7 @@ export const Databases = () =>
                 
 
                 
-                { showFaceShapesTable ?
 
-                    <FaceShapesTable
-                        setAddModalOpen={showAddModal}
-                    />
-
-                    :
-                    null}
                 
 
                 { showHairLengthsTable ?
@@ -271,7 +252,17 @@ export const Databases = () =>
                     :
                     null}
 
-                {/* FaceShapes Modal */}
+                {/* FaceShapes ******************************************************************** */}
+
+                { showFaceShapesTable ?
+                    <FaceShapesTable
+                        setAddModalOpen={showAddModal}
+                    />
+                    :
+                    null
+                }
+
+
                 <Modal
                     open={isAddModalOpen}
                     closeModal={setAddModalOpen}
@@ -279,132 +270,11 @@ export const Databases = () =>
                     size="full"
                     revealStyle={addFaceShapeRevealStyle}
                 >
-                    <div className="face-shapes-add-form-container">
-                        <h1>Add a new entry to Face Shapes table</h1>
-                        <FormWithValidation
-                            initialFormFields={initialFormFields}
-                            handleSubmit={(e, formFields) => {
-                                e.preventDefault();
-                                console.log(e);
-                                console.log(formFields);
 
-                                return axios
-                                    .post(
-                                        'https://localhost:5001/api/faceShapes', {
-                                            shapeName: "test21"
-                                        }, 
-                                        {
-                                            headers: { "Content-type": "application/json" }
-                                        }
-                                    )
-                                    .then((res) => {
-                                        console.log(res);
-                                        if (res.status === 200) {
-                                            alert("added");
-                                        } else {
-                                            alert("Error while trying to add new");
-                                        }
-                            
-                            
-                                    })
-
-                            }}
-                            fields={(
-                                formFields,
-                                setInputValue,
-                                setFieldTouched,
-                                isFormValid,
-                                handleBlur) => (
-                                    <>
-                                    {
-                                        formFields.map((field, index) => {
-                                            return(
-                                                <>
-                                                <FormField
-                                                    key={index}
-                                                    id={field.label.toLowerCase().split(' ').join('-')}
-                                                    className="addFaceShape-form-field addFaceShape-form-field-text-input"
-                                                >
-                                                    <FormFieldInline>
-                                                        <FormFieldLabel className="addFaceShape-form-label">
-                                                            {field.label}
-                                                        </FormFieldLabel>
-                                                        <FormFieldInput
-                                                            type={field.type}
-                                                            value={field.input}
-                                                            required={field.required}
-                                                            onChange={e => setInputValue(field, e)}
-                                                            onFocus={() => setFieldTouched(field)}
-                                                            onBlur={e => handleBlur(field, e)}
-                                                            className="signin-form-input-field"
-                                                            placeholder={field.label}
-                                                        />                                                    
-                                                    </FormFieldInline>
-
-                                                </FormField>
-                                                </>
-                                            );
-                                        })
-                                    }
-                                    <Row>
-                                        <Column small={4}>
-                                        <Button key="cancel" style={{ backgroundColor: 'red' }}>Cancel</Button>
-                                        </Column>
-                                        <Column small={4}>
-                                            <Button type="submit">Add</Button>
-                                        </Column>
-                                        <Column small={4}>
-                                        <Button key="clear" style={{ backgroundColor: 'yellow', color: 'black' }}>Clear</Button>
-                                        </Column>
-                                    </Row>
-
-                                    
-                                </>
-                                )}
-                        />
-
-                    </div>
+                    <AddFaceShapesForm/>
                 </Modal>
 
-                {/* <Button onClick={showAddModal}>Add</Button> */}
-
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    {/* <div className="table-btn-container grid-container">
-                        <div className="btn-container grid-x">
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Add</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Edit</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                            <div className="cell small-4">
-                                <Button className="table-btn grid-x">
-                                    <div className="cell small-12">
-                                        <span>Delete</span>
-                                    </div>
-                                </Button>
-                            </div>
-
-                        </div>
-                    </div> */}
+                {/* FaceShapes ******************************************************************** */}
 
                 
             </div>
