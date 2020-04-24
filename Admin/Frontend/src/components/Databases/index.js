@@ -8,6 +8,7 @@ import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
 import Modal from 'react-foundation-modal';
 import { Button } from 'react-foundation-components/lib/button';
+import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
@@ -23,6 +24,9 @@ import { FormWithValidation } from '../Forms/FormWithValidation';
 export const Databases = () => 
     {
         // Add Modal Setup
+        const addFaceShapeRevealStyle = {
+            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+        };
         const [isAddModalOpen, setAddModalOpen] = useState(false);
 
         const showAddModal = status => {
@@ -86,13 +90,6 @@ export const Databases = () =>
         ];
 
         const initialFormFields = [
-            {
-                label: 'Face Shape Id',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: false,
-            },
             {
                 label: 'Face Shape Name',
                 input: '',
@@ -280,75 +277,93 @@ export const Databases = () =>
                     closeModal={setAddModalOpen}
                     isModal={true}
                     size="full"
+                    revealStyle={addFaceShapeRevealStyle}
                 >
-                    Add new entry to "tableName" form
-                    <FormWithValidation
-                        initialFormFields={initialFormFields}
-                        handleSubmit={(e, formFields) => {
-                            e.preventDefault();
-                            console.log("form submited");
+                    <div className="face-shapes-add-form-container">
+                        <h1>Add a new entry to Face Shapes table</h1>
+                        <FormWithValidation
+                            initialFormFields={initialFormFields}
+                            handleSubmit={(e, formFields) => {
+                                e.preventDefault();
+                                console.log(e);
+                                console.log(formFields);
 
-                            return axios
-                                .post(
-                                    'https://localhost:5001/api/faceShapes', {
-                                        id: 21,
-                                        shapeName: "test21"
-                                    }, {
-                                        headers: { "Content-type": "application/json" }
-                                    }
-                                )
-                                .then((res) => {
-                                    console.log(res);
-                                    if (res.status === 200) {
-                                        alert("added");
-                                    } else {
-                                        alert("Error while trying to add new");
-                                    }
-                        
-                        
-                                })
-
-                        }}
-                        fields={(
-                            formFields,
-                            setInputValue,
-                            setFieldTouched,
-                            isFormValid,
-                            handleBlur) => (
-                                <>
-                                {
-                                    formFields.map((field, index) => {
-                                        return(
-                                            <>
-                                            <FormField
-                                                key={index}
-                                                id={field.label.toLowerCase().split(' ').join('-')}
-                                                className="addFaceShape-form-field addFaceShape-form-field-text-input"
-                                            >
-                                                <FormFieldInline>
-                                                    <FormFieldLabel className="addFaceShape-form-label">
-                                                    </FormFieldLabel>
-                                                    <FormFieldInput
-                                                        type={field.type}
-                                                        value={field.input}
-                                                        required={field.required}
-                                                        onChange={e => setInputValue(field, e)}
-                                                        onFocus={() => setFieldTouched(field)}
-                                                        onBlur={e => handleBlur(field, e)}
-                                                        className="signin-form-input-field"
-                                                        placeholder={field.label}
-                                                    />                                                    
-                                                </FormFieldInline>
-
-                                            </FormField>
-                                            </>
-                                        );
+                                return axios
+                                    .post(
+                                        'https://localhost:5001/api/faceShapes', {
+                                            shapeName: "test21"
+                                        }, 
+                                        {
+                                            headers: { "Content-type": "application/json" }
+                                        }
+                                    )
+                                    .then((res) => {
+                                        console.log(res);
+                                        if (res.status === 200) {
+                                            alert("added");
+                                        } else {
+                                            alert("Error while trying to add new");
+                                        }
+                            
+                            
                                     })
-                                }
-                            <Button type="submit">OK</Button>
-                            </>
-                            )}
-                    />
+
+                            }}
+                            fields={(
+                                formFields,
+                                setInputValue,
+                                setFieldTouched,
+                                isFormValid,
+                                handleBlur) => (
+                                    <>
+                                    {
+                                        formFields.map((field, index) => {
+                                            return(
+                                                <>
+                                                <FormField
+                                                    key={index}
+                                                    id={field.label.toLowerCase().split(' ').join('-')}
+                                                    className="addFaceShape-form-field addFaceShape-form-field-text-input"
+                                                >
+                                                    <FormFieldInline>
+                                                        <FormFieldLabel className="addFaceShape-form-label">
+                                                            {field.label}
+                                                        </FormFieldLabel>
+                                                        <FormFieldInput
+                                                            type={field.type}
+                                                            value={field.input}
+                                                            required={field.required}
+                                                            onChange={e => setInputValue(field, e)}
+                                                            onFocus={() => setFieldTouched(field)}
+                                                            onBlur={e => handleBlur(field, e)}
+                                                            className="signin-form-input-field"
+                                                            placeholder={field.label}
+                                                        />                                                    
+                                                    </FormFieldInline>
+
+                                                </FormField>
+                                                </>
+                                            );
+                                        })
+                                    }
+                                    <Row>
+                                        <Column small={4}>
+                                        <Button key="cancel" style={{ backgroundColor: 'red' }}>Cancel</Button>
+                                        </Column>
+                                        <Column small={4}>
+                                            <Button type="submit">Add</Button>
+                                        </Column>
+                                        <Column small={4}>
+                                        <Button key="clear" style={{ backgroundColor: 'yellow', color: 'black' }}>Clear</Button>
+                                        </Column>
+                                    </Row>
+
+                                    
+                                </>
+                                )}
+                        />
+
+                    </div>
                 </Modal>
 
                 {/* <Button onClick={showAddModal}>Add</Button> */}
