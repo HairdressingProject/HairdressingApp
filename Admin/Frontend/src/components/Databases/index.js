@@ -20,6 +20,7 @@ import { AddUsersForm } from './AddEntry/Users';
 import { EditUsersForm } from './EditEntry/Users';
 
 import { AddEntry } from './AddEntry';
+import { EditEntry } from './EditEntry';
 
 export const Databases = () => 
     {
@@ -28,6 +29,7 @@ export const Databases = () =>
         // Add Modal Setup
         const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
         const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+        const [objectToEdit, setObjectToEdit] = useState([]);
 
         const showAddUserModal = status => {
             setAddUserModalOpen(status);
@@ -376,7 +378,12 @@ export const Databases = () =>
                         revealStyle={revealStyle}
                     >
 
-                        <EditUsersForm/>
+                        {/* <EditUsersForm/> */}
+                        <EditEntry
+                            title="Users"
+                            initialFormFields={initialFormFields}
+                            
+                        />
                         
                     </Modal>
 
