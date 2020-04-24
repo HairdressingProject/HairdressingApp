@@ -1,4 +1,10 @@
 -- Log in to MySQL as root
+-- mysql -u root
+
+-- Clean things up just in case
+DROP USER 'dev_admin'@'localhost';
+DROP DATABASE hair_project_db;
+
 -- Create database
 CREATE DATABASE IF NOT EXISTS hair_project_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
@@ -199,21 +205,96 @@ COLLATE utf8mb4_general_ci
 ENGINE = INNODB;
 
 
+-- DATABASE SEED --
 
--- Seed face_shapes table as described by the client
+INSERT INTO hair_project_db.users(`user_name`, `user_password`, `user_email`, `first_name`, `user_role`)
+VALUES
+('admin', '12345', 'admin@mail.com', 'Admin', 'admin');
+
+INSERT INTO hair_project_db.colours(`colour_name`, `colour_hash`)
+VALUES 
+('very_light_blonde','#'),
+('light_blonde', '#'),
+('medium_blonde', '#'),
+('dark_blond', '#'),
+('light_brown', '#'),
+('medium_brown', '#'),
+('dark_brown', '#'),
+('black/brown', '#'), 
+('dark_black/brown', '#'),
+('black', '#');
+
 INSERT INTO hair_project_db.face_shapes(`shape_name`)
 VALUES
-    ('heart_shaped'), ('square'), ('rectangular'), ('diamond'), ('triangular'), ('inverted_triangular'), ('round'), ('oval'), ('oblong')
-;
+('heart'),
+('square'),
+('rectangular'),
+('diamond'), 
+('triangular'),
+('inverted_triangular'),
+('round'),
+('oval'),
+('oblong');
 
--- Seed skin_tones table as described by the client
-INSERT INTO hair_project_db.skin_tones(`skin_tone_name`)
+INSERT INTO  hair_project_db.skin_tones(`skin_tone_name`)
 VALUES
-    ('very_fair'), ('fair'), ('olive'), ('light_brown'), ('brown'), ('dark_brown'), ('black_brown')
-;
+('fair'),
+('olive'),
+('light_brown'),
+('brown'),
+('dark_brown'),
+('black_brown');
+ 
+INSERT INTO  hair_project_db.hair_styles(`hair_style_name`)
+VALUES 
+('bob cut'),
+('layered'),
+('bangs'),
+('pixie cut');
 
+INSERT INTO  hair_project_db.hair_lengths(`hair_length_name`)
+VALUES 
+('forme_massive'),
+('forme_degradee'),
+('forme_progressive'),
+('forme_uniforme');
+
+INSERT INTO hair_project_db.user_features(`user_id`, `face_shape_id`, `skin_tone_id`, `hair_style_id`, `hair_length_id`, `hair_colour_id`)
+VALUES
+('1', '1', '1', '1', '1', '1');
+
+INSERT INTO hair_project_db.face_shape_links(`face_shape_id`, `link_name`, `link_url`)
+VALUES 
+(1, 'heart', 'linkUrl'),
+(2, 'square', 'linkUrl'),
+(3, 'rectangular', 'linkUrl'),
+(4, 'diamond', 'linkUrl'),
+(5, 'triangular', 'linkUrl'),
+(6, 'inverted_triangular', 'linkUrl');
+
+INSERT INTO hair_project_db.hair_style_links(`hair_style_id`, `link_name`, `link_url`)
+VALUES 
+(1, 'bob cut', 'linkUrl'),
+(2, 'layered', 'linkUrl'),
+(3, 'bangs', 'linkUrl'),
+(4, 'pixie', 'linkUrl');
+
+INSERT INTO hair_project_db.hair_length_links(`hair_length_id`, `link_name`, `link_url`)
+VALUES
+(1, 'forme_massive', 'linkUrl'),
+(2, 'forme_degradee', 'linkUrl'),
+(3, 'forme_progressive', 'linkUrl'),
+(4, 'forme_uniforme', 'linkUrl');
+
+INSERT INTO hair_project_db.skin_tone_links(`skin_tone_id`, `link_name`, `link_url`)
+VALUES
+(1, 'fair', 'linkUrl'),
+(2, 'olive', 'linkUrl'),
+(3, 'light_brown', 'linkUrl'),
+(4, 'brown', 'linkUrl'),
+(5, 'dark_brown', 'linkUrl'),
+(6, 'black_brown', 'linkUrl');
 
 
 -- TODO
--- Create skin_tone_colour_id on SKIN_TONES table and link it co COLOURS table
--- Seed tables
+-- waiting for client to supply example images and more information abot hair styles needed to add to links table
