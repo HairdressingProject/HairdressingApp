@@ -26,15 +26,17 @@
     color: #0C1853;
 }
 
-.test {
+.data-table {
     position: relative;
     background-color: red;
-    width: 200px;
+
+    & .rdt_Table {
+        min-width: 500px;
+    }
 
     & header {
         position: relative;
-        min-width: 100%;
+        min-width: 500px;
         background-color: blue;
     }
-   
 }

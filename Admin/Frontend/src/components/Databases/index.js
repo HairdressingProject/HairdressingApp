@@ -330,7 +330,7 @@ export const Databases = () => {
                     columns={db_tables_columns}
                     data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
                     onSort={handleSort}
-                    className={classes["test"]}
+                    className={classes["data-table"]}
                     sortServer
                     progressPending={loading}
                     persistTableHead
