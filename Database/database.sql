@@ -9,7 +9,7 @@ CREATE USER IF NOT EXISTS 'dev_admin'@'localhost' IDENTIFIED BY 'administrator';
 GRANT ALL PRIVILEGES ON hair_project_db.* TO 'dev_admin'@'localhost';
 FLUSH PRIVILEGES;
 
--- Log out then login with the admin user
+-- Log out as root then login as the admin user:
 -- exit
 -- mysql -u dev_admin -p
 
