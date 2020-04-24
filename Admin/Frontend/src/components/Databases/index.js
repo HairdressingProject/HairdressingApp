@@ -12,28 +12,38 @@ import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
-import { FormWithValidation } from '../Forms/FormWithValidation';
+
 import { AddFaceShapesForm } from './AddEntry/FaceShapes';
 import { EditFaceShapesForm } from './EditEntry/FaceShapes';
 
+import { AddUsersForm } from './AddEntry/Users';
+import { EditUsersForm } from './EditEntry/Users';
+
 export const Databases = () => 
     {
+
+        // *************************** Users Setup
+        // Add Modal Setup
+        const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
+        const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+
+        const showAddUserModal = status => {
+            setAddUserModalOpen(status);
+        }
+
+        const showEditUserModal = status => {
+            setEditUserModalOpen(status);
+        }
+
+        const [showUsersTable, setShowUsersTable] = React.useState(false);
+
+
+        // **************************** end of Users Setup
+
+
+
         // *************************** Face Shapes Setup
         // Add Modal Setup
-        const addFaceShapeRevealStyle = {
-            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
-        };
-
-        const editFaceShapeRevealStyle = {
-            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
-        };
 
         const [isAddModalOpen, setAddModalOpen] = useState(false);
 
@@ -109,7 +119,10 @@ export const Databases = () =>
 
 
 
-
+// Modal Set Up
+        const revealStyle = {
+            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+        };
 
 
 // DataTable settings
@@ -193,7 +206,6 @@ export const Databases = () =>
         // Initialize state variables 
         const [DBTables, setDBTables] = useState([]);
         
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
         const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
         const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
         const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
@@ -225,14 +237,43 @@ export const Databases = () =>
                 </div>
 
                 
-                    {/* Users table */}
+                {/* Users ********************************************** */}
 
                     { showUsersTable ?
-                    <div className="selected-table-container">
-                    <UsersTable/>
-                    </div>
+                    <UsersTable
+                        setAddUserModalOpen={showAddUserModal}
+                        setEditUserModalOpen={showEditUserModal}
+                        
+                    />
                     :
-                    null}
+                    null
+                    }
+
+                    <Modal
+                        open={isAddUserModalOpen}
+                        closeModal={setAddUserModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        <AddUsersForm/>
+
+                    </Modal>
+
+                    <Modal
+                        open={isEditUserModalOpen}
+                        closeModal={setEditUserModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        <EditUsersForm/>
+                        
+                    </Modal>
+
+                {/* end of Users ********************************************** */}
                 
 
                 
@@ -280,7 +321,7 @@ export const Databases = () =>
                     closeModal={setAddModalOpen}
                     isModal={true}
                     size="full"
-                    revealStyle={addFaceShapeRevealStyle}
+                    revealStyle={revealStyle}
                 >
 
                     <AddFaceShapesForm/>
@@ -292,7 +333,7 @@ export const Databases = () =>
                     closeModal={setEditModalOpen}
                     isModal={true}
                     size="full"
-                    revealStyle={editFaceShapeRevealStyle}
+                    revealStyle={revealStyle}
                 >
 
                     <EditFaceShapesForm/>
