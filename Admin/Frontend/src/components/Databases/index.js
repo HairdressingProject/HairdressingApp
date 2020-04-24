@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react';
-import './Databases.scss';
+import React, { useState, useEffect } from 'react';
+import classes from './Databases.module.scss';
 import axios from 'axios';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
@@ -22,442 +22,442 @@ import { EditUsersForm } from './EditEntry/Users';
 import { AddEntry } from './AddEntry';
 import { EditEntry } from './EditEntry';
 
-export const Databases = () => 
-    {
+export const Databases = () => {
 
-        // *************************** Users Setup
-        // Add Modal Setup
-        const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
-        const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
-        const [objectToEdit, setObjectToEdit] = useState([]);
+    // *************************** Users Setup
+    // Add Modal Setup
+    const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
+    const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+    const [objectToEdit, setObjectToEdit] = useState([]);
 
-        const showAddUserModal = status => {
-            setAddUserModalOpen(status);
-        }
+    const showAddUserModal = status => {
+        setAddUserModalOpen(status);
+    }
 
-        const showEditUserModal = status => {
-            setEditUserModalOpen(status);
-        }
+    const showEditUserModal = status => {
+        setEditUserModalOpen(status);
+    }
 
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
-
+    const [showUsersTable, setShowUsersTable] = React.useState(false);
 
 
-        const initialFormFields = [
-            {
-                label: 'User Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                validation: [
-                    {
-                        error: false,
-                        errorMessage: 'This field is required',
-                        check: (input) => {
-                            return !input || !input.trim();
-                        }
+
+    const initialFormFields = [
+        {
+            label: 'User Name',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            validation: [
+                {
+                    error: false,
+                    errorMessage: 'This field is required',
+                    check: (input) => {
+                        return !input || !input.trim();
                     }
-                ]
-            },
-            {
-                label: 'User Email',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'User Password',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'First Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'Last Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'User Role',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-        ];
+                }
+            ]
+        },
+        {
+            label: 'User Email',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            // validation: [
+            //     {
+            //         error: false,
+            //         errorMessage: 'This field is required',
+            //         check: (input) => {
+            //             return !input || !input.trim();
+            //         }
+            //     }
+            //]
+        },
+        {
+            label: 'User Password',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            // validation: [
+            //     {
+            //         error: false,
+            //         errorMessage: 'This field is required',
+            //         check: (input) => {
+            //             return !input || !input.trim();
+            //         }
+            //     }
+            //]
+        },
+        {
+            label: 'First Name',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            // validation: [
+            //     {
+            //         error: false,
+            //         errorMessage: 'This field is required',
+            //         check: (input) => {
+            //             return !input || !input.trim();
+            //         }
+            //     }
+            //]
+        },
+        {
+            label: 'Last Name',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            // validation: [
+            //     {
+            //         error: false,
+            //         errorMessage: 'This field is required',
+            //         check: (input) => {
+            //             return !input || !input.trim();
+            //         }
+            //     }
+            //]
+        },
+        {
+            label: 'User Role',
+            input: '',
+            type: 'text',
+            touched: false,
+            required: true,
+            // validation: [
+            //     {
+            //         error: false,
+            //         errorMessage: 'This field is required',
+            //         check: (input) => {
+            //             return !input || !input.trim();
+            //         }
+            //     }
+            //]
+        },
+    ];
 
 
-        // **************************** end of Users Setup
+    // **************************** end of Users Setup
 
 
 
-        // *************************** Face Shapes Setup
-        // Add Modal Setup
+    // *************************** Face Shapes Setup
+    // Add Modal Setup
 
-        const [isAddModalOpen, setAddModalOpen] = useState(false);
+    const [isAddModalOpen, setAddModalOpen] = useState(false);
 
-        const showAddModal = status => {
-            setAddModalOpen(status);
+    const showAddModal = status => {
+        setAddModalOpen(status);
+    }
+
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
+
+    const showEditModal = status => {
+        setEditModalOpen(status);
+    }
+
+    const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+
+    // *************************** End of Face Shapes Setup
+
+    const db_tables_columns = [
+        {
+            name: 'Table Id',
+            selector: 'tableId',
+            sortable: true,
+        },
+        {
+            name: 'Table Name',
+            selector: 'tableName',
+            sortable: true,
+        },
+        {
+            name: 'Created',
+            selector: 'created',
+            sortable: true,
+        },
+        {
+            name: 'Last Update',
+            selector: 'updated',
+            sortable: true,
+        },
+    ];
+
+    const db_tables_rows = [
+        {
+            tableId: 0,
+            tableName: "Users",
+            created: "20/03/2020",
+            updated: "28/03/2020"
+        },
+        {
+            tableId: 1,
+            tableName: "User Features",
+            created: "20/03/2020",
+            updated: "22/03/2020"
+        },
+        {
+            tableId: 2,
+            tableName: "Skin Tones",
+            created: "20/03/2020",
+            updated: "21/03/2020"
+        },
+        {
+            tableId: 3,
+            tableName: "Face Shapes",
+            created: "20/03/2020",
+            updated: "21/03/2020"
+        },
+        {
+            tableId: 4,
+            tableName: "Hair Lengths",
+            created: "20/03/2020",
+            updated: "21/03/2020"
+        },
+    ];
+
+
+
+    // Modal Set Up
+    const revealStyle = {
+        'backgroundColor': 'rgba(12, 24, 83, 0.62)'
+    };
+
+
+    // DataTable settings
+    const [loading, setLoading] = useState(false);
+
+    // Logic to handle tabel sorting
+    const handleSort = (column, sortDirection) => {
+        // simulate server sort
+        setLoading(true);
+
+        // instead of setTimeout this is where you would handle your API call.
+        setTimeout(() => {
+            setDBTables(orderBy(DBTables, column.selector, sortDirection));
+
+            setLoading(false);
+        }, 100);
+    };
+
+    // Logic to handle selected row
+    var tablesI = [0, 0, 0, 0, 0];
+
+    const handleChange = (row) => {
+        var tablesToShow = row.selectedRows;
+
+
+        console.log("Selected tables: ");
+        console.log(tablesToShow);
+
+        // setSelectedTables(row.SelectedRows);
+
+        if (tablesToShow.length > 0) {
+            tablesToShow.map((item, index) => {
+                console.log(item.tableId);
+                tablesI[item.tableId] = 1;
+            });
+        } else {
+            tablesI = [0, 0, 0, 0, 0]
         }
 
-        const [isEditModalOpen, setEditModalOpen] = useState(false);
+        console.log('tablesI[0]: ', tablesI[0]);
+        console.log('tablesI[1]: ', tablesI[1]);
+        console.log('tablesI[2]: ', tablesI[2]);
+        console.log('tablesI[3]: ', tablesI[3]);
 
-        const showEditModal = status => {
-            setEditModalOpen(status);
-        }
-
-        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
-
-        // *************************** End of Face Shapes Setup
-
-        const db_tables_columns = [
-            {
-                name: 'Table Id',
-                selector: 'tableId',
-                sortable: true,
-            },
-            {
-                name: 'Table Name',
-                selector: 'tableName',
-                sortable: true,
-            },
-            {
-                name: 'Created',
-                selector: 'created',
-                sortable: true,
-            },
-            {
-                name: 'Last Update',
-                selector: 'updated',
-                sortable: true,
-            },
-        ];
-
-        const db_tables_rows = [
-            {
-                tableId: 0,
-                tableName: "Users",
-                created: "20/03/2020",
-                updated: "28/03/2020"
-            },
-            {
-                tableId: 1,
-                tableName: "User Features",
-                created: "20/03/2020",
-                updated: "22/03/2020"
-            },
-            {
-                tableId: 2,
-                tableName: "Skin Tones",
-                created: "20/03/2020",
-                updated: "21/03/2020"
-            },
-            {
-                tableId: 3,
-                tableName: "Face Shapes",
-                created: "20/03/2020",
-                updated: "21/03/2020"
-            },
-            {
-                tableId: 4,
-                tableName: "Hair Lengths",
-                created: "20/03/2020",
-                updated: "21/03/2020"
-            },
-        ];
-
-
-
-// Modal Set Up
-        const revealStyle = {
-            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
-        };
-
-
-// DataTable settings
-        const [loading, setLoading] = useState(false);
-
-        // Logic to handle tabel sorting
-        const handleSort = (column, sortDirection) => {
-            // simulate server sort
-            setLoading(true);
-                    
-            // instead of setTimeout this is where you would handle your API call.
-            setTimeout(() => {
-              setDBTables(orderBy(DBTables, column.selector, sortDirection));
-
-              setLoading(false);
-            }, 100);
-          };
-
-        // Logic to handle selected row
-        var tablesI = [0,0,0,0,0];
-
-          const handleChange = (row) => {
-            var tablesToShow = row.selectedRows;
-            
-            
-            console.log("Selected tables: ");
-            console.log(tablesToShow);
-
-            // setSelectedTables(row.SelectedRows);
-
-            if (tablesToShow.length > 0) {
-                tablesToShow.map((item, index) => {
-                    console.log(item.tableId);
-                    tablesI[item.tableId] = 1;
-                });
-            } else{
-                tablesI=[0,0,0,0,0]
-            }
-
-            console.log('tablesI[0]: ', tablesI[0]);
-            console.log('tablesI[1]: ', tablesI[1]);
-            console.log('tablesI[2]: ', tablesI[2]);
-            console.log('tablesI[3]: ', tablesI[3]);
-
-            if (tablesI.length > 0) {
-                if (tablesI[0] === 0) {
-                    setShowUsersTable(false);
-                } else {
-                    setShowUsersTable(true);
-                };
-    
-                if (tablesI[1] === 0) {
-                    setShowUserFeaturesTable(false);
-                } else {
-                    setShowUserFeaturesTable(true);
-                };  
-
-                if (tablesI[2] === 0) {
-                    setShowSkinTonesTable(false);
-                } else {
-                    setShowSkinTonesTable(true);
-                };
-
-                if (tablesI[3] === 0) {
-                    setShowFaceShapesTable(false);
-                } else {
-                    setShowFaceShapesTable(true);
-                };  
-
-                if (tablesI[4] === 0) {
-                    setShowHairLengthsTable(false);
-                } else {
-                    setShowHairLengthsTable(true);
-                };  
-            }
+        if (tablesI.length > 0) {
+            if (tablesI[0] === 0) {
+                setShowUsersTable(false);
+            } else {
+                setShowUsersTable(true);
             };
 
-          
-// End of DataTable settings
+            if (tablesI[1] === 0) {
+                setShowUserFeaturesTable(false);
+            } else {
+                setShowUserFeaturesTable(true);
+            };
 
-        // Initialize state variables 
-        const [DBTables, setDBTables] = useState([]);
-        
-        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
-        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
+            if (tablesI[2] === 0) {
+                setShowSkinTonesTable(false);
+            } else {
+                setShowSkinTonesTable(true);
+            };
 
-        useEffect(() => {
+            if (tablesI[3] === 0) {
+                setShowFaceShapesTable(false);
+            } else {
+                setShowFaceShapesTable(true);
+            };
 
-            setDBTables(db_tables_rows);
+            if (tablesI[4] === 0) {
+                setShowHairLengthsTable(false);
+            } else {
+                setShowHairLengthsTable(true);
+            };
+        }
+    };
 
-        }, []);
 
-        return(
-            <div>
-                databases
-                {/* Table that shows all tables on the database */}
-                <div className="db-table-container">
-                    <DataTable
-                        title="hairdress_db Tables"
-                        columns={db_tables_columns}
-                        data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
-                        onSort={handleSort}
-                        sortServer
-                        progressPending={loading}
-                        persistTableHead
-                        highlightOnHover
-                        selectableRows
-                        selectableRowsHighlight
-                        onSelectedRowsChange={handleChange}
-                    />
-                </div>
+    // End of DataTable settings
 
-                
-                {/* Users ********************************************** */}
+    // Initialize state variables 
+    const [DBTables, setDBTables] = useState([]);
 
-                    { showUsersTable ?
-                    <UsersTable
-                        setAddUserModalOpen={showAddUserModal}
-                        setEditUserModalOpen={showEditUserModal}
-                        
-                    />
-                    :
-                    null
-                    }
+    const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
+    const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
+    const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
-                    <Modal
-                        open={isAddUserModalOpen}
-                        closeModal={setAddUserModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
+    useEffect(() => {
 
-                        {/* <AddUsersForm/> */}
-                        <AddEntry
-                            title="Users"
-                            initialFormFields={initialFormFields}
-                        />
+        setDBTables(db_tables_rows);
 
-                    </Modal>
+    }, []);
 
-                    <Modal
-                        open={isEditUserModalOpen}
-                        closeModal={setEditUserModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
-
-                        {/* <EditUsersForm/> */}
-                        <EditEntry
-                            title="Users"
-                            initialFormFields={initialFormFields}
-                            
-                        />
-                        
-                    </Modal>
-
-                {/* end of Users ********************************************** */}
-                
-
-                
-                { showUserFeaturesTable ?
-                    <div className="selected-table-container">
-                    <UserFeaturesTable/>
-                    </div>
-                    :
-                    null}
-                
-
-                
-                { showSkinTonesTable ?
-                    <div className="selected-table-container">
-                    <SkinTonesTable/>
-                    </div>
-                    :
-                    null}
-                
-
-                
-
-                
-
-                { showHairLengthsTable ?
-                    <div className="selected-table-container">
-                    <HairLengthsTable/>
-                    </div>
-                    :
-                    null}
-
-                {/* FaceShapes **************************************** */}
-
-                { showFaceShapesTable ?
-                    <FaceShapesTable
-                        setAddModalOpen={showAddModal}
-                        setEditModalOpen={showEditModal}
-                    />
-                    :
-                    null
-                }
-
-                <Modal
-                    open={isAddModalOpen}
-                    closeModal={setAddModalOpen}
-                    isModal={true}
-                    size="full"
-                    revealStyle={revealStyle}
-                >
-
-                    <AddFaceShapesForm/>
-
-                </Modal>
-
-                <Modal
-                    open={isEditModalOpen}
-                    closeModal={setEditModalOpen}
-                    isModal={true}
-                    size="full"
-                    revealStyle={revealStyle}
-                >
-
-                    <EditFaceShapesForm/>
-                    
-                </Modal>
-
-                {/* end of FaceShapes ******************************** */}
-
-                
+    return (
+        <div>
+            databases
+            {/* Table that shows all tables on the database */}
+            <div className={classes["db-table-container"]}>
+                <DataTable
+                    title="hairdress_db Tables"
+                    columns={db_tables_columns}
+                    data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
+                    onSort={handleSort}
+                    className={classes["test"]}
+                    sortServer
+                    progressPending={loading}
+                    persistTableHead
+                    highlightOnHover
+                    selectableRows
+                    selectableRowsHighlight
+                    onSelectedRowsChange={handleChange}
+                />
             </div>
-        )
+
+
+            {/* Users ********************************************** */}
+
+            {showUsersTable ?
+                <UsersTable
+                    setAddUserModalOpen={showAddUserModal}
+                    setEditUserModalOpen={showEditUserModal}
+
+                />
+                :
+                null
+            }
+
+            <Modal
+                open={isAddUserModalOpen}
+                closeModal={setAddUserModalOpen}
+                isModal={true}
+                size="full"
+                revealStyle={revealStyle}
+            >
+
+                {/* <AddUsersForm/> */}
+                <AddEntry
+                    title="Users"
+                    initialFormFields={initialFormFields}
+                />
+
+            </Modal>
+
+            <Modal
+                open={isEditUserModalOpen}
+                closeModal={setEditUserModalOpen}
+                isModal={true}
+                size="full"
+                revealStyle={revealStyle}
+            >
+
+                {/* <EditUsersForm/> */}
+                <EditEntry
+                    title="Users"
+                    initialFormFields={initialFormFields}
+
+                />
+
+            </Modal>
+
+            {/* end of Users ********************************************** */}
+
+
+
+            {showUserFeaturesTable ?
+                <div className={classes["selected-table-container"]}>
+                    <UserFeaturesTable />
+                </div>
+                :
+                null}
+
+
+
+            {showSkinTonesTable ?
+                <div className={classes["selected-table-container"]}>
+                    <SkinTonesTable />
+                </div>
+                :
+                null}
+
+
+
+
+
+
+            {showHairLengthsTable ?
+                <div className={classes["selected-table-container"]}>
+                    <HairLengthsTable />
+                </div>
+                :
+                null}
+
+            {/* FaceShapes **************************************** */}
+
+            {showFaceShapesTable ?
+                <FaceShapesTable
+                    setAddModalOpen={showAddModal}
+                    setEditModalOpen={showEditModal}
+                />
+                :
+                null
+            }
+
+            <Modal
+                open={isAddModalOpen}
+                closeModal={setAddModalOpen}
+                isModal={true}
+                size="full"
+                revealStyle={revealStyle}
+            >
+
+                <AddFaceShapesForm />
+
+            </Modal>
+
+            <Modal
+                open={isEditModalOpen}
+                closeModal={setEditModalOpen}
+                isModal={true}
+                size="full"
+                revealStyle={revealStyle}
+            >
+
+                <EditFaceShapesForm />
+
+            </Modal>
+
+            {/* end of FaceShapes ******************************** */}
+
+
+        </div>
+    )
 
 };

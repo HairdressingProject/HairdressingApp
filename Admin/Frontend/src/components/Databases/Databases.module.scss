@@ -1,16 +1,15 @@
 .db-table-container {
+    position: relative;
+    width: 100%;
+    overflow-x: visible;
     border: 1px solid rgba(255, 0, 0, 0.336);
-    margin: 2rem;
+    margin: 2rem 0;
 }
 
 .selected-table-container {
     border: 1px solid rgba(11, 108, 165, 0.466);
     margin: 2rem;
 
-}
-
-.rdt_TableHeader {
-    text-align: right;
 }
 
 .add-form-container {
@@ -25,4 +24,17 @@
     margin: 1.5rem;
     padding: 1.5rem;
     color: #0C1853;
+}
+
+.test {
+    position: relative;
+    background-color: red;
+    width: 200px;
+
+    & header {
+        position: relative;
+        min-width: 100%;
+        background-color: blue;
+    }
+   
 }
