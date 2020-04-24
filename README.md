@@ -35,6 +35,34 @@ After you have committed the first few changes changes in your local repository,
 
 > The `-u` flag sets your local branch to track the remote one (`origin/[your branch's name]`)
 
+### Database setup (without Laragon)
+If you do not have Laragon installed or wish to get the database up and running without using it, head to [MySQL Community Download](https://dev.mysql.com/downloads/installer/ "Download MySQL installer") and download MySQL (choose any option, the first one requires internet connection when you install MySQL). 
+
+This [tutorial](https://mysql.tutorials24x7.com/blog/how-to-install-mysql-8-on-windows "How To Install MySQL 8 on Windows") might help if you are on Windows.
+
+#### Creating and seeding the database
+After downloading and installing MySQL, run `mysql -u root` in your terminal and follow the steps as described in the [database.sql](https://github.com/HairdressingProject/HairdressingApp/blob/master/Database/database.sql "Hairdressing Project database") file.
+
+__NOTE__: Do **not** copy and paste the entire file into your terminal, do it step by step.
+
+#### Running the API server
+In your terminal, move to the `Admin/Backend/AdminApi` directory and run: 
+
+`dotnet run`
+
+> Take note of the URL / port number that your server is running on, should be either 5000 for the HTTP protocol or 5001 for HTTPS.
+
+Now you should be ready to connect to the backend.
+
+#### Testing backend connection
+I recommend using [Postman](https://www.postman.com/ "Postman") for this step. After you download and install it, simply type the URL of the route that you wish to test (e.g. `https://localhost:5001/api/users`) along with the method (`GET` by default) and hit "Send":
+
+![Postman setup][Postman]
+
+[Postman]: https://i.imgur.com/ZbbH4cL.png "Postman setup"
+
+If you got a JSON response like the one in the picture, you're good to go.
+
 If you had any issues along the way, see the FAQ below.
 
 ## FAQ
