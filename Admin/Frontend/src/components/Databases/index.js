@@ -22,6 +22,8 @@ import { EditUsersForm } from './EditEntry/Users';
 import { AddEntry } from './AddEntry';
 import { EditEntry } from './EditEntry';
 
+import * as FormFields from '../Forms/FormFields';
+
 export const Databases = () => 
     {
 
@@ -42,105 +44,6 @@ export const Databases = () =>
         const [showUsersTable, setShowUsersTable] = React.useState(false);
 
 
-
-        const initialFormFields = [
-            {
-                label: 'User Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                validation: [
-                    {
-                        error: false,
-                        errorMessage: 'This field is required',
-                        check: (input) => {
-                            return !input || !input.trim();
-                        }
-                    }
-                ]
-            },
-            {
-                label: 'User Email',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'User Password',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'First Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'Last Name',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-            {
-                label: 'User Role',
-                input: '',
-                type: 'text',
-                touched: false,
-                required: true,
-                // validation: [
-                //     {
-                //         error: false,
-                //         errorMessage: 'This field is required',
-                //         check: (input) => {
-                //             return !input || !input.trim();
-                //         }
-                //     }
-                //]
-            },
-        ];
 
 
         // **************************** end of Users Setup
@@ -365,7 +268,7 @@ export const Databases = () =>
                         {/* <AddUsersForm/> */}
                         <AddEntry
                             title="Users"
-                            initialFormFields={initialFormFields}
+                            initialFormFields={FormFields.userInitialFields}
                         />
 
                     </Modal>
@@ -381,7 +284,7 @@ export const Databases = () =>
                         {/* <EditUsersForm/> */}
                         <EditEntry
                             title="Users"
-                            initialFormFields={initialFormFields}
+                            initialFormFields={FormFields.userInitialFields}
                             
                         />
                         
@@ -438,7 +341,11 @@ export const Databases = () =>
                     revealStyle={revealStyle}
                 >
 
-                    <AddFaceShapesForm/>
+                    {/* <AddFaceShapesForm/> */}
+                    <AddEntry
+                            title="Face Shapes"
+                            initialFormFields={FormFields.faceShapesAddInitialFormFields}
+                        />
 
                 </Modal>
 
@@ -450,7 +357,11 @@ export const Databases = () =>
                     revealStyle={revealStyle}
                 >
 
-                    <EditFaceShapesForm/>
+                    {/* <EditFaceShapesForm/> */}
+                    <EditEntry
+                        title="Face Shapes"
+                        initialFormFields={FormFields.faceShapesEditInitialFormFields}
+                    />
                     
                 </Modal>
 
