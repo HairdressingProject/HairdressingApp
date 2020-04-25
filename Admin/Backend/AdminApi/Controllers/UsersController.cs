@@ -9,6 +9,8 @@ using AdminApi.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
+using AdminApi.Entities;
+using AdminApi.Helpers;
 
 namespace AdminApi.Controllers
 {
@@ -32,16 +34,16 @@ namespace AdminApi.Controllers
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
             var mappedUsers = await MapFeaturesToUsers();
-            var mappedUsersWithoutPassword = mappedUsers.Select(u => u.UserPassword = null);
+            var mappedUsersWithoutPasswords = mappedUsers.WithoutPasswords();
 
-            return Ok(mappedUsersWithoutPassword);
+            return Ok(mappedUsersWithoutPasswords);
 
             // return await _context.Users.ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(ulong id)
+        public async Task<ActionResult<Users>> GetUser(ulong id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -52,7 +54,7 @@ namespace AdminApi.Controllers
             else
             {
                 var mappedUser = await MapFeaturesToUsers(user);
-                return Ok(user);
+                return Ok(mappedUser);
             }
 
             // return users;
@@ -147,8 +149,8 @@ namespace AdminApi.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [AllowAnonymous]
         [EnableCors("Policy1")]
-        [HttpPost]
-        public async Task<IActionResult> PostUsers(Users users)
+        [HttpPost("sign_up")]
+        public async Task<IActionResult> SignUp(Users users)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == users.Id);
 
@@ -162,7 +164,7 @@ namespace AdminApi.Controllers
                 var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
 
                 // Send back newly created user with token
-                return Ok(authenticatedUser);
+                return CreatedAtAction(nameof(GetUser), new { authenticatedUser.Id }, authenticatedUser);
             }
 
             // Existing user, return 409 (Conflict)
@@ -170,6 +172,28 @@ namespace AdminApi.Controllers
             return Conflict(new { error = "User already registered" });
 
             // return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+        }
+
+        [AllowAnonymous]
+        [EnableCors("Policy1")]
+        [HttpPost("sign_in")]
+        public async Task<IActionResult> SignIn([FromBody] AuthenticateUserModel user)
+        {
+            // Authenticate user
+            var authenticatedUser = await _userService.Authenticate(user.UserName, user.UserPassword);
+
+            if (authenticatedUser == null)
+            {
+                // User isn't registered
+                return Unauthorized(new { error = "Invalid username and/or password" });
+            }
+
+            // Return JSON response with token
+            var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+            var mappedExistingUser = await MapFeaturesToUsers(existingUser);
+            authenticatedUser.BaseUser = mappedExistingUser;
+
+            return Ok(authenticatedUser);
         }
 
         // DELETE: api/Users/5

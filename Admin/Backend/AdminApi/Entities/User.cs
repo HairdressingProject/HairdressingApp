@@ -11,10 +11,13 @@ namespace AdminApi.Entities
         // This property stores the token needed for authentication
         public string Token { get; set; }
 
-        public User(ulong id, string token = null)
+        public Users BaseUser { get; set; }
+
+        public User(ulong id, string token = null, Users baseUser = null)
         {
             Id = id;
             Token = token;
+            BaseUser = baseUser;
         }
     }
 }
