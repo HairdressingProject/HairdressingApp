@@ -41,26 +41,14 @@ namespace AdminApi.Services
                 return null;
 
             // authentication successful so generate jwt token
-            var entityUser = new User(
-                                        user.Id,
-                                        user.UserName,
-                                        user.UserPassword,
-                                        user.UserEmail,
-                                        user.FirstName,
-                                        user.LastName,
-                                        user.UserRole,
-                                        user.DateCreated,
-                                        user.DateModified,
-                                        user.UserFeatures
-                                    );
-
+            var entityUser = new User(user.Id);
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, entityUser.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -68,7 +56,7 @@ namespace AdminApi.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             entityUser.Token = tokenHandler.WriteToken(token);
 
-            return entityUser.WithoutPassword();
+            return entityUser;
         }
 
         public async Task<IEnumerable<Users>> GetAll()

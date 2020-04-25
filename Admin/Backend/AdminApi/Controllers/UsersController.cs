@@ -146,11 +146,11 @@ namespace AdminApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [AllowAnonymous]
-        [EnableCors("Policy1")]
+        // [EnableCors("Policy1")]
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(Users users)
+        public async Task<IActionResult> PostUsers(Users users)
         {
-            var user = await _userService.Authenticate(users.UserName, users.UserPassword);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == users.Id);
 
             if (user == null)
             {
@@ -159,7 +159,7 @@ namespace AdminApi.Controllers
                 _context.Users.Add(users);
                 await _context.SaveChangesAsync();
 
-                var authenticatedUser = _userService.Authenticate(users.UserName, users.UserPassword);
+                var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
 
                 // Send back newly created user with token
                 return Ok(authenticatedUser);
