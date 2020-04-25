@@ -89,11 +89,11 @@ export const DBTable = () => {
         // Logic to handle selected row
 
 
-        const [showUsersTable2, setShowUsersTable2] = React.useState(false);
-        const [showFaceShapesTable2, setShowFaceShapesTable2] = React.useState(false);
-        const [showUserFeaturesTable2, setShowUserFeaturesTable2] = React.useState(false);
-        const [showSkinTonesTable2, setShowSkinTonesTable2] = React.useState(false);
-        const [showHairLengthsTable2, setShowHairLengthsTable2] = React.useState(false);        
+        const [showUsersTable, setShowUsersTable] = React.useState(false);
+        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
+        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
+        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);        
 
 
         const [activeTable, setActiveTable] = useState(null);
