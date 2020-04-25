@@ -70,7 +70,7 @@ namespace AdminApi
             );
 
             // CORS Policy
-            /*services.AddCors(options =>
+            services.AddCors(options =>
             {
                 options.AddPolicy("Policy1",
                     builder =>
@@ -78,7 +78,7 @@ namespace AdminApi
                         builder.WithOrigins("https://localhost:3000")
                                 .AllowAnyHeader();
                     });
-            });*/
+            });
 
             services.AddControllers();
         }
