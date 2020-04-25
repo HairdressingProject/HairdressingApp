@@ -141,3 +141,43 @@ export const faceShapesEditInitialFormFields = [
         ]
     },
 ];
+
+export const userFeaturesAddInitialFormFields = [
+    {
+        label: 'Id',
+        input: '',
+        type: 'text',
+        touched: false
+    },
+    {
+        label: 'User Id',
+        input: '',
+        type: 'text',
+        touched: false
+    },
+    {
+        label: 'FaceShape Id',
+        input: '',
+        type: 'text',
+        touched: false
+    },
+    {
+        label: 'Skin Tone Id',
+        input: '',
+        type: 'text',
+        touched: false
+    },
+    {
+        label: 'Hair Style Id',
+        input: '',
+        type: 'text',
+        touched: false
+    },
+    {
+        label: 'Hair Length Id',
+        input: '',
+        type: 'text',
+        touched: false
+    }
+
+];

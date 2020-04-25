@@ -48,7 +48,19 @@ export const Databases = () =>
 
         // **************************** end of Users Setup
 
+        // **************************** Users features Setup
 
+        const [isAddUserFeaturesModalOpen, setAddUserFeaturesModalOpen] = useState(false);
+        const [isEditUserFeaturesModalOpen, setEditUserFeaturesModalOpen] = useState(false);
+
+        const showAddUserFeaturesModal = status => {
+            setAddUserFeaturesModalOpen(status);
+        }
+
+        const showEditUserFeaturesModal = status => {
+            setEditUserFeaturesModalOpen(status);
+        }
+        // **************************** end of Users Setup
 
         // *************************** Face Shapes Setup
         // Add Modal Setup
@@ -294,12 +306,52 @@ export const Databases = () =>
                 
 
                 
+
+                {/* Users Features ********************************************** */}
                 { showUserFeaturesTable ?
                     <div className="selected-table-container">
-                    <UserFeaturesTable/>
+                    <UserFeaturesTable
+                        setAddUserFeaturesModalOpen={showAddUserFeaturesModal}
+                        setEditUserFeaturesModalOpen={showEditUserFeaturesModal}
+                    />
                     </div>
                     :
                     null}
+
+                    <Modal
+                        open={isAddUserFeaturesModalOpen}
+                        closeModal={setAddUserFeaturesModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        {/* <AddUsersForm/> */}
+                        <AddEntry
+                            title="User Features"
+                            initialFormFields={FormFields.userFeaturesAddInitialFormFields}
+                        />
+
+                    </Modal>
+
+                    <Modal
+                        open={isEditUserFeaturesModalOpen}
+                        closeModal={setEditUserFeaturesModalOpen}
+                        isModal={true}
+                        size="full"
+                        revealStyle={revealStyle}
+                    >
+
+                        {/* <EditUsersForm/> */}
+                        <EditEntry
+                            title="User Features"
+                            initialFormFields={FormFields.userFeaturesAddInitialFormFields}
+                            
+                        />
+                        
+                    </Modal>
+
+                {/* end of Users Features ********************************************** */}                    
                 
 
                 
