@@ -7,18 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
+using AdminApi.Services;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private IUserService _userService;
 
-        public UsersController(hair_project_dbContext context)
+        public UsersController(hair_project_dbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: api/Users
@@ -26,10 +31,10 @@ namespace AdminApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
-
             var mappedUsers = await MapFeaturesToUsers();
+            var mappedUsersWithoutPassword = mappedUsers.Select(u => u.UserPassword = null);
 
-            return Ok(mappedUsers);
+            return Ok(mappedUsersWithoutPassword);
 
             // return await _context.Users.ToListAsync();
         }
@@ -140,14 +145,31 @@ namespace AdminApi.Controllers
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(Users users)
         {
-            _context.Users.Add(users);
-            await _context.SaveChangesAsync();
+            var user = await _userService.Authenticate(users.UserName, users.UserPassword);
 
-            return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+            if (user == null)
+            {
+                // New user, add to DB and authenticate
+                // Also, validate/sanitise properties here
+                _context.Users.Add(users);
+                await _context.SaveChangesAsync();
+
+                var authenticatedUser = _userService.Authenticate(users.UserName, users.UserPassword);
+
+                // Send back newly created user with token
+                return Ok(authenticatedUser);
+            }
+
+            // Existing user, return 409 (Conflict)
+            // Alternatively, refresh this user's token
+            return Conflict(new { error = "User already registered" });
+
+            // return CreatedAtAction("GetUsers", new { id = users.Id }, users);
         }
 
         // DELETE: api/Users/5
@@ -170,6 +192,7 @@ namespace AdminApi.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
         private async Task<Users> MapFeaturesToUsers(Users user) 
         {
             // map user features to this user
