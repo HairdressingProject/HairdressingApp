@@ -209,7 +209,7 @@ ENGINE = INNODB;
 
 INSERT INTO hair_project_db.users(`user_name`, `user_password`, `user_email`, `first_name`, `user_role`)
 VALUES
-('admin', '12345', 'admin@mail.com', 'Admin', 'admin');
+('admin', '123456', 'admin@mail.com', 'Admin', 'admin');
 
 INSERT INTO hair_project_db.colours(`colour_name`, `colour_hash`)
 VALUES 
