@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import "./App.scss";
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, Router, useLocation } from 'react-router-dom';
 import { Sidebar } from '../Navigation/Sidebar';
 import { Topbar } from '../Navigation/Topbar';
 import { Dashboard } from '../Dashboard';
@@ -13,10 +13,13 @@ import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
-import {MenuItem} from '../Navigation/Menu/MenuItem';
+import { MenuItem } from '../Navigation/Menu/MenuItem';
 import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
+import { history } from '../../_helpers';
+import { alertActions } from '../../_actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const routes = [
     {
@@ -37,33 +40,49 @@ const routes = [
     },
     {
         path: "/dashboard",
+        auth: true,
         content: () => <Dashboard />
     },
     {
         path: "/my_account",
+        auth: true,
         content: () => <MyAccount />
     },
     {
         path: "/databases",
+        auth: true,
         content: () => <Databases />
     },
     {
         path: "/traffic",
+        auth: true,
         content: () => <Traffic />
     },
     {
         path: "/permissions",
+        auth: true,
         content: () => <Permissions />
     },
     {
         path: "/pictures",
+        auth: true,
         content: () => <Pictures />
     }
 ];
 
-export const App = () => {
+const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
-    
+
+    const alert = useSelector(state => state.alert);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        history.listen((location, action) => {
+            // clear alert on location change
+            dispatch(alertActions.clear());
+        })
+    }, []);
+
     // Modal set up
     const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -123,8 +142,7 @@ export const App = () => {
     const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
     const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
 
-    if (!isSidebarOpen)
-    {
+    if (!isSidebarOpen) {
         sidebarContainerClasses.push('sidebar-container-closed');
         topbarContainerClasses.push('right-container-closed');
     }
@@ -134,23 +152,23 @@ export const App = () => {
     const MainApp = (
         <div className="grid-x">
             <div className={sidebarContainerClasses.join(' ')}>
-                <Sidebar 
-                    isOpen = {isSidebarOpen}
+                <Sidebar
+                    isOpen={isSidebarOpen}
                     setOpen={setSidebarOpen}
                     isMenuOpen={isMenuOpen}
                     setMenuOpen={showMenu}
                     routes={
-                    routes.filter(route => 
+                        routes.filter(route =>
                             route.path.includes('dashboard') ||
                             route.path.includes('databases') ||
                             route.path.includes('traffic') ||
                             route.path.includes('permissions') ||
                             route.path.includes('pictures')
                         )
-                    } 
+                    }
                 />
             </div>
-            
+
             <div className={topbarContainerClasses.join(' ')}>
                 <div className="cell small-auto right-container-topbar">
                     <Topbar />
@@ -217,8 +235,14 @@ export const App = () => {
         location.pathname !== '/forgot_password' &&
         location.pathname !== '/new_password'
     ) {
-        return MainApp;
+        return (
+            MainApp
+        );
     }
 
-    return LandingPages;
+    return (
+        LandingPages
+    );
 }
+
+export { App };

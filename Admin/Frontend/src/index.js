@@ -4,15 +4,27 @@ import './scss/normalise.scss';
 import 'foundation-sites/dist/css/foundation.min.css';
 import './index.css';
 import { App } from './components/App';
-import {BrowserRouter as Router} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import { store, history } from './_helpers';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
 
-ReactDOM.render(
-    <Router>
-      <App />
-    </Router>,
-  document.getElementById('root')
-);
+const render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>,
+    document.getElementById('root')
+  );
+}
+
+render();
+
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./components/App', render);
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -15,8 +15,10 @@ import password from '../../img/icons/password.svg';
 
 import classes from './SignIn.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
+import { connect, useDispatch } from 'react-redux';
+import { userActions } from '../../_actions';
 
-export const SignIn = () => {
+const SignIn = () => {
     const initialFormFields = [
         {
             label: 'Username or email',
@@ -86,6 +88,8 @@ export const SignIn = () => {
         }
     ];
 
+    const dispatch = useDispatch();
+
     return (
         <div className={[classes["signin-container"], "text-center"].join(' ')}>
             <Row>
@@ -111,13 +115,21 @@ export const SignIn = () => {
                             // handle form submission here
                             e.preventDefault();
                             console.log('sign in form submitted');
-                            console.log(isFormValid);
-                            console.dir(formFields);
+
+                            const inputs = {
+                                usernameOrEmail: formFields[0].input,
+                                password: formFields[1].input,
+                                rememberMe: formFields[2].input
+                            };
 
                             if (isFormValid) {
-                                axios
-                                    .get('https://localhost:5001/api/users')
-                                    .then(console.log);
+                                console.log("sign in form submitted");
+
+                                if (inputs.usernameOrEmail && inputs.password) {
+                                    const { usernameOrEmail, password } = inputs;
+
+                                    dispatch(userActions.login(usernameOrEmail, password));
+                                }
                             }
                         }}
                         fields={(
@@ -247,3 +259,14 @@ export const SignIn = () => {
         </div>
     )
 }
+
+function mapStateToProps(state) {
+    const { loggingIn } = state.authentication;
+    return {
+        loggingIn
+    };
+}
+
+const connectedLoginPage = connect(mapStateToProps)(SignIn);
+
+export { connectedLoginPage as SignIn };
