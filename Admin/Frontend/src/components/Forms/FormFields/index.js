@@ -181,3 +181,93 @@ export const userFeaturesAddInitialFormFields = [
     }
 
 ];
+
+export const skinTonesAddInitialFormFields = [
+    {
+        label: 'Skin Tone Name',
+        input: '',
+        type: 'text',
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
+    },
+];
+
+export const skinTonesEditInitialFormFields = [
+    {
+        label: 'Id',
+        input: '',
+        type: 'text',
+        touched: false,
+    },
+    {
+        label: 'Skin Tone Name',
+        input: '',
+        type: 'text',
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
+    },
+];
+
+export const hairLengthsAddInitialFormFields = [
+    {
+        label: 'Hair Length Name',
+        input: '',
+        type: 'text',
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
+    },
+];
+
+
+export const hairLengthsEditInitialFormFields = [
+    {
+        label: 'Id',
+        input: '',
+        type: 'text',
+        touched: false,
+    },
+    {
+        label: 'Hair Length Name',
+        input: '',
+        type: 'text',
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
+    },
+];
+

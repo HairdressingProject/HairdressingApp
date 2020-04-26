@@ -24,13 +24,24 @@ import { EditEntry } from './EditEntry';
 
 import * as FormFields from '../Forms/FormFields';
 
+import { ModalForm } from './ModalForm'
+
 export const Databases = () => 
     {
 
-        // *************************** Users Setup
+
         // Add Modal Setup
         const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
         const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+        const [isAddUserFeaturesModalOpen, setAddUserFeaturesModalOpen] = useState(false);
+        const [isEditUserFeaturesModalOpen, setEditUserFeaturesModalOpen] = useState(false);
+        const [isAddModalOpen, setAddModalOpen] = useState(false); //faceShapes        
+        const [isEditModalOpen, setEditModalOpen] = useState(false); //faceShapes    
+        const [isAddSkinTonesModalOpen, setAddSkinTonesModalOpen] = useState(false);
+        const [isEditSkinTonesModalOpen, setEditSkinTonesModalOpen] = useState(false);
+        const [isAddHairLengthsModalOpen, setAddHairLengthsModalOpen] = useState(false);
+        const [isEditHairLengthsModalOpen, setEditHairLengthsModalOpen] = useState(false);        
+        
         const [objectToEdit, setObjectToEdit] = useState([]);
 
         const showAddUserModal = status => {
@@ -41,43 +52,46 @@ export const Databases = () =>
             setEditUserModalOpen(status);
         }
 
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
-
-
-
-
-        // **************************** end of Users Setup
-
-        // **************************** Users features Setup
-
-        const [isAddUserFeaturesModalOpen, setAddUserFeaturesModalOpen] = useState(false);
-        const [isEditUserFeaturesModalOpen, setEditUserFeaturesModalOpen] = useState(false);
-
         const showAddUserFeaturesModal = status => {
             setAddUserFeaturesModalOpen(status);
         }
 
         const showEditUserFeaturesModal = status => {
             setEditUserFeaturesModalOpen(status);
-        }
-        // **************************** end of Users Setup
-
-        // *************************** Face Shapes Setup
-        // Add Modal Setup
-
-        const [isAddModalOpen, setAddModalOpen] = useState(false);
+        }        
 
         const showAddModal = status => {
-            setAddModalOpen(status);
+            setAddModalOpen(status); //FaceShgapes
         }
 
-        const [isEditModalOpen, setEditModalOpen] = useState(false);
 
         const showEditModal = status => {
-            setEditModalOpen(status);
+            setEditModalOpen(status); //FaceShapes
         }
 
+
+        const showAddSkinTonesModal = status => {
+            setAddSkinTonesModalOpen(status);
+        }
+
+        const showEditSkinTonesModal = status => {
+            setEditSkinTonesModalOpen(status);
+        }        
+
+        const showAddHairLengthsModal = status => {
+            setAddHairLengthsModalOpen(status);
+        }
+
+        const showEditHairLengthsModal = status => {
+            setEditHairLengthsModalOpen(status);
+        }          
+
+        const [showUsersTable, setShowUsersTable] = React.useState(false);
         const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
+        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
+        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
+        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);        
+        
 
         // *************************** End of Face Shapes Setup
 
@@ -225,10 +239,6 @@ export const Databases = () =>
 
         // Initialize state variables 
         const [DBTables, setDBTables] = useState([]);
-        
-        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
-        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);
 
         useEffect(() => {
 
@@ -269,38 +279,13 @@ export const Databases = () =>
                     null
                     }
 
-                    <Modal
-                        open={isAddUserModalOpen}
-                        closeModal={setAddUserModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
-
-                        {/* <AddUsersForm/> */}
-                        <AddEntry
-                            title="Users"
-                            initialFormFields={FormFields.userInitialFields}
-                        />
-
-                    </Modal>
-
-                    <Modal
-                        open={isEditUserModalOpen}
-                        closeModal={setEditUserModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
-
-                        {/* <EditUsersForm/> */}
-                        <EditEntry
-                            title="Users"
-                            initialFormFields={FormFields.userInitialFields}
-                            
-                        />
-                        
-                    </Modal>
+                    <ModalForm
+                        tableSource="Users"
+                        isAddModalOpen={isAddUserModalOpen}
+                        isEditModalOpen={isEditUserModalOpen}
+                        setAddModalOpen={setAddUserModalOpen}
+                        setEditModalOpen={setEditUserModalOpen}
+                    />   
 
                 {/* end of Users ********************************************** */}
                 
@@ -308,71 +293,77 @@ export const Databases = () =>
                 
 
                 {/* Users Features ********************************************** */}
+
                 { showUserFeaturesTable ?
                     <div className="selected-table-container">
-                    <UserFeaturesTable
-                        setAddUserFeaturesModalOpen={showAddUserFeaturesModal}
-                        setEditUserFeaturesModalOpen={showEditUserFeaturesModal}
-                    />
+                        <UserFeaturesTable
+                            setAddUserFeaturesModalOpen={showAddUserFeaturesModal}
+                            setEditUserFeaturesModalOpen={showEditUserFeaturesModal}
+                        />
                     </div>
                     :
-                    null}
+                    null
+                }
 
-                    <Modal
-                        open={isAddUserFeaturesModalOpen}
-                        closeModal={setAddUserFeaturesModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
-
-                        {/* <AddUsersForm/> */}
-                        <AddEntry
-                            title="User Features"
-                            initialFormFields={FormFields.userFeaturesAddInitialFormFields}
-                        />
-
-                    </Modal>
-
-                    <Modal
-                        open={isEditUserFeaturesModalOpen}
-                        closeModal={setEditUserFeaturesModalOpen}
-                        isModal={true}
-                        size="full"
-                        revealStyle={revealStyle}
-                    >
-
-                        {/* <EditUsersForm/> */}
-                        <EditEntry
-                            title="User Features"
-                            initialFormFields={FormFields.userFeaturesAddInitialFormFields}
-                            
-                        />
-                        
-                    </Modal>
+                    <ModalForm
+                        tableSource="User Features"
+                        isAddModalOpen={isAddUserFeaturesModalOpen}
+                        isEditModalOpen={isEditUserFeaturesModalOpen}
+                        setAddModalOpen={setAddUserFeaturesModalOpen}
+                        setEditModalOpen={setEditUserFeaturesModalOpen}
+                    />   
 
                 {/* end of Users Features ********************************************** */}                    
                 
 
                 
+                {/* Skin Tones ********************************************** */}
+                
                 { showSkinTonesTable ?
                     <div className="selected-table-container">
-                    <SkinTonesTable/>
+                    <SkinTonesTable
+                        setAddSkinTonesModalOpen={showAddSkinTonesModal}
+                        setEditSkinTonesModalOpen={showEditSkinTonesModal}                     
+                    />
+                   
                     </div>
                     :
                     null}
+
+                    <ModalForm
+                        tableSource="Skin Tones"
+                        isAddModalOpen={isAddSkinTonesModalOpen}
+                        isEditModalOpen={isEditSkinTonesModalOpen}
+                        setAddModalOpen={setAddSkinTonesModalOpen}
+                        setEditModalOpen={setEditSkinTonesModalOpen}
+                    />   
+
+                {/* End of skin tones ********************************************** */}
                 
 
-                
 
+                {/* Skin Tones ********************************************** */}
                 
 
                 { showHairLengthsTable ?
                     <div className="selected-table-container">
-                    <HairLengthsTable/>
+                    <HairLengthsTable
+                        setAddHairLengthsModalOpen={showAddHairLengthsModal}
+                        setEditHairLengthsModalOpen={showEditHairLengthsModal}                       
+                    />
                     </div>
                     :
                     null}
+
+                    <ModalForm
+                        tableSource="Hair Lengths"
+                        isAddModalOpen={isAddHairLengthsModalOpen}
+                        isEditModalOpen={isEditHairLengthsModalOpen}
+                        setAddModalOpen={setAddHairLengthsModalOpen}
+                        setEditModalOpen={setEditHairLengthsModalOpen}
+                    />                       
+
+
 
                 {/* FaceShapes **************************************** */}
 
@@ -385,37 +376,13 @@ export const Databases = () =>
                     null
                 }
 
-                <Modal
-                    open={isAddModalOpen}
-                    closeModal={setAddModalOpen}
-                    isModal={true}
-                    size="full"
-                    revealStyle={revealStyle}
-                >
-
-                    {/* <AddFaceShapesForm/> */}
-                    <AddEntry
-                            title="Face Shapes"
-                            initialFormFields={FormFields.faceShapesAddInitialFormFields}
-                        />
-
-                </Modal>
-
-                <Modal
-                    open={isEditModalOpen}
-                    closeModal={setEditModalOpen}
-                    isModal={true}
-                    size="full"
-                    revealStyle={revealStyle}
-                >
-
-                    {/* <EditFaceShapesForm/> */}
-                    <EditEntry
-                        title="Face Shapes"
-                        initialFormFields={FormFields.faceShapesEditInitialFormFields}
-                    />
-                    
-                </Modal>
+                <ModalForm
+                    tableSource="Face Shapes"
+                    isAddModalOpen={isAddModalOpen}
+                    isEditModalOpen={isEditModalOpen}
+                    setAddModalOpen={setAddModalOpen}
+                    setEditModalOpen={setEditModalOpen}
+                />                
 
                 {/* end of FaceShapes ******************************** */}
 
