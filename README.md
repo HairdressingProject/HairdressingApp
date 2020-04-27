@@ -93,6 +93,13 @@ After you have committed the first few changes changes in your local repository,
 
 > The `-u` flag sets your local branch to track the remote one (`origin/[your branch's name]`)
 
+Then, to submit those changes to the `master` branch, go to https://github.com/HairdressingProject/HairdressingApp/pulls and open a new pull request. Select your branch from the dropdown on the right to compare it to the `master` branch. Even if there are any merge conflicts, you can still submit it and we can review it later.
+
+![Submitting a PR][PR]
+
+[PR]: https://imgur.com/a/5YoNjUg.png "Submitting a Pull Request"
+
+
 If you had any issues along the way, see the FAQ below.
 
 ## FAQ
