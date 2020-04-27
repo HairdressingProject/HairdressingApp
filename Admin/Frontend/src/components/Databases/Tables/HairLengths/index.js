@@ -3,7 +3,11 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
-export const HairLengthsTable = () => {
+import differenceBy from 'lodash/differenceBy';
+import { Button } from 'react-foundation-components/lib/button';
+import { Row, Column } from 'react-foundation-components/lib/grid';
+
+export const HairLengthsTable = ({setAddHairLengthsModalOpen, setEditHairLengthsModalOpen}) => {
     const columns = [
         {
             name: 'Id',
@@ -32,18 +36,90 @@ export const HairLengthsTable = () => {
         }, 100);
       };
 
-
-      const [selectableRows, setSelectableRows] = React.useState(false);
-      
 // End of DataTable settings
 
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [toggleCleared, setToggleCleared] = React.useState(false);
+    const [toggleEditBtn, setToggleEditBtn] = useState(true);
 
     const [data, setData] = useState([]);
+
+    const handleRowSelected = React.useCallback(state => {
+        setSelectedRows(state.selectedRows);
+        console.log("state.selectedRows: ", state.selectedRows);
+        console.log("selectedRows: ", selectedRows);
+  
+  
+  
+        if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
+            setToggleEditBtn(true);
+            console.log("Should be true")
+        } else {
+            setToggleEditBtn(false);
+            console.log("should be false")
+        }
+        console.log(toggleEditBtn);
+  
+    }, [selectedRows, toggleEditBtn]);
+
+    const actions = <Button key="add" onClick={() => setAddHairLengthsModalOpen(true)}>Add</Button>;
+
+    const contextActions = React.useMemo(() => { //useState() ?
+
+
+        const handleDelete = () => {
+  
+            console.log("handleDelete row: ", selectedRows);
+            // selectedRows.map(item => {
+            //     console.log(item);
+            // })
+  
+            
+            if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.userName)}?`)) {
+            setToggleCleared(!toggleCleared);
+            setData(differenceBy(data, selectedRows, 'id'));
+            // DELETE Method API
+            // ...
+            }
+        };
+  
+        // const handleEdit = () => {
+        //     console.log("handleEdit row: ", selectedRows.length);
+        //     selectedRows.map(item => {
+        //         console.log(item);
+        //     })
+        //     // Show Edit form
+        //     // POST Method API
+        //     // ...
+        // };
+    
+        return (
+            <div>
+                <Row className="table-btn-container">
+                    <Column small={6} className="edit-container">
+                        { toggleEditBtn ? 
+                        <Button key="edit" onClick={() => setEditHairLengthsModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                        :
+                        null}
+                    </Column>
+  
+                    <Column small={6} className="delete-container">
+                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
+                    </Column>
+                
+                </Row>
+                
+            </div>
+            
+        );
+  
+        }, [data, selectedRows, toggleCleared, setEditHairLengthsModalOpen, toggleEditBtn]
+    );
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/HairLengths'
+                'https://localhost:5000/api/HairLengths'
             );
             console.log("Hair Lengths results: ")
             console.log(result.data);
@@ -53,15 +129,28 @@ export const HairLengthsTable = () => {
     }, []);
 
     return (
-        <DataTable
-                    title="Hair Lengths"
-                    columns={columns}
-                    data={data}
-                    onSort={handleSort}
-                    selectableRows={selectableRows}
-                    sortServer
-                    progressPending={loading}
-                    persistTableHead
-                    />
+        <>
+          <DataTable
+            title="Hair Lengths"
+            columns={columns}
+            data={data}
+            onSort={handleSort}
+            selectableRows
+            actions={actions}
+            onSelectedRowsChange={handleRowSelected}
+            contextActions={contextActions}
+            clearSelectedRows={toggleCleared}
+            sortServer
+            progressPending={loading}
+            persistTableHead
+            />
+            <Row className="btn-container">
+              <Column small={12} className="btn-add">
+                  {/* <Button onClick={handleAdd}>Add</Button> */}
+                  {/* <Button onClick={() => setAddModalOpen(true)}>Add</Button> */}
+
+              </Column>
+          </Row>
+        </>
     );
 }

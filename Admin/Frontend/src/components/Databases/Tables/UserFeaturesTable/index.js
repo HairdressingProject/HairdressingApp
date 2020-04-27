@@ -3,8 +3,12 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
-export const UserFeaturesTable = () => {
-    const userFeaturesTableColumns = [
+import differenceBy from 'lodash/differenceBy';
+import { Button } from 'react-foundation-components/lib/button';
+import { Row, Column } from 'react-foundation-components/lib/grid';
+
+export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeaturesModalOpen}) => {
+    const columns = [
         {
             name: 'Id',
             selector: 'id',
@@ -47,48 +51,121 @@ export const UserFeaturesTable = () => {
                 
         // instead of setTimeout this is where you would handle your API call.
         setTimeout(() => {
-          setUserFeaturesData(orderBy(userFeaturesData, column.selector, sortDirection));
+          setData(orderBy(data, column.selector, sortDirection));
           setLoading(false);
         }, 100);
       };
 
-
-      const [selectableRows, setSelectableRows] = React.useState(false);
       
 // End of DataTable settings
 
-    const [userFeaturesData, setUserFeaturesData] = useState([]);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [toggleCleared, setToggleCleared] = React.useState(false);
+    const [toggleEditBtn, setToggleEditBtn] = useState(true);
+
+    const [data, setData] = useState([]);
+
+    const handleRowSelected = React.useCallback(state => {
+        setSelectedRows(state.selectedRows);
+        console.log("state.selectedRows: ", state.selectedRows);
+        console.log("selectedRows: ", selectedRows);
+  
+  
+  
+        if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
+            setToggleEditBtn(true);
+            console.log("Should be true")
+        } else {
+            setToggleEditBtn(false);
+            console.log("should be false")
+        }
+        console.log(toggleEditBtn);
+  
+      }, [selectedRows, toggleEditBtn]);
+
+      const actions = <Button key="add" onClick={() => setAddUserFeaturesModalOpen(true)}>Add</Button>;
+
+
+      const contextActions = React.useMemo(() => { //useState() ?
+
+
+        const handleDelete = () => {
+  
+            // console.log("handleDelete row: ", selectedRows);
+            // selectedRows.map(item => {
+            //     console.log(item);
+            // })
+  
+            
+            if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.id)}?`)) {
+            setToggleCleared(!toggleCleared);
+            setData(differenceBy(data, selectedRows, 'id'));
+            // DELETE Method API
+            // ...
+            }
+        };
+  
+
+    
+        return (
+            <div>
+                <Row className="table-btn-container">
+                    <Column small={6} className="edit-container">
+                        { toggleEditBtn ? 
+                        <Button key="edit" onClick={() => setEditUserFeaturesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                        :
+                        null}
+                    </Column>
+  
+                    <Column small={6} className="delete-container">
+                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
+                    </Column>
+                
+                </Row>
+                
+            </div>
+            
+        );
+  
+        }, [data, selectedRows, toggleCleared, setEditUserFeaturesModalOpen, toggleEditBtn]
+    );
+
+
 
     useEffect(() => {
 
 
-        const fetchUserFeaturesTable = async () => {
+        const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/UserFeatures'
+                'https://localhost:5000/api/UserFeatures'
             );
 
             console.log("User Features Table data:");
             console.log(result.data);
-            setUserFeaturesData(result.data);
+            setData(result.data);
         }
 
 
         
 
-        fetchUserFeaturesTable();
+        fetchData();
 
     }, []);
 
     return (
         <DataTable
-                    title="User Features"
-                    columns={userFeaturesTableColumns}
-                    data={userFeaturesData}
-                    onSort={handleSort}
-                    selectableRows={selectableRows}
-                    sortServer
-                    progressPending={loading}
-                    persistTableHead
-                    />
+            title="User Features"
+            columns={columns}
+            data={data}
+            onSort={handleSort}
+            selectableRows
+            actions={actions}
+            onSelectedRowsChange={handleRowSelected}
+            contextActions={contextActions}
+            clearSelectedRows={toggleCleared}
+            sortServer
+            progressPending={loading}
+            persistTableHead
+            />
     );
 }

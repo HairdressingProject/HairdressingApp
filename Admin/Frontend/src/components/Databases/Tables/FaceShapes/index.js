@@ -38,8 +38,6 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
       };
 
 
-      const [selectableRows, setSelectableRows] = React.useState(false);
-      
 // End of DataTable settings
 
     const [selectedRows, setSelectedRows] = useState([]);
@@ -66,16 +64,16 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
         }
         console.log(toggleEditBtn);
 
-      }, []);
+      }, [selectedRows, toggleEditBtn]);
 
     const actions = <Button key="add" onClick={() => setAddModalOpen(true)}>Add</Button>;
 
-    const handleAdd = () => {
-        // Show add form
-        // POST method
-        console.log("handleAdd");
+    // const handleAdd = () => {
+    //     // Show add form
+    //     // POST method
+    //     console.log("handleAdd");
 
-    };
+    // };
 
     const contextActions = React.useMemo(() => { //useState() ?
 
@@ -93,9 +91,9 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
         const handleDelete = () => {
 
             console.log("handleDelete row: ", selectedRows);
-            selectedRows.map(item => {
-                console.log(item);
-            })
+            // selectedRows.map(item => {
+            //     console.log(item);
+            // })
 
             // state.selectedRows.map(r => console.log("selected rows 2: ", r.id));
             
@@ -107,28 +105,28 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
             }
         };
 
-        const handleEdit = () => {
-            console.log("handleEdit row: ", selectedRows.length);
-            selectedRows.map(item => {
-                console.log(item);
-            })
-            // Show Edit form
-            // POST Method API
-            // ...
-        };
+        // const handleEdit = () => {
+        //     console.log("handleEdit row: ", selectedRows.length);
+        //     selectedRows.map(item => {
+        //         console.log(item);
+        //     })
+        //     // Show Edit form
+        //     // POST Method API
+        //     // ...
+        // };
     
         return (
             <div>
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
+                        <Button key="edit" onClick={() => setEditModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
 
                     <Column small={6} className="delete-container">
-                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }} icon>Delete</Button>
+                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
                     </Column>
                 
                 </Row>
@@ -137,13 +135,13 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
             
         );
 
-        }, [data, selectedRows, toggleCleared]
+        }, [data, selectedRows, toggleCleared, setEditModalOpen, toggleEditBtn]
     );
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/FaceShapes'
+                'https://localhost:5000/api/FaceShapes'
             );
             console.log("Face Shapes results: ")
             console.log(result.data);
@@ -153,7 +151,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
     }, []);
 
     return (
-        <div className="selected-table-container">
+        <>
         <DataTable
             title="Face Shapes"
             columns={columns}
@@ -175,6 +173,6 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
 
                 </Column>
             </Row>
-            </div>
+            </>
     );
 }
