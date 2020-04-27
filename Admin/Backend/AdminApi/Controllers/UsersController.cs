@@ -14,7 +14,7 @@ using AdminApi.Helpers;
 
 namespace AdminApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
