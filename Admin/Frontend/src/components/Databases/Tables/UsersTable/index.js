@@ -159,7 +159,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
 
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/Users'
+                'https://localhost:5000/api/Users'
                 //'https://128.199.233.190:5001/api/Users'
             );
 

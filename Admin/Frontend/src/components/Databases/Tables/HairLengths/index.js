@@ -119,7 +119,7 @@ export const HairLengthsTable = ({setAddHairLengthsModalOpen, setEditHairLengths
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/HairLengths'
+                'https://localhost:5000/api/HairLengths'
             );
             console.log("Hair Lengths results: ")
             console.log(result.data);

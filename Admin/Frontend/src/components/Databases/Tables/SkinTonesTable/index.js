@@ -131,7 +131,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/SkinTones'
+                'https://localhost:5000/api/SkinTones'
             );
             setData(result.data);
         }

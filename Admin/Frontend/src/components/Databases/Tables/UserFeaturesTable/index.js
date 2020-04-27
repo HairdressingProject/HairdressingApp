@@ -137,7 +137,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
 
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/UserFeatures'
+                'https://localhost:5000/api/UserFeatures'
             );
 
             console.log("User Features Table data:");

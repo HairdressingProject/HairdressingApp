@@ -141,7 +141,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                'https://localhost:5001/api/FaceShapes'
+                'https://localhost:5000/api/FaceShapes'
             );
             console.log("Face Shapes results: ")
             console.log(result.data);
