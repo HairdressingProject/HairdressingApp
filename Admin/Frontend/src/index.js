@@ -5,9 +5,11 @@ import 'foundation-sites/dist/css/foundation.min.css';
 import './index.css';
 import { App } from './components/App';
 import * as serviceWorker from './serviceWorker';
-import { store, history } from './_helpers';
+import { configureAppStore, history } from './_helpers';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+
+const store = configureAppStore();
 
 const render = () => {
   ReactDOM.render(
