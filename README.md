@@ -60,13 +60,31 @@ If no errors are shown and your frontend environment is also working, you can no
 Now you should be ready to connect to the backend.
 
 ##### 10 - Testing backend connection
-I recommend using [Postman](https://www.postman.com/ "Postman") for this step. After you download and install it, simply type the URL of the route that you wish to test (e.g. `https://localhost:5001/api/users`) along with the method (`GET` by default) and hit "Send":
+I recommend using [Postman](https://www.postman.com/ "Postman") for this step. After you download and install it, follow the steps below to test the backend:
+
+###### 10.1 - Sign in
+As authentication has been implemented, most routes will not be available unless you are signed in. To do that, copy and paste this URL to the address bar in Postman and change the request method from `GET` to `POST`:
+
+`https://localhost:5000/api/users/sign_in`
+
+Now click on the request `Body` tab and select the `raw` option. Change the dropdown from `Text` to `JSON`. Copy and paste the JSON request body below into Postman:
+
+`{
+	"UserName": "admin",
+	"UserPassword": "123456"
+}`
+
+This is a sample admin account that was previously seeded into the database. See step **8** if you have not yet done so.
+
+Once you have entered those details in the request body, you are ready to submit your request to the backend. Simply click the `Send` button to do so.
 
 ![Postman setup][Postman]
 
-[Postman]: https://i.imgur.com/ZbbH4cL.png "Postman setup"
+[Postman]: https://imgur.com/U42bBLQ.png "Postman setup"
 
 If you got a JSON response like the one in the picture, you're good to go.
+
+If you wish to test other routes, you should now go to the `Authorization` tab in Postman, select the `Bearer Token` type and copy and paste the `token` that you got into the Token field. This token was digitally signed when you sent the previous `POST` request to `/api/users/sign_in` and will be authenticated in subsequent requests.
 
 ##### 11 - Push into the remote repository
 After you have committed the first few changes changes in your local repository, run:
