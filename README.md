@@ -84,6 +84,8 @@ Once you have entered those details in the request body, you are ready to submit
 
 If you got a JSON response like the one in the picture, you're good to go.
 
+If you wish to test other routes, you should now go to the `Authorization` tab in Postman, select the `Bearer Token` type and copy and paste the `token` that you got into the Token field. This token was digitally signed when you sent the previous `POST` request to `/api/users/sign_in` and will be authenticated in subsequent requests.
+
 ##### 11 - Push into the remote repository
 After you have committed the first few changes changes in your local repository, run:
 
