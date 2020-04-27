@@ -320,13 +320,10 @@ export const Databases = () =>
                 {/* Skin Tones ********************************************** */}
                 
                 { showSkinTonesTable ?
-                    <div className="selected-table-container">
                     <SkinTonesTable
                         setAddSkinTonesModalOpen={showAddSkinTonesModal}
                         setEditSkinTonesModalOpen={showEditSkinTonesModal}                     
                     />
-                   
-                    </div>
                     :
                     null}
 
@@ -346,12 +343,10 @@ export const Databases = () =>
                 
 
                 { showHairLengthsTable ?
-                    <div className="selected-table-container">
                     <HairLengthsTable
                         setAddHairLengthsModalOpen={showAddHairLengthsModal}
                         setEditHairLengthsModalOpen={showEditHairLengthsModal}                       
                     />
-                    </div>
                     :
                     null}
 
