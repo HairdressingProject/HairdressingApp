@@ -112,6 +112,17 @@ If you have already pushed into your remote branch for the first time, run:
 
 `git checkout --track origin/[branch name]`
 
+### How do I update my local [branch name] from origin/[branch name]?
+To update your local branch from the remote one, run:
+`git pull`
+
+### How do I delete a branch?
+Deleting a local branch: 
+`git branch -d [branch name]`
+
+Deleting a remote branch:
+`git push origin --delete [branch name]`
+
 ### I can't run the application, Yarn says "[something] is not defined"
 Some packages are probably missing from your `package.json` file, error messages in the console should mention which ones you need. You can add them manually like this:
 
