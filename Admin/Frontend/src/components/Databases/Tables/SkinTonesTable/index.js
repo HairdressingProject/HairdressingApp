@@ -70,7 +70,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
         }
         console.log(toggleEditBtn);
   
-    }, []);
+    }, [selectedRows, toggleEditBtn]);
 
     const actions = <Button key="add" onClick={() => setAddSkinTonesModalOpen(true)}>Add</Button>;
 
@@ -80,9 +80,9 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
         const handleDelete = () => {
   
             console.log("handleDelete row: ", selectedRows);
-            selectedRows.map(item => {
-                console.log(item);
-            })
+            // selectedRows.map(item => {
+            //     console.log(item);
+            // })
   
             
             if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.userName)}?`)) {
@@ -93,15 +93,15 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
             }
         };
   
-        const handleEdit = () => {
-            console.log("handleEdit row: ", selectedRows.length);
-            selectedRows.map(item => {
-                console.log(item);
-            })
-            // Show Edit form
-            // POST Method API
-            // ...
-        };
+        // const handleEdit = () => {
+        //     console.log("handleEdit row: ", selectedRows.length);
+        //     selectedRows.map(item => {
+        //         console.log(item);
+        //     })
+        //     // Show Edit form
+        //     // POST Method API
+        //     // ...
+        // };
 
         
     
@@ -110,13 +110,13 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditSkinTonesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
+                        <Button key="edit" onClick={() => setEditSkinTonesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
   
                     <Column small={6} className="delete-container">
-                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }} icon>Delete</Button>
+                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
                     </Column>
                 
                 </Row>
@@ -125,7 +125,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
             
         );
   
-        }, [data, selectedRows, toggleCleared]
+        }, [data, selectedRows, toggleCleared, setEditSkinTonesModalOpen, toggleEditBtn]
     );
 
     useEffect(() => {

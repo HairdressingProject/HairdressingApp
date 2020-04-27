@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import Modal from 'react-foundation-modal';
 
 import { AddEntry } from '../../Databases/AddEntry';
@@ -13,7 +13,7 @@ export const ModalForm = ({tableSource, formType, isAddModalOpen, isEditModalOpe
         'backgroundColor': 'rgba(12, 24, 83, 0.62)'
     };
 
-    var formFields = new Array;
+    var formFields = [];
 
     switch (tableSource) {
         case "Users":
@@ -59,7 +59,10 @@ export const ModalForm = ({tableSource, formType, isAddModalOpen, isEditModalOpe
             }
             if(isEditModalOpen) {
                 formFields = FormFields.faceShapesEditInitialFormFields;
-            }   
+            }
+        break;
+        default:
+            formFields = null;
             
 
     }

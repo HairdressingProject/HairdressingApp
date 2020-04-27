@@ -56,8 +56,6 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
         }, 100);
       };
 
-
-      const [selectableRows, setSelectableRows] = React.useState(false);
       
 // End of DataTable settings
 
@@ -83,7 +81,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
         }
         console.log(toggleEditBtn);
   
-      }, []);
+      }, [selectedRows, toggleEditBtn]);
 
       const actions = <Button key="add" onClick={() => setAddUserFeaturesModalOpen(true)}>Add</Button>;
 
@@ -93,10 +91,10 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
 
         const handleDelete = () => {
   
-            console.log("handleDelete row: ", selectedRows);
-            selectedRows.map(item => {
-                console.log(item);
-            })
+            // console.log("handleDelete row: ", selectedRows);
+            // selectedRows.map(item => {
+            //     console.log(item);
+            // })
   
             
             if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.id)}?`)) {
@@ -114,13 +112,13 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditUserFeaturesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
+                        <Button key="edit" onClick={() => setEditUserFeaturesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
   
                     <Column small={6} className="delete-container">
-                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }} icon>Delete</Button>
+                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
                     </Column>
                 
                 </Row>
@@ -129,7 +127,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
             
         );
   
-        }, [data, selectedRows, toggleCleared]
+        }, [data, selectedRows, toggleCleared, setEditUserFeaturesModalOpen, toggleEditBtn]
     );
 
 

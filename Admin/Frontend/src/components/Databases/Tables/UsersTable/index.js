@@ -57,8 +57,6 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
         }, 100);
       };
 
-
-      const [selectableRows, setSelectableRows] = React.useState(false);
       
 // End of DataTable settings
 
@@ -84,16 +82,16 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
       }
       console.log(toggleEditBtn);
 
-    }, []);
+    }, [selectedRows, toggleEditBtn]);
 
   const actions = <Button key="add" onClick={() => setAddUserModalOpen(true)}>Add</Button>;
 
-  const handleAdd = () => {
-      // Show add form
-      // POST method
-      console.log("handleAdd");
+  // const handleAdd = () => {
+  //     // Show add form
+  //     // POST method
+  //     console.log("handleAdd");
 
-  };
+  // };
 
   const contextActions = React.useMemo(() => { //useState() ?
 
@@ -101,9 +99,9 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
       const handleDelete = () => {
 
           console.log("handleDelete row: ", selectedRows);
-          selectedRows.map(item => {
-              console.log(item);
-          })
+          // selectedRows.map(item => {
+          //     console.log(item);
+          // })
 
           
           if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.userName)}?`)) {
@@ -114,28 +112,28 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
           }
       };
 
-      const handleEdit = () => {
-          console.log("handleEdit row: ", selectedRows.length);
-          selectedRows.map(item => {
-              console.log(item);
-          })
-          // Show Edit form
-          // POST Method API
-          // ...
-      };
+      // const handleEdit = () => {
+      //     console.log("handleEdit row: ", selectedRows.length);
+      //     selectedRows.map(item => {
+      //         console.log(item);
+      //     })
+      //     // Show Edit form
+      //     // POST Method API
+      //     // ...
+      // };
   
       return (
           <div>
               <Row className="table-btn-container">
                   <Column small={6} className="edit-container">
                       { toggleEditBtn ? 
-                      <Button key="edit" onClick={() => setEditUserModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }} icon>Edit</Button>
+                      <Button key="edit" onClick={() => setEditUserModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                       :
                       null}
                   </Column>
 
                   <Column small={6} className="delete-container">
-                      <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }} icon>Delete</Button>
+                      <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
                   </Column>
               
               </Row>
@@ -144,7 +142,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
           
       );
 
-      }, [data, selectedRows, toggleCleared]
+      }, [data, selectedRows, toggleCleared, setEditUserModalOpen, toggleEditBtn]
   );
 
 

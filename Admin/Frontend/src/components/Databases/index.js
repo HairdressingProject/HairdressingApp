@@ -1,28 +1,13 @@
 import React, { useState, useEffect} from 'react';
 import './Databases.scss';
-import axios from 'axios';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
 import { FaceShapesTable } from './Tables/FaceShapes';
 import { HairLengthsTable } from './Tables/HairLengths';
-import Modal from 'react-foundation-modal';
-import { Button } from 'react-foundation-components/lib/button';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-
-import { AddFaceShapesForm } from './AddEntry/FaceShapes';
-import { EditFaceShapesForm } from './EditEntry/FaceShapes';
-
-import { AddUsersForm } from './AddEntry/Users';
-import { EditUsersForm } from './EditEntry/Users';
-
-import { AddEntry } from './AddEntry';
-import { EditEntry } from './EditEntry';
-
-import * as FormFields from '../Forms/FormFields';
 
 import { ModalForm } from './ModalForm'
 
@@ -42,7 +27,6 @@ export const Databases = () =>
         const [isAddHairLengthsModalOpen, setAddHairLengthsModalOpen] = useState(false);
         const [isEditHairLengthsModalOpen, setEditHairLengthsModalOpen] = useState(false);        
         
-        const [objectToEdit, setObjectToEdit] = useState([]);
 
         const showAddUserModal = status => {
             setAddUserModalOpen(status);
@@ -153,12 +137,6 @@ export const Databases = () =>
 
 
 
-// Modal Set Up
-        const revealStyle = {
-            'backgroundColor': 'rgba(12, 24, 83, 0.62)'
-        };
-
-
 // DataTable settings
         const [loading, setLoading] = useState(false);
 
@@ -201,37 +179,35 @@ export const Databases = () =>
             console.log('tablesI[2]: ', tablesI[2]);
             console.log('tablesI[3]: ', tablesI[3]);
 
-            if (tablesI.length > 0) {
-                if (tablesI[0] === 0) {
-                    setShowUsersTable(false);
-                } else {
-                    setShowUsersTable(true);
-                };
-    
-                if (tablesI[1] === 0) {
-                    setShowUserFeaturesTable(false);
-                } else {
-                    setShowUserFeaturesTable(true);
-                };  
+            if (tablesI[0] === 0) {
+                setShowUsersTable(false);
+            } else {
+                setShowUsersTable(true);
+            };
 
-                if (tablesI[2] === 0) {
-                    setShowSkinTonesTable(false);
-                } else {
-                    setShowSkinTonesTable(true);
-                };
+            if (tablesI[1] === 0) {
+                setShowUserFeaturesTable(false);
+            } else {
+                setShowUserFeaturesTable(true);
+            };  
 
-                if (tablesI[3] === 0) {
-                    setShowFaceShapesTable(false);
-                } else {
-                    setShowFaceShapesTable(true);
-                };  
+            if (tablesI[2] === 0) {
+                setShowSkinTonesTable(false);
+            } else {
+                setShowSkinTonesTable(true);
+            };
 
-                if (tablesI[4] === 0) {
-                    setShowHairLengthsTable(false);
-                } else {
-                    setShowHairLengthsTable(true);
-                };  
-            }
+            if (tablesI[3] === 0) {
+                setShowFaceShapesTable(false);
+            } else {
+                setShowFaceShapesTable(true);
+            };  
+
+            if (tablesI[4] === 0) {
+                setShowHairLengthsTable(false);
+            } else {
+                setShowHairLengthsTable(true);
+            };  
             };
 
           
