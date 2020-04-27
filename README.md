@@ -97,7 +97,7 @@ Then, to submit those changes to the `master` branch, go to https://github.com/H
 
 ![Submitting a PR][PR]
 
-[PR]: https://imgur.com/a/5YoNjUg.png "Submitting a Pull Request"
+[PR]: https://imgur.com/kjsp10b.jpg "Submitting a Pull Request"
 
 
 If you had any issues along the way, see the FAQ below.
