@@ -112,6 +112,11 @@ If you have already pushed into your remote branch for the first time, run:
 
 `git checkout --track origin/[branch name]`
 
+### I made a mistake in my commit and want to revert it to the previous one, how do I do that?
+If you have already committed, run: `git reset HEAD~1`
+
+Otherwise, to backup unstaged files and clean up your branch, run: `git stash`
+
 ### How do I update my local [branch name] from origin/[branch name]?
 To update your local branch from the remote one, run:
 `git pull`
