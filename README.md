@@ -1,6 +1,32 @@
 # Hairdressing App
 This project was assigned to us ([Gerardo Gornes](https://github.com/ggornes "ggornes"), [Diego C.](https://github.com/diego-cc "diego-cc"), [Stefan S.](https://github.com/stefan-solmundson "stefan-solmundson"), [Maddy F.](https://github.com/maddyferraloro "maddyferraloro") and [Frazer M.](https://github.com/Frazer-McLennan "Frazer-McLennan")) for our Diploma of Software Development at North Metropolitan TAFE to be developed over the year 2020.
 
+# Table of contents
+
+  * [Setting up your local development environment](#setting-up-your-local-development-environment)
+      - [1 - Clone the repository](#1---clone-the-repository)
+      - [2 - Move to the repository's directory](#2---move-to-the-repositorys-directory)
+      - [3 - Create your own branch (important!)](#3---create-your-own-branch-important)
+      - [4 - Update your branch to a more recent version](#4---update-your-branch-to-a-more-recent-version)
+      - [Frontend](#frontend)
+        * [5 - Install packages](#5---install-packages)
+        * [6 - Start server](#6---start-server)
+      - [Backend](#backend)
+        * [7 - Database setup (without Laragon)](#7---database-setup-without-laragon)
+        * [8 - Creating and seeding the database](#8---creating-and-seeding-the-database)
+        * [9 - Running the API server](#9---running-the-api-server)
+        * [10 - Testing backend connection](#10---testing-backend-connection)
+          + [10.1 - Sign in](#101---sign-in)
+        * [11 - Push into the remote repository](#11---push-into-the-remote-repository)
+  * [FAQ](#faq)
+    + [My branch is missing lots of files and it looks completely different from the others.](#my-branch-is-missing-lots-of-files-and-it-looks-completely-different-from-the-others)
+    + [How can I check another person's branch to compare it to mine?](#how-can-i-check-another-persons-branch-to-compare-it-to-mine)
+    + [I made a mistake in my commit and want to revert it to the previous one, how do I do that?](#i-made-a-mistake-in-my-commit-and-want-to-revert-it-to-the-previous-one-how-do-i-do-that)
+    + [How do I update my local [branch name] from origin/[branch name]?](#how-do-i-update-my-local-branch-name-from-originbranch-name)
+    + [How do I delete a branch?](#how-do-i-delete-a-branch)
+    + [I can't run the application, Yarn says "[something] is not defined"](#i-cant-run-the-application-yarn-says-something-is-not-defined)
+    + [Why not just work on the master branch?](#why-not-just-work-on-the-master-branch)
+
 ## Setting up your local development environment
 To start working on the Admin Portal, a few steps are necessary:
 
