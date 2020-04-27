@@ -16,9 +16,11 @@ To start working on the Admin Portal, a few steps are necessary:
 > The `-b` flag creates a new branch.
 
 #### 4 - Update your branch to a more recent version
-For this step, you can use any remote branch that has recent commits. For instance:
+The master branch should now always be the most up-to-date one.
 
-`git merge origin/master-d` or `git merge origin/master-g`
+~~For this step, you can use any remote branch that has recent commits. For instance:~~
+
+~~`git merge origin/master-d` or `git merge origin/master-g`~~
 
 #### Frontend
 
