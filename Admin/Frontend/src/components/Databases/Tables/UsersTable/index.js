@@ -56,12 +56,10 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
           setLoading(false);
         }, 100);
       };
-
-      
-// End of DataTable settings
+   
 
     const [selectedRows, setSelectedRows] = useState([]);
-    const [toggleCleared, setToggleCleared] = React.useState(false);
+    const [toggleCleared, setToggleCleared] = useState(false);
     const [toggleEditBtn, setToggleEditBtn] = useState(true);
 
     const [data, setData] = useState([]);
@@ -71,14 +69,11 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
       console.log("state.selectedRows: ", state.selectedRows);
       console.log("selectedRows: ", selectedRows);
 
-
-
+      // The Edit button is enabled only if one item is selected
       if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
           setToggleEditBtn(true);
-          console.log("Should be true")
       } else {
           setToggleEditBtn(false);
-          console.log("should be false")
       }
       console.log(toggleEditBtn);
 

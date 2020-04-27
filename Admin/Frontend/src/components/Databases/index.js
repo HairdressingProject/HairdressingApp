@@ -14,19 +14,47 @@ import { ModalForm } from './ModalForm'
 export const Databases = () => 
     {
 
+        // Declare a state boolean variable for each table on the database to show or hide the table when selected (conditional rendering)
 
-        // Add Modal Setup
+        const [showUsersTable, setShowUsersTable] = useState(false);
+        const [showFaceShapesTable, setShowFaceShapesTable] = useState(false);
+        const [showUserFeaturesTable, setShowUserFeaturesTable] = useState(false);
+        const [showSkinTonesTable, setShowSkinTonesTable] = useState(false);
+        const [showHairLengthsTable, setShowHairLengthsTable] = useState(false); 
+
+
+        // Declare state variables to toggle Add and Edit Modals
+        //
+        // The 'useState' hook takes an initial state as a parameter and returns an array
+        // wich holds the current state as first item and a function to change the state
+        // as second item
+        //
+        // We declare a state variable for each one of the tables on the database (one for Add and one for Edit)
+
         const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
         const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
         const [isAddUserFeaturesModalOpen, setAddUserFeaturesModalOpen] = useState(false);
         const [isEditUserFeaturesModalOpen, setEditUserFeaturesModalOpen] = useState(false);
-        const [isAddModalOpen, setAddModalOpen] = useState(false); //faceShapes        
-        const [isEditModalOpen, setEditModalOpen] = useState(false); //faceShapes    
+        const [isAddFaceShapesModalOpen, setAddFaceShapesModalOpen] = useState(false);
+        const [isEditFaceShapesModalOpen, setEditFaceShapesModalOpen] = useState(false);     
         const [isAddSkinTonesModalOpen, setAddSkinTonesModalOpen] = useState(false);
         const [isEditSkinTonesModalOpen, setEditSkinTonesModalOpen] = useState(false);
         const [isAddHairLengthsModalOpen, setAddHairLengthsModalOpen] = useState(false);
-        const [isEditHairLengthsModalOpen, setEditHairLengthsModalOpen] = useState(false);        
+        const [isEditHairLengthsModalOpen, setEditHairLengthsModalOpen] = useState(false);
         
+
+        // Define a function to toggle the state variable to open the modal
+        // The function is passed as a property to the table component (which is a child of Databases component)
+        // example:
+        //
+        // <UsersTable
+        //     setAddUserModalOpen={showAddUserModal}
+        //     setEditUserModalOpen={showEditUserModal}
+        // />
+        //
+        // Then, on the UsersTable component we can link this function to the button onClick()
+        // <Button key="add" onClick={() => setAddUserModalOpen(true)}>Add</Button>;
+        //
 
         const showAddUserModal = status => {
             setAddUserModalOpen(status);
@@ -44,13 +72,13 @@ export const Databases = () =>
             setEditUserFeaturesModalOpen(status);
         }        
 
-        const showAddModal = status => {
-            setAddModalOpen(status); //FaceShgapes
+        const showAddFaceShapesModal = status => {
+            setAddFaceShapesModalOpen(status);
         }
 
 
-        const showEditModal = status => {
-            setEditModalOpen(status); //FaceShapes
+        const showEditFaceShapesModal = status => {
+            setEditFaceShapesModalOpen(status);
         }
 
 
@@ -68,16 +96,13 @@ export const Databases = () =>
 
         const showEditHairLengthsModal = status => {
             setEditHairLengthsModalOpen(status);
-        }          
+        }
 
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
-        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
-        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
-        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);        
-        
 
-        // *************************** End of Face Shapes Setup
+       
+        // ***************** Databases Table settings
+
+        // Define columns
 
         const db_tables_columns = [
             {
@@ -89,55 +114,37 @@ export const Databases = () =>
                 name: 'Table Name',
                 selector: 'tableName',
                 sortable: true,
-            },
-            {
-                name: 'Created',
-                selector: 'created',
-                sortable: true,
-            },
-            {
-                name: 'Last Update',
-                selector: 'updated',
-                sortable: true,
-            },
+            }
         ];
+
+        // Define content
 
         const db_tables_rows = [
             {
                 tableId: 0,
                 tableName: "Users",
-                created: "20/03/2020",
-                updated: "28/03/2020"
             },
             {
                 tableId: 1,
                 tableName: "User Features",
-                created: "20/03/2020",
-                updated: "22/03/2020"
             },
             {
                 tableId: 2,
                 tableName: "Skin Tones",
-                created: "20/03/2020",
-                updated: "21/03/2020"
             },
             {
                 tableId: 3,
                 tableName: "Face Shapes",
-                created: "20/03/2020",
-                updated: "21/03/2020"
             },
             {
                 tableId: 4,
                 tableName: "Hair Lengths",
-                created: "20/03/2020",
-                updated: "21/03/2020"
             },
         ];
 
 
 
-// DataTable settings
+        // show loading message if data is loading
         const [loading, setLoading] = useState(false);
 
         // Logic to handle tabel sorting
@@ -154,6 +161,7 @@ export const Databases = () =>
           };
 
         // Logic to handle selected row
+        // tablesI is an array that indicates 0 if the table is not selected and 1 if is selected
         var tablesI = [0,0,0,0,0];
 
           const handleChange = (row) => {
@@ -163,7 +171,6 @@ export const Databases = () =>
             console.log("Selected tables: ");
             console.log(tablesToShow);
 
-            // setSelectedTables(row.SelectedRows);
 
             if (tablesToShow.length > 0) {
                 tablesToShow.map((item, index) => {
@@ -174,10 +181,6 @@ export const Databases = () =>
                 tablesI=[0,0,0,0,0]
             }
 
-            console.log('tablesI[0]: ', tablesI[0]);
-            console.log('tablesI[1]: ', tablesI[1]);
-            console.log('tablesI[2]: ', tablesI[2]);
-            console.log('tablesI[3]: ', tablesI[3]);
 
             if (tablesI[0] === 0) {
                 setShowUsersTable(false);
@@ -208,29 +211,30 @@ export const Databases = () =>
             } else {
                 setShowHairLengthsTable(true);
             };  
-            };
+        };
 
           
-// End of DataTable settings
-
-        // Initialize state variables 
         const [DBTables, setDBTables] = useState([]);
 
+        // Similar to componentDidMount and componentDidUpdate
+        // Used to update the selected rows on the first table
+
         useEffect(() => {
-
             setDBTables(db_tables_rows);
-
         }, []);
+
+        // ***************** End ofDatabases Table settings
 
         return(
             <div>
                 databases
+
                 {/* Table that shows all tables on the database */}
                 <div className={classes["db-table-container"]}>
-                    <DataTable
+                    <DataTable //https://www.npmjs.com/package/react-data-table-component
                         title="hairdress_db Tables"
                         columns={db_tables_columns}
-                        data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
+                        data={DBTables}
                         onSort={handleSort}
                         className={classes["data-table"]}
                         sortServer
@@ -242,11 +246,11 @@ export const Databases = () =>
                         onSelectedRowsChange={handleChange}
                     />
                 </div>
+                {/* Enf of Table that shows all tables on the database */}
 
                 
                 {/* Users ********************************************** */}
-
-                    { showUsersTable ?
+                    { showUsersTable ? // if true, show the table
                     <div className={classes["selected-table-container"]}>
                     <UsersTable
                         setAddUserModalOpen={showAddUserModal}
@@ -268,10 +272,7 @@ export const Databases = () =>
                 {/* end of Users ********************************************** */}
                 
 
-                
-
                 {/* Users Features ********************************************** */}
-
                 { showUserFeaturesTable ?
                     <div className={classes["selected-table-container"]}>
                         <UserFeaturesTable
@@ -290,13 +291,11 @@ export const Databases = () =>
                         setAddModalOpen={setAddUserFeaturesModalOpen}
                         setEditModalOpen={setEditUserFeaturesModalOpen}
                     />   
-
                 {/* end of Users Features ********************************************** */}                    
                 
 
                 
                 {/* Skin Tones ********************************************** */}
-                
                 { showSkinTonesTable ?
                     <div className={classes["selected-table-container"]}>
                         <SkinTonesTable
@@ -314,14 +313,11 @@ export const Databases = () =>
                         setAddModalOpen={setAddSkinTonesModalOpen}
                         setEditModalOpen={setEditSkinTonesModalOpen}
                     />   
-
                 {/* End of skin tones ********************************************** */}
                 
 
 
-                {/* Skin Tones ********************************************** */}
-                
-
+                {/* Hair Lengths ********************************************** */}
                 { showHairLengthsTable ?
                     <div className={classes["selected-table-container"]}>
                         <HairLengthsTable
@@ -338,31 +334,29 @@ export const Databases = () =>
                         isEditModalOpen={isEditHairLengthsModalOpen}
                         setAddModalOpen={setAddHairLengthsModalOpen}
                         setEditModalOpen={setEditHairLengthsModalOpen}
-                    />                       
+                    />
+                {/* End of Hair Lengths ********************************************** */}                    
 
 
 
                 {/* FaceShapes **************************************** */}
-
                 { showFaceShapesTable ?
                     <div className={classes["selected-table-container"]}>
                     <FaceShapesTable
-                        setAddModalOpen={showAddModal}
-                        setEditModalOpen={showEditModal}
+                        setAddModalOpen={showAddFaceShapesModal}
+                        setEditModalOpen={showEditFaceShapesModal}
                     />
                     </div>
                     :
                     null
                 }
-
                 <ModalForm
                     tableSource="Face Shapes"
-                    isAddModalOpen={isAddModalOpen}
-                    isEditModalOpen={isEditModalOpen}
-                    setAddModalOpen={setAddModalOpen}
-                    setEditModalOpen={setEditModalOpen}
+                    isAddModalOpen={isAddFaceShapesModalOpen}
+                    isEditModalOpen={isEditFaceShapesModalOpen}
+                    setAddModalOpen={setAddFaceShapesModalOpen}
+                    setEditModalOpen={setEditFaceShapesModalOpen}
                 />                
-
                 {/* end of FaceShapes ******************************** */}
 
                 
