@@ -176,7 +176,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
     }, []);
 
     return (
-        <div className="selected-table-container">
+        <>
           <DataTable
             title="Users"
             columns={columns}
@@ -198,6 +198,6 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
 
               </Column>
           </Row>
-        </div>
+        </>
     );
 }

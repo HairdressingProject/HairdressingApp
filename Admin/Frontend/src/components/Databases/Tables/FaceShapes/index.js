@@ -151,7 +151,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
     }, []);
 
     return (
-        <div className="selected-table-container">
+        <>
         <DataTable
             title="Face Shapes"
             columns={columns}
@@ -173,6 +173,6 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
 
                 </Column>
             </Row>
-            </div>
+            </>
     );
 }

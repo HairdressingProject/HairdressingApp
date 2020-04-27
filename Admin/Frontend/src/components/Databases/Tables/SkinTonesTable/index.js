@@ -139,7 +139,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
     }, []);
 
     return (
-        <div className="selected-table-container">
+        <>
           <DataTable
             title="Skin Tones"
             columns={columns}
@@ -161,6 +161,6 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
 
               </Column>
           </Row>
-        </div>
+        </>
     );
 }

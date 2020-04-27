@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import './Databases.scss';
+import classes from './Databases.module.scss';
 import { UsersTable } from './Tables/UsersTable';
 import { UserFeaturesTable } from './Tables/UserFeaturesTable';
 import { SkinTonesTable } from './Tables/SkinTonesTable';
@@ -226,12 +226,13 @@ export const Databases = () =>
             <div>
                 databases
                 {/* Table that shows all tables on the database */}
-                <div className="db-table-container">
+                <div className={classes["db-table-container"]}>
                     <DataTable
                         title="hairdress_db Tables"
                         columns={db_tables_columns}
                         data={DBTables} // ToDo: Handle dynamycally the tables fom the DB
                         onSort={handleSort}
+                        className={classes["data-table"]}
                         sortServer
                         progressPending={loading}
                         persistTableHead
@@ -246,11 +247,12 @@ export const Databases = () =>
                 {/* Users ********************************************** */}
 
                     { showUsersTable ?
+                    <div className={classes["selected-table-container"]}>
                     <UsersTable
                         setAddUserModalOpen={showAddUserModal}
                         setEditUserModalOpen={showEditUserModal}
-                        
                     />
+                    </div>
                     :
                     null
                     }
@@ -271,7 +273,7 @@ export const Databases = () =>
                 {/* Users Features ********************************************** */}
 
                 { showUserFeaturesTable ?
-                    <div className="selected-table-container">
+                    <div className={classes["selected-table-container"]}>
                         <UserFeaturesTable
                             setAddUserFeaturesModalOpen={showAddUserFeaturesModal}
                             setEditUserFeaturesModalOpen={showEditUserFeaturesModal}
@@ -296,10 +298,12 @@ export const Databases = () =>
                 {/* Skin Tones ********************************************** */}
                 
                 { showSkinTonesTable ?
-                    <SkinTonesTable
-                        setAddSkinTonesModalOpen={showAddSkinTonesModal}
-                        setEditSkinTonesModalOpen={showEditSkinTonesModal}                     
-                    />
+                    <div className={classes["selected-table-container"]}>
+                        <SkinTonesTable
+                            setAddSkinTonesModalOpen={showAddSkinTonesModal}
+                            setEditSkinTonesModalOpen={showEditSkinTonesModal}                     
+                        />
+                    </div>
                     :
                     null}
 
@@ -319,10 +323,12 @@ export const Databases = () =>
                 
 
                 { showHairLengthsTable ?
-                    <HairLengthsTable
-                        setAddHairLengthsModalOpen={showAddHairLengthsModal}
-                        setEditHairLengthsModalOpen={showEditHairLengthsModal}                       
-                    />
+                    <div className={classes["selected-table-container"]}>
+                        <HairLengthsTable
+                            setAddHairLengthsModalOpen={showAddHairLengthsModal}
+                            setEditHairLengthsModalOpen={showEditHairLengthsModal}                       
+                        />
+                    </div>
                     :
                     null}
 
@@ -339,10 +345,12 @@ export const Databases = () =>
                 {/* FaceShapes **************************************** */}
 
                 { showFaceShapesTable ?
+                    <div className={classes["selected-table-container"]}>
                     <FaceShapesTable
                         setAddModalOpen={showAddModal}
                         setEditModalOpen={showEditModal}
                     />
+                    </div>
                     :
                     null
                 }

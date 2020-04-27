@@ -129,7 +129,7 @@ export const HairLengthsTable = ({setAddHairLengthsModalOpen, setEditHairLengths
     }, []);
 
     return (
-        <div className="selected-table-container">
+        <>
           <DataTable
             title="Hair Lengths"
             columns={columns}
@@ -151,6 +151,6 @@ export const HairLengthsTable = ({setAddHairLengthsModalOpen, setEditHairLengths
 
               </Column>
           </Row>
-        </div>
+        </>
     );
 }
