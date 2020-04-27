@@ -75,7 +75,7 @@ namespace AdminApi
                 options.AddPolicy("Policy1",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.AllowAnyOrigin()
                                 .AllowAnyHeader();
                     });
             });

@@ -14,6 +14,12 @@ using AdminApi.Helpers;
 
 namespace AdminApi.Controllers
 {
+    /**
+     * UsersController
+     * This controller handles all routes in the format: "/api/users/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
