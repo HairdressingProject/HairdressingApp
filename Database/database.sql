@@ -2,8 +2,8 @@
 -- mysql -u root
 
 -- Clean things up just in case
-DROP USER 'dev_admin'@'localhost';
-DROP DATABASE hair_project_db;
+DROP USER IF EXISTS 'dev_admin'@'localhost';
+DROP DATABASE IF EXISTS hair_project_db;
 
 -- Create database
 CREATE DATABASE IF NOT EXISTS hair_project_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -209,7 +209,7 @@ ENGINE = INNODB;
 
 INSERT INTO hair_project_db.users(`user_name`, `user_password`, `user_email`, `first_name`, `user_role`)
 VALUES
-('admin', '12345', 'admin@mail.com', 'Admin', 'admin');
+('admin', '123456', 'admin@mail.com', 'Admin', 'admin');
 
 INSERT INTO hair_project_db.colours(`colour_name`, `colour_hash`)
 VALUES 
