@@ -144,12 +144,6 @@ export const faceShapesEditInitialFormFields = [
 
 export const userFeaturesAddInitialFormFields = [
     {
-        label: 'Id',
-        input: '',
-        type: 'text',
-        touched: false
-    },
-    {
         label: 'User Id',
         input: '',
         type: 'text',

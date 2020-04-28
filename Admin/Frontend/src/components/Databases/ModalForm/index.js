@@ -1,14 +1,14 @@
 import React from 'react';
 import Modal from 'react-foundation-modal';
-
 import { AddEntry } from '../../Databases/AddEntry';
 import { EditEntry } from '../../Databases/EditEntry';
-
 import * as FormFields from '../../Forms/FormFields';
 
-export const ModalForm = ({tableSource, formType, isAddModalOpen, isEditModalOpen, setAddModalOpen, setEditModalOpen}) => {
+export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddModalOpen, setEditModalOpen}) => {
 
-
+/** @constant
+ * @type {object} revealStyle - css style of the modal
+ */
     const revealStyle = {
         'backgroundColor': 'rgba(12, 24, 83, 0.62)'
     };
@@ -81,7 +81,6 @@ export const ModalForm = ({tableSource, formType, isAddModalOpen, isEditModalOpe
                 revealStyle={revealStyle}
                 >
                     <AddEntry
-                        //tableSource={tableSource} //users, userFeatures, faceShapes, etc...
                         title={tableSource}
                         initialFormFields={formFields}
                     />
