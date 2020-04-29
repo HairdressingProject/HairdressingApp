@@ -32,9 +32,10 @@ namespace AdminApi.Services
             _context = context;
         }
 
-        public async Task<User> Authenticate(string username, string password)
+        public async Task<User> Authenticate(string usernameOrEmail, string password)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == username && x.UserPassword == password);
+            var user = await _context.Users.SingleOrDefaultAsync(x =>
+                                                (x.UserName == usernameOrEmail || x.UserEmail == usernameOrEmail) && x.UserPassword == password);
 
             // return null if user not found
             if (user == null)

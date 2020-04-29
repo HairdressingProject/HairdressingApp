@@ -18,7 +18,7 @@ import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';
-import { alertActions } from '../../_actions';
+import { clearMessageAction } from '../../_actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const routes = [
@@ -79,7 +79,7 @@ const App = () => {
     useEffect(() => {
         history.listen((location, action) => {
             // clear alert on location change
-            dispatch(alertActions.clear());
+            dispatch(clearMessageAction);
         })
     }, []);
 

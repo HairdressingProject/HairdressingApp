@@ -1,3 +1,6 @@
+/**
+ * @function configureFakeBackend - Use this function to test authentication in the frontend without connection to the backend 
+ */
 export function configureFakeBackend() {
     let users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
     let realFetch = window.fetch;
@@ -39,7 +42,7 @@ export function configureFakeBackend() {
                 if (url.endsWith('/users') && opts.method === 'GET') {
                     // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
                     if (opts.headers && opts.headers.Authorization === 'Bearer fake-jwt-token') {
-                        resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(users))});
+                        resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(users)) });
                     } else {
                         // return 401 not authorised if token is null or invalid
                         reject('Unauthorised');

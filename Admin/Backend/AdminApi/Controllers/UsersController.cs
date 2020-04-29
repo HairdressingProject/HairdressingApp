@@ -176,8 +176,6 @@ namespace AdminApi.Controllers
             // Existing user, return 409 (Conflict)
             // Alternatively, refresh this user's token
             return Conflict(new { error = "User already registered" });
-
-            // return CreatedAtAction("GetUsers", new { id = users.Id }, users);
         }
 
         [AllowAnonymous]
@@ -191,7 +189,7 @@ namespace AdminApi.Controllers
             if (authenticatedUser == null)
             {
                 // User isn't registered
-                return Unauthorized(new { error = "Invalid username and/or password" });
+                return Unauthorized(new { error = "Invalid username, email and/or password" });
             }
 
             // Return JSON response with token
