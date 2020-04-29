@@ -18,11 +18,11 @@ const getAllFailure = createAction('GETALL_FAILURE');
  * @function getAll
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName 
  */
-function getAll(resourceName) {
+function getAll(resourceName, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(getAllRequest(resourceName));
 
-        resourceServices.getAll(resourceName)
+        resourceServices.getAll(resourceName, URL)
             .then(
                 resource => {
                     dispatch(getAllSuccess({ resource }));
@@ -44,11 +44,11 @@ const getFailure = createAction('GET_FAILURE');
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id
  */
-function get(resourceName, id) {
+function get(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(getRequest(resourceName));
 
-        resourceServices.get(resourceName, id)
+        resourceServices.get(resourceName, id, URL)
             .then(
                 resource => {
                     dispatch(getSuccess({ resource }));
@@ -70,11 +70,11 @@ const postFailure = createAction('POST_FAILURE');
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {Object} resource
  */
-function post(resourceName, resource) {
+function post(resourceName, resource, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(postRequest(resourceName));
 
-        resourceServices.post(resourceName, resource)
+        resourceServices.post(resourceName, resource, URL)
             .then(
                 resource => {
                     dispatch(postSuccess({ resource }));
@@ -97,11 +97,11 @@ const putFailure = createAction('PUT_FAILURE');
  * @param {string | number} id
  * @param {Object} resource
  */
-function put(resourceName, id, resource) {
+function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(putRequest(resourceName));
 
-        resourceServices.put(resourceName, id, resource)
+        resourceServices.put(resourceName, id, resource, URL)
             .then(
                 resource => {
                     dispatch(putSuccess({ resource }));
@@ -123,11 +123,11 @@ const deleteFailure = createAction('DELETE_FAILURE');
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id
  */
-function deleteResource(resourceName, id) {
+function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(deleteRequest(resourceName));
 
-        resourceServices.deleteResource(resourceName, id)
+        resourceServices.deleteResource(resourceName, id, URL)
             .then(
                 resource => {
                     dispatch(deleteSuccess({ resource }));

@@ -8,48 +8,48 @@ export const resourceServices = {
     deleteResource
 };
 
-async function getAll(resourceName) {
+async function getAll(resourceName, URL) {
     const requestOptions = createRequestHeader('GET');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`https://localhost:5000/api/${normalisedResourceName}`, requestOptions);
+    const response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
     return handleResponse(response);
 }
 
-async function get(resourceName, id) {
+async function get(resourceName, id, URL) {
     const requestOptions = createRequestHeader('GET');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`https://localhost:5000/api/${normalisedResourceName}/${id}`, requestOptions);
+    const response = await fetch(`${URL}/api/${normalisedResourceName}/${id}`, requestOptions);
     return handleResponse(response);
 }
 
-async function post(resourceName, resource) {
+async function post(resourceName, resource, URL) {
     const requestOptions = createRequestHeader('POST', resource);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`https://localhost:5000/api/${normalisedResourceName}`, requestOptions);
+    const response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
     return handleResponse(response);
 }
 
-async function put(resourceName, id, resource) {
+async function put(resourceName, id, resource, URL) {
     const requestOptions = createRequestHeader('PUT', resource);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`https://localhost:5000/api/${normalisedResourceName}/${id}`, requestOptions);
+    const response = await fetch(`${URL}/api/${normalisedResourceName}/${id}`, requestOptions);
     return handleResponse(response);
 }
 
-async function deleteResource(resourceName, id) {
-    const requestOptions = createRequestHeader('DELETE', resource);
+async function deleteResource(resourceName, id, URL) {
+    const requestOptions = createRequestHeader('DELETE');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`https://localhost:5000/api/${normalisedResourceName}/${id}`, requestOptions);
+    const response = await fetch(`${URL}/api/${normalisedResourceName}/${id}`, requestOptions);
     return handleResponse(response);
 }
 
