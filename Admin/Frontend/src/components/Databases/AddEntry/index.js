@@ -156,6 +156,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                             )
                             .then((res) => {
                                 console.log(res);
+                                window.location.reload();
                             });
                         break;
 
