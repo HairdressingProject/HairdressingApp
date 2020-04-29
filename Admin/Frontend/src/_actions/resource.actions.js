@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { resourceServices } from '../_services/resource.service';
 import { errorMessageAction } from '../_actions'
+import { resourceNames } from '../_constants';
 
 export const resourceActions = {
     getAll,
@@ -10,9 +11,13 @@ export const resourceActions = {
     deleteResource
 };
 
-const getAllRequest = createAction('GETALL_REQUEST');
-const getAllSuccess = createAction('GETALL_SUCCESS');
-const getAllFailure = createAction('GETALL_FAILURE');
+function getAllActionGenerator(resourceName) {
+    return ({
+        getAllRequest: createAction(`${resourceName}_GETALL_REQUEST`),
+        getAllSuccess: createAction(`${resourceName}_GETALL_SUCCESS`),
+        getAllFailure: createAction(`${resourceName}_GETALL_FAILURE`)
+    });
+};
 
 /**
  * @function getAll
@@ -20,7 +25,13 @@ const getAllFailure = createAction('GETALL_FAILURE');
  */
 function getAll(resourceName, URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(getAllRequest(resourceName));
+        const {
+            getAllRequest,
+            getAllSuccess,
+            getAllFailure
+        } = getAllActionGenerator(resourceName);
+
+        dispatch(getAllRequest());
 
         resourceServices.getAll(resourceName, URL)
             .then(
@@ -35,9 +46,13 @@ function getAll(resourceName, URL = `https://localhost:5000`) {
     }
 }
 
-const getRequest = createAction('GET_REQUEST');
-const getSuccess = createAction('GET_SUCCESS');
-const getFailure = createAction('GET_FAILURE');
+function getActionGenerator(resourceName) {
+    return ({
+        getRequest: createAction(`${resourceName}_GET_REQUEST`),
+        getSuccess: createAction(`${resourceName}_GET_SUCCESS`),
+        getFailure: createAction(`${resourceName}_GET_FAILURE`)
+    });
+};
 
 /**
  * @function get
@@ -46,7 +61,13 @@ const getFailure = createAction('GET_FAILURE');
  */
 function get(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(getRequest(resourceName));
+        const {
+            getRequest,
+            getSuccess,
+            getFailure
+        } = getActionGenerator(resourceName);
+
+        dispatch(getRequest());
 
         resourceServices.get(resourceName, id, URL)
             .then(
@@ -61,9 +82,13 @@ function get(resourceName, id, URL = `https://localhost:5000`) {
     }
 }
 
-const postRequest = createAction('POST_REQUEST');
-const postSuccess = createAction('POST_SUCCESS');
-const postFailure = createAction('POST_FAILURE');
+function postActionGenerator(resourceName) {
+    return ({
+        postRequest: createAction(`${resourceName}_POST_REQUEST`),
+        postSuccess: createAction(`${resourceName}_POST_SUCCESS`),
+        postFailure: createAction(`${resourceName}_POST_FAILURE`)
+    });
+};
 
 /**
  * @function post
@@ -72,7 +97,13 @@ const postFailure = createAction('POST_FAILURE');
  */
 function post(resourceName, resource, URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(postRequest(resourceName));
+        const {
+            postRequest,
+            postSuccess,
+            postFailure
+        } = postActionGenerator(resourceName);
+
+        dispatch(postRequest());
 
         resourceServices.post(resourceName, resource, URL)
             .then(
@@ -87,9 +118,13 @@ function post(resourceName, resource, URL = `https://localhost:5000`) {
     }
 }
 
-const putRequest = createAction('PUT_REQUEST');
-const putSuccess = createAction('PUT_SUCCESS');
-const putFailure = createAction('PUT_FAILURE');
+function putActionGenerator(resourceName) {
+    return ({
+        putRequest: createAction(`${resourceName}_PUT_REQUEST`),
+        putSuccess: createAction(`${resourceName}_PUT_SUCCESS`),
+        putFailure: createAction(`${resourceName}_PUT_FAILURE`)
+    });
+};
 
 /**
  * @function put
@@ -99,7 +134,13 @@ const putFailure = createAction('PUT_FAILURE');
  */
 function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(putRequest(resourceName));
+        const {
+            putRequest,
+            putSuccess,
+            putFailure
+        } = putActionGenerator(resourceName);
+
+        dispatch(putRequest());
 
         resourceServices.put(resourceName, id, resource, URL)
             .then(
@@ -114,9 +155,13 @@ function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     }
 }
 
-const deleteRequest = createAction('DELETE_REQUEST');
-const deleteSuccess = createAction('DELETE_SUCCESS');
-const deleteFailure = createAction('DELETE_FAILURE');
+function deleteActionGenerator(resourceName) {
+    return ({
+        deleteRequest: createAction(`${resourceName}_DELETE_REQUEST`),
+        deleteSuccess: createAction(`${resourceName}_DELETE_SUCCESS`),
+        deleteFailure: createAction(`${resourceName}_DELETE_FAILURE`)
+    });
+}
 
 /**
  * @function deleteResource
@@ -125,7 +170,13 @@ const deleteFailure = createAction('DELETE_FAILURE');
  */
 function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(deleteRequest(resourceName));
+        const {
+            deleteRequest,
+            deleteSuccess,
+            deleteFailure
+        } = deleteActionGenerator(resourceName);
+
+        dispatch(deleteRequest());
 
         resourceServices.deleteResource(resourceName, id, URL)
             .then(
