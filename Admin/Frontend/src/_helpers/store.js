@@ -1,4 +1,3 @@
-import { createStore, applyMiddleware } from 'redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';

@@ -42,7 +42,12 @@ namespace AdminApi.Controllers
             var mappedUsers = await MapFeaturesToUsers();
             var mappedUsersWithoutPasswords = mappedUsers.WithoutPasswords();
 
-            return Ok(mappedUsersWithoutPasswords);
+            var usersResponse = new
+            {
+                users = mappedUsersWithoutPasswords
+            };
+
+            return Ok(usersResponse);
 
             // return await _context.Users.ToListAsync();
         }
@@ -60,7 +65,13 @@ namespace AdminApi.Controllers
             else
             {
                 var mappedUser = await MapFeaturesToUsers(user);
-                return Ok(mappedUser);
+                var userWithoutPassword = mappedUser.WithoutPassword();
+                var userResponse = new
+                {
+                    user = userWithoutPassword
+                };
+
+                return Ok(userResponse);
             }
 
             // return users;
@@ -176,8 +187,6 @@ namespace AdminApi.Controllers
             // Existing user, return 409 (Conflict)
             // Alternatively, refresh this user's token
             return Conflict(new { error = "User already registered" });
-
-            // return CreatedAtAction("GetUsers", new { id = users.Id }, users);
         }
 
         [AllowAnonymous]
@@ -191,7 +200,7 @@ namespace AdminApi.Controllers
             if (authenticatedUser == null)
             {
                 // User isn't registered
-                return Unauthorized(new { error = "Invalid username and/or password" });
+                return Unauthorized(new { error = "Invalid username, email and/or password" });
             }
 
             // Return JSON response with token

@@ -22,7 +22,7 @@ This project was assigned to us ([Gerardo Gornes](https://github.com/ggornes "gg
     + [My branch is missing lots of files and it looks completely different from the others.](#my-branch-is-missing-lots-of-files-and-it-looks-completely-different-from-the-others)
     + [How can I check another person's branch to compare it to mine?](#how-can-i-check-another-persons-branch-to-compare-it-to-mine)
     + [I made a mistake in my commit and want to revert it to the previous one, how do I do that?](#i-made-a-mistake-in-my-commit-and-want-to-revert-it-to-the-previous-one-how-do-i-do-that)
-    + [How do I update my local [branch name] from origin/[branch name]?](#how-do-i-update-my-local-branch-name-from-originbranch-name)
+    + [How do I update my local branch?](#how-do-i-update-my-local-branch)
     + [How do I delete a branch?](#how-do-i-delete-a-branch)
     + [I can't run the application, Yarn says "[something] is not defined"](#i-cant-run-the-application-yarn-says-something-is-not-defined)
     + [Why not just work on the master branch?](#why-not-just-work-on-the-master-branch)    
@@ -145,9 +145,26 @@ If you have already committed, run: `git reset HEAD~1`
 
 Otherwise, to backup unstaged files and clean up your branch, run: `git stash`
 
-### How do I update my local [branch name] from origin/[branch name]?
-To update your local branch from the remote one, run:
+### How do I update my local branch?
+* To update your local `[branch name]` from `origin/[branch name]` (your remote branch), run:
+
 `git pull`
+
+* To update your local `[branch name]` from `origin/master` (the main branch of the project), first your have to update your local `master` branch:
+
+`git checkout master`
+
+`git pull`
+
+Now you can switch back to your local branch to update it:
+
+`git checkout [your branch's name]`
+
+`git merge master`
+
+Additionally, you should also update your remote branch (`origin/[your branch's name]`):
+
+`git push -u origin [your branch's name]`
 
 ### How do I delete a branch?
 Deleting a local branch: 

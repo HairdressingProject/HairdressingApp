@@ -1,10 +1,7 @@
-import { userConstants } from '../_constants';
 import { userService } from '../_services';
-import { alertActions } from './';
 import { history } from '../_helpers';
 import { createAction } from '@reduxjs/toolkit';
-
-const { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_SUCCESS, GETALL_FAILURE, GETALL_REQUEST } = userConstants;
+import { errorMessageAction } from './alerts.actions'
 
 /**
  * This object lists users-related actions
@@ -16,10 +13,9 @@ export const userActions = {
     getAll
 };
 
-const loginRequest = createAction(LOGIN_REQUEST);
-const loginSuccess = createAction(LOGIN_SUCCESS);
-const loginFailure = createAction(LOGIN_FAILURE);
-const logoutAction = createAction(LOGOUT);
+const loginRequest = createAction('LOGIN_REQUEST');
+const loginSuccess = createAction('LOGIN_SUCCESS');
+const loginFailure = createAction('LOGIN_FAILURE');
 
 /**
  * Dispatches login-related actions asynchronously to trigger state changes. Redirects to "/" if login is successful.
@@ -41,11 +37,13 @@ function login(username, password) {
                 },
                 error => {
                     dispatch(loginFailure({ error }));
-                    dispatch(alertActions.error(error));
+                    dispatch(errorMessageAction({ message: error }));
                 }
             );
     };
 }
+
+const logoutAction = createAction('LOGOUT');
 
 /**
  * Issues a logout action
@@ -57,9 +55,9 @@ function logout() {
     return logoutAction();
 }
 
-const getAllRequest = createAction(GETALL_REQUEST);
-const getAllSuccess = createAction(GETALL_SUCCESS);
-const getAllFailure = createAction(GETALL_FAILURE);
+const getAllRequest = createAction('GETALL_REQUEST');
+const getAllSuccess = createAction('GETALL_SUCCESS');
+const getAllFailure = createAction('GETALL_FAILURE');
 
 /**
  * Dispatches and handles actions related to fetching all users from the backend

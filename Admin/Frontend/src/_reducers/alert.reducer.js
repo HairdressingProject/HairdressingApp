@@ -1,20 +1,25 @@
-import { alertConstants } from '../_constants';
+import { createReducer } from '@reduxjs/toolkit';
+const cloneDeep = require('lodash.clonedeep');
 
-export function alert(state = {}, action) {
-  switch (action.type) {
-    case alertConstants.SUCCESS:
-      return {
-        type: 'alert-success',
-        message: action.message
-      };
-    case alertConstants.ERROR:
-      return {
-        type: 'alert-danger',
-        message: action.message
-      };
-    case alertConstants.CLEAR:
-      return {};
-    default:
-      return state
+/**
+ * @var {Object} usersReducer - Creates a "root" reducer that logs messages sent from the backend
+ */
+export const alertReducer = createReducer({}, {
+  SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      type: 'alert-success',
+      message: action.message
+    })
+  },
+  ERROR: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      type: 'alert-danger',
+      message: action.message
+    })
+  },
+  CLEAR: (state, action) => {
+    return ({});
   }
-}
+});

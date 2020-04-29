@@ -1,20 +1,25 @@
-import { userConstants } from '../_constants';
+import { createReducer } from '@reduxjs/toolkit';
+const cloneDeep = require('lodash.clonedeep');
 
-export function users(state = {}, action) {
-  switch (action.type) {
-    case userConstants.GETALL_REQUEST:
-      return {
-        loading: true
-      };
-    case userConstants.GETALL_SUCCESS:
-      return {
-        items: action.users
-      };
-    case userConstants.GETALL_FAILURE:
-      return { 
-        error: action.error
-      };
-    default:
-      return state
+/**
+ * @var {Object} usersReducer - Creates a "root" reducer that handles fetching all users
+ */
+export const usersReducer = createReducer({}, {
+  GETALL_REQUEST: (state, action) => {
+    return ({
+      loading: true
+    })
+  },
+  GETALL_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      items: action.payload.users
+    })
+  },
+  GETALL_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      error: action.payload.error
+    })
   }
-}
+});
