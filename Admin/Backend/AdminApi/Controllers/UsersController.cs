@@ -42,7 +42,12 @@ namespace AdminApi.Controllers
             var mappedUsers = await MapFeaturesToUsers();
             var mappedUsersWithoutPasswords = mappedUsers.WithoutPasswords();
 
-            return Ok(mappedUsersWithoutPasswords);
+            var usersResponse = new
+            {
+                users = mappedUsersWithoutPasswords
+            };
+
+            return Ok(usersResponse);
 
             // return await _context.Users.ToListAsync();
         }
@@ -60,7 +65,13 @@ namespace AdminApi.Controllers
             else
             {
                 var mappedUser = await MapFeaturesToUsers(user);
-                return Ok(mappedUser);
+                var userWithoutPassword = mappedUser.WithoutPassword();
+                var userResponse = new
+                {
+                    user = userWithoutPassword
+                };
+
+                return Ok(userResponse);
             }
 
             // return users;

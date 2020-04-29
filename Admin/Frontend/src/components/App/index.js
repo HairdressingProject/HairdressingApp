@@ -18,7 +18,7 @@ import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';
-import { clearMessageAction } from '../../_actions';
+import { clearMessageAction, userActions } from '../../_actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const routes = [
@@ -82,6 +82,17 @@ const App = () => {
             dispatch(clearMessageAction);
         })
     }, []);
+
+    useEffect(() => {
+        dispatch(userActions.getAll());
+    }, []);
+
+    const users = useSelector(state => state.users);
+
+    useEffect(() => {
+        console.log("dispatched users:")
+        console.dir(users);
+    }, [users]);
 
     // Modal set up
     const [isMenuOpen, setMenuOpen] = useState(false);

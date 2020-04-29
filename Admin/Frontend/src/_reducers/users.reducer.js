@@ -13,13 +13,13 @@ export const usersReducer = createReducer({}, {
   GETALL_SUCCESS: (state, action) => {
     return ({
       ...cloneDeep(state),
-      items: action.users
+      items: action.payload.users
     })
   },
   GETALL_FAILURE: (state, action) => {
     return ({
       ...cloneDeep(state),
-      error: action.error
+      error: action.payload.error
     })
   }
 });
