@@ -161,9 +161,6 @@ namespace AdminApi.Controllers
 
 // ********************************************************************************************************************************************        
 
-        // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_up")]
@@ -189,6 +186,7 @@ namespace AdminApi.Controllers
             return Conflict(new { error = "User already registered" });
         }
 
+        // POST: /api/users/sign_in
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_in")]

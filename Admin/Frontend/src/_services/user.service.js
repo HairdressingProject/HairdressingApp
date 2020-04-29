@@ -11,7 +11,7 @@ export const userService = {
 
 /**
  * @function login - Handles user login (submitted in the sign in form)
- * @param {string} usernameOrEmail - User or email submitted in the form
+ * @param {string} usernameOrEmail - Username or email submitted in the form
  * @param {string} password - Password submitted in the form
  * @returns {Object} user - This represents the JSON response from the server, containing user info and token to be saved in local storage
  */

@@ -42,8 +42,6 @@ namespace AdminApi.Controllers
         }
 
         // PUT: api/HairStyles/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHairStyles(ulong id, HairStyles hairStyles)
         {
@@ -74,8 +72,6 @@ namespace AdminApi.Controllers
         }
 
         // POST: api/HairStyles
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<HairStyles>> PostHairStyles(HairStyles hairStyles)
         {
