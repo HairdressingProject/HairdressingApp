@@ -6,6 +6,10 @@ import { orderBy } from 'lodash';
 import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
+import { userActions } from '../../../../_actions'
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
     
@@ -140,35 +144,34 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
       }, [data, selectedRows, toggleCleared, setEditUserModalOpen, toggleEditBtn]
   );
 
+    // Old method
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const result = await axios(
+    //             'https://localhost:5000/api/Users'
+    //             //'https://128.199.233.190:5001/api/Users'
+    //         );
 
+    //         console.log("Users Table data:");
+    //         console.log(result.data);
+    //         setData(result.data);
+    //     }
+    //     fetchData();
+    // }, []);
+    
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+      dispatch(userActions.getAll());
+    }, []);
 
-
-
-
-
-
-
+    const users = useSelector(state => state.users);
 
     useEffect(() => {
-
-
-        const fetchData = async () => {
-            const result = await axios(
-                'https://localhost:5000/api/Users'
-                //'https://128.199.233.190:5001/api/Users'
-            );
-
-            console.log("Users Table data:");
-            console.log(result.data);
-            setData(result.data);
-        }
-
-
-        
-
-        fetchData();
-
-    }, []);
+      console.log("Dispatched users: ");
+      console.dir(users);
+      setData(users.items);
+    }, [users]);
 
     return (
         <>
