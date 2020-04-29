@@ -22,7 +22,7 @@ namespace AdminApi.Controllers
     **/
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;

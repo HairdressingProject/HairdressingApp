@@ -9,7 +9,7 @@ using AdminApi.Models;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/face_shape_links")]
     [ApiController]
     public class FaceShapeLinksController : ControllerBase
     {

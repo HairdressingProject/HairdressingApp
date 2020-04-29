@@ -9,7 +9,7 @@ using AdminApi.Models;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/hair_length_links")]
     [ApiController]
     public class HairLengthLinksController : ControllerBase
     {

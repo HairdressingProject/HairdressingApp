@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/face_shapes")]
     [ApiController]
     public class FaceShapesController : ControllerBase
     {

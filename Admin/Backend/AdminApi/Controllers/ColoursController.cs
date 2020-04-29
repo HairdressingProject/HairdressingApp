@@ -9,7 +9,7 @@ using AdminApi.Models;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/colours")]
     [ApiController]
     public class ColoursController : ControllerBase
     {

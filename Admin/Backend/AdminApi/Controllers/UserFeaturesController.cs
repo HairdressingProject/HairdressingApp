@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user_features")]
     [ApiController]
     public class UserFeaturesController : ControllerBase
     {

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/skin_tones")]
     [ApiController]
     public class SkinTonesController : ControllerBase
     {

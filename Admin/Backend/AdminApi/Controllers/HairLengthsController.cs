@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/hair_lengths")]
     [ApiController]
     public class HairLengthsController : ControllerBase
     {

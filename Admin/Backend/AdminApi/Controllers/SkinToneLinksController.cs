@@ -9,7 +9,7 @@ using AdminApi.Models;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/skin_tone_links")]
     [ApiController]
     public class SkinToneLinksController : ControllerBase
     {
