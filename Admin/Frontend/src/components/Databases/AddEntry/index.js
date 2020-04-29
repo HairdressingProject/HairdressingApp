@@ -61,6 +61,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                                 )
                                 .then((res) => {
                                     console.log(res);
+                                    window.location.reload();
                                 });
 
                         break;
@@ -93,6 +94,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                                 )
                                 .then((res) => {
                                     console.log(res);
+                                    window.location.reload();
                                 });
                         break;
 
@@ -101,6 +103,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                                 skinToneName: formFields[0].input
                             }
                             console.log(inputs);
+                            
 
                             return axios
                             .post(
@@ -114,6 +117,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                             )
                             .then((res) => {
                                 console.log(res);
+                                window.location.reload();
                             });
                         break;
 
@@ -135,6 +139,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                             )
                             .then((res) => {
                                 console.log(res);
+                                window.location.reload();
                             });
                         break;
 
