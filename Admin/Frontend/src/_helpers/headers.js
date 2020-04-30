@@ -1,3 +1,11 @@
+/**
+ * @function createRequestHeader - Creates request headers to be sent (with an optional Authorization header)
+ * @param {"GET" | "POST" | "PUT" | "DELETE"} method - The standard HTTP method to be used in the request
+ * @param {Object | undefined} body - Optional request body
+ * @param {string | null} token - Optional JWT token (if authentication is required)
+ * @param {string | undefined} URL - Optional URL (defaults to "https://localhost:5000")
+ * @returns {Object} requestHeader
+ */
 export function createRequestHeader(method, body = {}, token = null, URL = 'https://localhost:5000') {
     const normalisedMethod = method ? method.trim().toUpperCase() : null;
     if (!normalisedMethod) throw 'Invalid request method';

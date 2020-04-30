@@ -11,6 +11,11 @@ export const resourceActions = {
     deleteResource
 };
 
+/**
+ * @function getActionGenerator - Creates all GETALL (get all resources of a kind) actions for a given resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ */
 function getAllActionGenerator(resourceName) {
     return ({
         getAllRequest: createAction(`${resourceName}_GETALL_REQUEST`),
@@ -20,8 +25,10 @@ function getAllActionGenerator(resourceName) {
 };
 
 /**
- * @function getAll
+ * @function getAll - Dispatches actions to get all resources of type resourceName
+ * @see {@link resourceName}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName 
+ * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
  */
 function getAll(resourceName, URL = `https://localhost:5000`) {
     return dispatch => {
@@ -46,6 +53,11 @@ function getAll(resourceName, URL = `https://localhost:5000`) {
     }
 }
 
+/**
+ * @function getActionGenerator - Creates all GET actions for a given resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ */
 function getActionGenerator(resourceName) {
     return ({
         getRequest: createAction(`${resourceName}_GET_REQUEST`),
@@ -55,9 +67,12 @@ function getActionGenerator(resourceName) {
 };
 
 /**
- * @function get
+ * @function get - Dispatches actions to GET a single resource of type resourceName with a given id 
+ * @see {@link resourceName}
+ * @see {@link id}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
- * @param {string | number} id
+ * @param {string | number} id - The ID of the resource to be used in the request
+ * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
  */
 function get(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
@@ -82,6 +97,11 @@ function get(resourceName, id, URL = `https://localhost:5000`) {
     }
 }
 
+/**
+ * @function getActionGenerator - Creates all POST actions for a given resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ */
 function postActionGenerator(resourceName) {
     return ({
         postRequest: createAction(`${resourceName}_POST_REQUEST`),
@@ -91,9 +111,11 @@ function postActionGenerator(resourceName) {
 };
 
 /**
- * @function post
+ * @function post - Dispatches actions to POST a resource of type resourceName
+ * @see {@link resourceName}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
- * @param {Object} resource
+ * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
+ * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
  */
 function post(resourceName, resource, URL = `https://localhost:5000`) {
     return dispatch => {
@@ -118,6 +140,11 @@ function post(resourceName, resource, URL = `https://localhost:5000`) {
     }
 }
 
+/**
+ * @function getActionGenerator - Creates all PUT actions for a given resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ */
 function putActionGenerator(resourceName) {
     return ({
         putRequest: createAction(`${resourceName}_PUT_REQUEST`),
@@ -127,10 +154,13 @@ function putActionGenerator(resourceName) {
 };
 
 /**
- * @function put
+ * @function put - Dispatches actions to PUT a resource of type resourceName with a given id
+ * @see {@link resourceName}  
+ * @see {@link id}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
- * @param {string | number} id
- * @param {Object} resource
+ * @param {string | number} id - The ID of the resource to be used in the request
+ * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
+ * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
  */
 function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     return dispatch => {
@@ -155,6 +185,11 @@ function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     }
 }
 
+/**
+ * @function getActionGenerator - Creates all DELETE actions for a given resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ */
 function deleteActionGenerator(resourceName) {
     return ({
         deleteRequest: createAction(`${resourceName}_DELETE_REQUEST`),
@@ -164,9 +199,12 @@ function deleteActionGenerator(resourceName) {
 }
 
 /**
- * @function deleteResource
+ * @function deleteResource - Dispatches actions to DELETE a resource of type resourceName with a given id
+ * @see {@link resourceName}
+ * @see {@link id}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
- * @param {string | number} id
+ * @param {string | number} id - The ID of the resource to be used in the request
+ * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
  */
 function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {

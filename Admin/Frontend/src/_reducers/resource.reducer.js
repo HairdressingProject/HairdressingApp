@@ -4,7 +4,7 @@ const cloneDeep = require('lodash.clonedeep');
 
 /**
  * @function generateReducer - Creates a custom reducer containing all API actions based on a resourceName
- * @param {string} resourceName - Name of the resource to be adopted in the actions
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName - Name of the resource to be adopted in the actions
  * @returns {Reducer} reducer
  */
 

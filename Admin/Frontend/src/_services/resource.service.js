@@ -8,6 +8,12 @@ export const resourceServices = {
     deleteResource
 };
 
+/**
+ * @function getAll - Gets all resource of type resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ * @param {string} URL - URL of the request
+ */
 async function getAll(resourceName, URL) {
     const requestOptions = createRequestHeader('GET');
 
@@ -17,6 +23,13 @@ async function getAll(resourceName, URL) {
     return handleResponse(response);
 }
 
+/**
+ * @function get - GET a resource of type resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ * @param {string | number} id - The ID of the resource 
+ * @param {string} URL - URL of the request
+ */
 async function get(resourceName, id, URL) {
     const requestOptions = createRequestHeader('GET');
 
@@ -26,6 +39,13 @@ async function get(resourceName, id, URL) {
     return handleResponse(response);
 }
 
+/**
+ * @function post - POST a resource of type resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ * @param {Object} resource - The resource object to be sent in the request body
+ * @param {string} URL - URL of the request
+ */
 async function post(resourceName, resource, URL) {
     const requestOptions = createRequestHeader('POST', resource);
 
@@ -35,6 +55,14 @@ async function post(resourceName, resource, URL) {
     return handleResponse(response);
 }
 
+/**
+ * @function put - PUT a resource of type resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ * @param {string | number} id - The ID of the resource
+ * @param {Object} resource - The resource object to be sent in the request body
+ * @param {string} URL - URL of the request
+ */
 async function put(resourceName, id, resource, URL) {
     const requestOptions = createRequestHeader('PUT', resource);
 
@@ -44,6 +72,13 @@ async function put(resourceName, id, resource, URL) {
     return handleResponse(response);
 }
 
+/**
+ * @function delete - DELETE a resource of type resourceName
+ * @see {@link resourceName}
+ * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
+ * @param {string | number} id - The ID of the resource
+ * @param {string} URL - URL of the request
+ */
 async function deleteResource(resourceName, id, URL) {
     const requestOptions = createRequestHeader('DELETE');
 
@@ -53,22 +88,22 @@ async function deleteResource(resourceName, id, URL) {
     return handleResponse(response);
 }
 
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            // user isn't authenticated
-            if (response.status === 401) {
-            }
-
-            // bad request
-            if (response.status === 400) {
-            }
-
-            const error = (data && data.error) || response.statusText;
-            return Promise.reject(error);
+/**
+ * @function handleResponse - Handles all kinds of responses sent from the backend. Can be used to handle errors as well.
+ * @param {Response} response 
+ */
+async function handleResponse(response) {
+    const text = await response.text();
+    const data = text && JSON.parse(text);
+    if (!response.ok) {
+        // user isn't authenticated
+        if (response.status === 401) {
         }
-
-        return data;
-    });
+        // bad request
+        if (response.status === 400) {
+        }
+        const error = (data && data.error) || response.statusText;
+        return Promise.reject(error);
+    }
+    return data;
 }

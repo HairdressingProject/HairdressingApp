@@ -1,3 +1,6 @@
+/**
+ * @var {Object} resourceNames - A helper object containing normalised names for all resources (basically, an Enum)
+ */
 export const resourceNames = {
     USERS: 'USERS',
     COLOURS: 'COLOURS',
