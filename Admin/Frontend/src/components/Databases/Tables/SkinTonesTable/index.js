@@ -7,7 +7,7 @@ import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalOpen}) => {
+export const SkinTonesTable = ({openAddModal, openEditModal}) => {
     const columns = [
         {
             name: 'Id',
@@ -72,7 +72,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
   
     }, [selectedRows, toggleEditBtn]);
 
-    const actions = <Button key="add" onClick={() => setAddSkinTonesModalOpen(true)}>Add</Button>;
+    const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
     const contextActions = React.useMemo(() => { //useState() ?
 
@@ -110,7 +110,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditSkinTonesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                        <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
@@ -125,7 +125,7 @@ export const SkinTonesTable = ({setAddSkinTonesModalOpen, setEditSkinTonesModalO
             
         );
   
-        }, [data, selectedRows, toggleCleared, setEditSkinTonesModalOpen, toggleEditBtn]
+        }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
     useEffect(() => {

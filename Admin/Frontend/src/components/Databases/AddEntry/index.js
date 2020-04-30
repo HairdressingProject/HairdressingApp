@@ -14,7 +14,7 @@ import { Row, Column } from 'react-foundation-components/lib/grid';
 // ToDo: Validation | fix add users
 
 
-export const AddEntry = ({title, initialFormFields}) => {
+export const AddEntry = ({title, initialFormFields, close}) => {
 
     return (
         <div className="add-form-container">
@@ -237,7 +237,7 @@ export const AddEntry = ({title, initialFormFields}) => {
                         }
                         <Row>
                             <Column small={4}>
-                            <Button key="cancel" style={{ backgroundColor: 'red' }}>Cancel</Button>
+                            <Button onClick={() => close(false)} key="cancel" style={{ backgroundColor: 'red' }}>Cancel</Button>
                             </Column>
                             <Column small={4}>
                                 <Button type="submit">Add</Button>

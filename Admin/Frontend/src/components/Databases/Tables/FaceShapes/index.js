@@ -6,7 +6,7 @@ import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
+export const FaceShapesTable = ({openAddModal, openEditModal}) => {
 
     const columns = [
         {
@@ -66,7 +66,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
 
       }, [selectedRows, toggleEditBtn]);
 
-    const actions = <Button key="add" onClick={() => setAddModalOpen(true)}>Add</Button>;
+    const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
     // const handleAdd = () => {
     //     // Show add form
@@ -120,7 +120,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                        <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
@@ -135,7 +135,7 @@ export const FaceShapesTable = ({setAddModalOpen, setEditModalOpen}) => {
             
         );
 
-        }, [data, selectedRows, toggleCleared, setEditModalOpen, toggleEditBtn]
+        }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
     useEffect(() => {
