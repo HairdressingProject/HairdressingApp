@@ -6,10 +6,12 @@ import {
     FormFieldError,
     FormFieldInline
 } from 'react-foundation-components/lib/forms';
+import classes from '../../Databases/Databases.module.scss';
 import { FormWithValidation } from '../../Forms/FormWithValidation';
 import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
+
 
 // ToDo: Validation | fix add users
 
@@ -17,8 +19,17 @@ import { Row, Column } from 'react-foundation-components/lib/grid';
 export const AddEntry = ({title, initialFormFields, close}) => {
 
     return (
-        <div className="add-form-container">
-            <h1>Add a new entry to {title} table</h1>
+        <div className={[classes["add-form-container"], "text-center"].join(' ')}>
+            <Row>
+                <Column small={12} medium={6} mediumCentered="centered" className={classes["add-form"]}>
+                    <Row className={classes["add-form-title-container"]}>
+                        <Column small={12}>
+                            <h1>Add a new entry to {title} table</h1>
+                        </Column>
+                    </Row>
+                </Column>
+            </Row>
+            
 
             <FormWithValidation
                 initialFormFields={initialFormFields}
@@ -209,14 +220,17 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             formFields.map((field, index) => {
                                 return(
                                     <>
-                                    <FormField
-                                        key={index}
-                                        id={field.label.toLowerCase().split(' ').join('-')}
-                                        className="add-form-field add-form-field-text-input"
-                                    >
-                                        <FormFieldInline>
-                                            <FormFieldLabel className="add-form-label">
-                                                {field.label}
+                                    <Row>
+                                        <Column>
+                                            <FormField
+                                            key={index}
+                                            id={field.label.toLowerCase().split(' ').join('-')}
+                                            className={[classes["add-form-field"], classes["add-form-field-text-input"]].join(' ')}
+                                        >
+                                            <FormFieldLabel></FormFieldLabel>
+                                            <FormFieldInline>
+                                            <FormFieldLabel className={classes["add-form-label"]}>
+                                                <img src={field.icon} alt={field.label} className={classes["signup-form-mail"]} />
                                             </FormFieldLabel>
                                             <FormFieldInput
                                                 type={field.type}
@@ -228,9 +242,12 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                                                 className="signin-form-input-field"
                                                 placeholder={field.label}
                                             />                                                    
-                                        </FormFieldInline>
+                                            </FormFieldInline>
 
-                                    </FormField>
+                                            </FormField>                                        
+                                        </Column>
+                                    </Row>
+
                                     </>
                                 );
                             })
