@@ -85,20 +85,17 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
-        dispatch(resourceActions.getAll(resourceNames.COLOURS));
+        dispatch(resourceActions.get(resourceNames.COLOURS, 2));
     }, []);
 
-    const faceShapes = useSelector(state => state.resources.faceShapes);
-    const colours = useSelector(state => state.resources.colours)
+
+    const colours = useSelector(state => state.resources.colours);
 
     useEffect(() => {
-        console.log("dispatched face_shapes:")
-        console.dir(faceShapes);
-
-        console.log("dispatched colours:")
+        console.log("dispatched colour:")
         console.dir(colours);
-    }, [faceShapes, colours]);
+
+    }, [colours]);
 
     // Modal set up
     const [isMenuOpen, setMenuOpen] = useState(false);

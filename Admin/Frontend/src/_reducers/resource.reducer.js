@@ -3,7 +3,9 @@ import { resourceNames } from '../_constants';
 const cloneDeep = require('lodash.clonedeep');
 
 /**
- * @function generateReducer
+ * @function generateReducer - Creates a custom reducer containing all API actions based on a resourceName
+ * @param {string} resourceName - Name of the resource to be adopted in the actions
+ * @returns {Reducer} reducer
  */
 
 function generateReducer(resourceName) {
@@ -21,7 +23,7 @@ function generateReducer(resourceName) {
                 items: action.payload.resource
             })
         },
-        GETALL_FAILURE: (state, action) => {
+        [`${resourceName}_GETALL_FAILURE`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
@@ -30,19 +32,19 @@ function generateReducer(resourceName) {
         },
 
         // GET
-        GET_REQUEST: (state, action) => {
+        [`${resourceName}_GET_REQUEST`]: (state, action) => {
             return ({
                 loading: true
             })
         },
-        GET_SUCCESS: (state, action) => {
+        [`${resourceName}_GET_SUCCESS`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
                 item: action.payload.resource
             })
         },
-        GET_FAILURE: (state, action) => {
+        [`${resourceName}_GET_FAILURE`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
@@ -51,19 +53,19 @@ function generateReducer(resourceName) {
         },
 
         // POST
-        POST_REQUEST: (state, action) => {
+        [`${resourceName}_POST_REQUEST`]: (state, action) => {
             return ({
                 loading: true
             })
         },
-        POST_SUCCESS: (state, action) => {
+        [`${resourceName}_POST_SUCCESS`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
                 item: action.payload.resource
             })
         },
-        POST_FAILURE: (state, action) => {
+        [`${resourceName}_POST_FAILURE`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
@@ -72,19 +74,19 @@ function generateReducer(resourceName) {
         },
 
         // PUT
-        PUT_REQUEST: (state, action) => {
+        [`${resourceName}_PUT_REQUEST`]: (state, action) => {
             return ({
                 loading: true
             })
         },
-        PUT_SUCCESS: (state, action) => {
+        [`${resourceName}_PUT_SUCCESS`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
                 item: action.payload.resource
             })
         },
-        PUT_FAILURE: (state, action) => {
+        [`${resourceName}_PUT_FAILURE`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
@@ -93,19 +95,19 @@ function generateReducer(resourceName) {
         },
 
         // DELETE
-        DELETE_REQUEST: (state, action) => {
+        [`${resourceName}_DELETE_REQUEST`]: (state, action) => {
             return ({
                 loading: true
             })
         },
-        DELETE_SUCCESS: (state, action) => {
+        [`${resourceName}_DELETE_SUCCESS`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
                 item: action.payload.resource
             })
         },
-        DELETE_FAILURE: (state, action) => {
+        [`${resourceName}_DELETE_FAILURE`]: (state, action) => {
             return ({
                 ...cloneDeep(state),
                 loading: false,
