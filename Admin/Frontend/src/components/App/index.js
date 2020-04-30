@@ -18,8 +18,8 @@ import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';
-import { clearMessageAction, userActions, resourceActions } from '../../_actions';
-import { resourceNames } from '../../_constants'
+import { clearMessageAction, resourceActions } from '../../_actions';
+import { resourceNames } from '../../_constants';
 import { useDispatch, useSelector } from 'react-redux';
 
 const routes = [
