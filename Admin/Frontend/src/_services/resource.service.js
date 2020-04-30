@@ -13,9 +13,10 @@ export const resourceServices = {
  * @see {@link resourceName}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
  * @param {string} URL - URL of the request
+ * @param {string | undefined} token - JWT token used for authentication 
  */
-async function getAll(resourceName, URL) {
-    const requestOptions = createRequestHeader('GET');
+async function getAll(resourceName, URL, token) {
+    const requestOptions = createRequestHeader('GET', null, URL, token);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -29,9 +30,10 @@ async function getAll(resourceName, URL) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
  * @param {string | number} id - The ID of the resource 
  * @param {string} URL - URL of the request
+ * @param {string | undefined} token - JWT token used for authentication
  */
-async function get(resourceName, id, URL) {
-    const requestOptions = createRequestHeader('GET');
+async function get(resourceName, id, URL, token) {
+    const requestOptions = createRequestHeader('GET', null, URL, token);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -45,9 +47,10 @@ async function get(resourceName, id, URL) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
  * @param {Object} resource - The resource object to be sent in the request body
  * @param {string} URL - URL of the request
+ * @param {string | undefined} token - JWT token used for authentication
  */
-async function post(resourceName, resource, URL) {
-    const requestOptions = createRequestHeader('POST', resource);
+async function post(resourceName, resource, URL, token) {
+    const requestOptions = createRequestHeader('POST', resource, URL, token);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -62,9 +65,10 @@ async function post(resourceName, resource, URL) {
  * @param {string | number} id - The ID of the resource
  * @param {Object} resource - The resource object to be sent in the request body
  * @param {string} URL - URL of the request
+ * @param {string | undefined} token - JWT token used for authentication
  */
-async function put(resourceName, id, resource, URL) {
-    const requestOptions = createRequestHeader('PUT', resource);
+async function put(resourceName, id, resource, URL, token) {
+    const requestOptions = createRequestHeader('PUT', resource, URL, token);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -78,9 +82,10 @@ async function put(resourceName, id, resource, URL) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"} resourceName
  * @param {string | number} id - The ID of the resource
  * @param {string} URL - URL of the request
+ * @param {string | undefined} token - JWT token used for authentication
  */
-async function deleteResource(resourceName, id, URL) {
-    const requestOptions = createRequestHeader('DELETE');
+async function deleteResource(resourceName, id, URL, token) {
+    const requestOptions = createRequestHeader('DELETE', null, URL, token);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -96,7 +101,7 @@ async function handleResponse(response) {
     const text = await response.text();
     const data = text && JSON.parse(text);
     if (!response.ok) {
-        // user isn't authenticated
+        // user isn't authenticated/authorised
         if (response.status === 401) {
         }
         // bad request

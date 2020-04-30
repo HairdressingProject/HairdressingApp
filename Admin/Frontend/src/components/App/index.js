@@ -85,7 +85,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 4));
+        dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 9));
     }, []);
 
 
@@ -93,7 +93,7 @@ const App = () => {
 
     useEffect(() => {
         console.log('face shapes dispatched:');
-        console.dir(faceShapes.item);
+        console.dir(faceShapes);
 
     }, [faceShapes]);
 

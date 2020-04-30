@@ -7,9 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
+    /**
+     * FaceShapesController
+     * This controller handles all routes in the format: "/api/face_shapes/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
     [Route("api/face_shapes")]
     [ApiController]
     public class FaceShapesController : ControllerBase

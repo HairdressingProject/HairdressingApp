@@ -2,7 +2,7 @@
 
 namespace AdminApi.Models
 {
-    public class AuthenticateUserModel
+    public class ValidatedUserModel
     {
         [Required]
         [MinLength(1)]

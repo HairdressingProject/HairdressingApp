@@ -190,7 +190,7 @@ namespace AdminApi.Controllers
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_in")]
-        public async Task<IActionResult> SignIn([FromBody] AuthenticateUserModel user)
+        public async Task<IActionResult> SignIn([FromBody] ValidatedUserModel user)
         {
             // Authenticate user
             var authenticatedUser = await _userService.Authenticate(user.UserName, user.UserPassword);

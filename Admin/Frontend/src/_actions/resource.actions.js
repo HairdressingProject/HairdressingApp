@@ -29,8 +29,9 @@ function getAllActionGenerator(resourceName) {
  * @see {@link resourceName}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName 
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
+ * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function getAll(resourceName, URL = `https://localhost:5000`) {
+function getAll(resourceName, URL = `https://localhost:5000`, token) {
     return dispatch => {
         const {
             getAllRequest,
@@ -38,9 +39,23 @@ function getAll(resourceName, URL = `https://localhost:5000`) {
             getAllFailure
         } = getAllActionGenerator(resourceName);
 
+        if (!token) {
+            // If no token was passed to the action, try to retrieve from localStorage
+            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
+
+            if (!storedUserInfo || !storedUserInfo.token) {
+                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
+                dispatch(getAllFailure({ error: "Invalid token" }));
+
+                return;
+            }
+
+            token = storedUserInfo.token;
+        }
+
         dispatch(getAllRequest());
 
-        resourceServices.getAll(resourceName, URL)
+        resourceServices.getAll(resourceName, URL, token)
             .then(
                 resource => {
                     dispatch(getAllSuccess({ resource }));
@@ -73,8 +88,9 @@ function getActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
+ * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function get(resourceName, id, URL = `https://localhost:5000`) {
+function get(resourceName, id, URL = `https://localhost:5000`, token) {
     return dispatch => {
         const {
             getRequest,
@@ -82,9 +98,23 @@ function get(resourceName, id, URL = `https://localhost:5000`) {
             getFailure
         } = getActionGenerator(resourceName);
 
+        if (!token) {
+            // If no token was passed to the action, try to retrieve from localStorage
+            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
+
+            if (!storedUserInfo || !storedUserInfo.token) {
+                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
+                dispatch(getFailure({ error: "Invalid token" }));
+
+                return;
+            }
+
+            token = storedUserInfo.token;
+        }
+
         dispatch(getRequest());
 
-        resourceServices.get(resourceName, id, URL)
+        resourceServices.get(resourceName, id, URL, token)
             .then(
                 resource => {
                     dispatch(getSuccess({ resource }));
@@ -116,8 +146,9 @@ function postActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
+ * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function post(resourceName, resource, URL = `https://localhost:5000`) {
+function post(resourceName, resource, URL = `https://localhost:5000`, token) {
     return dispatch => {
         const {
             postRequest,
@@ -125,9 +156,23 @@ function post(resourceName, resource, URL = `https://localhost:5000`) {
             postFailure
         } = postActionGenerator(resourceName);
 
+        if (!token) {
+            // If no token was passed to the action, try to retrieve from localStorage
+            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
+
+            if (!storedUserInfo || !storedUserInfo.token) {
+                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
+                dispatch(postFailure({ error: "Invalid token" }));
+
+                return;
+            }
+
+            token = storedUserInfo.token;
+        }
+
         dispatch(postRequest());
 
-        resourceServices.post(resourceName, resource, URL)
+        resourceServices.post(resourceName, resource, URL, token)
             .then(
                 resource => {
                     dispatch(postSuccess({ resource }));
@@ -161,8 +206,9 @@ function putActionGenerator(resourceName) {
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
+ * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function put(resourceName, id, resource, URL = `https://localhost:5000`) {
+function put(resourceName, id, resource, URL = `https://localhost:5000`, token) {
     return dispatch => {
         const {
             putRequest,
@@ -170,9 +216,23 @@ function put(resourceName, id, resource, URL = `https://localhost:5000`) {
             putFailure
         } = putActionGenerator(resourceName);
 
+        if (!token) {
+            // If no token was passed to the action, try to retrieve from localStorage
+            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
+
+            if (!storedUserInfo || !storedUserInfo.token) {
+                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
+                dispatch(putFailure({ error: "Invalid token" }));
+
+                return;
+            }
+
+            token = storedUserInfo.token;
+        }
+
         dispatch(putRequest());
 
-        resourceServices.put(resourceName, id, resource, URL)
+        resourceServices.put(resourceName, id, resource, URL, token)
             .then(
                 resource => {
                     dispatch(putSuccess({ resource }));
@@ -205,8 +265,9 @@ function deleteActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
+ * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
+function deleteResource(resourceName, id, URL = `https://localhost:5000`, token) {
     return dispatch => {
         const {
             deleteRequest,
@@ -214,9 +275,23 @@ function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
             deleteFailure
         } = deleteActionGenerator(resourceName);
 
+        if (!token) {
+            // If no token was passed to the action, try to retrieve from localStorage
+            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
+
+            if (!storedUserInfo || !storedUserInfo.token) {
+                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
+                dispatch(deleteFailure({ error: "Invalid token" }));
+
+                return;
+            }
+
+            token = storedUserInfo.token;
+        }
+
         dispatch(deleteRequest());
 
-        resourceServices.deleteResource(resourceName, id, URL)
+        resourceServices.deleteResource(resourceName, id, URL, token)
             .then(
                 resource => {
                     dispatch(deleteSuccess({ resource }));

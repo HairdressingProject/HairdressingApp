@@ -6,9 +6,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
+    /**
+     * ColoursController
+     * This controller handles all routes in the format: "/api/colours/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
     [Route("api/colours")]
     [ApiController]
     public class ColoursController : ControllerBase

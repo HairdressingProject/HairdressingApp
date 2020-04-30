@@ -7,9 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
+    /**
+     * HairLengthsController
+     * This controller handles all routes in the format: "/api/hair_lengths/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
     [Route("api/hair_lengths")]
     [ApiController]
     public class HairLengthsController : ControllerBase
