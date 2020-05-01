@@ -9,11 +9,11 @@
     + [API Reference](#api-reference)
       - [`resourceNames`](#-resourcenames--object-)
       - [`resourceActions`](#-resourceactions--object-)
-      - [`getAll`](#-getall-resourcename--resourcenames--url--string----https---localhost-5000---token--string--)
-      - [`get`](#-get-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
-      - [`post`](#-post-resourcename--resourcenames--resource--object--url--string----https---localhost-5000---token--string--)
-      - [`put`](#-put-resourcename--resourcenames--id--string---number--resource--object--url--string----https---localhost-5000---token--string--)
-      - [`deleteResource`](#-deleteresource-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
+      - [`getAll(resourceName, URL, token)`](#-getall-resourcename--resourcenames--url--string----https---localhost-5000---token--string--)
+      - [`get(resourceName, id, URL, token)`](#-get-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
+      - [`post(resourceName, resource, URL, token)`](#-post-resourcename--resourcenames--resource--object--url--string----https---localhost-5000---token--string--)
+      - [`put(resourceName, id, resource, URL, token)`](#-put-resourcename--resourcenames--id--string---number--resource--object--url--string----https---localhost-5000---token--string--)
+      - [`deleteResource(resourceName, id, URL, token)`](#-deleteresource-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
     + [Cheat Sheet](#cheat-sheet)
       - [Imports](#imports)
       - [Initial set up](#initial-set-up)
@@ -23,6 +23,7 @@
       - [POST requests](#post-requests)
       - [PUT requests](#put-requests)
       - [DELETE requests](#delete-requests)
+- [Adding styles](#adding-styles)
 
 ## Resources API
 
@@ -334,3 +335,53 @@ useEffect(() => {
 }, [hairStyles]);
 
 ```
+
+## Adding styles
+Adding styles to your components is done via `SCSS`. In the same directory of the `index.js` file of your component (say, `StylishComponent/index.js`), you should have a `SCSS` file named `StylishComponent.module.scss`. 
+
+Then you can import the `SCSS` file in your `StylishComponent/index.js` file like so:
+
+```
+import classes from './StylishComponent.module.scss';
+```
+
+`classes` is an object that provides scoped access to all classes from your `StylishComponent.module.scss` file, which means that there is no risk of overriding classes with the same name from `SCSS` files of other components. See the example below to understand how everything ties together.
+
+`StylishComponent/StylishComponent.module.scss`
+```
+.stylish-container {
+  height: 100vh;
+  background: radial-gradient(circle, rgba(105,226,245,1) 0%, rgba(141,214,197,1) 100%);
+  text-align: center;
+}
+
+.stylish-text-1 {
+  font-family: 'Comic Sans', sans-serif;
+  font-size: 8rem;
+  color: #333333;
+  text-shadow: 15px 6px 4px rgba(109,62,195,0.6);
+  margin: 0;
+}
+
+.stylish-text-2 {
+  text-transform: uppercase;
+  letter-spacing: 3rem; 
+  padding-top: 50vh;
+}
+```
+
+`StylishComponent/index.js`
+```
+import React from 'react';
+import classes from './StylishComponent.module.scss';
+
+export const StylishComponent = () => (
+    <div className={classes["stylish-container"]}>
+        <h1 className={[classes["stylish-text-1"], classes["stylish-text-2"]].join(' ')}>
+            bruh
+        </h1>
+    </div>
+);
+```
+
+See the result [here](https://codesandbox.io/s/thirsty-lehmann-ojlgq "Result - CodeSandbox").
