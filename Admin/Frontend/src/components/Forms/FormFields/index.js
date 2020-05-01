@@ -1,7 +1,13 @@
+import user from '../../../img/icons/user.svg';
+import mail from '../../../img/icons/mail.svg';
+import password from '../../../img/icons/password.svg';
+//import password from '../../../img/icons/password.svg';
+
 export const userInitialFields = [
     {
         label: 'User Name',
         input: '',
+        icon: user,
         type: 'text',
         touched: false,
         required: true,
@@ -18,6 +24,7 @@ export const userInitialFields = [
     {
         label: 'User Email',
         input: '',
+        icon: mail,
         type: 'text',
         touched: false,
         required: true,
@@ -34,6 +41,7 @@ export const userInitialFields = [
     {
         label: 'User Password',
         input: '',
+        icon: password,
         type: 'text',
         touched: false,
         required: true,
@@ -50,6 +58,7 @@ export const userInitialFields = [
     {
         label: 'First Name',
         input: '',
+        icon: user,
         type: 'text',
         touched: false,
         required: true,
@@ -66,6 +75,7 @@ export const userInitialFields = [
     {
         label: 'Last Name',
         input: '',
+        icon: user,
         type: 'text',
         touched: false,
         required: true,
@@ -82,6 +92,7 @@ export const userInitialFields = [
     {
         label: 'User Role',
         input: '',
+        icon: user,
         type: 'text',
         touched: false,
         required: true,
