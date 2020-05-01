@@ -8,7 +8,6 @@ import { Table } from 'react-foundation-components/lib/table';
 import { FormField, FormFieldLabel, FormFieldInput, FormFieldError } from 'react-foundation-components/lib/forms';
 import { Button } from 'react-foundation-components/lib/button';
 import { FormWithValidation } from '../Forms/FormWithValidation';
-const cloneDeep = require('lodash.clonedeep');
 
 export const DummyComponent = () => {
 
@@ -99,9 +98,10 @@ export const DummyComponent = () => {
         {
             label: 'Request method',
             type: 'select',
-            options: ['POST', 'PUT'],
+            options: ['POST', 'PUT', 'DELETE'],
             touched: false,
-            input: 'POST'
+            input: 'POST',
+            defaultValue: 'POST'
         },
         {
             label: 'Id',
@@ -167,16 +167,44 @@ export const DummyComponent = () => {
                         // Submit form here
                         if (requestMethod === 'POST') {
                             dispatch(resourceActions.post(resourceNames.HAIR_STYLES, { HairStyleName: body.HairStyleName }));
-                            setFormSubmitted(true);
+                        }
+                        else if (requestMethod === 'PUT') {
+                            const selectedHairStyle = localHairStyles.hairStyles.items.find(h => h.id == body.Id);
+
+                            // For PUT requests, don't forget to pass the entire resource object
+                            // Except for DateModified, since it's automatically set by the database
+                            // This is required by ASP.NET Core, because it strictly follows
+                            // The HTTP specification
+                            dispatch(resourceActions.put(resourceNames.HAIR_STYLES, body.Id, {
+                                Id: body.Id,
+                                HairStyleName: body.HairStyleName,
+                                HairStyleLinks: selectedHairStyle.hairStyleLinks,
+                                DateCreated: selectedHairStyle.dateCreated
+                            }));
                         }
                         else {
-                            dispatch(resourceActions.put(resourceNames.HAIR_STYLES, body.Id, body));
-                            setFormSubmitted(true);
+                            dispatch(resourceActions.deleteResource(resourceNames.HAIR_STYLES, body.Id));
                         }
+
+                        // This small delay avoids race conditions
+                        // For example: If a POST_SUCCESS action kicks in after a GETALL_SUCCESS action, the list of resources will not be updated
+                        // I'm still trying to figure out how to solve this properly
+                        setTimeout(() => {
+                            setFormSubmitted(true);
+                        }, 300);
 
                         // Clear form fields
                         formFields.forEach((f, i) => {
-                            f.input = initialFormFields[i].input;
+                            if (f.type === 'text') {
+                                f.input = '';
+                            }
+
+                            // BUG: Select option doesn't get reset
+                            // Perhaps should make setInputValue available here?
+                            else {
+                                f.input = 'POST';
+                                f.defaultValue = 'POST';
+                            }
                         });
                     }}
                     fields={(
@@ -217,6 +245,7 @@ export const DummyComponent = () => {
                                                                     type={field.type}
                                                                     onChange={e => setInputValue(field, e)}
                                                                     className={classes["dummy-form-option"]}
+                                                                    defaultValue={field.defaultValue}
                                                                 >
                                                                     {
                                                                         field.options.map((option, i) => (
@@ -264,7 +293,12 @@ export const DummyComponent = () => {
                                                                     onBlur={e => handleBlur(field, e)}
                                                                     className={classes["dummy-form-input"]}
                                                                     placeholder={field.label}
-                                                                    disabled={field.label === 'Id' && formFields[0].input === 'POST'}
+                                                                    disabled={
+                                                                        (field.label === 'Id' && formFields[0].input === 'POST')
+                                                                        ||
+                                                                        (field.label === 'HairStyleName' &&
+                                                                            formFields[0].input === 'DELETE')
+                                                                    }
                                                                 />
                                                             </Column>
                                                         </Row>
@@ -296,6 +330,7 @@ export const DummyComponent = () => {
                                     color="success"
                                     type="submit"
                                     className={classes["dummy-form-submit"]}
+                                    disabled={formSubmitted}
                                 >
                                     Submit
                                 </Button>
