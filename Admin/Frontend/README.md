@@ -6,6 +6,14 @@
   * [Sending API requests](#sending-api-requests)
     + [Importing required modules](#importing-required-modules)
     + [Sending API requests](#sending-api-requests-1)
+    + [API Reference](#api-reference)
+      - [`resourceNames`](#-resourcenames--object-)
+      - [`resourceActions`](#-resourceactions--object-)
+      - [`getAll`](#-getall-resourcename--resourcenames--url--string----https---localhost-5000---token--string--)
+      - [`get`](#-get-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
+      - [`post`](#-post-resourcename--resourcenames--resource--object--url--string----https---localhost-5000---token--string--)
+      - [`put`](#-put-resourcename--resourcenames--id--string---number--resource--object--url--string----https---localhost-5000---token--string--)
+      - [`deleteResource`](#-deleteresource-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
     + [Cheat Sheet](#cheat-sheet)
       - [Imports](#imports)
       - [Initial set up](#initial-set-up)
@@ -80,13 +88,129 @@ Another import statement that you should include refers to [`resourceNames`](htt
 Now you should be ready to perform HTTP requests through `resourceActions`.
 
 #### Sending API requests
-Using the `DummyComponent` from the previous section, this is how the application would work:
+Using the `DummyComponent` from the previous section, this is how you would have a very basic component that requests all _face shapes_ from the database and stores them locally:
 
 ```
-WIP!
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../_actions';
+import { resourceNames } from '../../_constants';
+
+const DummyComponent = () => {
+    const [localFaceShapes, setLocalFaceShapes] = useState(null);
+    const dispatch = useDispatch();
+    const faceShapes = useSelector(state => state.resources.faceShapes);
+
+    useEffect(() => {
+
+        dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
+
+    }, []);
+
+    useEffect(() => {
+        // faceShapes was updated, store results in localFaceShapes
+
+        setLocalFaceShapes({ faceShapes });
+        
+    }, [faceShapes]);
+
+    return (
+        // ...
+    )
+}
 ```
 
-See [DummyComponent/index.js](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/components/DummyComponent/index.js "DummyComponent/index.js example") as an example.
+For a more comprehensive example that uses other methods, see [DummyComponent/index.js](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/components/DummyComponent/index.js "DummyComponent/index.js example").
+
+The `DummyComponent` can be accessed via the `/dummy` route (i.e. `http://localhost:3000/dummy` if you are working locally).
+
+#### API Reference
+
+##### `resourceNames: Object`
+Works as an `Enum` that represents a specific resource.
+
+```
+const resourceNames = {
+    USERS: 'USERS',
+    COLOURS: 'COLOURS',
+    FACE_SHAPES: 'FACE_SHAPES',
+    FACE_SHAPE_LINKS: 'FACE_SHAPE_LINKS',
+    HAIR_LENGTHS: 'HAIR_LENGTHS',
+    HAIR_LENGTH_LINKS: 'HAIR_LENGTH_LINKS',
+    HAIR_STYLES: 'HAIR_STYLES',
+    HAIR_STYLE_LINKS: 'HAIR_STYLE_LINKS',
+    SKIN_TONES: 'SKIN_TONES',
+    SKIN_TONE_LINKS: 'SKIN_TONE_LINKS',
+    USER_FEATURES: 'USER_FEATURES'
+};
+```
+
+##### `resourceActions: Object`
+Contains functions that call HTTP requests.
+
+```
+const resourceActions = {
+    getAll,
+    get,
+    post,
+    put,
+    deleteResource
+};
+```
+##### `getAll(resourceName: resourceNames, URL: string | "https://localhost:5000", token: string)`
+Thunk middleware that dispatches actions to `GET` all resource of type `resourceName` from the database. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+
+Accessed from `resourceActions`.
+
+```
+// Dispatch an action to GET all FACE_SHAPES from the database
+
+dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
+```
+
+##### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)` 
+Thunk middleware that dispatches actions to `GET` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+
+```
+// Dispatch an action to GET a FACE_SHAPE with id = 3 from the database
+
+dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 3));
+```
+
+##### `post(resourceName: resourceNames, resource: Object, URL: string | "https://localhost:5000", token: string)` 
+Thunk middleware that dispatches actions to `POST` a `resource` of type `resourceName` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+
+__NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
+
+__NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateModified` fields in `PUT` requests. These will be automatically set by the database.
+
+```
+// Dispatch an action to POST a FACE_SHAPE to the database
+
+dispatch(resourceActions.post(resourceNames.FACE_SHAPES, { ShapeName: "square" }));
+```
+
+##### `put(resourceName: resourceNames, id: string | number, resource: Object, URL: string | "https://localhost:5000", token: string)`
+Thunk middleware that dispatches actions to `PUT` a `resource` of type `resourceName` with a given `id` in the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+
+__NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
+
+__NOTE 2__: Since ASP.NET Core closely follows the HTTP specification, the `resource` object is required to contain __all__ properties in `PUT` requests, __except__ `DateModified`, which will be automatically updated by the database. You should be able to access them by storing your resources locally in your component (with `useState`) after dispatching a `GET ALL` action.
+
+```
+// Dispatch an action to PUT a FACE_SHAPE with id = 3 in the database
+
+dispatch(resourceActions.put(resourceNames.FACE_SHAPES, 3, { Id: 3, ShapeName: "square", DateCreated: dateCreated, FaceShapeLinks: faceShapeLinks }));
+```
+
+##### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)`
+Thunk middleware that dispatches actions to `DELETE` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+
+```
+// Dispatch an action to DELETE a FACE_SHAPE with id = 3 from the database
+
+dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, 3));
+```
 
 #### Cheat Sheet
 ##### Imports
