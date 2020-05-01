@@ -83,15 +83,15 @@ export const DummyComponent = () => {
             .forEach(resourceName => {
                 dispatch(resourceActions.getAll(resourceName));
             });
-    }, []); */
+    }, []);
 
-    /* useEffect(() => {
+    useEffect(() => {
         console.log('A new resource has been fetched/updated! It will be stored in localResources');
 
         setLocalResources({ resources });
-    }, [resources]); */
+    }, [resources]);
 
-    /* useEffect(() => {
+    useEffect(() => {
         console.dir(localResources);
     }, [localResources]); */
 

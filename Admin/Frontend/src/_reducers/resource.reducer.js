@@ -118,6 +118,7 @@ function generateReducer(resourceName) {
 };
 
 export const resourcesReducer = combineReducers({
+    users: generateReducer(resourceNames.USERS),
     colours: generateReducer(resourceNames.COLOURS),
     faceShapes: generateReducer(resourceNames.FACE_SHAPES),
     faceShapeLinks: generateReducer(resourceNames.FACE_SHAPE_LINKS),
