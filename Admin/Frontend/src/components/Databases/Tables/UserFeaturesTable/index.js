@@ -7,7 +7,7 @@ import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeaturesModalOpen}) => {
+export const UserFeaturesTable = ({openAddModal, openEditModal}) => {
     const columns = [
         {
             name: 'Id',
@@ -83,7 +83,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
   
       }, [selectedRows, toggleEditBtn]);
 
-      const actions = <Button key="add" onClick={() => setAddUserFeaturesModalOpen(true)}>Add</Button>;
+      const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
 
       const contextActions = React.useMemo(() => { //useState() ?
@@ -112,7 +112,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
                 <Row className="table-btn-container">
                     <Column small={6} className="edit-container">
                         { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => setEditUserFeaturesModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                        <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                         :
                         null}
                     </Column>
@@ -127,7 +127,7 @@ export const UserFeaturesTable = ({setAddUserFeaturesModalOpen, setEditUserFeatu
             
         );
   
-        }, [data, selectedRows, toggleCleared, setEditUserFeaturesModalOpen, toggleEditBtn]
+        }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
 

@@ -6,10 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    /**
+     * FaceShapeLinksController
+     * This controller handles all routes in the format: "/api/face_shape_links/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
+    [Route("api/face_shape_links")]
     [ApiController]
     public class FaceShapeLinksController : ControllerBase
     {
@@ -42,8 +50,6 @@ namespace AdminApi.Controllers
         }
 
         // PUT: api/FaceShapeLinks/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFaceShapeLinks(ulong id, FaceShapeLinks faceShapeLinks)
         {
@@ -74,8 +80,6 @@ namespace AdminApi.Controllers
         }
 
         // POST: api/FaceShapeLinks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks(FaceShapeLinks faceShapeLinks)
         {

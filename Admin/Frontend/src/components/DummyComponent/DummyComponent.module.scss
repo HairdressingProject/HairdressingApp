@@ -1,0 +1,61 @@
+.dummy {
+    &-container {
+        padding-top: 2rem;
+    }   
+
+    &-form {
+        &-container {
+            margin: 2rem auto 6rem auto;
+        }
+
+        &-container &-field {
+            margin-bottom: 3rem;
+        }
+
+        &-container &-input {
+            text-align: center;
+            font-size: 1.4rem;
+            padding: 2rem 1.5rem;
+            
+            &::placeholder {
+                text-align: center;
+            }
+        }
+
+        &-container &-option {
+            text-align-last: center;
+            font-size: 1.2rem;
+
+            option {
+                font-size: 1.4rem;
+            }
+        }
+
+        &-container &-label {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        &-container &-submit {
+            font-size: 1.4rem;
+        }
+    }
+
+    &-title {
+        font-size: 1.8rem;
+        color: white;
+        letter-spacing: .15rem;
+    }
+
+    &-table {
+        margin: 2rem auto;
+        font-size: 1.4rem;
+
+        &-title {
+            font-size: 1.8rem;
+            letter-spacing: .15rem;
+            color: white;
+        }
+    }
+}

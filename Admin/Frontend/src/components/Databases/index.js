@@ -253,8 +253,8 @@ export const Databases = () =>
                     { showUsersTable ? // if true, show the table
                     <div className={classes["selected-table-container"]}>
                     <UsersTable
-                        setAddUserModalOpen={showAddUserModal}
-                        setEditUserModalOpen={showEditUserModal}
+                        openAddModal={showAddUserModal}
+                        openEditModal={showEditUserModal}
                     />
                     </div>
                     :
@@ -263,10 +263,10 @@ export const Databases = () =>
 
                     <ModalForm
                         tableSource="Users"
-                        isAddModalOpen={isAddUserModalOpen}
-                        isEditModalOpen={isEditUserModalOpen}
-                        setAddModalOpen={setAddUserModalOpen}
-                        setEditModalOpen={setEditUserModalOpen}
+                        openAddModal={isAddUserModalOpen}
+                        openEditModal={isEditUserModalOpen}
+                        closeAddModal={setAddUserModalOpen}
+                        closeEditModal={setEditUserModalOpen}
                     />   
 
                 {/* end of Users ********************************************** */}
@@ -276,8 +276,8 @@ export const Databases = () =>
                 { showUserFeaturesTable ?
                     <div className={classes["selected-table-container"]}>
                         <UserFeaturesTable
-                            setAddUserFeaturesModalOpen={showAddUserFeaturesModal}
-                            setEditUserFeaturesModalOpen={showEditUserFeaturesModal}
+                            openAddModal={showAddUserFeaturesModal}
+                            openEditModal={showEditUserFeaturesModal}
                         />
                     </div>
                     :
@@ -286,10 +286,10 @@ export const Databases = () =>
 
                     <ModalForm
                         tableSource="User Features"
-                        isAddModalOpen={isAddUserFeaturesModalOpen}
-                        isEditModalOpen={isEditUserFeaturesModalOpen}
-                        setAddModalOpen={setAddUserFeaturesModalOpen}
-                        setEditModalOpen={setEditUserFeaturesModalOpen}
+                        openAddModal={isAddUserFeaturesModalOpen}
+                        openEditModal={isEditUserFeaturesModalOpen}
+                        closeAddModal={showAddUserFeaturesModal}
+                        closeEditModal={showEditUserFeaturesModal}
                     />   
                 {/* end of Users Features ********************************************** */}                    
                 
@@ -299,8 +299,8 @@ export const Databases = () =>
                 { showSkinTonesTable ?
                     <div className={classes["selected-table-container"]}>
                         <SkinTonesTable
-                            setAddSkinTonesModalOpen={showAddSkinTonesModal}
-                            setEditSkinTonesModalOpen={showEditSkinTonesModal}                     
+                            openAddModal={showAddSkinTonesModal}
+                            openEditModal={showEditSkinTonesModal}                     
                         />
                     </div>
                     :
@@ -308,10 +308,10 @@ export const Databases = () =>
 
                     <ModalForm
                         tableSource="Skin Tones"
-                        isAddModalOpen={isAddSkinTonesModalOpen}
-                        isEditModalOpen={isEditSkinTonesModalOpen}
-                        setAddModalOpen={setAddSkinTonesModalOpen}
-                        setEditModalOpen={setEditSkinTonesModalOpen}
+                        openAddModal={isAddSkinTonesModalOpen}
+                        openEditModal={isEditSkinTonesModalOpen}
+                        closeAddModal={showAddSkinTonesModal}
+                        closeEditModal={showEditSkinTonesModal}
                     />   
                 {/* End of skin tones ********************************************** */}
                 
@@ -321,8 +321,8 @@ export const Databases = () =>
                 { showHairLengthsTable ?
                     <div className={classes["selected-table-container"]}>
                         <HairLengthsTable
-                            setAddHairLengthsModalOpen={showAddHairLengthsModal}
-                            setEditHairLengthsModalOpen={showEditHairLengthsModal}                       
+                            openAddModal={showAddHairLengthsModal}
+                            openEditModal={showEditHairLengthsModal}                       
                         />
                     </div>
                     :
@@ -330,10 +330,10 @@ export const Databases = () =>
 
                     <ModalForm
                         tableSource="Hair Lengths"
-                        isAddModalOpen={isAddHairLengthsModalOpen}
-                        isEditModalOpen={isEditHairLengthsModalOpen}
-                        setAddModalOpen={setAddHairLengthsModalOpen}
-                        setEditModalOpen={setEditHairLengthsModalOpen}
+                        openAddModal={isAddHairLengthsModalOpen}
+                        openEditModal={isEditHairLengthsModalOpen}
+                        closeAddModal={showAddHairLengthsModal}
+                        closeEditModal={showEditHairLengthsModal}
                     />
                 {/* End of Hair Lengths ********************************************** */}                    
 
@@ -343,8 +343,8 @@ export const Databases = () =>
                 { showFaceShapesTable ?
                     <div className={classes["selected-table-container"]}>
                     <FaceShapesTable
-                        setAddModalOpen={showAddFaceShapesModal}
-                        setEditModalOpen={showEditFaceShapesModal}
+                        openAddModal={showAddFaceShapesModal}
+                        openEditModal={showEditFaceShapesModal}
                     />
                     </div>
                     :
@@ -352,10 +352,10 @@ export const Databases = () =>
                 }
                 <ModalForm
                     tableSource="Face Shapes"
-                    isAddModalOpen={isAddFaceShapesModalOpen}
-                    isEditModalOpen={isEditFaceShapesModalOpen}
-                    setAddModalOpen={setAddFaceShapesModalOpen}
-                    setEditModalOpen={setEditFaceShapesModalOpen}
+                    openAddModal={isAddFaceShapesModalOpen}
+                    openEditModal={isEditFaceShapesModalOpen}
+                    closeAddModal={showAddFaceShapesModal}
+                    closeEditModal={showEditFaceShapesModal}
                 />                
                 {/* end of FaceShapes ******************************** */}
 

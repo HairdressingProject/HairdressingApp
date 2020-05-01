@@ -22,7 +22,7 @@ namespace AdminApi.Controllers
     **/
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
@@ -161,9 +161,6 @@ namespace AdminApi.Controllers
 
 // ********************************************************************************************************************************************        
 
-        // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_up")]
@@ -189,10 +186,11 @@ namespace AdminApi.Controllers
             return Conflict(new { error = "User already registered" });
         }
 
+        // POST: /api/users/sign_in
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_in")]
-        public async Task<IActionResult> SignIn([FromBody] AuthenticateUserModel user)
+        public async Task<IActionResult> SignIn([FromBody] ValidatedUserModel user)
         {
             // Authenticate user
             var authenticatedUser = await _userService.Authenticate(user.UserName, user.UserPassword);

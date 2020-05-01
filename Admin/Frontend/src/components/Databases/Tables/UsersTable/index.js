@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
+export const UsersTable = ({openAddModal, openEditModal}) => {
     
     const columns = [
         {
@@ -83,7 +83,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
 
     }, [selectedRows, toggleEditBtn]);
 
-  const actions = <Button key="add" onClick={() => setAddUserModalOpen(true)}>Add</Button>;
+  const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
   // const handleAdd = () => {
   //     // Show add form
@@ -126,7 +126,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
               <Row className="table-btn-container">
                   <Column small={6} className="edit-container">
                       { toggleEditBtn ? 
-                      <Button key="edit" onClick={() => setEditUserModalOpen(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                      <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
                       :
                       null}
                   </Column>
@@ -141,7 +141,7 @@ export const UsersTable = ({setAddUserModalOpen, setEditUserModalOpen}) => {
           
       );
 
-      }, [data, selectedRows, toggleCleared, setEditUserModalOpen, toggleEditBtn]
+      }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
   );
 
     // Old method

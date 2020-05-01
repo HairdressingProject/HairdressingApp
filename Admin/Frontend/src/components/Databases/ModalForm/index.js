@@ -4,7 +4,7 @@ import { AddEntry } from '../../Databases/AddEntry';
 import { EditEntry } from '../../Databases/EditEntry';
 import * as FormFields from '../../Forms/FormFields';
 
-export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddModalOpen, setEditModalOpen}) => {
+export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddModal, closeEditModal}) => {
 
 /** @constant
  * @type {object} revealStyle - css style of the modal
@@ -17,47 +17,47 @@ export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddM
 
     switch (tableSource) {
         case "Users":
-            if(isAddModalOpen) {
+            if(openAddModal) {
                 formFields = FormFields.userInitialFields;
             }
-            if(isEditModalOpen) {
+            if(openEditModal) {
                 formFields = FormFields.userInitialFields;
             }   
 
         break;
 
         case "User Features":
-            if(isAddModalOpen) {
+            if(openAddModal) {
                 formFields = FormFields.userFeaturesAddInitialFormFields;
             }
-            if(isEditModalOpen) {
+            if(openEditModal) {
                 formFields = FormFields.userFeaturesAddInitialFormFields;
             }
         break;
 
         case "Skin Tones":
-            if(isAddModalOpen) {
+            if(openAddModal) {
                 formFields = FormFields.skinTonesAddInitialFormFields;
             }
-            if(isEditModalOpen) {
+            if(openEditModal) {
                 formFields = FormFields.skinTonesAddInitialFormFields;
             }
         break;
 
         case "Hair Lengths":
-            if(isAddModalOpen) {
+            if(openAddModal) {
                 formFields = FormFields.hairLengthsAddInitialFormFields;
             }
-            if(isEditModalOpen) {
+            if(openEditModal) {
                 formFields = FormFields.hairLengthsAddInitialFormFields;
             }
         break;        
 
         case "Face Shapes":
-            if(isAddModalOpen) {
+            if(openAddModal) {
                 formFields = FormFields.faceShapesAddInitialFormFields;
             }
-            if(isEditModalOpen) {
+            if(openEditModal) {
                 formFields = FormFields.faceShapesEditInitialFormFields;
             }
         break;
@@ -74,8 +74,8 @@ export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddM
 
 
             <Modal
-                open={isAddModalOpen}
-                closeModal={setAddModalOpen}
+                open={openAddModal}
+                closeModal={closeAddModal}
                 isModal={true}
                 size="full"
                 revealStyle={revealStyle}
@@ -83,6 +83,7 @@ export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddM
                     <AddEntry
                         title={tableSource}
                         initialFormFields={formFields}
+                        close={closeAddModal}
                     />
             </Modal>
 
@@ -90,8 +91,8 @@ export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddM
 
 
             <Modal
-                open={isEditModalOpen}
-                closeModal={setEditModalOpen}
+                open={openEditModal}
+                closeModal={closeEditModal}
                 isModal={true}
                 size="full"
                 revealStyle={revealStyle}
@@ -100,6 +101,7 @@ export const ModalForm = ({tableSource, isAddModalOpen, isEditModalOpen, setAddM
                         tableSource={tableSource} //users, userFeatures, faceShapes, etc...
                         title={tableSource}
                         initialFormFields={formFields}
+                        close={closeEditModal}
                     />
             </Modal>
 

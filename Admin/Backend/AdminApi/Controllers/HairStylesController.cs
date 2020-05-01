@@ -6,10 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    /**
+     * HairStylesController
+     * This controller handles all routes in the format: "/api/hair_styles/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
+    [Route("api/hair_styles")]
     [ApiController]
     public class HairStylesController : ControllerBase
     {
@@ -42,8 +50,6 @@ namespace AdminApi.Controllers
         }
 
         // PUT: api/HairStyles/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHairStyles(ulong id, HairStyles hairStyles)
         {
@@ -74,8 +80,6 @@ namespace AdminApi.Controllers
         }
 
         // POST: api/HairStyles
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<HairStyles>> PostHairStyles(HairStyles hairStyles)
         {

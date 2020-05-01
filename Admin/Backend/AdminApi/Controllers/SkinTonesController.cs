@@ -7,10 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdminApi.Controllers
 {
-    [Route("api/[controller]")]
+    /**
+     * SkinTonesController
+     * This controller handles all routes in the format: "/api/skin_tones/"
+     * To disable authentication, simply comment out the [Authorize] annotation
+     * 
+    **/
+    [Authorize]
+    [Route("api/skin_tones")]
     [ApiController]
     public class SkinTonesController : ControllerBase
     {
