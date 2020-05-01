@@ -125,6 +125,7 @@ export const resourcesReducer = combineReducers({
     hairLengthLinks: generateReducer(resourceNames.HAIR_LENGTH_LINKS),
     hairStyles: generateReducer(resourceNames.HAIR_STYLES),
     hairStyleLinks: generateReducer(resourceNames.HAIR_STYLE_LINKS),
-    skinTones: generateReducer(resourceNames.SKIN_TONE_LINKS),
+    skinTones: generateReducer(resourceNames.SKIN_TONES),
+    skinToneLinks: generateReducer(resourceNames.SKIN_TONE_LINKS),
     userFeatures: generateReducer(resourceNames.USER_FEATURES)
 });

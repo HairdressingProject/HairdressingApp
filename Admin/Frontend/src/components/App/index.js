@@ -21,6 +21,7 @@ import { history } from '../../_helpers';
 import { clearMessageAction, resourceActions } from '../../_actions';
 import { resourceNames } from '../../_constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { DummyComponent } from '../DummyComponent';
 
 const routes = [
     {
@@ -68,6 +69,11 @@ const routes = [
         path: "/pictures",
         auth: true,
         content: () => <Pictures />
+    },
+    // temporary component
+    {
+        path: "/dummy",
+        content: () => <DummyComponent />
     }
 ];
 
@@ -83,19 +89,6 @@ const App = () => {
             dispatch(clearMessageAction);
         })
     }, []);
-
-    useEffect(() => {
-        dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 9));
-    }, []);
-
-
-    const faceShapes = useSelector(state => state.resources.faceShapes);
-
-    useEffect(() => {
-        console.log('face shapes dispatched:');
-        console.dir(faceShapes);
-
-    }, [faceShapes]);
 
     // Modal set up
     const [isMenuOpen, setMenuOpen] = useState(false);
