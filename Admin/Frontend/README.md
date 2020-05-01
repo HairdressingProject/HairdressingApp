@@ -86,7 +86,7 @@ Using the `DummyComponent` from the previous section, this is how the applicatio
 WIP!
 ```
 
-See [App/index.js](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/components/App/index.js#L87-L98 "App/index.js example") as an example.
+See [DummyComponent/index.js](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/components/DummyComponent/index.js "DummyComponent/index.js example") as an example.
 
 #### Cheat Sheet
 ##### Imports
