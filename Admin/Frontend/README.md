@@ -55,7 +55,9 @@ The main advantages of using Redux over traditional React stateful components ar
 #### Importing required modules
 If the component that you are working on - say, `DummyComponent`, a [functional component](https://reactjs.org/docs/components-and-props.html#function-and-class-components "Function and Class Components") - requires you to send HTTP requests to the backend in order to query the database, first you add the following import statement to the `DummyComponent/index.js` file:
 
-`import { useDispatch, useSelector } from 'react-redux';`
+```js
+import { useDispatch, useSelector } from 'react-redux';
+```
 
 > `useDispatch` and `useSelector` are [React hooks](https://reactjs.org/docs/hooks-intro.html "Introducing Hooks"), which this application uses extensively. In short, they are nothing but functions that hook into the component's [lifecycle](https://reactjs.org/docs/react-component.html#the-component-lifecycle "The Component Lifecycle"), which essentially void the need for us to use class-based components with methods such as [`componentDidMount()`](https://reactjs.org/docs/react-component.html#componentdidmount "componentDidMount") and [`componentDidUpdate()`](https://reactjs.org/docs/react-component.html#componentdidupdate "componentDidUpdate").
 
@@ -89,18 +91,22 @@ src
 
 This is how you would import [`_actions/index.js`](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/_actions/index.js "_actions/index.js") (which exports [`resourceActions`](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/_actions/resource.actions.js#L6 "_actions/resource.actions.js")) from `DummyComponent/index.js`, using relative path:
 
-`import { resourceActions } from '../../_actions';`
+```js
+import { resourceActions } from '../../_actions';
+```
 
 Another import statement that you should include refers to [`resourceNames`](https://github.com/HairdressingProject/HairdressingApp/blob/master-d/Admin/Frontend/src/_constants/resource.constants.js "resourceNames"), which works as an Enum with convenient constants that you can pass to `resourceActions` methods to identify what kind of resource you are working with. According to the previous directory tree, this is how you would do it in this case:
 
-`import { resourceNames } from '../../_constants';`
+```js
+import { resourceNames } from '../../_constants';
+```
 
 Now you should be ready to perform HTTP requests through `resourceActions`.
 
 #### Sending API requests
 Using the `DummyComponent` from the previous section, this is how you would have a very basic component that requests all _face shapes_ from the database and stores them locally:
 
-```
+```js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../_actions';
@@ -139,7 +145,7 @@ The `DummyComponent` can be accessed via the `/dummy` route (i.e. `http://localh
 #### `resourceNames: Object`
 Works as an `Enum` that represents a specific resource.
 
-```
+```js
 const resourceNames = {
     USERS: 'USERS',
     COLOURS: 'COLOURS',
@@ -158,7 +164,7 @@ const resourceNames = {
 #### `resourceActions: Object`
 Contains functions that call HTTP requests.
 
-```
+```js
 const resourceActions = {
     getAll,
     get,
@@ -172,7 +178,7 @@ Thunk middleware that dispatches actions to `GET` all resource of type `resource
 
 Accessed from `resourceActions`.
 
-```
+```js
 // Dispatch an action to GET all FACE_SHAPES from the database
 
 dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
@@ -181,7 +187,7 @@ dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
 #### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)` 
 Thunk middleware that dispatches actions to `GET` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
-```
+```js
 // Dispatch an action to GET a FACE_SHAPE with id = 3 from the database
 
 dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 3));
@@ -194,7 +200,7 @@ __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to 
 
 __NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateModified` fields in `POST` requests. These will be automatically set by the database.
 
-```
+```js
 // Dispatch an action to POST a FACE_SHAPE to the database
 
 dispatch(resourceActions.post(resourceNames.FACE_SHAPES, { ShapeName: "square" }));
@@ -207,7 +213,7 @@ __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to 
 
 __NOTE 2__: Since ASP.NET Core closely follows the HTTP specification, the `resource` object is required to contain __all__ properties in `PUT` requests, __except__ `DateModified`, which will be automatically updated by the database. You should be able to access them by storing your resources locally in your component (with `useState`) after dispatching a `GET ALL` action.
 
-```
+```js
 // Dispatch an action to PUT a FACE_SHAPE with id = 3 in the database
 
 dispatch(resourceActions.put(resourceNames.FACE_SHAPES, 3, { Id: 3, ShapeName: "square", DateCreated: dateCreated, FaceShapeLinks: faceShapeLinks }));
@@ -216,7 +222,7 @@ dispatch(resourceActions.put(resourceNames.FACE_SHAPES, 3, { Id: 3, ShapeName: "
 #### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)`
 Thunk middleware that dispatches actions to `DELETE` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
-```
+```js
 // Dispatch an action to DELETE a FACE_SHAPE with id = 3 from the database
 
 dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, 3));
@@ -224,7 +230,7 @@ dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, 3));
 
 ### Cheat Sheet
 #### Imports
-```
+```js
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../_actions';
 import { resourceNames } from '../../_constants';
@@ -233,7 +239,7 @@ import { resourceNames } from '../../_constants';
 __NOTE__: Do not forget to change relative paths as needed for the specific component that you are working on.
 
 #### Initial set up
-```
+```js
 const DummyComponent = () => {
 
     const dispatch = useDispatch();
@@ -253,7 +259,7 @@ const DummyComponent = () => {
 #### GET requests
 
 ##### GET ALL
-```
+```js
 useEffect(() => {
 
     dispatch(resourceActions.getAll(resourceNames.HAIR_STYLES));
@@ -270,7 +276,7 @@ useEffect(() => {
 ```
 
 ##### GET
-```
+```js
 useEffect(() => {
 
     dispatch(resourceActions.get(resourceNames.HAIR_STYLES, 2));
@@ -286,7 +292,7 @@ useEffect(() => {
 ```
 
 #### POST requests
-```
+```js
 useEffect(() => {
 
     dispatch(resourceActions.post(resourceNames.HAIR_STYLES, {
@@ -307,7 +313,7 @@ useEffect(() => {
 __NOTE__: __ALL__ properties in the resource object that you pass to `resourceActions.post()` must be named in _PascalCase_, as they were in the backend. Take a look at the [HairStyles model](https://github.com/HairdressingProject/HairdressingApp/blob/master/Admin/Backend/AdminApi/Models/HairStyles.cs "HairStyles.cs") in the backend as an example.
 
 #### PUT requests
-```
+```js
 useEffect(() => {
 
     dispatch(resourceActions.put(resourceNames.HAIR_STYLES, 3, {
@@ -329,7 +335,7 @@ useEffect(() => {
 __NOTE__: __ALL__ properties in the resource object that you pass to `resourceActions.put()` must be named in _PascalCase_, as they were in the backend. Take a look at the [HairStyles model](https://github.com/HairdressingProject/HairdressingApp/blob/master/Admin/Backend/AdminApi/Models/HairStyles.cs "HairStyles.cs") in the backend as an example.
 
 #### DELETE requests
-```
+```js
 useEffect(() => {
 
     dispatch(resourceActions.deleteResource(resourceNames.HAIR_STYLES, 3));
@@ -350,14 +356,14 @@ Adding styles to your components is done via `SCSS`. In the same directory of th
 
 Then you can import the `SCSS` file in your `StylishComponent/index.js` file like so:
 
-```
+```js
 import classes from './StylishComponent.module.scss';
 ```
 
 `classes` is an object that provides scoped access to all classes from your `StylishComponent.module.scss` file, which means that there is no risk of overriding classes with the same name from `SCSS` files of other components. See the example below to understand how everything ties together.
 
 `StylishComponent/StylishComponent.module.scss`
-```
+```scss
 .stylish-container {
   height: 100vh;
   background: radial-gradient(circle, rgba(105,226,245,1) 0%, rgba(141,214,197,1) 100%);
@@ -380,7 +386,7 @@ import classes from './StylishComponent.module.scss';
 ```
 
 `StylishComponent/index.js`
-```
+```js
 import React from 'react';
 import classes from './StylishComponent.module.scss';
 
