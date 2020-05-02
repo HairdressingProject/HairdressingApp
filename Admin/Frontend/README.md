@@ -28,7 +28,7 @@
 ## Resources API
 
 ### A quick note
-Before making any HTTP requests, make sure that you have already signed in. To do so, navigate to the [sign_in route](http://localhost:3000/sign_in "Sign In") before you start the application (with `yarn start`) and enter the details below:
+Before making any HTTP requests, make sure that you have already signed in. To do so, navigate to the [sign_in route](http://localhost:3000/sign_in "Sign In") after you start the application (with `yarn start`) and enter the details below:
 
 ```
 Username or email: admin
@@ -192,7 +192,7 @@ Thunk middleware that dispatches actions to `POST` a `resource` of type `resourc
 
 __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
 
-__NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateModified` fields in `PUT` requests. These will be automatically set by the database.
+__NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateModified` fields in `POST` requests. These will be automatically set by the database.
 
 ```
 // Dispatch an action to POST a FACE_SHAPE to the database
