@@ -1,31 +1,41 @@
 # Admin Portal - Frontend
 
-# Table of contents
 - [Resources API](#resources-api)
+  * [A quick note](#a-quick-note)
   * [API overview](#api-overview)
-  * [Sending API requests](#sending-api-requests)
+  * [API tutorial](#api-tutorial)
     + [Importing required modules](#importing-required-modules)
-    + [Sending API requests](#sending-api-requests-1)
-    + [API Reference](#api-reference)
-      - [`resourceNames`](#-resourcenames--object-)
-      - [`resourceActions`](#-resourceactions--object-)
-      - [`getAll(resourceName, URL, token)`](#-getall-resourcename--resourcenames--url--string----https---localhost-5000---token--string--)
-      - [`get(resourceName, id, URL, token)`](#-get-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
-      - [`post(resourceName, resource, URL, token)`](#-post-resourcename--resourcenames--resource--object--url--string----https---localhost-5000---token--string--)
-      - [`put(resourceName, id, resource, URL, token)`](#-put-resourcename--resourcenames--id--string---number--resource--object--url--string----https---localhost-5000---token--string--)
-      - [`deleteResource(resourceName, id, URL, token)`](#-deleteresource-resourcename--resourcenames--id--string---number--url--string----https---localhost-5000---token--string--)
-    + [Cheat Sheet](#cheat-sheet)
-      - [Imports](#imports)
-      - [Initial set up](#initial-set-up)
-      - [GET requests](#get-requests)
-        * [GET ALL](#get-all)
-        * [GET](#get)
-      - [POST requests](#post-requests)
-      - [PUT requests](#put-requests)
-      - [DELETE requests](#delete-requests)
+    + [Sending API requests](#sending-api-requests)
+  * [API Reference](#api-reference)
+    + [`resourceNames`](#resourcenames-object)
+    + [`resourceActions`](#resourceactions-object)
+    + [`getAll(resourceName, URL, token)`](#getallresourcename-resourcenames-url-string--httpslocalhost5000-token-string)
+    + [`get(resourceName, id, URL, token)`](#getresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000-token-string)
+    + [`post(resourceName, resource, URL, token)`](#postresourcename-resourcenames-resource-object-url-string--httpslocalhost5000-token-string)
+    + [`put(resourceName, id, resource, URL, token)`](#putresourcename-resourcenames-id-string--number-resource-object-url-string--httpslocalhost5000-token-string)
+    + [`deleteResource(resourceName, id, URL, token)`](#deleteresourceresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000-token-string)
+  * [Cheat Sheet](#cheat-sheet)
+    + [Imports](#imports)
+    + [Initial set up](#initial-set-up)
+    + [GET requests](#get-requests)
+      - [GET ALL](#get-all)
+      - [GET](#get)
+    + [POST requests](#post-requests)
+    + [PUT requests](#put-requests)
+    + [DELETE requests](#delete-requests)
 - [Adding styles](#adding-styles)
 
 ## Resources API
+
+### A quick note
+Before making any HTTP requests, make sure that you have already signed in. To do so, navigate to the [sign_in route](http://localhost:3000/sign_in "Sign In") before you start the application (with `yarn start`) and enter the details below:
+
+```
+Username or email: admin
+Password: 123456
+```
+
+You only have to do this once every seven days, which is the expiration time of the token that is stored in your browser. You can see it in the _Application_ tab of your developer tools (if you are using Chrome).
 
 ### API overview
 The Resources API was created for this application in order to manage the state of all items associated with tables in the database, such as `face_shapes` and `colours`. 
@@ -40,8 +50,7 @@ The main advantages of using Redux over traditional React stateful components ar
 
 3. Redux comes with nice debugging tools that allow you to navigate throughout the history of state changes, which can be accessed through [this extension](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en "Redux DevTools - Chrome"), if you are using Chrome. It is also available for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/ "Redux DevTools - Firefox"). Other browsers may be added here.
 
-
-### Sending API requests
+### API tutorial
 
 #### Importing required modules
 If the component that you are working on - say, `DummyComponent`, a [functional component](https://reactjs.org/docs/components-and-props.html#function-and-class-components "Function and Class Components") - requires you to send HTTP requests to the backend in order to query the database, first you add the following import statement to the `DummyComponent/index.js` file:
@@ -125,9 +134,9 @@ For a more comprehensive example that uses other methods, see [DummyComponent/in
 
 The `DummyComponent` can be accessed via the `/dummy` route (i.e. `http://localhost:3000/dummy` if you are working locally).
 
-#### API Reference
+### API Reference
 
-##### `resourceNames: Object`
+#### `resourceNames: Object`
 Works as an `Enum` that represents a specific resource.
 
 ```
@@ -146,7 +155,7 @@ const resourceNames = {
 };
 ```
 
-##### `resourceActions: Object`
+#### `resourceActions: Object`
 Contains functions that call HTTP requests.
 
 ```
@@ -158,7 +167,7 @@ const resourceActions = {
     deleteResource
 };
 ```
-##### `getAll(resourceName: resourceNames, URL: string | "https://localhost:5000", token: string)`
+#### `getAll(resourceName: resourceNames, URL: string | "https://localhost:5000", token: string)`
 Thunk middleware that dispatches actions to `GET` all resource of type `resourceName` from the database. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 Accessed from `resourceActions`.
@@ -169,7 +178,7 @@ Accessed from `resourceActions`.
 dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
 ```
 
-##### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)` 
+#### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)` 
 Thunk middleware that dispatches actions to `GET` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 ```
@@ -178,7 +187,7 @@ Thunk middleware that dispatches actions to `GET` a resource of type `resourceNa
 dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 3));
 ```
 
-##### `post(resourceName: resourceNames, resource: Object, URL: string | "https://localhost:5000", token: string)` 
+#### `post(resourceName: resourceNames, resource: Object, URL: string | "https://localhost:5000", token: string)` 
 Thunk middleware that dispatches actions to `POST` a `resource` of type `resourceName` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
@@ -191,7 +200,7 @@ __NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateM
 dispatch(resourceActions.post(resourceNames.FACE_SHAPES, { ShapeName: "square" }));
 ```
 
-##### `put(resourceName: resourceNames, id: string | number, resource: Object, URL: string | "https://localhost:5000", token: string)`
+#### `put(resourceName: resourceNames, id: string | number, resource: Object, URL: string | "https://localhost:5000", token: string)`
 Thunk middleware that dispatches actions to `PUT` a `resource` of type `resourceName` with a given `id` in the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
@@ -204,7 +213,7 @@ __NOTE 2__: Since ASP.NET Core closely follows the HTTP specification, the `reso
 dispatch(resourceActions.put(resourceNames.FACE_SHAPES, 3, { Id: 3, ShapeName: "square", DateCreated: dateCreated, FaceShapeLinks: faceShapeLinks }));
 ```
 
-##### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)`
+#### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)`
 Thunk middleware that dispatches actions to `DELETE` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 ```
@@ -213,8 +222,8 @@ Thunk middleware that dispatches actions to `DELETE` a resource of type `resourc
 dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, 3));
 ```
 
-#### Cheat Sheet
-##### Imports
+### Cheat Sheet
+#### Imports
 ```
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../_actions';
@@ -223,7 +232,7 @@ import { resourceNames } from '../../_constants';
 
 __NOTE__: Do not forget to change relative paths as needed for the specific component that you are working on.
 
-##### Initial set up
+#### Initial set up
 ```
 const DummyComponent = () => {
 
@@ -241,9 +250,9 @@ const DummyComponent = () => {
     // ...
 }
 ```
-##### GET requests
+#### GET requests
 
-###### GET ALL
+##### GET ALL
 ```
 useEffect(() => {
 
@@ -260,7 +269,7 @@ useEffect(() => {
 }, [hairStyles]);
 ```
 
-###### GET
+##### GET
 ```
 useEffect(() => {
 
@@ -276,7 +285,7 @@ useEffect(() => {
 }, [hairStyles]);
 ```
 
-##### POST requests
+#### POST requests
 ```
 useEffect(() => {
 
@@ -297,7 +306,7 @@ useEffect(() => {
 
 __NOTE__: __ALL__ properties in the resource object that you pass to `resourceActions.post()` must be named in _PascalCase_, as they were in the backend. Take a look at the [HairStyles model](https://github.com/HairdressingProject/HairdressingApp/blob/master/Admin/Backend/AdminApi/Models/HairStyles.cs "HairStyles.cs") in the backend as an example.
 
-##### PUT requests
+#### PUT requests
 ```
 useEffect(() => {
 
@@ -319,7 +328,7 @@ useEffect(() => {
 
 __NOTE__: __ALL__ properties in the resource object that you pass to `resourceActions.put()` must be named in _PascalCase_, as they were in the backend. Take a look at the [HairStyles model](https://github.com/HairdressingProject/HairdressingApp/blob/master/Admin/Backend/AdminApi/Models/HairStyles.cs "HairStyles.cs") in the backend as an example.
 
-##### DELETE requests
+#### DELETE requests
 ```
 useEffect(() => {
 
