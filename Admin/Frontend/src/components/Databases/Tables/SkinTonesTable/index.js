@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
@@ -7,7 +6,7 @@ import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const SkinTonesTable = ({openAddModal, openEditModal}) => {
+export const SkinTonesTable = ({openAddModal, openEditModal, tableData}) => {
     const columns = [
         {
             name: 'Id',
@@ -128,22 +127,13 @@ export const SkinTonesTable = ({openAddModal, openEditModal}) => {
         }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(
-                'https://localhost:5000/api/SkinTones'
-            );
-            setData(result.data);
-        }
-        fetchData();
-    }, []);
 
     return (
         <>
           <DataTable
             title="Skin Tones"
             columns={columns}
-            data={data}
+            data={tableData}
             onSort={handleSort}
             selectableRows
             actions={actions}

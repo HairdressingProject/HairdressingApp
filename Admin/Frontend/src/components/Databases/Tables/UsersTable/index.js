@@ -1,17 +1,14 @@
 import React, { useState, useEffect} from 'react';
-import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-
 import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
-import { userActions } from '../../../../_actions'
-import { useDispatch, useSelector } from 'react-redux';
 
 
 
-export const UsersTable = ({openAddModal, openEditModal}) => {
+
+export const UsersTable = ({openAddModal, openEditModal, tableData}) => {
     
     const columns = [
         {
@@ -144,41 +141,13 @@ export const UsersTable = ({openAddModal, openEditModal}) => {
       }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
   );
 
-    // Old method
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const result = await axios(
-    //             'https://localhost:5000/api/Users'
-    //             //'https://128.199.233.190:5001/api/Users'
-    //         );
-
-    //         console.log("Users Table data:");
-    //         console.log(result.data);
-    //         setData(result.data);
-    //     }
-    //     fetchData();
-    // }, []);
-    
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-      dispatch(userActions.getAll());
-    }, []);
-
-    const users = useSelector(state => state.users);
-
-    useEffect(() => {
-      console.log("Dispatched users: ");
-      console.dir(users);
-      setData(users.items);
-    }, [users]);
 
     return (
         <>
           <DataTable
             title="Users"
             columns={columns}
-            data={data}
+            data={tableData}
             onSort={handleSort}
             selectableRows
             actions={actions}

@@ -1,69 +1,15 @@
 import React, { useState, useEffect} from 'react';
-// import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-
 import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const DBTable = () => {
 
-    const columns = [
-        {
-            name: 'Table Id',
-            selector: 'tableId',
-            sortable: true,
-        },
-        {
-            name: 'Table Name',
-            selector: 'tableName',
-            sortable: true,
-        },
-        {
-            name: 'Created',
-            selector: 'created',
-            sortable: true,
-        },
-        {
-            name: 'Last Update',
-            selector: 'updated',
-            sortable: true,
-        }
-    ];
 
-    const data = [
-        {
-            tableId: 0,
-            tableName: "Users",
-            created: "20/03/2020",
-            updated: "28/03/2020"
-        },
-        {
-            tableId: 1,
-            tableName: "User Features",
-            created: "20/03/2020",
-            updated: "22/03/2020"
-        },
-        {
-            tableId: 2,
-            tableName: "Skin Tones",
-            created: "20/03/2020",
-            updated: "21/03/2020"
-        },
-        {
-            tableId: 3,
-            tableName: "Face Shapes",
-            created: "20/03/2020",
-            updated: "21/03/2020"
-        },
-        {
-            tableId: 4,
-            tableName: "Hair Lengths",
-            created: "20/03/2020",
-            updated: "21/03/2020"
-        },
-    ];
+export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns}) => {
+
+
 
     // DataTable settings
     const [loading, setLoading] = useState(false);
@@ -72,111 +18,121 @@ export const DBTable = () => {
     const handleSort = (column, sortDirection) => {
         // simulate server sort
         setLoading(true);
-    }
                 
         // instead of setTimeout this is where you would handle your API call.
-    //     setTimeout(() => {
-    //       setData(orderBy(data, column.selector, sortDirection));
-    //       setLoading(false);
-    //     }, 100);
-    //   };
+        setTimeout(() => {
+          setData(orderBy(data, column.selector, sortDirection));
+          setLoading(false);
+        }, 100);
+      };
+   
+
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [toggleCleared, setToggleCleared] = useState(false);
+    const [toggleEditBtn, setToggleEditBtn] = useState(true);
+
+    const [data, setData] = useState([]);
+
+    const handleRowSelected = React.useCallback(state => {
+      setSelectedRows(state.selectedRows);
+      console.log("state.selectedRows: ", state.selectedRows);
+      console.log("selectedRows: ", selectedRows);
+
+      // The Edit button is enabled only if one item is selected
+      if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
+          setToggleEditBtn(true);
+      } else {
+          setToggleEditBtn(false);
+      }
+      console.log(toggleEditBtn);
+
+    }, [selectedRows, toggleEditBtn]);
+
+  const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
+
+    // const handleAdd = () => {
+  //     // Show add form
+  //     // POST method
+  //     console.log("handleAdd");
+
+  // };
+
+  const contextActions = React.useMemo(() => { //useState() ?
 
 
-      //const [selectableRows, setSelectableRows] = React.useState(false);
+    const handleDelete = () => {
 
-
-
-        // Logic to handle selected row
-
-
-        const [showUsersTable, setShowUsersTable] = React.useState(false);
-        const [showFaceShapesTable, setShowFaceShapesTable] = React.useState(false);
-        const [showUserFeaturesTable, setShowUserFeaturesTable] = React.useState(false);
-        const [showSkinTonesTable, setShowSkinTonesTable] = React.useState(false);
-        const [showHairLengthsTable, setShowHairLengthsTable] = React.useState(false);        
-
-
-        const [activeTable, setActiveTable] = useState(null);
-
-
-        const handleChange2 = (state) => {
+        console.log("handleDelete row: ", selectedRows);
+        // selectedRows.map(item => {
+        //     console.log(item);
+        // })
 
         
-
-        console.log('Selected Rows: ', state.selectedRows)
-        var tablesToShow = [];
-
-        state.selectedRows.map((item) => {
-            tablesToShow.push(item.tableId);
-        });
-
-        console.log('tables to show: ', tablesToShow);
-
-        if (tablesToShow.length > 0) {
-            tablesToShow.map((table) => {
-                switch (table) {
-                    case 0:
-                        console.log('show users table');
-                        setShowUsersTable(true);
-                        break;
-                    case 1:
-                        console.log('show user features table');
-                        setShowUserFeaturesTable(true);
-                        break;
-                    case 2:
-                        console.log('show skin tones table');
-                        setShowSkinTonesTable(true);
-                        break;
-                    case 3:
-                        console.log('show face shapes table');
-                        setShowFaceShapesTable(true);
-                        break;
-                    case 4:
-                        console.log('show hair lengths table');
-                        setShowHairLengthsTable(true);
-                        break;
-                }
-            });
+        if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.userName)}?`)) {
+        setToggleCleared(!toggleCleared);
+        setData(differenceBy(data, selectedRows, 'id'));
+        // DELETE Method API
+        // ...
         }
+    };
 
-        
-        };      
-      
-// End of DataTable settings
+    // const handleEdit = () => {
+    //     console.log("handleEdit row: ", selectedRows.length);
+    //     selectedRows.map(item => {
+    //         console.log(item);
+    //     })
+    //     // Show Edit form
+    //     // POST Method API
+    //     // ...
+    // };
 
     return (
         <div>
-            databases
-            {/* Table that shows all tables on the database */}
-            <div className="db-table-container">
-                {/* <DataTable
-                    title="hairdress_db Tables"
-                    columns={columns}
-                    data={data} // ToDo: Handle dynamycally the tables fom the DB
-                    onSort={handleSort}
-                    sortServer
-                    progressPending={loading}
-                    persistTableHead
-                    selectableRows
-                    selectableRowsHighlight
-                    onSelectedRowsChange={handleChange}
+            <Row className="table-btn-container">
+                <Column small={6} className="edit-container">
+                    { toggleEditBtn ? 
+                    <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+                    :
+                    null}
+                </Column>
 
-                /> */}
-
-                <DataTable
-                    title="DB Tables"
-                    columns={columns}
-                    data={data}
-                    selectableRows
-                    Clicked
-                    onSelectedRowsChange={handleChange2}
-                />
-
-
-
-            </div>
+                <Column small={6} className="delete-container">
+                    <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
+                </Column>
+            
+            </Row>
+            
         </div>
-
+        
     );
+
+    }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
+);
+
+return (
+    <>
+      <DataTable
+        title={tableTitle}
+        columns={tableColumns}
+        data={tableData}
+        onSort={handleSort}
+        selectableRows
+        actions={actions}
+        onSelectedRowsChange={handleRowSelected}
+        contextActions={contextActions}
+        clearSelectedRows={toggleCleared}
+        sortServer
+        progressPending={loading}
+        persistTableHead
+        />
+        <Row className="btn-container">
+          <Column small={12} className="btn-add">
+              {/* <Button onClick={handleAdd}>Add</Button> */}
+              {/* <Button onClick={() => setAddModalOpen(true)}>Add</Button> */}
+
+          </Column>
+      </Row>
+    </>
+);
 
 }
