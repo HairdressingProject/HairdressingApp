@@ -9,6 +9,24 @@ import { Row, Column } from 'react-foundation-components/lib/grid';
 
 export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns}) => {
 
+  const [toggledButtonsRows, setToggleButtonsRows] = useState(false);
+
+  const handleChange = (state) => {
+    setSelectedRows(state.selectedRows);
+    console.log("state.selectedRows: ", state.selectedRows);
+    //console.log('selected rows ', selectedRows)
+    if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
+        setToggleEditBtn(true);
+    } else {
+        setToggleEditBtn(false);
+    }
+    console.log(toggleEditBtn);
+  }
+
+  const handleClearRows = () => {
+    setToggleButtonsRows(!toggledButtonsRows);
+  }
+
 
 
     // DataTable settings
@@ -57,7 +75,7 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
 
   // };
 
-  const contextActions = React.useMemo(() => { //useState() ?
+  const contextActions = useState(() => { //useState() ?
 
 
     const handleDelete = () => {
@@ -68,11 +86,13 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
         // })
 
         
-        if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.userName)}?`)) {
+        if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.id)}?`)) {
         setToggleCleared(!toggleCleared);
         setData(differenceBy(data, selectedRows, 'id'));
         // DELETE Method API
         // ...
+        //dispatch(resourceActions.deleteResource(resourceNames.HAIR_STYLES, body.Id));
+
         }
     };
 
@@ -111,7 +131,7 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
 
 return (
     <>
-      <DataTable
+      {/* <DataTable
         title={tableTitle}
         columns={tableColumns}
         data={tableData}
@@ -124,14 +144,36 @@ return (
         sortServer
         progressPending={loading}
         persistTableHead
+        /> */}
+
+
+
+
+
+
+      <DataTable
+        title={tableTitle}
+        columns={tableColumns}
+        data={tableData}
+        onSort={handleSort}
+        selectableRows
+        actions={actions}
+        onSelectedRowsChange={handleChange}
+        clearSelectedRows={toggledButtonsRows}
+        contextActions={contextActions}
+        sortServer
+        progressPending={loading}
+        persistTableHead
         />
-        <Row className="btn-container">
+        {/* <Row className="btn-container">
           <Column small={12} className="btn-add">
-              {/* <Button onClick={handleAdd}>Add</Button> */}
-              {/* <Button onClick={() => setAddModalOpen(true)}>Add</Button> */}
+              <Button onClick={handleAdd}>Add</Button>
+              <Button onClick={() => setAddModalOpen(true)}>Add</Button>
 
           </Column>
-      </Row>
+      </Row>       */}
+
+      
     </>
 );
 
