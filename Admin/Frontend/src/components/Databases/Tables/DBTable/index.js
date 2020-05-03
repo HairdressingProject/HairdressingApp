@@ -1,180 +1,98 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useReducer} from 'react';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
+import table from 'react-foundation-components/lib/table';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../../../_actions';
+import { resourceNames } from '../../../../_constants';
 
 
 
 export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns}) => {
 
-  const [toggledButtonsRows, setToggleButtonsRows] = useState(false);
+  //const [state, dispatch] = useReducer(reducer, initialState);
+  
+  const [selRow, setSelRow] = useState(null);
+  const [thing, setThing] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleChange = (state) => {
-    setSelectedRows(state.selectedRows);
-    console.log("state.selectedRows: ", state.selectedRows);
-    //console.log('selected rows ', selectedRows)
+  const [toggleEditBtn, setToggleEditBtn] = useState(true);
+
+  const handleAction = value => setThing(value);
+
+  const updateState = useCallback(state => {
+    console.log("Selected row: ", state.selectedRows)
+    setSelRow(state.selectedRows);
+
+    // The Edit button is enabled only if one item is selected
     if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
-        setToggleEditBtn(true);
+      setToggleEditBtn(true);
     } else {
         setToggleEditBtn(false);
     }
-    console.log(toggleEditBtn);
-  }
 
-  const handleClearRows = () => {
-    setToggleButtonsRows(!toggledButtonsRows);
-  }
-
-
-
-    // DataTable settings
-    const [loading, setLoading] = useState(false);
-
-    // Logic to handle tabel sorting
-    const handleSort = (column, sortDirection) => {
-        // simulate server sort
-        setLoading(true);
-                
-        // instead of setTimeout this is where you would handle your API call.
-        setTimeout(() => {
-          setData(orderBy(data, column.selector, sortDirection));
-          setLoading(false);
-        }, 100);
-      };
-   
-
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [toggleCleared, setToggleCleared] = useState(false);
-    const [toggleEditBtn, setToggleEditBtn] = useState(true);
-
-    const [data, setData] = useState([]);
-
-    const handleRowSelected = React.useCallback(state => {
-      setSelectedRows(state.selectedRows);
-      console.log("state.selectedRows: ", state.selectedRows);
-      console.log("selectedRows: ", selectedRows);
-
-      // The Edit button is enabled only if one item is selected
-      if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
-          setToggleEditBtn(true);
-      } else {
-          setToggleEditBtn(false);
-      }
-      console.log(toggleEditBtn);
-
-    }, [selectedRows, toggleEditBtn]);
+  });
 
   const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
-    // const handleAdd = () => {
-  //     // Show add form
-  //     // POST method
-  //     console.log("handleAdd");
-
-  // };
-
-  const contextActions = useState(() => { //useState() ?
-
+  const contextActions = useMemo(() => {
 
     const handleDelete = () => {
-
-        console.log("handleDelete row: ", selectedRows);
-        // selectedRows.map(item => {
-        //     console.log(item);
-        // })
-
-        
-        if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.id)}?`)) {
-        setToggleCleared(!toggleCleared);
-        setData(differenceBy(data, selectedRows, 'id'));
-        // DELETE Method API
-        // ...
-        //dispatch(resourceActions.deleteResource(resourceNames.HAIR_STYLES, body.Id));
-
-        }
-    };
-
-    // const handleEdit = () => {
-    //     console.log("handleEdit row: ", selectedRows.length);
-    //     selectedRows.map(item => {
-    //         console.log(item);
-    //     })
-    //     // Show Edit form
-    //     // POST Method API
-    //     // ...
-    // };
-
-    return (
-        <div>
-            <Row className="table-btn-container">
-                <Column small={6} className="edit-container">
-                    { toggleEditBtn ? 
-                    <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
-                    :
-                    null}
-                </Column>
-
-                <Column small={6} className="delete-container">
-                    <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
-                </Column>
-            
-            </Row>
-            
-        </div>
-        
-    );
-
-    }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
-);
-
-return (
-    <>
-      {/* <DataTable
-        title={tableTitle}
-        columns={tableColumns}
-        data={tableData}
-        onSort={handleSort}
-        selectableRows
-        actions={actions}
-        onSelectedRowsChange={handleRowSelected}
-        contextActions={contextActions}
-        clearSelectedRows={toggleCleared}
-        sortServer
-        progressPending={loading}
-        persistTableHead
-        /> */}
-
-
-
-
-
-
-      <DataTable
-        title={tableTitle}
-        columns={tableColumns}
-        data={tableData}
-        onSort={handleSort}
-        selectableRows
-        actions={actions}
-        onSelectedRowsChange={handleChange}
-        clearSelectedRows={toggledButtonsRows}
-        contextActions={contextActions}
-        sortServer
-        progressPending={loading}
-        persistTableHead
-        />
-        {/* <Row className="btn-container">
-          <Column small={12} className="btn-add">
-              <Button onClick={handleAdd}>Add</Button>
-              <Button onClick={() => setAddModalOpen(true)}>Add</Button>
-
-          </Column>
-      </Row>       */}
+      console.log("handleDelete ", selRow);
+      selRow.map(row =>{
+        dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES,  row.id));
+      }) 
 
       
-    </>
-);
+    }
+
+    const handleEdit = () => {
+      console.log("handleEdit ", selRow[0].id);
+      // open Edit Modal
+    }    
+
+    return(
+      <div>
+      <Row className="table-btn-container">
+          <Column small={6} className="edit-container">
+              { toggleEditBtn ? 
+              <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
+              :
+              null}
+              {/* <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button> */}
+          </Column>
+          <Column small={6} className="delete-container">
+              <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
+          </Column>
+      </Row>
+  </div>      
+    );
+  });
+
+  const columnsPow = useMemo(() => [...tableColumns,
+      {
+        cell: () => <Button raised primary onClick={handleAction}>Action</Button>,
+        ignoreRowClick: true,
+        allOverflow: true,
+        button: true
+      }    
+  ]);
+
+  return (
+    <DataTable
+      title={tableTitle}
+      data={tableData}
+      columns={columnsPow}
+      actions={actions}
+      contextActions={contextActions}
+      onSelectedRowsChange={updateState}
+      selectableRows
+    />
+  )
+
 
 }
