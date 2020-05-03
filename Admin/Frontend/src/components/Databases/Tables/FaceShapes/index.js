@@ -1,12 +1,11 @@
 import React, { useState, useEffect} from 'react';
-import axios from 'axios';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const FaceShapesTable = ({openAddModal, openEditModal}) => {
+export const FaceShapesTable = ({openAddModal, openEditModal, tableData}) => {
 
     const columns = [
         {
@@ -138,24 +137,13 @@ export const FaceShapesTable = ({openAddModal, openEditModal}) => {
         }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(
-                'https://localhost:5000/api/FaceShapes'
-            );
-            console.log("Face Shapes results: ")
-            console.log(result.data);
-            setData(result.data);
-        }
-        fetchData();
-    }, []);
 
     return (
         <>
         <DataTable
             title="Face Shapes"
             columns={columns}
-            data={data}
+            data={tableData}
             onSort={handleSort}
             selectableRows
             actions={actions}
