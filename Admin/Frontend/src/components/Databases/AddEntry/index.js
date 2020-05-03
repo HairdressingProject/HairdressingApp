@@ -8,7 +8,6 @@ import {
 } from 'react-foundation-components/lib/forms';
 import classes from '../../Databases/Databases.module.scss';
 import { FormWithValidation } from '../../Forms/FormWithValidation';
-import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
@@ -66,27 +65,6 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             
                             console.log("inputs", inputs);
 
-                            // return axios //ToDo: check back end (usersController)
-                            //     .post(
-                            //         'https://localhost:5000/api/Users',
-                            //         {
-                            //             userName: inputs.userName,
-                            //             userEmail: inputs.userEmail,
-                            //             userPassword: inputs.userPassword,
-                            //             firstName: inputs.firstName,
-                            //             lastName: inputs.lastName,
-                            //             userRole: inputs.userRole
-                            //         },
-                            //         {
-                            //             headers: { "Content-type": "application/json" }
-                            //         }
-                            //     )
-                            //     .then((res) => {
-                            //         console.log(res);
-                            //         window.location.reload();
-                            //     });
-                            console.log("zzzzzzzzzz")
-
                             dispatch(resourceActions.post(resourceNames.USERS, inputs));
                             //window.location.reload();
 
@@ -141,32 +119,6 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                         default:
                             break;
                     }
-
-
-                    // return axios
-                    //     .post(
-                    //         'https://localhost:5001/api/Users', {
-                    //             userName: "test500",
-                    //             userPassword: "test500",
-                    //             userEmail: "test500@mail.com",
-                    //             firstName: "testName",
-                    //             lastName: "testLastName",
-                    //             userRole: "user"
-                    //         }, 
-                    //         {
-                    //             headers: { "Content-type": "application/json" }
-                    //         }
-                    //     )
-                    //     .then((res) => {
-                    //         console.log(res);
-                    //         if (res.status === 200) {
-                    //             alert("added");
-                    //         } else {
-                    //             alert("Error while trying to add new");
-                    //         }
-                
-                
-                    //     })
 
                     }
                 }
