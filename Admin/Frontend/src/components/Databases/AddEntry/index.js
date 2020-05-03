@@ -12,11 +12,22 @@ import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../../_actions';
+import { resourceNames } from '../../../_constants';
 
 // ToDo: Validation | fix add users
 
 
+
+
 export const AddEntry = ({title, initialFormFields, close}) => {
+
+    // dispatch is a function that will be called with a resourceAction to send HTTP requests
+    const dispatch = useDispatch();
+
+    // resources is a "slice" of Redux store's state that contains items from all tables in the database
+    //const resources = useSelector(state => state.resources);    
 
     return (
         <div className={[classes["add-form-container"], "text-center"].join(' ')}>
@@ -55,25 +66,29 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             
                             console.log("inputs", inputs);
 
-                            return axios //ToDo: check back end (usersController)
-                                .post(
-                                    'https://localhost:5000/api/Users',
-                                    {
-                                        userName: inputs.userName,
-                                        userEmail: inputs.userEmail,
-                                        userPassword: inputs.userPassword,
-                                        firstName: inputs.firstName,
-                                        lastName: inputs.lastName,
-                                        userRole: inputs.userRole
-                                    },
-                                    {
-                                        headers: { "Content-type": "application/json" }
-                                    }
-                                )
-                                .then((res) => {
-                                    console.log(res);
-                                    window.location.reload();
-                                });
+                            // return axios //ToDo: check back end (usersController)
+                            //     .post(
+                            //         'https://localhost:5000/api/Users',
+                            //         {
+                            //             userName: inputs.userName,
+                            //             userEmail: inputs.userEmail,
+                            //             userPassword: inputs.userPassword,
+                            //             firstName: inputs.firstName,
+                            //             lastName: inputs.lastName,
+                            //             userRole: inputs.userRole
+                            //         },
+                            //         {
+                            //             headers: { "Content-type": "application/json" }
+                            //         }
+                            //     )
+                            //     .then((res) => {
+                            //         console.log(res);
+                            //         window.location.reload();
+                            //     });
+                            console.log("zzzzzzzzzz")
+
+                            dispatch(resourceActions.post(resourceNames.USERS, inputs));
+                            //window.location.reload();
 
                         break;
 
@@ -88,25 +103,9 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             }
 
                             console.log(inputs);
+                            dispatch(resourceActions.post(resourceNames.USER_FEATURES, inputs));
 
-                            return axios
-                                .post(
-                                    'https://localhost:5000/api/UserFeatures',
-                                    {
-                                        userId: inputs.userId,
-                                        faceShapeId: inputs.faceShapeId,
-                                        skinToneId: inputs.skinToneId,
-                                        hairStyleId: inputs.hairStyleId,
-                                        hairLengthId: inputs.hairLengthId,
-                                    },
-                                    {
-                                        headers: { "Content-type": "application/json" }
-                                    }
-                                )
-                                .then((res) => {
-                                    console.log(res);
-                                    window.location.reload();
-                                });
+
                         break;
 
                         case "Skin Tones":
@@ -114,22 +113,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                                 skinToneName: formFields[0].input
                             }
                             console.log(inputs);
+                            dispatch(resourceActions.post(resourceNames.SKIN_TONES, inputs));
                             
 
-                            return axios
-                            .post(
-                                'https://localhost:5000/api/SkinTones',
-                                {
-                                    skinToneName: inputs.skinToneName,
-                                },
-                                {
-                                    headers: { "Content-type": "application/json" }
-                                }
-                            )
-                            .then((res) => {
-                                console.log(res);
-                                window.location.reload();
-                            });
+
                         break;
 
                         case "Face Shapes":
@@ -138,42 +125,17 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             }
                             console.log(inputs);
 
-                            return axios
-                            .post(
-                                'https://localhost:5000/api/FaceShapes',
-                                {
-                                    shapeName: inputs.shapeName,
-                                },
-                                {
-                                    headers: { "Content-type": "application/json" }
-                                }
-                            )
-                            .then((res) => {
-                                console.log(res);
-                                window.location.reload();
-                            });
+                            dispatch(resourceActions.post(resourceNames.FACE_SHAPES, inputs));
                         break;
 
                         case "Hair Lengths":
                             var inputs = {
-                                hairLengthId: formFields[0].input
+                                hairLengthName: formFields[0].input
                             }
                             console.log(inputs);
+                            dispatch(resourceActions.post(resourceNames.HAIR_LENGTHS, inputs));
 
-                            return axios
-                            .post(
-                                'https://localhost:5000/api/HairLengths',
-                                {
-                                    hairLengthName: inputs.hairLengthId,
-                                },
-                                {
-                                    headers: { "Content-type": "application/json" }
-                                }
-                            )
-                            .then((res) => {
-                                console.log(res);
-                                window.location.reload();
-                            });
+
                         break;
 
                         default:
