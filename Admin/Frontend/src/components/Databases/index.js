@@ -11,6 +11,14 @@ import { orderBy } from 'lodash';
 
 import { ModalForm } from './ModalForm'
 
+
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../_actions';
+import { resourceNames } from '../../_constants';
+
+import { DBTable } from './Tables/DBTable'
+import * as DataColumns from './Tables/DBTable/DataColumns'
+
 export const Databases = () => 
     {
 
@@ -215,15 +223,60 @@ export const Databases = () =>
 
           
         const [DBTables, setDBTables] = useState([]);
+        // ***************** End ofDatabases Table settings
 
-        // Similar to componentDidMount and componentDidUpdate
-        // Used to update the selected rows on the first table
+        // Fetch Data ************************************************************
+        const [localResources, setLocalResources] = useState(null);
+        const dispatch = useDispatch();
+        const resources = useSelector(state => state.resources);
 
+
+        // componentDidMount()
         useEffect(() => {
             setDBTables(db_tables_rows);
+            Object
+                .values(resourceNames)
+                .forEach(resourceNames => {
+                    dispatch(resourceActions.getAll(resourceNames))
+                });
         }, []);
 
-        // ***************** End ofDatabases Table settings
+        // componentDidUpdate()
+        useEffect(() => {
+            setLocalResources({ resources })
+        }, [resources]);
+
+        useEffect(() => {
+        }, [localResources]);
+
+
+
+        if (localResources && localResources.resources) {
+
+
+            if(localResources.resources.users && localResources.resources.users.items && localResources.resources.users.items.users) {
+                var usersTableData = localResources.resources.users.items.users;
+            }
+
+            if(localResources.resources.userFeatures && localResources.resources.userFeatures.items) {
+                var userFeaturesTableData = localResources.resources.userFeatures.items;
+            }
+
+            if(localResources.resources.skinTones && localResources.resources.skinTones.items) {
+                var skinTonesTableData = localResources.resources.skinTones.items;
+            }
+
+            if(localResources.resources.faceShapes && localResources.resources.faceShapes.items) {
+                var faceShapesTableData = localResources.resources.faceShapes.items;
+            }
+
+            if(localResources.resources.hairLengths && localResources.resources.hairLengths.items) {
+                var hairLengthsTableData = localResources.resources.hairLengths.items;
+            }
+        }        
+
+        // *************************************************** End of fetch Data
+
 
         return(
             <div>
@@ -252,10 +305,13 @@ export const Databases = () =>
                 {/* Users ********************************************** */}
                     { showUsersTable ? // if true, show the table
                     <div className={classes["selected-table-container"]}>
-                    <UsersTable
-                        openAddModal={showAddUserModal}
-                        openEditModal={showEditUserModal}
-                    />
+                        <DBTable
+                            tableTitle={"Users"}
+                            openAddModal={showAddUserModal}
+                            openEditMotal={showEditUserModal}
+                            tableData={usersTableData}
+                            tableColumns={DataColumns.usersTableColumns}
+                        />
                     </div>
                     :
                     null
@@ -275,10 +331,13 @@ export const Databases = () =>
                 {/* Users Features ********************************************** */}
                 { showUserFeaturesTable ?
                     <div className={classes["selected-table-container"]}>
-                        <UserFeaturesTable
-                            openAddModal={showAddUserFeaturesModal}
-                            openEditModal={showEditUserFeaturesModal}
-                        />
+                    <DBTable
+                        tableTitle={"User Features"}
+                        openAddModal={showAddUserFeaturesModal}
+                        openEditMotal={showEditUserFeaturesModal}
+                        tableData={userFeaturesTableData}
+                        tableColumns={DataColumns.userFeaturesTableColumns}
+                    />   
                     </div>
                     :
                     null
@@ -298,9 +357,12 @@ export const Databases = () =>
                 {/* Skin Tones ********************************************** */}
                 { showSkinTonesTable ?
                     <div className={classes["selected-table-container"]}>
-                        <SkinTonesTable
+                        <DBTable
+                            tableTitle={"Skin Tones"}
                             openAddModal={showAddSkinTonesModal}
-                            openEditModal={showEditSkinTonesModal}                     
+                            openEditMotal={showEditSkinTonesModal}
+                            tableData={skinTonesTableData}
+                            tableColumns={DataColumns.skinTonesTableColumns}
                         />
                     </div>
                     :
@@ -320,9 +382,12 @@ export const Databases = () =>
                 {/* Hair Lengths ********************************************** */}
                 { showHairLengthsTable ?
                     <div className={classes["selected-table-container"]}>
-                        <HairLengthsTable
+                        <DBTable
+                            tableTitle={"Hair Lengths"}
                             openAddModal={showAddHairLengthsModal}
-                            openEditModal={showEditHairLengthsModal}                       
+                            openEditMotal={showEditHairLengthsModal}
+                            tableData={hairLengthsTableData}
+                            tableColumns={DataColumns.hairLengthsTableColumns}
                         />
                     </div>
                     :
@@ -342,10 +407,13 @@ export const Databases = () =>
                 {/* FaceShapes **************************************** */}
                 { showFaceShapesTable ?
                     <div className={classes["selected-table-container"]}>
-                    <FaceShapesTable
-                        openAddModal={showAddFaceShapesModal}
-                        openEditModal={showEditFaceShapesModal}
-                    />
+                        <DBTable
+                            tableTitle={"Face Shapes"}
+                            openAddModal={showAddFaceShapesModal}
+                            openEditMotal={showEditFaceShapesModal}
+                            tableData={faceShapesTableData}
+                            tableColumns={DataColumns.faceShapesTableColumns}
+                        />
                     </div>
                     :
                     null
@@ -358,6 +426,11 @@ export const Databases = () =>
                     closeEditModal={showEditFaceShapesModal}
                 />                
                 {/* end of FaceShapes ******************************** */}
+
+
+
+
+             
 
                 
             </div>
