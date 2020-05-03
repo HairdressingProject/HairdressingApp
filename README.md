@@ -3,30 +3,31 @@ This project was assigned to us ([Gerardo Gornes](https://github.com/ggornes "gg
 
 # Table of contents
 
-  * [Setting up your local development environment](#setting-up-your-local-development-environment)
-      - [1 - Clone the repository](#1---clone-the-repository)
-      - [2 - Move to the repository's directory](#2---move-to-the-repositorys-directory)
-      - [3 - Create your own branch (important!)](#3---create-your-own-branch-important)
-      - [4 - Update your branch to a more recent version](#4---update-your-branch-to-a-more-recent-version)
-      - [Frontend](#frontend)
-        * [5 - Install packages](#5---install-packages)
-        * [6 - Start server](#6---start-server)
-      - [Backend](#backend)
-        * [7 - Database setup (without Laragon)](#7---database-setup-without-laragon)
-        * [8 - Creating and seeding the database](#8---creating-and-seeding-the-database)
-        * [9 - Running the API server](#9---running-the-api-server)
-        * [10 - Testing backend connection](#10---testing-backend-connection)
-          + [10.1 - Sign in](#101---sign-in)
-        * [11 - Push into the remote repository](#11---push-into-the-remote-repository)  
-  * [FAQ](#faq)
-    + [My branch is missing lots of files and it looks completely different from the others.](#my-branch-is-missing-lots-of-files-and-it-looks-completely-different-from-the-others)
-    + [How can I check another person's branch to compare it to mine?](#how-can-i-check-another-persons-branch-to-compare-it-to-mine)
-    + [I made a mistake in my commit and want to revert it to the previous one, how do I do that?](#i-made-a-mistake-in-my-commit-and-want-to-revert-it-to-the-previous-one-how-do-i-do-that)
-    + [How do I update my local branch?](#how-do-i-update-my-local-branch)
-    + [How do I delete a branch?](#how-do-i-delete-a-branch)
-    + [I can't run the application, Yarn says "[something] is not defined"](#i-cant-run-the-application-yarn-says-something-is-not-defined)
-    + [Why not just work on the master branch?](#why-not-just-work-on-the-master-branch)    
-  * [Documentation & Trello](#documentation--trello)
+  - [Setting up your local development environment](#setting-up-your-local-development-environment)
+    + [1 - Clone the repository](#1---clone-the-repository)
+    + [2 - Move to the repository's directory](#2---move-to-the-repositorys-directory)
+    + [3 - Create your own branch (important!)](#3---create-your-own-branch-important)
+    + [4 - Update your branch to a more recent version](#4---update-your-branch-to-a-more-recent-version)
+    + [Frontend](#frontend)
+      - [5 - Install packages](#5---install-packages)
+      - [6 - Set up HTTPS](#6---set-up-https)
+      - [7 - Start server](#7---start-server)
+    + [Backend](#backend)
+      - [8 - Database setup (without Laragon)](#8---database-setup-without-laragon)
+      - [9 - Creating and seeding the database](#9---creating-and-seeding-the-database)
+      - [10 - Running the API server](#10---running-the-api-server)
+      - [11 - Testing backend connection](#11---testing-backend-connection)
+        * [11.1 - Sign in](#111---sign-in)
+      - [12 - Push into the remote repository](#12---push-into-the-remote-repository)
+- [FAQ](#faq)
+  * [My branch is missing lots of files and it looks completely different from the others.](#my-branch-is-missing-lots-of-files-and-it-looks-completely-different-from-the-others)
+  * [How can I check another person's branch to compare it to mine?](#how-can-i-check-another-persons-branch-to-compare-it-to-mine)
+  * [I made a mistake in my commit and want to revert it to the previous one, how do I do that?](#i-made-a-mistake-in-my-commit-and-want-to-revert-it-to-the-previous-one-how-do-i-do-that)
+  * [How do I update my local branch?](#how-do-i-update-my-local-branch)
+  * [How do I delete a branch?](#how-do-i-delete-a-branch)
+  * [I can't run the application, Yarn says "[something] is not defined"](#i-cant-run-the-application-yarn-says-something-is-not-defined)
+  * [Why not just work on the master branch?](#why-not-just-work-on-the-master-branch)
+- [Documentation & Trello](#documentation--trello)
 
 ## Setting up your local development environment
 To start working on the Admin Portal, a few steps are necessary:
@@ -56,22 +57,49 @@ Move to the `Admin/Frontend` directory and run:
 
 `yarn`
 
-##### 6 - Start server
+##### 6 - Set up HTTPS
+This step should address the `NET:ERR_CERT_AUTHORITY_INVALID` error.
+
+We are going to use the [mkcert](https://github.com/FiloSottile/mkcert "mkcert") package to generate a local certificate only trusted by your computer. Follow the installation instructions as described on their page (see instructions for Windows [here](https://github.com/FiloSottile/mkcert#windows "mkcert installation - Windows"), you have to install [chocolatey](https://chocolatey.org/install "Chocolatey") first - it is a package manager for Windows, similar to the ones commonly found on Linux).
+
+After installing `mkcert`, move to the `Admin/Frontend` directory in your terminal and run the commands below:
+
+```
+mkcert -install
+
+mkcert localhost
+```
+
+Click "Yes" after you run the first command and ignore the warnings about Java Store or lack thereof.
+
+You should now see that two new files were created in the `Admin/Frontend` directory: `localhost.pem` and `localhost-key.pem`.
+
+Then, create a new file called `.env` in the `Admin/Frontend` directory and add these three lines to it:
+
+```
+HTTPS=true
+SSL_CRT_FILE=localhost.pem
+SSL_KEY_FILE=localhost-key.pem
+```
+
+HTTPS should now be configured in the frontend and you may proceed to the steps below to start the frontend and backend servers.
+
+##### 7 - Start server
 `yarn start:frontend`
 
 #### Backend
 
-##### 7 - Database setup (without Laragon)
+##### 8 - Database setup (without Laragon)
 If you do not have Laragon installed or wish to get the database up and running without using it, head to [MySQL Community Download](https://dev.mysql.com/downloads/installer/ "Download MySQL installer") and download MySQL (choose any option, the first one requires internet connection when you install MySQL). 
 
 This [tutorial](https://mysql.tutorials24x7.com/blog/how-to-install-mysql-8-on-windows "How To Install MySQL 8 on Windows") might help if you are on Windows.
 
-##### 8 - Creating and seeding the database
+##### 9 - Creating and seeding the database
 After downloading and installing MySQL, run `mysql -u root` in your terminal and follow the steps as described in the [database.sql](https://github.com/HairdressingProject/HairdressingApp/blob/master/Database/database.sql "Hairdressing Project database") file.
 
 __NOTE__: Do **not** copy and paste the entire file into your terminal, do it step by step.
 
-##### 9 - Running the API server
+##### 10 - Running the API server
 In your terminal, move to the `Admin/Backend/AdminApi` directory and run: 
 
 `dotnet watch run`
@@ -88,10 +116,10 @@ If no errors are shown and your frontend environment is also working, you can no
 
 Now you should be ready to connect to the backend.
 
-##### 10 - Testing backend connection
+##### 11 - Testing backend connection
 I recommend using [Postman](https://www.postman.com/ "Postman") for this step. After you download and install it, follow the steps below to test the backend:
 
-###### 10.1 - Sign in
+###### 11.1 - Sign in
 As authentication has been implemented, most routes will not be available unless you are signed in. To do that, copy and paste this URL to the address bar in Postman and change the request method from `GET` to `POST`:
 
 `https://localhost:5000/api/users/sign_in`
@@ -115,7 +143,7 @@ If you got a JSON response like the one in the picture, you're good to go.
 
 If you wish to test other routes, you should now go to the `Authorization` tab in Postman, select the `Bearer Token` type and copy and paste the `token` that you got into the Token field. This token was digitally signed when you sent the previous `POST` request to `/api/users/sign_in` and will be authenticated in subsequent requests.
 
-##### 11 - Push into the remote repository
+##### 12 - Push into the remote repository
 After you have committed the first few changes changes in your local repository, run:
 
 `git push -u origin [your branch's name]`
