@@ -308,7 +308,7 @@ export const Databases = () =>
                         <DBTable
                             tableTitle={"Users"}
                             openAddModal={showAddUserModal}
-                            openEditMotal={showEditUserModal}
+                            openEditModal={showEditUserModal}
                             tableData={usersTableData}
                             tableColumns={DataColumns.usersTableColumns}
                         />
@@ -334,7 +334,7 @@ export const Databases = () =>
                     <DBTable
                         tableTitle={"User Features"}
                         openAddModal={showAddUserFeaturesModal}
-                        openEditMotal={showEditUserFeaturesModal}
+                        openEditModal={showEditUserFeaturesModal}
                         tableData={userFeaturesTableData}
                         tableColumns={DataColumns.userFeaturesTableColumns}
                     />   
@@ -360,7 +360,7 @@ export const Databases = () =>
                         <DBTable
                             tableTitle={"Skin Tones"}
                             openAddModal={showAddSkinTonesModal}
-                            openEditMotal={showEditSkinTonesModal}
+                            openEditModal={showEditSkinTonesModal}
                             tableData={skinTonesTableData}
                             tableColumns={DataColumns.skinTonesTableColumns}
                         />
@@ -385,7 +385,7 @@ export const Databases = () =>
                         <DBTable
                             tableTitle={"Hair Lengths"}
                             openAddModal={showAddHairLengthsModal}
-                            openEditMotal={showEditHairLengthsModal}
+                            openEditModal={showEditHairLengthsModal}
                             tableData={hairLengthsTableData}
                             tableColumns={DataColumns.hairLengthsTableColumns}
                         />
@@ -410,7 +410,7 @@ export const Databases = () =>
                         <DBTable
                             tableTitle={"Face Shapes"}
                             openAddModal={showAddFaceShapesModal}
-                            openEditMotal={showEditFaceShapesModal}
+                            openEditModal={showEditFaceShapesModal}
                             tableData={faceShapesTableData}
                             tableColumns={DataColumns.faceShapesTableColumns}
                         />
