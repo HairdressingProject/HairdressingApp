@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo, useReducer} from 'react';
+import React, { useState, useCallback, useMemo} from 'react';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
-import differenceBy from 'lodash/differenceBy';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import table from 'react-foundation-components/lib/table';
