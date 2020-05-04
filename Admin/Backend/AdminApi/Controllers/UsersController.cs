@@ -160,6 +160,28 @@ namespace AdminApi.Controllers
         }
 
 // ********************************************************************************************************************************************        
+        [AllowAnonymous]
+        [EnableCors("Policy1")]
+        [HttpPost]
+        public async Task<ActionResult<Users>> PostUsers(Users users)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(user => user.UserName == users.UserName);
+
+            if (existingUser == null)
+            {
+                _context.Users.Add(users);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+            }
+            else
+            {
+                return Conflict(new {error = "User already exists"});
+            }
+
+
+        }
+        
 
         [AllowAnonymous]
         [EnableCors("Policy1")]

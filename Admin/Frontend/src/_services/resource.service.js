@@ -55,12 +55,9 @@ async function post(resourceName, resource, URL, token) {
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    let response;
-    if (resourceName === resourceNames.USERS) {
-        response = await fetch(`${URL}/api/${normalisedResourceName}/sign_up`, requestOptions);
-    } else {
-        response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
-    }
+    const response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
+
+
 
     return handleResponse(response);
 }
