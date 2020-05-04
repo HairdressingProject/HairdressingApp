@@ -44,7 +44,31 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
     const handleDelete = () => {
       console.log("handleDelete ", selRow);
       selRow.map(row =>{
-        dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES,  row.id));
+        switch (tableTitle) {
+          case "Users":
+              dispatch(resourceActions.deleteResource(resourceNames.USERS, row.id));
+              //window.location.reload();
+          break;
+      
+          case "User Features":
+              dispatch(resourceActions.deleteResource(resourceNames.USER_FEATURES, row.id));
+          break;
+      
+          case "Skin Tones":
+              dispatch(resourceActions.deleteResource(resourceNames.SKIN_TONES, row.id));
+          break;
+      
+          case "Face Shapes":
+              dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, row.id));
+          break;
+      
+          case "Hair Lengths":
+              dispatch(resourceActions.deleteResource(resourceNames.HAIR_LENGTHS, row.id));
+          break;
+      
+          default:
+              break;
+      }
       }) 
 
       
@@ -53,6 +77,7 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
     const handleEdit = () => {
       console.log("handleEdit ", selRow[0].id);
       // open Edit Modal
+      openEditModal(true);
     }    
 
     return(
@@ -73,7 +98,7 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
     );
   });
 
-  const columnsPow = useMemo(() => [...tableColumns,
+  const columns2 = useMemo(() => [...tableColumns,
       {
         cell: () => <Button raised primary onClick={handleAction}>Action</Button>,
         ignoreRowClick: true,
@@ -86,7 +111,7 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
     <DataTable
       title={tableTitle}
       data={tableData}
-      columns={columnsPow}
+      columns={tableColumns}
       actions={actions}
       contextActions={contextActions}
       onSelectedRowsChange={updateState}
