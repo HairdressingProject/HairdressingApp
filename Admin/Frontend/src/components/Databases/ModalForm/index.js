@@ -21,7 +21,15 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
                 formFields = FormFields.userInitialFields;
             }
             if(openEditModal) {
-                formFields = FormFields.userInitialFields;
+                formFields = FormFields.userEditInitialFields;
+                formFields[0].input = editObject.userName
+                formFields[1].input = editObject.userEmail
+                //formFields[2].input = editObject.userPassword
+                formFields[3].input = editObject.firstName
+                formFields[4].input = editObject.lastName
+                formFields[5].input = editObject.userRole
+                console.log("formFields");
+                console.dir(formFields)
             }   
 
         break;
@@ -32,6 +40,11 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
             }
             if(openEditModal) {
                 formFields = FormFields.userFeaturesAddInitialFormFields;
+                formFields[0].input = editObject.userId
+                formFields[1].input = editObject.faceShapeId
+                formFields[2].input = editObject.skinToneId
+                formFields[3].input = editObject.hairStyleId
+                formFields[4].input = editObject.hairLengthId
             }
         break;
 
@@ -41,6 +54,7 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
             }
             if(openEditModal) {
                 formFields = FormFields.skinTonesAddInitialFormFields;
+                formFields[0].input = editObject.skinToneName
             }
         break;
 
@@ -50,6 +64,7 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
             }
             if(openEditModal) {
                 formFields = FormFields.hairLengthsAddInitialFormFields;
+                formFields[0].input = editObject.hairLengthName
             }
         break;        
 
@@ -59,6 +74,7 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
             }
             if(openEditModal) {
                 formFields = FormFields.faceShapesEditInitialFormFields;
+                formFields[0].input = editObject.shapeName
             }
         break;
         default:

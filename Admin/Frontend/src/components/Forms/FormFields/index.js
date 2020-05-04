@@ -108,6 +108,111 @@ export const userInitialFields = [
     },
 ]
 
+export const userEditInitialFields = [
+    {
+        label: 'User Name',
+        input: '',
+        icon: user,
+        type: 'text',
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
+    },
+    {
+        label: 'User Email',
+        input: '',
+        icon: mail,
+        type: 'text',
+        touched: false,
+        required: true,
+        // validation: [
+        //     {
+        //         error: false,
+        //         errorMessage: 'This field is required',
+        //         check: (input) => {
+        //             return !input || !input.trim();
+        //         }
+        //     }
+        //]
+    },
+    {
+        label: 'User Password',
+        input: '',
+        icon: password,
+        type: 'text',
+        touched: false,
+        required: true,
+        // validation: [
+        //     {
+        //         error: false,
+        //         errorMessage: 'This field is required',
+        //         check: (input) => {
+        //             return !input || !input.trim();
+        //         }
+        //     }
+        //]
+    },
+    {
+        label: 'First Name',
+        input: '',
+        icon: user,
+        type: 'text',
+        touched: false,
+        required: true,
+        // validation: [
+        //     {
+        //         error: false,
+        //         errorMessage: 'This field is required',
+        //         check: (input) => {
+        //             return !input || !input.trim();
+        //         }
+        //     }
+        //]
+    },
+    {
+        label: 'Last Name',
+        input: '',
+        icon: user,
+        type: 'text',
+        touched: false,
+        required: true,
+        // validation: [
+        //     {
+        //         error: false,
+        //         errorMessage: 'This field is required',
+        //         check: (input) => {
+        //             return !input || !input.trim();
+        //         }
+        //     }
+        //]
+    },
+    {
+        label: 'User Role',
+        input: '',
+        icon: user,
+        type: 'text',
+        touched: false,
+        required: true,
+        // validation: [
+        //     {
+        //         error: false,
+        //         errorMessage: 'This field is required',
+        //         check: (input) => {
+        //             return !input || !input.trim();
+        //         }
+        //     }
+        //]
+    },
+]
+
 
 export const faceShapesAddInitialFormFields =[
     {
@@ -129,12 +234,6 @@ export const faceShapesAddInitialFormFields =[
 ];
 
 export const faceShapesEditInitialFormFields = [
-    {
-        label: 'Id',
-        input: '',
-        type: 'text',
-        touched: false,
-    },
     {
         label: 'Face Shape Name',
         input: '',
