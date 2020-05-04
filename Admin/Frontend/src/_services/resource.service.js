@@ -1,4 +1,5 @@
 import { createRequestHeader } from '../_helpers/';
+import { resourceNames } from '../_constants';
 
 export const resourceServices = {
     getAll,
@@ -54,7 +55,13 @@ async function post(resourceName, resource, URL, token) {
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
-    const response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
+    let response;
+    if (resourceName === resourceNames.USERS) {
+        response = await fetch(`${URL}/api/${normalisedResourceName}/sign_up`, requestOptions);
+    } else {
+        response = await fetch(`${URL}/api/${normalisedResourceName}`, requestOptions);
+    }
+
     return handleResponse(response);
 }
 
