@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useMemo} from 'react';
 import DataTable from 'react-data-table-component'
-import { orderBy } from 'lodash';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
-import table from 'react-foundation-components/lib/table';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../../../_actions';
