@@ -12,7 +12,7 @@ import { resourceNames } from '../../../../_constants';
 
 
 
-export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns}) => {
+export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns, editObject}) => {
 
   //const [state, dispatch] = useReducer(reducer, initialState);
   
@@ -76,6 +76,8 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
 
     const handleEdit = () => {
       console.log("handleEdit ", selRow[0].id);
+      // object to edit
+      editObject(selRow[0]);
       // open Edit Modal
       openEditModal(true);
     }    

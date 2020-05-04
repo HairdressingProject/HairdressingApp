@@ -4,7 +4,7 @@ import { AddEntry } from '../../Databases/AddEntry';
 import { EditEntry } from '../../Databases/EditEntry';
 import * as FormFields from '../../Forms/FormFields';
 
-export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddModal, closeEditModal}) => {
+export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddModal, closeEditModal, editObject}) => {
 
 /** @constant
  * @type {object} revealStyle - css style of the modal
@@ -102,6 +102,7 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
                         title={tableSource}
                         initialFormFields={formFields}
                         close={closeEditModal}
+                        editObject={editObject}
                     />
             </Modal>
 

@@ -12,8 +12,8 @@ import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const EditEntry = ({title, initialFormFields, objectToEdit, close}) => {
-    console.log("edit this: ", objectToEdit);
+export const EditEntry = ({title, initialFormFields, objectToEdit, close, editObject}) => {
+    console.log("edit this: ", editObject);
 
     return (
         <div className="edit-form-container">

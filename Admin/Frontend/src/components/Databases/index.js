@@ -106,6 +106,13 @@ export const Databases = () =>
             setEditHairLengthsModalOpen(status);
         }
 
+        // objToEdit to pass object props to edit form
+
+        const [objToEdit, setObjToEdit] = useState(null);
+        const selectObjToEdit = myObj => {
+            setObjToEdit(myObj);
+        }
+
 
        
         // ***************** Databases Table settings
@@ -311,6 +318,7 @@ export const Databases = () =>
                             openEditModal={showEditUserModal}
                             tableData={usersTableData}
                             tableColumns={DataColumns.usersTableColumns}
+                            editObject={selectObjToEdit}
                         />
                     </div>
                     :
@@ -323,6 +331,7 @@ export const Databases = () =>
                         openEditModal={isEditUserModalOpen}
                         closeAddModal={setAddUserModalOpen}
                         closeEditModal={setEditUserModalOpen}
+                        editObject={objToEdit}
                     />   
 
                 {/* end of Users ********************************************** */}
@@ -337,6 +346,7 @@ export const Databases = () =>
                         openEditModal={showEditUserFeaturesModal}
                         tableData={userFeaturesTableData}
                         tableColumns={DataColumns.userFeaturesTableColumns}
+                        editObject={selectObjToEdit}
                     />   
                     </div>
                     :
@@ -349,6 +359,7 @@ export const Databases = () =>
                         openEditModal={isEditUserFeaturesModalOpen}
                         closeAddModal={showAddUserFeaturesModal}
                         closeEditModal={showEditUserFeaturesModal}
+                        editObject={objToEdit}
                     />   
                 {/* end of Users Features ********************************************** */}                    
                 
@@ -363,6 +374,7 @@ export const Databases = () =>
                             openEditModal={showEditSkinTonesModal}
                             tableData={skinTonesTableData}
                             tableColumns={DataColumns.skinTonesTableColumns}
+                            editObject={selectObjToEdit}
                         />
                     </div>
                     :
@@ -374,6 +386,7 @@ export const Databases = () =>
                         openEditModal={isEditSkinTonesModalOpen}
                         closeAddModal={showAddSkinTonesModal}
                         closeEditModal={showEditSkinTonesModal}
+                        editObject={objToEdit}
                     />   
                 {/* End of skin tones ********************************************** */}
                 
@@ -388,6 +401,7 @@ export const Databases = () =>
                             openEditModal={showEditHairLengthsModal}
                             tableData={hairLengthsTableData}
                             tableColumns={DataColumns.hairLengthsTableColumns}
+                            editObject={selectObjToEdit}
                         />
                     </div>
                     :
@@ -399,6 +413,7 @@ export const Databases = () =>
                         openEditModal={isEditHairLengthsModalOpen}
                         closeAddModal={showAddHairLengthsModal}
                         closeEditModal={showEditHairLengthsModal}
+                        editObject={objToEdit}
                     />
                 {/* End of Hair Lengths ********************************************** */}                    
 
@@ -413,6 +428,7 @@ export const Databases = () =>
                             openEditModal={showEditFaceShapesModal}
                             tableData={faceShapesTableData}
                             tableColumns={DataColumns.faceShapesTableColumns}
+                            editObject={selectObjToEdit}
                         />
                     </div>
                     :
@@ -424,6 +440,7 @@ export const Databases = () =>
                     openEditModal={isEditFaceShapesModalOpen}
                     closeAddModal={showAddFaceShapesModal}
                     closeEditModal={showEditFaceShapesModal}
+                    editObject={objToEdit}
                 />                
                 {/* end of FaceShapes ******************************** */}
 
