@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import {
     FormField,
     FormFieldInput,
@@ -22,11 +22,26 @@ import { resourceNames } from '../../../_constants';
 
 export const AddEntry = ({title, initialFormFields, close}) => {
 
+    const [formSubmitted, setFormSubmitted] = useState(false);
+
     // dispatch is a function that will be called with a resourceAction to send HTTP requests
     const dispatch = useDispatch();
 
     // resources is a "slice" of Redux store's state that contains items from all tables in the database
-    //const resources = useSelector(state => state.resources);    
+    //const resources = useSelector(state => state.resources);
+
+    // Refresh the list of items from the database whenever the form is submitted
+    useEffect(() => {
+        if (formSubmitted) {
+            //dispatch(resourceActions.getAll(resourceNames.HAIR_STYLES));
+            Object
+                .values(resourceNames)
+                .forEach(resourceNames => {
+                    dispatch(resourceActions.getAll(resourceNames))
+                });
+            setFormSubmitted(false);
+        }
+    }, [formSubmitted]);
 
     return (
         <div className={[classes["add-form-container"], "text-center"].join(' ')}>
@@ -67,6 +82,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
 
                             dispatch(resourceActions.post(resourceNames.USERS, inputs));
                             //window.location.reload();
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
 
                         break;
 
@@ -82,6 +101,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
 
                             console.log(inputs);
                             dispatch(resourceActions.post(resourceNames.USER_FEATURES, inputs));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
 
 
                         break;
@@ -92,6 +115,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             }
                             console.log(inputs);
                             dispatch(resourceActions.post(resourceNames.SKIN_TONES, inputs));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                             
 
 
@@ -104,6 +131,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             console.log(inputs);
 
                             dispatch(resourceActions.post(resourceNames.FACE_SHAPES, inputs));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                         break;
 
                         case "Hair Lengths":
@@ -112,6 +143,10 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             }
                             console.log(inputs);
                             dispatch(resourceActions.post(resourceNames.HAIR_LENGTHS, inputs));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
 
 
                         break;
