@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo} from 'react';
+import React, { useEffect, useState, useCallback, useMemo} from 'react';
 import DataTable from 'react-data-table-component'
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
@@ -12,6 +12,8 @@ import { resourceNames } from '../../../../_constants';
 export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tableColumns, editObject}) => {
 
   //const [state, dispatch] = useReducer(reducer, initialState);
+
+  const [deleted, setDeleted] = useState(false);
   
   const [selRow, setSelRow] = useState(null);
   const [thing, setThing] = useState(null);
@@ -34,6 +36,18 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
 
   });
 
+  useEffect(() => {
+    if (deleted) {
+        //dispatch(resourceActions.getAll(resourceNames.HAIR_STYLES));
+        Object
+            .values(resourceNames)
+            .forEach(resourceNames => {
+                dispatch(resourceActions.getAll(resourceNames))
+            });
+        setDeleted(false);
+    }
+}, [deleted]);
+
   const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
 
   const contextActions = useMemo(() => {
@@ -45,22 +59,37 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
           case "Users":
               dispatch(resourceActions.deleteResource(resourceNames.USERS, row.id));
               //window.location.reload();
+              setTimeout(() => {
+                setDeleted(true);
+            }, 300);
           break;
       
           case "User Features":
               dispatch(resourceActions.deleteResource(resourceNames.USER_FEATURES, row.id));
+              setTimeout(() => {
+                setDeleted(true);
+            }, 300);
           break;
       
           case "Skin Tones":
               dispatch(resourceActions.deleteResource(resourceNames.SKIN_TONES, row.id));
+              setTimeout(() => {
+                setDeleted(true);
+            }, 300);
           break;
       
           case "Face Shapes":
               dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, row.id));
+              setTimeout(() => {
+                setDeleted(true);
+            }, 300);
           break;
       
           case "Hair Lengths":
               dispatch(resourceActions.deleteResource(resourceNames.HAIR_LENGTHS, row.id));
+              setTimeout(() => {
+                setDeleted(true);
+            }, 300);
           break;
       
           default:
