@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 
 import {
     FormField,
@@ -8,7 +8,6 @@ import {
     FormFieldInline
 } from 'react-foundation-components/lib/forms';
 import { FormWithValidation } from '../../Forms/FormWithValidation';
-import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
@@ -19,6 +18,21 @@ import { resourceNames } from '../../../_constants';
 export const EditEntry = ({title, initialFormFields, objectToEdit, close, editObject}) => {
     const dispatch = useDispatch();
     console.log("edit this: ", editObject);
+
+    const [formSubmitted, setFormSubmitted] = useState(false);
+
+    // Refresh the list of items from the database whenever the form is submitted
+    useEffect(() => {
+        if (formSubmitted) {
+            //dispatch(resourceActions.getAll(resourceNames.HAIR_STYLES));
+            Object
+                .values(resourceNames)
+                .forEach(resourceNames => {
+                    dispatch(resourceActions.getAll(resourceNames))
+                });
+            setFormSubmitted(false);
+        }
+    }, [formSubmitted]);
 
     
 
@@ -78,6 +92,10 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             console.log("resourceObject");
                             console.dir(resourceObject);
                             dispatch(resourceActions.put(resourceNames.USER_FEATURES, editObject.id, resourceObject));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                             break;
                         }
 
@@ -90,6 +108,10 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             console.log("resourceObject");
                             console.dir(resourceObject);
                             dispatch(resourceActions.put(resourceNames.SKIN_TONES, editObject.id, resourceObject));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                             break;
                         }
 
@@ -102,6 +124,10 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             console.log("resourceObject");
                             console.dir(resourceObject);
                             dispatch(resourceActions.put(resourceNames.FACE_SHAPES, editObject.id, resourceObject));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                             break;
                         }
 
@@ -114,35 +140,19 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             console.log("resourceObject");
                             console.dir(resourceObject);
                             dispatch(resourceActions.put(resourceNames.HAIR_LENGTHS, editObject.id, resourceObject));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
+                            break;
+                        }
+                        
+                        default: {
                             break;
                         }
 
-                    }
 
-                    // return axios
-                    //     .post(
-                    //         'https://localhost:5001/api/Users', {
-                    //             userName: "test500",
-                    //             userPassword: "test500",
-                    //             userEmail: "test500@mail.com",
-                    //             firstName: "testName",
-                    //             lastName: "testLastName",
-                    //             userRole: "user"
-                    //         }, 
-                    //         {
-                    //             headers: { "Content-type": "application/json" }
-                    //         }
-                    //     )
-                    //     .then((res) => {
-                    //         console.log(res);
-                    //         if (res.status === 200) {
-                    //             alert("added");
-                    //         } else {
-                    //             alert("Error while trying to add new");
-                    //         }
-                
-                
-                    //     })
+                    }
 
                     }
                 }
