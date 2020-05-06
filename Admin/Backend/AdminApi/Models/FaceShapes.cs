@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AdminApi.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AdminApi.Models
@@ -14,6 +16,9 @@ namespace AdminApi.Models
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
 
+        [Required(ErrorMessage = "Shape name is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Shape name should not be empty or white space")]
+        [MaxLength(128)]
         [JsonPropertyName("shape_name")]
         public string ShapeName { get; set; }
 

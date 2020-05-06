@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
@@ -55,11 +53,11 @@ namespace AdminApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFaceShapes(ulong id, FaceShapes faceShapes)
+        public async Task<IActionResult> PutFaceShapes(ulong id, [FromBody] FaceShapes faceShapes)
         {
             if (id != faceShapes.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(faceShapes).State = EntityState.Modified;
@@ -88,7 +86,7 @@ namespace AdminApi.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [EnableCors("Policy1")]
         [HttpPost]
-        public async Task<ActionResult<FaceShapes>> PostFaceShapes(FaceShapes faceShapes)
+        public async Task<ActionResult<FaceShapes>> PostFaceShapes([FromBody] FaceShapes faceShapes)
         {
             _context.FaceShapes.Add(faceShapes);
             await _context.SaveChangesAsync();

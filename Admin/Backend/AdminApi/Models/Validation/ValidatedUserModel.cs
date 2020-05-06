@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AdminApi.Models
+namespace AdminApi.Validation
 {
     public class ValidatedUserModel
     {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
@@ -51,11 +50,18 @@ namespace AdminApi.Controllers
 
         // PUT: api/FaceShapeLinks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFaceShapeLinks(ulong id, FaceShapeLinks faceShapeLinks)
+        public async Task<IActionResult> PutFaceShapeLinks(ulong id, [FromBody] FaceShapeLinks faceShapeLinks)
         {
             if (id != faceShapeLinks.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var correspondingFaceShape = await _context.FaceShapes.FirstOrDefaultAsync(f => f.Id == faceShapeLinks.FaceShapeId);
+
+            if (correspondingFaceShape == null)
+            {
+                return BadRequest(new { errors = new { FaceShapeId = new string[]{ "No matching face shape entry was found"} }, status = 400 });
             }
 
             _context.Entry(faceShapeLinks).State = EntityState.Modified;
@@ -81,8 +87,15 @@ namespace AdminApi.Controllers
 
         // POST: api/FaceShapeLinks
         [HttpPost]
-        public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks(FaceShapeLinks faceShapeLinks)
+        public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks([FromBody] FaceShapeLinks faceShapeLinks)
         {
+            var correspondingFaceShape = await _context.FaceShapes.FirstOrDefaultAsync(f => f.Id == faceShapeLinks.FaceShapeId);
+
+            if (correspondingFaceShape == null)
+            {
+                return BadRequest(new { errors = new { FaceShapeId = new string[] { "No matching face shape entry was found" } }, status = 400 });
+            }
+
             _context.FaceShapeLinks.Add(faceShapeLinks);
             await _context.SaveChangesAsync();
 

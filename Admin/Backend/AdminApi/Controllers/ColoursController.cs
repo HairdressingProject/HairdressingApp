@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
@@ -51,11 +49,11 @@ namespace AdminApi.Controllers
 
         // PUT: api/Colours/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColours(ulong id, Colours colours)
+        public async Task<IActionResult> PutColours(ulong id, [FromBody] Colours colours)
         {
             if (id != colours.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(colours).State = EntityState.Modified;
@@ -81,7 +79,7 @@ namespace AdminApi.Controllers
 
         // POST: api/Colours
         [HttpPost]
-        public async Task<ActionResult<Colours>> PostColours(Colours colours)
+        public async Task<ActionResult<Colours>> PostColours([FromBody] Colours colours)
         {
             _context.Colours.Add(colours);
             await _context.SaveChangesAsync();
