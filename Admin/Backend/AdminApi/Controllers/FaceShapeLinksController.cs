@@ -61,7 +61,7 @@ namespace AdminApi.Controllers
 
             if (correspondingFaceShape == null)
             {
-                return BadRequest(new { errors = new { FaceShapeId = new string[]{ "No matching face shape entry was found"} }, status = 400 });
+                return NotFound(new { errors = new { FaceShapeId = new string[]{ "No matching face shape entry was found"} }, status = 404 });
             }
 
             _context.Entry(faceShapeLinks).State = EntityState.Modified;
@@ -94,6 +94,11 @@ namespace AdminApi.Controllers
             if (correspondingFaceShape == null)
             {
                 return BadRequest(new { errors = new { FaceShapeId = new string[] { "No matching face shape entry was found" } }, status = 400 });
+            }
+
+            if (faceShapeLinks.Id != null)
+            {
+                faceShapeLinks.Id = null;
             }
 
             _context.FaceShapeLinks.Add(faceShapeLinks);

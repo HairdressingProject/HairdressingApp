@@ -9,7 +9,7 @@ namespace AdminApi.Models
     public partial class FaceShapeLinks
     {
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
         [Required(ErrorMessage = "Face shape ID is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Face shape ID should not be empty or white space")] 

@@ -53,11 +53,18 @@ namespace AdminApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHairLengthLinks(ulong id, HairLengthLinks hairLengthLinks)
+        public async Task<IActionResult> PutHairLengthLinks(ulong id, [FromBody] HairLengthLinks hairLengthLinks)
         {
             if (id != hairLengthLinks.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var correspondingHairLength = await _context.HairLengths.FirstOrDefaultAsync(h => h.Id == hairLengthLinks.HairLengthId);
+
+            if (correspondingHairLength == null)
+            {
+                return NotFound(new { errors = new { HairLengthId = new string[] { "No matching hair length entry was found" } }, status = 404 });
             }
 
             _context.Entry(hairLengthLinks).State = EntityState.Modified;
@@ -85,8 +92,20 @@ namespace AdminApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<HairLengthLinks>> PostHairLengthLinks(HairLengthLinks hairLengthLinks)
+        public async Task<ActionResult<HairLengthLinks>> PostHairLengthLinks([FromBody] HairLengthLinks hairLengthLinks)
         {
+            var correspondingHairLength = await _context.HairLengths.FirstOrDefaultAsync(h => h.Id == hairLengthLinks.HairLengthId);
+
+            if (correspondingHairLength == null)
+            {
+                return NotFound(new { errors = new { HairLengthId = new string[] { "No matching hair length entry was found" } }, status = 404 });
+            }
+
+            if (hairLengthLinks.Id != null)
+            {
+                hairLengthLinks.Id = null;
+            }
+
             _context.HairLengthLinks.Add(hairLengthLinks);
             await _context.SaveChangesAsync();
 

@@ -14,7 +14,7 @@ namespace AdminApi.Models
         }
 
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
         [Required(ErrorMessage = "Shape name is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Shape name should not be empty or white space")]

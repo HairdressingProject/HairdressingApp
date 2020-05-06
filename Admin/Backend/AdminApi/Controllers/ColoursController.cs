@@ -81,6 +81,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Colours>> PostColours([FromBody] Colours colours)
         {
+            if (colours.Id != null)
+            {
+                colours.Id = null;
+            }
+
             _context.Colours.Add(colours);
             await _context.SaveChangesAsync();
 

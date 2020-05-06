@@ -88,6 +88,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<FaceShapes>> PostFaceShapes([FromBody] FaceShapes faceShapes)
         {
+            if (faceShapes.Id != null)
+            {
+                faceShapes.Id = null;
+            }
+
             _context.FaceShapes.Add(faceShapes);
             await _context.SaveChangesAsync();
 

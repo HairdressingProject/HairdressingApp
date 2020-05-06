@@ -9,7 +9,7 @@ namespace AdminApi.Models
     public partial class Colours
     {
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
         [Required(ErrorMessage = "Colour name is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Colour name should not be empty or white space")]
