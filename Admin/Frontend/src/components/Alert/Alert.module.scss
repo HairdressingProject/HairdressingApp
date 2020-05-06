@@ -1,0 +1,72 @@
+.alert {
+    &-container {
+        position: relative;        
+
+        &-success {
+            background-color: #10A033;
+        }
+
+        &-danger {
+            background-color: #B71C1C;
+        }
+
+        &-hidden {
+            visibility: collapse;
+            display: none;
+        }
+    }
+
+    &-text {
+        font-size: 1rem;
+        letter-spacing: .1rem;
+        margin: 0;
+        padding: 2rem 0;
+        color: #FFF;
+        text-align: right;
+    }
+}
+
+.close-alert {
+    &-container {
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateX(-100%) translateY(-50%);
+    }
+
+    &-button {
+        position: relative;
+        outline: none;
+        border: none;
+    }
+
+    &-img {
+        position: relative;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/**************************************************************************************************/
+/************************************** MEDIA QUERIES *********************************************/
+/**************************************************************************************************/
+
+/* Galaxy S5, Moto G4 and bigger */
+@media only screen and (min-width: 360px) {
+
+}
+
+/* iPad and bigger */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Common laptops */
+@media only screen and (min-width: 1366px) {
+
+}
+
+/* Desktop */
+@media only screen and (min-width: 1920px) {
+
+}
