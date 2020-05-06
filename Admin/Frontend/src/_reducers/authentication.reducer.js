@@ -38,7 +38,10 @@ export const authenticationReducer = createReducer(initialState, {
   },
 
   LOGIN_FAILURE: (state, action) => {
-    return ({});
+    return ({
+      ...cloneDeep(state),
+      error: action.payload.error
+    });
   },
 
   LOGOUT: (state, action) => {

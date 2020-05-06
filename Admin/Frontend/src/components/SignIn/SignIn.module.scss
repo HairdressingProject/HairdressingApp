@@ -1,10 +1,13 @@
-.signin {
-    &-container {
-        position: relative;
+.main-container {
+    position: relative;
         min-height: 100vh;
         background: 
         center top / contain no-repeat url('../../img/background_top.svg'), 
         center bottom / contain no-repeat url('../../img/background_bottom.svg');
+}
+
+.signin {
+    &-container {
 
         & input[type="checkbox"] {
             position: relative;
