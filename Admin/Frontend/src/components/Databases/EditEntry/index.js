@@ -12,8 +12,15 @@ import axios from 'axios';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../../_actions';
+import { resourceNames } from '../../../_constants';
+
 export const EditEntry = ({title, initialFormFields, objectToEdit, close, editObject}) => {
+    const dispatch = useDispatch();
     console.log("edit this: ", editObject);
+
+    
 
     return (
         <div className="edit-form-container">
@@ -21,10 +28,96 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
 
             <FormWithValidation
                 initialFormFields={initialFormFields}
-                handleSubmit={(e, formFields) => {
+                handleSubmit={(e, isFormValid, formFields) => {
                     e.preventDefault();
                     console.log(e);
+                    console.log(isFormValid);
                     console.log(formFields);
+
+                    console.log("Initial object: ");
+                    console.dir(editObject);
+                    console.log("Inputs object: ");
+                    console.log(formFields);
+
+                    
+
+                    // Create a resource objecte
+
+
+                    switch (title) {
+                        
+                        case "Users": {
+                            //const selectedHairStyle = localHairStyles.hairStyles.items.find(h => h.id == body.Id);
+
+
+                            var resourceObject = {
+                                Id: editObject.id,
+                                UserName: formFields[0].input,
+                                UserEmail: formFields[1].input,
+                                UserPassword: formFields[2].input, //ToDO: remove this field
+                                FirstName: formFields[3].input,
+                                LastName: formFields[4].input,
+                                UserRole: formFields[5].input
+                            };
+                            console.log("resourceObject");
+                            console.dir(resourceObject);                          
+                            dispatch(resourceActions.put(resourceNames.USERS, editObject.id, resourceObject));
+                            break;
+                        }
+
+                        case "User Features": {
+                            
+                            var resourceObject = {
+                                Id: editObject.id,
+                                UserId: editObject.userId,
+                                FaceShapeId: parseInt(formFields[1].input),
+                                SkinToneId: parseInt(formFields[2].input),
+                                HairStyleId: parseInt(formFields[3].input),
+                                HairLengthId: parseInt(formFields[4].input)
+                            };
+                            console.log("resourceObject");
+                            console.dir(resourceObject);
+                            dispatch(resourceActions.put(resourceNames.USER_FEATURES, editObject.id, resourceObject));
+                            break;
+                        }
+
+                        case "Skin Tones": {
+                            
+                            var resourceObject = {
+                                Id: editObject.id,
+                                SkinToneName: formFields[0].input,
+                            };
+                            console.log("resourceObject");
+                            console.dir(resourceObject);
+                            dispatch(resourceActions.put(resourceNames.SKIN_TONES, editObject.id, resourceObject));
+                            break;
+                        }
+
+                        case "Face Shapes": {
+                            
+                            var resourceObject = {
+                                Id: editObject.id,
+                                FaceShapeName: formFields[0].input,
+                            };
+                            console.log("resourceObject");
+                            console.dir(resourceObject);
+                            dispatch(resourceActions.put(resourceNames.FACE_SHAPES, editObject.id, resourceObject));
+                            break;
+                        }
+
+                        case "Hair Lengths": {
+                            
+                            var resourceObject = {
+                                Id: editObject.id,
+                                HairLengthName: formFields[0].input,
+                            };
+                            console.log("resourceObject");
+                            console.dir(resourceObject);
+                            dispatch(resourceActions.put(resourceNames.HAIR_LENGTHS, editObject.id, resourceObject));
+                            break;
+                        }
+
+                    }
 
                     // return axios
                     //     .post(
