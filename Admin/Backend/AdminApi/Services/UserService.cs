@@ -16,7 +16,7 @@ namespace AdminApi.Services
 {
     public interface IUserService
     {
-        Task<User> Authenticate(string username, string password);
+        Task<User> Authenticate(string usernameOrEmail, string password);
         Task<IEnumerable<Users>> GetAll();
     }
 

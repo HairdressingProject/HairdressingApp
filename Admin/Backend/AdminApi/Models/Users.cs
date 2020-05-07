@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AdminApi.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AdminApi.Models
@@ -31,13 +33,18 @@ namespace AdminApi.Models
          * 
          */
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
-        //[Required] // Throw status 400 error. If not, throws mysql error
+        [Required(ErrorMessage = "Username is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Username should not be empty or white space")]
+        [MaxLength(32)]
         [JsonPropertyName("user_name")]
         public string UserName { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Password is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Password should not be empty or white space")]
+        [MinLength(6)]
+        [MaxLength(512)]
         [JsonPropertyName("user_password")]
         public string UserPassword { get; set; }
 

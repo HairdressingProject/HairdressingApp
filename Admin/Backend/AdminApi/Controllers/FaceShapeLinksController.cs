@@ -27,14 +27,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/FaceShapeLinks
+        // GET: api/face_shape_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FaceShapeLinks>>> GetFaceShapeLinks()
         {
             return await _context.FaceShapeLinks.ToListAsync();
         }
 
-        // GET: api/FaceShapeLinks/5
+        // GET: api/face_shape_links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FaceShapeLinks>> GetFaceShapeLinks(ulong id)
         {
@@ -48,7 +48,7 @@ namespace AdminApi.Controllers
             return faceShapeLinks;
         }
 
-        // PUT: api/FaceShapeLinks/5
+        // PUT: api/face_shape_links/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFaceShapeLinks(ulong id, [FromBody] FaceShapeLinks faceShapeLinks)
         {
@@ -85,7 +85,7 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/FaceShapeLinks
+        // POST: api/face_shape_links
         [HttpPost]
         public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks([FromBody] FaceShapeLinks faceShapeLinks)
         {
@@ -107,7 +107,7 @@ namespace AdminApi.Controllers
             return CreatedAtAction("GetFaceShapeLinks", new { id = faceShapeLinks.Id }, faceShapeLinks);
         }
 
-        // DELETE: api/FaceShapeLinks/5
+        // DELETE: api/face_shape_links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<FaceShapeLinks>> DeleteFaceShapeLinks(ulong id)
         {

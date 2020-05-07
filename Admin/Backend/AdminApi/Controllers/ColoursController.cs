@@ -26,14 +26,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/Colours
+        // GET: api/colours
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Colours>>> GetColours()
         {
             return await _context.Colours.ToListAsync();
         }
 
-        // GET: api/Colours/5
+        // GET: api/colours/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Colours>> GetColours(ulong id)
         {
@@ -47,7 +47,7 @@ namespace AdminApi.Controllers
             return colours;
         }
 
-        // PUT: api/Colours/5
+        // PUT: api/colours/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutColours(ulong id, [FromBody] Colours colours)
         {
@@ -77,7 +77,7 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Colours
+        // POST: api/colours
         [HttpPost]
         public async Task<ActionResult<Colours>> PostColours([FromBody] Colours colours)
         {
@@ -92,7 +92,7 @@ namespace AdminApi.Controllers
             return CreatedAtAction("GetColours", new { id = colours.Id }, colours);
         }
 
-        // DELETE: api/Colours/5
+        // DELETE: api/colours/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Colours>> DeleteColours(ulong id)
         {

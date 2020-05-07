@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AdminApi.Entities;
 using AdminApi.Models;
 
 namespace AdminApi.Helpers

@@ -28,14 +28,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/HairLengthLinks
+        // GET: api/hair_length_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairLengthLinks>>> GetHairLengthLinks()
         {
             return await _context.HairLengthLinks.ToListAsync();
         }
 
-        // GET: api/HairLengthLinks/5
+        // GET: api/hair_length_links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HairLengthLinks>> GetHairLengthLinks(ulong id)
         {
@@ -49,9 +49,7 @@ namespace AdminApi.Controllers
             return hairLengthLinks;
         }
 
-        // PUT: api/HairLengthLinks/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/hair_length_links/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHairLengthLinks(ulong id, [FromBody] HairLengthLinks hairLengthLinks)
         {
@@ -88,9 +86,7 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/HairLengthLinks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // POST: api/hair_length_links
         [HttpPost]
         public async Task<ActionResult<HairLengthLinks>> PostHairLengthLinks([FromBody] HairLengthLinks hairLengthLinks)
         {
@@ -112,7 +108,7 @@ namespace AdminApi.Controllers
             return CreatedAtAction("GetHairLengthLinks", new { id = hairLengthLinks.Id }, hairLengthLinks);
         }
 
-        // DELETE: api/HairLengthLinks/5
+        // DELETE: api/hair_length_links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairLengthLinks>> DeleteHairLengthLinks(ulong id)
         {

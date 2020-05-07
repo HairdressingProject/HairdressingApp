@@ -27,7 +27,7 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/FaceShapes
+        // GET: api/face_shapes
         [EnableCors("Policy1")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FaceShapes>>> GetFaceShapes()
@@ -35,7 +35,7 @@ namespace AdminApi.Controllers
             return await _context.FaceShapes.ToListAsync();
         }
 
-        // GET: api/FaceShapes/5
+        // GET: api/face_shapes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FaceShapes>> GetFaceShapes(ulong id)
         {
@@ -49,9 +49,7 @@ namespace AdminApi.Controllers
             return faceShapes;
         }
 
-        // PUT: api/FaceShapes/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/face_shapes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFaceShapes(ulong id, [FromBody] FaceShapes faceShapes)
         {
@@ -81,9 +79,7 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/FaceShapes
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // POST: api/face_shapes
         [EnableCors("Policy1")]
         [HttpPost]
         public async Task<ActionResult<FaceShapes>> PostFaceShapes([FromBody] FaceShapes faceShapes)
@@ -99,7 +95,7 @@ namespace AdminApi.Controllers
             return CreatedAtAction("GetFaceShapes", new { id = faceShapes.Id }, faceShapes);
         }
 
-        // DELETE: api/FaceShapes/5
+        // DELETE: api/face_shapes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<FaceShapes>> DeleteFaceShapes(ulong id)
         {
