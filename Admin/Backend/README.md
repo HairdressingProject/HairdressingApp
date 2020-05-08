@@ -23,6 +23,6 @@ As explained in the [Instructions](/README.md#11---testing-backend-connection "I
 
 All `GET` and `DELETE` requests should work out of the box. You will have to provide a request `body` to `PUT` and `POST` requests (check the attributes in the corresponding [Model](/Admin/Backend/AdminApi/Models "Models") file to understand how each property is validated).
 
-> Remember: `PUT` requests require an `id` both in the endpoint and in the request `body`. You will also have to include __all__ `[Required]` properties in the request `body`, not just the ones that you wish to modify.
+> Remember: `PUT` requests require an `id` both in the endpoint and in the request `body`. You will also have to include __all__ `[Required]` properties in the request `body` (plus `DateCreated`), not just the ones that you wish to modify.
 
 After you have set up your request, simply click __Send__. 
