@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
@@ -28,14 +26,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/Colours
+        // GET: api/colours
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Colours>>> GetColours()
         {
             return await _context.Colours.ToListAsync();
         }
 
-        // GET: api/Colours/5
+        // GET: api/colours/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Colours>> GetColours(ulong id)
         {
@@ -49,13 +47,13 @@ namespace AdminApi.Controllers
             return colours;
         }
 
-        // PUT: api/Colours/5
+        // PUT: api/colours/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColours(ulong id, Colours colours)
+        public async Task<IActionResult> PutColours(ulong id, [FromBody] Colours colours)
         {
             if (id != colours.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(colours).State = EntityState.Modified;
@@ -79,17 +77,22 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Colours
+        // POST: api/colours
         [HttpPost]
-        public async Task<ActionResult<Colours>> PostColours(Colours colours)
+        public async Task<ActionResult<Colours>> PostColours([FromBody] Colours colours)
         {
+            if (colours.Id != null)
+            {
+                colours.Id = null;
+            }
+
             _context.Colours.Add(colours);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetColours", new { id = colours.Id }, colours);
         }
 
-        // DELETE: api/Colours/5
+        // DELETE: api/colours/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Colours>> DeleteColours(ulong id)
         {

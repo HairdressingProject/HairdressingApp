@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AdminApi.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AdminApi.Models
@@ -12,8 +14,11 @@ namespace AdminApi.Models
         }
 
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
+        [Required(ErrorMessage = "Hair length name is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Hair length name should not be empty or white space")]
+        [MaxLength(128)]
         [JsonPropertyName("hair_length_name")]
         public string HairLengthName { get; set; }
 

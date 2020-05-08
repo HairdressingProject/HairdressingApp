@@ -28,14 +28,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/SkinToneLinks
+        // GET: api/skin_tone_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkinToneLinks>>> GetSkinToneLinks()
         {
             return await _context.SkinToneLinks.ToListAsync();
         }
 
-        // GET: api/SkinToneLinks/5
+        // GET: api/skin_tone_links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SkinToneLinks>> GetSkinToneLinks(ulong id)
         {
@@ -49,15 +49,20 @@ namespace AdminApi.Controllers
             return skinToneLinks;
         }
 
-        // PUT: api/SkinToneLinks/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/skin_tone_links/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSkinToneLinks(ulong id, SkinToneLinks skinToneLinks)
+        public async Task<IActionResult> PutSkinToneLinks(ulong id, [FromBody] SkinToneLinks skinToneLinks)
         {
             if (id != skinToneLinks.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var correspondingSkinTone = await _context.SkinTones.FirstOrDefaultAsync(h => h.Id == skinToneLinks.SkinToneId);
+
+            if (correspondingSkinTone == null)
+            {
+                return NotFound(new { errors = new { SkinToneId = new string[] { "No matching skin tone entry was found" } }, status = 404 });
             }
 
             _context.Entry(skinToneLinks).State = EntityState.Modified;
@@ -81,19 +86,29 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/SkinToneLinks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // POST: api/skin_tone_links
         [HttpPost]
         public async Task<ActionResult<SkinToneLinks>> PostSkinToneLinks(SkinToneLinks skinToneLinks)
         {
+            var correspondingSkinTone = await _context.SkinTones.FirstOrDefaultAsync(h => h.Id == skinToneLinks.SkinToneId);
+
+            if (correspondingSkinTone == null)
+            {
+                return NotFound(new { errors = new { SkinToneId = new string[] { "No matching skin tone entry was found" } }, status = 404 });
+            }
+
+            if (skinToneLinks.Id != null)
+            {
+                skinToneLinks.Id = null;
+            }
+
             _context.SkinToneLinks.Add(skinToneLinks);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSkinToneLinks", new { id = skinToneLinks.Id }, skinToneLinks);
         }
 
-        // DELETE: api/SkinToneLinks/5
+        // DELETE: api/skin_tone_links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<SkinToneLinks>> DeleteSkinToneLinks(ulong id)
         {

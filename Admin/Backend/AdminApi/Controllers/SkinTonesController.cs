@@ -29,7 +29,7 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/SkinTones
+        // GET: api/skin_tones
         [EnableCors("Policy1")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkinTones>>> GetSkinTones()
@@ -37,7 +37,7 @@ namespace AdminApi.Controllers
             return await _context.SkinTones.ToListAsync();
         }
 
-        // GET: api/SkinTones/5
+        // GET: api/skin_tones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SkinTones>> GetSkinTones(ulong id)
         {
@@ -51,15 +51,13 @@ namespace AdminApi.Controllers
             return skinTones;
         }
 
-        // PUT: api/SkinTones/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/skin_tones/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSkinTones(ulong id, SkinTones skinTones)
+        public async Task<IActionResult> PutSkinTones(ulong id, [FromBody] SkinTones skinTones)
         {
             if (id != skinTones.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(skinTones).State = EntityState.Modified;
@@ -83,19 +81,22 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/SkinTones
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // POST: api/skin_tones
         [HttpPost]
-        public async Task<ActionResult<SkinTones>> PostSkinTones(SkinTones skinTones)
+        public async Task<ActionResult<SkinTones>> PostSkinTones([FromBody] SkinTones skinTones)
         {
+            if (skinTones.Id != null)
+            {
+                skinTones.Id = null;
+            }
+
             _context.SkinTones.Add(skinTones);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSkinTones", new { id = skinTones.Id }, skinTones);
         }
 
-        // DELETE: api/SkinTones/5
+        // DELETE: api/skin_tones/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<SkinTones>> DeleteSkinTones(ulong id)
         {

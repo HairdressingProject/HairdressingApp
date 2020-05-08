@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
@@ -28,14 +27,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/FaceShapeLinks
+        // GET: api/face_shape_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FaceShapeLinks>>> GetFaceShapeLinks()
         {
             return await _context.FaceShapeLinks.ToListAsync();
         }
 
-        // GET: api/FaceShapeLinks/5
+        // GET: api/face_shape_links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FaceShapeLinks>> GetFaceShapeLinks(ulong id)
         {
@@ -49,13 +48,20 @@ namespace AdminApi.Controllers
             return faceShapeLinks;
         }
 
-        // PUT: api/FaceShapeLinks/5
+        // PUT: api/face_shape_links/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFaceShapeLinks(ulong id, FaceShapeLinks faceShapeLinks)
+        public async Task<IActionResult> PutFaceShapeLinks(ulong id, [FromBody] FaceShapeLinks faceShapeLinks)
         {
             if (id != faceShapeLinks.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var correspondingFaceShape = await _context.FaceShapes.FirstOrDefaultAsync(f => f.Id == faceShapeLinks.FaceShapeId);
+
+            if (correspondingFaceShape == null)
+            {
+                return NotFound(new { errors = new { FaceShapeId = new string[]{ "No matching face shape entry was found"} }, status = 404 });
             }
 
             _context.Entry(faceShapeLinks).State = EntityState.Modified;
@@ -79,17 +85,29 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/FaceShapeLinks
+        // POST: api/face_shape_links
         [HttpPost]
-        public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks(FaceShapeLinks faceShapeLinks)
+        public async Task<ActionResult<FaceShapeLinks>> PostFaceShapeLinks([FromBody] FaceShapeLinks faceShapeLinks)
         {
+            var correspondingFaceShape = await _context.FaceShapes.FirstOrDefaultAsync(f => f.Id == faceShapeLinks.FaceShapeId);
+
+            if (correspondingFaceShape == null)
+            {
+                return BadRequest(new { errors = new { FaceShapeId = new string[] { "No matching face shape entry was found" } }, status = 400 });
+            }
+
+            if (faceShapeLinks.Id != null)
+            {
+                faceShapeLinks.Id = null;
+            }
+
             _context.FaceShapeLinks.Add(faceShapeLinks);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetFaceShapeLinks", new { id = faceShapeLinks.Id }, faceShapeLinks);
         }
 
-        // DELETE: api/FaceShapeLinks/5
+        // DELETE: api/face_shape_links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<FaceShapeLinks>> DeleteFaceShapeLinks(ulong id)
         {

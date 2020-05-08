@@ -22,7 +22,7 @@ async function login(usernameOrEmail, password) {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'https://localhost:5000'
         },
-        body: JSON.stringify({ UserName: usernameOrEmail, UserPassword: password })
+        body: JSON.stringify({ UserNameOrEmail: usernameOrEmail, UserPassword: password })
     };
 
     const response = await fetch(`https://localhost:5000/api/users/sign_in`, requestOptions);
