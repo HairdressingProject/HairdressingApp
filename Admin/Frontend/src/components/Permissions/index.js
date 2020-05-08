@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
 
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
@@ -14,11 +14,22 @@ export const Permissions = () => {
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [tableData, setTableData] = useState([]);
+    const [toggleBtn, setToggleBtn] = useState(true);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     // ***************** Data Table settings
 
     const handleSelectedrow = (row) => {
         console.log("Selected row: ", row)
+        setSelectedRow(row);
+        if(row.selectedCount > 1)
+        {
+            setToggleBtn(false);
+        }
+        else {
+            setToggleBtn(true);
+        }
+        console.log("Toggle button ",toggleBtn);
     }
 
     // Fetch Data ********************
@@ -46,6 +57,22 @@ export const Permissions = () => {
         var usersTableData = localUsers.users.items.users;
     }
 
+    const contextActions = useMemo(() => {
+        const handleAction = () => {
+            console.log("handling action", selectedRow);
+            // Open change user role modal
+
+        }
+
+        return(
+            <div>
+                <Column small={6} className="delete-container">
+                    <Button key="action" onClick={handleAction} primary disabled={!toggleBtn}>Change Role</Button>
+                </Column>
+            </div>
+        );
+    });
+
 
     // if (localResources && localResources.resources) {
     //     if(localResources.resources.users && localResources.resources.users.items && localResources.resources.users.items.users) {
@@ -63,14 +90,9 @@ export const Permissions = () => {
                 data={usersTableData}
                 selectableRows
                 onSelectedRowsChange={handleSelectedrow}
+                contextActions={contextActions}
             />
-            <Row className="btn-container">
-              <Column small={12} className="btn-role">
-                  {/* <Button onClick={handleAdd}>Add</Button> */}
-                  <Button onClick={() => console.log("clicked")}>Change Role</Button>
-
-              </Column>
-          </Row>            
+         
         </div>
     );
 
