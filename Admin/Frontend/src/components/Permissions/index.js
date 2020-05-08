@@ -8,7 +8,9 @@ import { userActions } from '../../_actions';
 import { Button } from 'react-foundation-components/lib/button';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 
-import * as DataColumns from '../Databases/Tables/DBTable/DataColumns'
+import * as DataColumns from '../Databases/Tables/DBTable/DataColumns';
+
+import Modal from 'react-foundation-modal';
 
 export const Permissions = () => {
 
@@ -16,6 +18,11 @@ export const Permissions = () => {
     const [tableData, setTableData] = useState([]);
     const [toggleBtn, setToggleBtn] = useState(true);
     const [selectedRow, setSelectedRow] = useState(null);
+
+    const showModal = status => {
+        setModalOpen(status);
+        console.log("isModalOpen: ", isModalOpen)
+    }
 
     // ***************** Data Table settings
 
@@ -61,6 +68,7 @@ export const Permissions = () => {
         const handleAction = () => {
             console.log("handling action", selectedRow);
             // Open change user role modal
+            showModal(true);
 
         }
 
@@ -92,6 +100,37 @@ export const Permissions = () => {
                 onSelectedRowsChange={handleSelectedrow}
                 contextActions={contextActions}
             />
+
+            <Modal
+                open={isModalOpen}
+                closeModal={showModal}
+                isModal={true}
+                size="full">
+
+                    Change role
+                    <>
+                    <form>
+                        <Column>
+                            <Row>
+                            <input type="radio" id="Admin" name="Admin" value="Admin"/>
+                            <label for="Admin">Admin</label>
+                            </Row>
+                            <Row>
+                            <input type="radio" id="Developer" name="Developer" value="Developer"/>
+                            <label for="Developer">Developer</label>
+                            </Row>
+                            <Row>
+                            <input type="radio" id="User" name="User" value="User"/>
+                            <label for="User">User</label>
+                            </Row>
+                        </Column>
+                        
+                        
+                        
+                    </form>
+                    </>
+
+            </Modal>
          
         </div>
     );
