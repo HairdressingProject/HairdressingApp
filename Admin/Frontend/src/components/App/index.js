@@ -22,6 +22,7 @@ import { clearMessageAction, resourceActions } from '../../_actions';
 import { resourceNames } from '../../_constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { DummyComponent } from '../DummyComponent';
+import { PrivateRoute } from '../PrivateRoute';
 
 const routes = [
     {
@@ -42,32 +43,32 @@ const routes = [
     },
     {
         path: "/dashboard",
-        protected: true,
+        private: true,
         content: () => <Dashboard />
     },
     {
         path: "/my_account",
-        protected: true,
+        private: true,
         content: () => <MyAccount />
     },
     {
         path: "/databases",
-        protected: true,
+        private: true,
         content: () => <Databases />
     },
     {
         path: "/traffic",
-        protected: true,
+        private: true,
         content: () => <Traffic />
     },
     {
         path: "/permissions",
-        protected: true,
+        private: true,
         content: () => <Permissions />
     },
     {
         path: "/pictures",
-        protected: true,
+        private: true,
         content: () => <Pictures />
     },
     // temporary component
@@ -206,14 +207,24 @@ const App = () => {
 
                     <Switch>
                         {
-                            routes.map((route, index) => (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    exact={route.exact}
-                                    children={<route.content />}
-                                />
-                            ))
+                            routes.map((route, index) => {
+                                return route.private ? (
+                                    <PrivateRoute
+                                        key={index}
+                                        path={route.path}
+                                        exact={route.exact}
+                                    >
+                                        <route.content />
+                                    </PrivateRoute>
+                                ) : (
+                                        <Route
+                                            key={index}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            children={<route.content />}
+                                        />
+                                    )
+                            })
                         }
                     </Switch>
                 </div>
