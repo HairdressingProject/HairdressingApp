@@ -16,8 +16,8 @@ namespace AdminApi.Models
         [JsonPropertyName("id")]
         public ulong? Id { get; set; }
 
-        [Required(ErrorMessage = "Hair style name is required", AllowEmptyStrings = false)]
-        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Hair style name should not be empty or white space")]
+        [Required(ErrorMessage = "Skin tone name is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Skin tone name should not be empty or white space")]
         [MaxLength(128)]
         [JsonPropertyName("skin_tone_name")]
         public string SkinToneName { get; set; }

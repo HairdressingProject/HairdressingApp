@@ -85,6 +85,20 @@ namespace AdminApi.Controllers
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
+            var existingUserName = await _context.Users.AnyAsync(u => u.Id != users.Id && u.UserName == users.UserName);
+
+            if (existingUserName)
+            {
+                return Conflict(new { errors = new { UserName = new string[] { "Username is already taken" } }, status = 409 });
+            }
+
+            var existingEmail = await _context.Users.AnyAsync(u => u.Id != users.Id && u.UserEmail == users.UserEmail);
+
+            if (existingEmail)
+            {
+                return Conflict(new { errors = new { UserEmail = new string[] { "Email is already registered" } }, status = 409 });
+            }
+
             _context.Entry(users).State = EntityState.Modified;
 
             try
@@ -118,14 +132,11 @@ namespace AdminApi.Controllers
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
-            // Console.WriteLine(users.UserPassword); 
-
             var userMod = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-
 
             if (userMod == null)
             {
-                return BadRequest(new { errors = new { Id = new string[] { "User not found" } }, status = 400 });
+                return NotFound(new { errors = new { Id = new string[] { "User not found" } }, status = 404 });
             }
 
             userMod.UserPassword = users.UserPassword;
@@ -151,13 +162,53 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
+        // PUT api/users/5/change_role
+        [HttpPut("{id}/change_role")]
+        public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] Users user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var userMod = await _context.Users.FirstOrDefaultAsync(u => u.Id == id && u.UserName == user.UserName && u.UserEmail == user.UserEmail);
+
+            if (userMod == null)
+            {
+                return NotFound(new { errors = new { Id = new string[] { "User not found" } }, status = 404 });
+            }
+
+            userMod.UserRole = user.UserRole;
+
+            _context.Entry(userMod).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsersExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 // ********************************************************************************************************************************************        
+        // POST api/users
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers([FromBody] Users users)
         {
-            var existingUser = await _context.Users.AnyAsync(user => user.UserName == users.UserName);
+            var existingUser = await _context.Users.AnyAsync(u => u.Id == users.Id || u.UserName == users.UserName || u.UserEmail == users.UserEmail);
 
             if (!existingUser)
             {
@@ -173,23 +224,31 @@ namespace AdminApi.Controllers
             }
 
             return Conflict(new { error = "User already exists" });
-        }        
+        }
 
+        // POST api/users/sign_up
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_up")]
         public async Task<IActionResult> SignUp([FromBody] Users users)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == users.Id);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == users.Id || u.UserName == users.UserName || u.UserEmail == users.UserEmail);
 
             if (user == null)
             {
                 // New user, add to DB and authenticate
                 // Also, validate/sanitise properties here
+
+                if (users.Id != null)
+                {
+                    users.Id = null;
+                }
+
                 _context.Users.Add(users);
                 await _context.SaveChangesAsync();
 
                 var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
+                authenticatedUser.BaseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
 
                 // Send back newly created user with token
                 return CreatedAtAction(nameof(GetUser), new { authenticatedUser.Id }, authenticatedUser);
@@ -200,7 +259,7 @@ namespace AdminApi.Controllers
             return Conflict(new { error = "User already registered" });
         }
 
-        // POST: /api/users/sign_in
+        // POST: api/users/sign_in
         [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_in")]
