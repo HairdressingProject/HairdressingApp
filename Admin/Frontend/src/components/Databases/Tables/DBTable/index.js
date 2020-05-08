@@ -112,10 +112,9 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
       <div>
       <Row className="table-btn-container">
           <Column small={6} className="edit-container">
-              { toggleEditBtn ? 
-              <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
-              :
-              null}
+
+              <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }} disabled={!toggleEditBtn}>Edit</Button>
+
               {/* <Button key="edit" onClick={handleEdit} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button> */}
           </Column>
           <Column small={6} className="delete-container">
