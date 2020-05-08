@@ -42,32 +42,32 @@ const routes = [
     },
     {
         path: "/dashboard",
-        auth: true,
+        protected: true,
         content: () => <Dashboard />
     },
     {
         path: "/my_account",
-        auth: true,
+        protected: true,
         content: () => <MyAccount />
     },
     {
         path: "/databases",
-        auth: true,
+        protected: true,
         content: () => <Databases />
     },
     {
         path: "/traffic",
-        auth: true,
+        protected: true,
         content: () => <Traffic />
     },
     {
         path: "/permissions",
-        auth: true,
+        protected: true,
         content: () => <Permissions />
     },
     {
         path: "/pictures",
-        auth: true,
+        protected: true,
         content: () => <Pictures />
     },
     // temporary component

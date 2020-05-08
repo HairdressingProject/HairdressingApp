@@ -1,7 +1,7 @@
 import { userService } from '../_services';
 import { history } from '../_helpers';
 import { createAction } from '@reduxjs/toolkit';
-import { errorMessageAction } from './alerts.actions'
+import { errorMessageAction, successMessageAction, clearMessageAction } from './alerts.actions'
 
 /**
  * This object lists users-related actions
@@ -10,6 +10,7 @@ import { errorMessageAction } from './alerts.actions'
 export const userActions = {
     login,
     logout,
+    authenticate,
     getAll
 };
 
@@ -53,6 +54,26 @@ const logoutAction = createAction('LOGOUT');
 function logout() {
     userService.logout();
     return logoutAction();
+}
+
+const authenticateRequest = createAction('AUTHENTICATE_REQUEST');
+const authenticateSuccess = createAction('AUTHENTICATE_SUCCESS');
+const authenticateFailure = createAction('AUTHENTICATE_FAILURE');
+
+function authenticate(token) {
+    return dispatch => {
+        dispatch(clearMessageAction());
+        dispatch(authenticateRequest({ token }));
+
+        userService.authenticate(token)
+            .then(
+                data => {
+                    dispatch(authenticateSuccess({ token: data.userToken }));
+                },
+                errors => {
+                    dispatch(authenticateFailure({ errors }));
+                })
+    }
 }
 
 const getAllRequest = createAction('GETALL_REQUEST');

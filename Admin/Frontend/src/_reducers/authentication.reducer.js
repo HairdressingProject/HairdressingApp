@@ -24,27 +24,74 @@ export const authenticationReducer = createReducer(initialState, {
   LOGIN_REQUEST: (state, action) => {
     return ({
       ...cloneDeep(state),
+      token: null,
+      signInError: null,
       loggingIn: true,
-      user: action.user
+      loggedIn: false,
+      user: null
     })
   },
 
   LOGIN_SUCCESS: (state, action) => {
     return ({
       ...cloneDeep(state),
-      loggingIn: true,
-      user: action.user
+      token: action.payload.user.token,
+      signInError: null,
+      loggingIn: false,
+      loggedIn: true,
+      user: action.payload.user
     })
   },
 
   LOGIN_FAILURE: (state, action) => {
     return ({
       ...cloneDeep(state),
-      error: action.payload.error
+      token: null,
+      signInError: action.payload.error,
+      loggingIn: false,
+      loggedIn: false
+    });
+  },
+
+  AUTHENTICATE_REQUEST: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      token: null,
+      loggingIn: true,
+      loggedIn: false,
+      errors: null,
+    });
+  },
+
+  AUTHENTICATE_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      token: action.payload.token,
+      loggingIn: false,
+      loggedIn: true,
+      errors: null
+    });
+  },
+
+  AUTHENTICATE_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      token: null,
+      loggedIn: false,
+      loggingIn: false,
+      errors: action.payload.errors
     });
   },
 
   LOGOUT: (state, action) => {
-    return ({});
+    return ({
+      ...cloneDeep(state),
+      token: null,
+      user: null,
+      errors: null,
+      signInError: null,
+      loggedIn: false,
+      loggingIn: false
+    });
   }
 });

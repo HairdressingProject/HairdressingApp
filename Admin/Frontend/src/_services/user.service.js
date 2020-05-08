@@ -6,6 +6,7 @@ import { authHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
+    authenticate,
     getAll
 };
 
@@ -39,6 +40,20 @@ async function login(usernameOrEmail, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+}
+
+async function authenticate(token) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://localhost:5000'
+        },
+        body: JSON.stringify({ UserToken: token })
+    }
+
+    const response = await fetch(`https://localhost:5000/api/users/authenticate`, requestOptions);
+    return handleResponse(response);
 }
 
 /**
@@ -76,8 +91,8 @@ function handleResponse(response) {
                 logout();
             }
 
-            const error = (data && data.error) || response.statusText;
-            return Promise.reject(error);
+            const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
+            return Promise.reject(errors);
         }
 
         return data;
