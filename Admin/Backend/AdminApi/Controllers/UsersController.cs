@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
 using AdminApi.Helpers;
+using AdminApi.Models.Validation;
 
 namespace AdminApi.Controllers
 {
@@ -164,7 +165,7 @@ namespace AdminApi.Controllers
 
         // PUT api/users/5/change_role
         [HttpPut("{id}/change_role")]
-        public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] Users user)
+        public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] ValidatedUserRoleModel user)
         {
             if (id != user.Id)
             {

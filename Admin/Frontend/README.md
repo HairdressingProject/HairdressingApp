@@ -14,6 +14,11 @@
     + [`post(resourceName, resource, URL, token)`](#postresourcename-resourcenames-resource-object-url-string--httpslocalhost5000-token-string)
     + [`put(resourceName, id, resource, URL, token)`](#putresourcename-resourcenames-id-string--number-resource-object-url-string--httpslocalhost5000-token-string)
     + [`deleteResource(resourceName, id, URL, token)`](#deleteresourceresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000-token-string)
+    + [`userActions`](#useractions-object)
+    + [`login(usernameOrEmail, password, URL)`](#)
+    + [`logout()`](#)
+    + [`authenticate(token, URL)`](#)
+    + [`changeUserRole(updatedUser, token, URL")`](#)
   * [Cheat Sheet](#cheat-sheet)
     + [Imports](#imports)
     + [Initial set up](#initial-set-up)
@@ -226,6 +231,73 @@ Thunk middleware that dispatches actions to `DELETE` a resource of type `resourc
 // Dispatch an action to DELETE a FACE_SHAPE with id = 3 from the database
 
 dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, 3));
+```
+
+#### `userActions: Object`
+Contains functions that handle user-related actions.
+
+```js
+const userActions = {
+    login,
+    logout,
+    authenticate,
+    changeUserRole,
+    getAll
+};
+```
+
+#### `login(usernameOrEmail: string, password: string, URL: string | "https://localhost:5000")`
+Dispatches login actions asynchronously. Redirects to "/" if login is successful.
+
+URL is optional (defaults to [localhost](https://localhost:5000 "localhost")).
+
+```js
+// Example usage
+dispatch(userActions.login("username", "password"));
+```
+
+#### `logout()`
+Dispatches logout action to delete token stored locally.
+
+```js
+// Example usage
+dispatch(userActions.logout());
+```
+
+#### `authenticate(token: string, URL: string | "https://localhost:5000")`
+Dispatches actions to validate the locally stored token.
+
+URL is optional (defaults to [localhost](https://localhost:5000 "localhost")).
+
+```js
+// Example usage
+dispatch(userActions.authenticate("your-token-string"));
+```
+
+#### `changeUserRole(updatedUser: Object, token: string | null, URL: string | "https://localhost:5000")`
+Dispatches actions to change a user's role. 
+
+- `updatedUser`: User object with new `UserRole` to be sent in the request body. The following format is required:
+
+```js
+{
+    Id: string | number,
+    UserName: string,
+    UserEmail: string,
+    UserRole: "user" | "developer" | "admin"
+}
+```
+- `token`: Optional token to validate the request. If not passed, the function will try to retrieve it from `localStorage`.
+- `URL`: Optional request URL (defaults to [localhost](https://localhost:5000 "localhost")).
+
+```js
+// Example usage
+dispatch(userActions.changeUserRole({
+    Id: 1,
+    UserName: "admin",
+    UserEmail: "admin@mail.com",
+    UserRole: "developer"
+}));
 ```
 
 ### Cheat Sheet
