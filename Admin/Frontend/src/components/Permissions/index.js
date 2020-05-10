@@ -56,6 +56,16 @@ export const Permissions = () => {
         console.log("isModalOpen: ", isModalOpen)
     }
 
+        // Refresh the list of items from the database whenever the form is submitted
+        useEffect(() => {
+            if (formSubmitted) {
+                dispatch(userActions.getAll())
+                setFormSubmitted(false);
+            }
+        }, [formSubmitted]);
+
+
+
     // ***************** Data Table settings
 
     const handleSelectedrow = (row) => {
@@ -86,6 +96,8 @@ export const Permissions = () => {
 
         const body = {
             Id:objToEdit.id, //objToEdit
+            UserName: objToEdit.userName,
+            UserEmail: objToEdit.userEmail,
             UserRole:isChecked.toLowerCase() //formFields[1].input
         };
 
@@ -113,6 +125,11 @@ export const Permissions = () => {
 
         console.log("Resource object", resourceObject);
         // dispatch(resourceActions.put(resourceNames.USERS, objToEdit.id, resourceObject));
+        dispatch(userActions.changeUserRole(body));
+        setTimeout(() => {
+            setFormSubmitted(true);
+            showModal(false);
+        }, 300);
 
     };
 
