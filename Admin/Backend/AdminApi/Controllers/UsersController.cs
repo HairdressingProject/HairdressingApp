@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
 using AdminApi.Helpers;
 using AdminApi.Models.Validation;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace AdminApi.Controllers
 {
@@ -46,6 +48,11 @@ namespace AdminApi.Controllers
                 users = mappedUsersWithoutPasswords
             };
 
+            var auth = Request.Cookies["auth"];
+
+            Console.WriteLine("Got auth cookie (GET /api/users:");
+            Console.WriteLine(auth);
+
             return Ok(usersResponse);
 
             // return await _context.Users.ToListAsync();
@@ -69,6 +76,11 @@ namespace AdminApi.Controllers
                 {
                     user = userWithoutPassword
                 };
+
+                var auth = Request.Cookies["auth"];
+
+                Console.WriteLine("Got auth cookie (GET /api/users/id:");
+                Console.WriteLine(auth);
 
                 return Ok(userResponse);
             }
@@ -281,6 +293,21 @@ namespace AdminApi.Controllers
             var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == authenticatedUser.Id);
             var mappedExistingUser = await MapFeaturesToUsers(existingUser);
             authenticatedUser.BaseUser = mappedExistingUser;
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                Path = "/",
+                SameSite = SameSiteMode.Strict,
+                Domain = "localhost",
+                Secure = true
+            };
+
+            Response.Cookies.Append("auth", authenticatedUser.Token, cookieOptions);
+
+            Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+            Response.Headers.Append("Access-Control-Allow-Origin", "https://localhost:3000");
 
             return Ok(authenticatedUser);
         }

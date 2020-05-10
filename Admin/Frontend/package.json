@@ -29,7 +29,7 @@
     "styled-components": "^5.1.0"
   },
   "scripts": {
-    "start:frontend": "react-scripts start",
+    "start:frontend": "set \"REACT_APP_PUBLIC_URL=https://localhost:3000\" && react-scripts start",
     "start:backend": "cd ../Backend/AdminApi/ && dotnet watch run",
     "start": "concurrently \"yarn start:backend\" \"yarn start:frontend\"",
     "build": "react-scripts build",

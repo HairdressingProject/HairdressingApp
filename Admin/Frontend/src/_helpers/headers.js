@@ -6,46 +6,52 @@
  * @param {string | null} token - Optional JWT token (if authentication is required)
  * @returns {Object} requestHeader
  */
-export function createRequestHeader(method, body = {}, URL = 'https://localhost:5000', token = null) {
+export function createRequestHeader(method, body = {}, token = null) {
     const normalisedMethod = method ? method.trim().toUpperCase() : null;
     if (!normalisedMethod) {
         throw 'Invalid request method';
     }
 
+    const baseOptionsNoToken = {
+        method,
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            'Origin': process.env.REACT_APP_PUBLIC_URL || "https://localhost:3000"
+        }
+    };
+
+    // Will be deprecated in the future, because tokens will not be accessible through javascript anymore
+    const baseOptionsWithToken = {
+        method,
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            'Origin': baseOptionsNoToken.headers['Origin'],
+            'Authorization': `Bearer ${token}`
+        }
+    };
+
     if (!token) {
         return normalisedMethod === 'GET' ?
+            baseOptionsNoToken :
             ({
-                method,
+                ...baseOptionsNoToken,
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': URL
-                }
-            }) :
-            ({
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': URL
+                    ...baseOptionsNoToken.headers,
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
             })
     }
 
     return normalisedMethod === 'GET' ?
+        baseOptionsWithToken :
         ({
-            method,
+            ...baseOptionsWithToken,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                'Access-Control-Allow-Origin': URL
-            }
-        }) :
-        ({
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                'Access-Control-Allow-Origin': URL
+                ...baseOptionsWithToken.headers,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
         })

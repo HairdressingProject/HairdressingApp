@@ -10,14 +10,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace AdminApi
 {
+    public interface IAppSettings
+    {
+        AppSettings ApplicationSettings { get; set; }
+    };
+
     public class Startup
     {
+        private readonly string AllowedOriginsConf = "Policy1";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,8 +51,8 @@ namespace AdminApi
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -52,7 +60,8 @@ namespace AdminApi
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });
+            })
+            .AddCookie();
 
             // Configure DI for application services
             services.AddScoped<IUserService, UserService>();
@@ -72,10 +81,11 @@ namespace AdminApi
             // CORS Policy
             services.AddCors(options =>
             {
-                options.AddPolicy("Policy1",
+                options.AddPolicy(name: AllowedOriginsConf,
                     builder =>
                     {
-                        builder.AllowAnyOrigin()
+                        builder.AllowCredentials()
+                                .WithOrigins("https://localhost:3000")
                                 .AllowAnyHeader();
                     });
             });
@@ -96,12 +106,7 @@ namespace AdminApi
             app.UseRouting();
 
             // Global CORS
-            app.UseCors(options =>
-                options
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-            );
+            app.UseCors(AllowedOriginsConf);
 
             app.UseAuthentication();
             app.UseAuthorization();

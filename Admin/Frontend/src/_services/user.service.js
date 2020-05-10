@@ -22,7 +22,7 @@ async function login(usernameOrEmail, password, URL) {
     const options = createRequestHeader("POST", {
         UserNameOrEmail: usernameOrEmail,
         UserPassword: password
-    }, URL);
+    });
 
     const response = await fetch(`${URL}/api/users/sign_in`, options);
     const user = await handleResponse(response);
@@ -49,7 +49,7 @@ function logout() {
 async function authenticate(token, URL) {
     const options = createRequestHeader("POST", {
         UserToken: token
-    }, URL);
+    });
 
     const response = await fetch(`${URL}/api/users/authenticate`, options);
     return handleResponse(response);
@@ -67,7 +67,7 @@ async function changeUserRole(updatedUser, token, URL) {
         throw new Error('Invalid token passed to changeUserRole');
     }
 
-    const options = createRequestHeader("PUT", updatedUser, URL, token);
+    const options = createRequestHeader("PUT", updatedUser, token);
 
     const response = await fetch(`${URL}/api/users/${updatedUser.Id}/change_role`, options);
 
@@ -79,12 +79,21 @@ async function changeUserRole(updatedUser, token, URL) {
  * @param {string} URL - Request URL
  */
 async function getAll(URL) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
+    const user = localStorage.getItem("user");
+    let options;
 
-    const response = await fetch(`${URL}/api/users`, requestOptions);
+    if (user) {
+        const { token } = JSON.parse(user);
+
+        if (token) {
+            options = createRequestHeader("GET", null, token);
+        }
+    }
+    else {
+        options = createRequestHeader("GET");
+    }
+
+    const response = await fetch(`${URL}/api/users`, options);
     return handleResponse(response);
 }
 
