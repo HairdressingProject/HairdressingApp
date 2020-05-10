@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
 using AdminApi.Helpers;
+using AdminApi.Models.Validation;
 
 namespace AdminApi.Controllers
 {
@@ -164,7 +165,7 @@ namespace AdminApi.Controllers
 
         // PUT api/users/5/change_role
         [HttpPut("{id}/change_role")]
-        public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] Users user)
+        public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] ValidatedUserRoleModel user)
         {
             if (id != user.Id)
             {
@@ -248,7 +249,9 @@ namespace AdminApi.Controllers
                 await _context.SaveChangesAsync();
 
                 var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
-                authenticatedUser.BaseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+                var baseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+
+                authenticatedUser.BaseUser = baseUser.WithoutPassword();
 
                 // Send back newly created user with token
                 return CreatedAtAction(nameof(GetUser), new { authenticatedUser.Id }, authenticatedUser);
@@ -282,6 +285,23 @@ namespace AdminApi.Controllers
             return Ok(authenticatedUser);
         }
 
+        // POST: api/users/authenticate
+        // This method is an alternative to sign in that validates the token directly
+        [AllowAnonymous]
+        [EnableCors("Policy1")]
+        [HttpPost("authenticate")]
+        public IActionResult AuthenticateUser([FromBody] Token token)
+        {
+            var isTokenValid = _userService.ValidateUserToken(token.UserToken);
+
+            if (isTokenValid)
+            {
+                return Ok(token);
+            }
+
+            return Unauthorized(new { errors = new { UserToken = new string[] { "Invalid token" } }, status = 401 });
+        }
+
         // DELETE: api/users/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Users>> DeleteUsers(ulong id)
@@ -312,7 +332,7 @@ namespace AdminApi.Controllers
 
             user.UserFeatures = userFeatures;
 
-            return user;
+            return user.WithoutPassword();
 
         }
 
@@ -331,7 +351,7 @@ namespace AdminApi.Controllers
                 return u;
             });
 
-            return mappedUsers;
+            return mappedUsers.WithoutPasswords();
         }
     }
 }

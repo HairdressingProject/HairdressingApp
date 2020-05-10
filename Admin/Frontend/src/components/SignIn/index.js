@@ -102,10 +102,10 @@ const SignIn = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (authentication.error) {
+        if (authentication.signInError) {
             setError({
                 type: "danger",
-                message: authentication.error
+                message: authentication.signInError
             });
         }
     }, [authentication]);

@@ -76,6 +76,10 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             console.log("resourceObject");
                             console.dir(resourceObject);                          
                             dispatch(resourceActions.put(resourceNames.USERS, editObject.id, resourceObject));
+                            setTimeout(() => {
+                                setFormSubmitted(true);
+                                close(false);
+                            }, 300);
                             break;
                         }
 
