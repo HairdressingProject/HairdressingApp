@@ -28,14 +28,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/HairStyleLinks
+        // GET: api/hair_style_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairStyleLinks>>> GetHairStyleLinks()
         {
             return await _context.HairStyleLinks.ToListAsync();
         }
 
-        // GET: api/HairStyleLinks/5
+        // GET: api/hair_style_links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HairStyleLinks>> GetHairStyleLinks(ulong id)
         {
@@ -49,15 +49,20 @@ namespace AdminApi.Controllers
             return hairStyleLinks;
         }
 
-        // PUT: api/HairStyleLinks/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/hair_style_links/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHairStyleLinks(ulong id, HairStyleLinks hairStyleLinks)
+        public async Task<IActionResult> PutHairStyleLinks(ulong id, [FromBody] HairStyleLinks hairStyleLinks)
         {
             if (id != hairStyleLinks.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
+            }
+
+            var correspondingHairStyle = await _context.HairStyles.FirstOrDefaultAsync(h => h.Id == hairStyleLinks.HairStyleId);
+
+            if (correspondingHairStyle == null)
+            {
+                return NotFound(new { errors = new { HairStyleId = new string[] { "No matching hair style entry was found" } }, status = 404 });
             }
 
             _context.Entry(hairStyleLinks).State = EntityState.Modified;
@@ -81,19 +86,29 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/HairStyleLinks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // POST /api/hair_style_links
         [HttpPost]
-        public async Task<ActionResult<HairStyleLinks>> PostHairStyleLinks(HairStyleLinks hairStyleLinks)
+        public async Task<ActionResult<HairStyleLinks>> PostHairStyleLinks([FromBody] HairStyleLinks hairStyleLinks)
         {
+            var correspondingHairStyle = await _context.HairStyles.FirstOrDefaultAsync(h => h.Id == hairStyleLinks.HairStyleId);
+
+            if (correspondingHairStyle == null)
+            {
+                return NotFound(new { errors = new { HairStyleId = new string[] { "No matching hair style entry was found" } }, status = 404 });
+            }
+
+            if (hairStyleLinks.Id != null)
+            {
+                hairStyleLinks.Id = null;
+            }
+
             _context.HairStyleLinks.Add(hairStyleLinks);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHairStyleLinks", new { id = hairStyleLinks.Id }, hairStyleLinks);
         }
 
-        // DELETE: api/HairStyleLinks/5
+        // DELETE: api/hair_style_links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairStyleLinks>> DeleteHairStyleLinks(ulong id)
         {

@@ -16,14 +16,14 @@ namespace AdminApi.Services
 {
     public interface IUserService
     {
-        Task<User> Authenticate(string username, string password);
+        Task<User> Authenticate(string usernameOrEmail, string password);
+        bool ValidateUserToken(string token);
         Task<IEnumerable<Users>> GetAll();
     }
 
     public class UserService : IUserService
     {
         private readonly hair_project_dbContext _context;
-
         private readonly AppSettings _appSettings;
 
         public UserService(IOptions<AppSettings> appSettings, hair_project_dbContext context)
@@ -43,8 +43,8 @@ namespace AdminApi.Services
 
             // authentication successful so generate jwt token
             var entityUser = new User(user.Id);
-            var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
+            var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -55,7 +55,7 @@ namespace AdminApi.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            entityUser.Token = tokenHandler.WriteToken(token);
+            entityUser.Token = tokenHandler.WriteToken(token);           
 
             return entityUser;
         }
@@ -64,6 +64,29 @@ namespace AdminApi.Services
         {
             var users = await _context.Users.ToListAsync();
             return users.WithoutPasswords();
+        }
+
+        public bool ValidateUserToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
+
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                }, out SecurityToken validatedToken);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

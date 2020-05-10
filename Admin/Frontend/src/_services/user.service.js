@@ -1,4 +1,4 @@
-import { authHeader } from '../_helpers';
+import { authHeader, createRequestHeader } from '../_helpers';
 
 /**
  * @var {Object} userService - This object contains functions responsible for handling user-submitted actions, i.e. login, logout and get all users
@@ -6,6 +6,8 @@ import { authHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
+    authenticate,
+    changeUserRole,
     getAll
 };
 
@@ -13,19 +15,16 @@ export const userService = {
  * @function login - Handles user login (submitted in the sign in form)
  * @param {string} usernameOrEmail - Username or email submitted in the form
  * @param {string} password - Password submitted in the form
+ * @param {string} URL - Request URL
  * @returns {Object} user - This represents the JSON response from the server, containing user info and token to be saved in local storage
  */
-async function login(usernameOrEmail, password) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://localhost:5000'
-        },
-        body: JSON.stringify({ UserName: usernameOrEmail, UserPassword: password })
-    };
+async function login(usernameOrEmail, password, URL) {
+    const options = createRequestHeader("POST", {
+        UserNameOrEmail: usernameOrEmail,
+        UserPassword: password
+    }, URL);
 
-    const response = await fetch(`https://localhost:5000/api/users/sign_in`, requestOptions);
+    const response = await fetch(`${URL}/api/users/sign_in`, options);
     const user = await handleResponse(response);
     // store user details and jwt token in local storage to keep user logged in between page refreshes
     localStorage.setItem('user', JSON.stringify(user));
@@ -42,15 +41,50 @@ function logout() {
 }
 
 /**
- * @function getAll - Fetches all users from the backend (currently not being used)
+ * Validates a token to authenticate a user
+ * @function authenticate
+ * @param {string} token - Token to be validated in the backend
+ * @param {string} URL - Request URL
  */
-async function getAll() {
+async function authenticate(token, URL) {
+    const options = createRequestHeader("POST", {
+        UserToken: token
+    }, URL);
+
+    const response = await fetch(`${URL}/api/users/authenticate`, options);
+    return handleResponse(response);
+}
+
+/**
+ * Sends a PUT request to change a user's role
+ * @function changeUserRole
+ * @param {object} updatedUser - Updated user with new role
+ * @param {string} token - Token used in the Authorization HTTP header 
+ * @param {string} URL - Request URL
+ */
+async function changeUserRole(updatedUser, token, URL) {
+    if (!token) {
+        throw new Error('Invalid token passed to changeUserRole');
+    }
+
+    const options = createRequestHeader("PUT", updatedUser, URL, token);
+
+    const response = await fetch(`${URL}/api/users/${updatedUser.Id}/change_role`, options);
+
+    return handleResponse(response);
+}
+
+/**
+ * @function getAll - Fetches all users from the backend (currently not being used)
+ * @param {string} URL - Request URL
+ */
+async function getAll(URL) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    const response = await fetch(`https://localhost:5000/api/users`, requestOptions);
+    const response = await fetch(`${URL}/api/users`, requestOptions);
     return handleResponse(response);
 }
 
@@ -73,11 +107,11 @@ function handleResponse(response) {
             // one or more fields are invalid (e.g. did not meet minimum length requirements)
             if (response.status === 400) {
                 // TODO: handle this case
-                logout();
+                // logout();
             }
 
-            const error = (data && data.error) || response.statusText;
-            return Promise.reject(error);
+            const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
+            return Promise.reject(errors);
         }
 
         return data;

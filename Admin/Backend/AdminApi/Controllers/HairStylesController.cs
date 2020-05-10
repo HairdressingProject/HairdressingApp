@@ -28,14 +28,14 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/HairStyles
+        // GET: api/hair_styles
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairStyles>>> GetHairStyles()
         {
             return await _context.HairStyles.ToListAsync();
         }
 
-        // GET: api/HairStyles/5
+        // GET: api/hair_styles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HairStyles>> GetHairStyles(ulong id)
         {
@@ -49,13 +49,13 @@ namespace AdminApi.Controllers
             return hairStyles;
         }
 
-        // PUT: api/HairStyles/5
+        // PUT: api/hair_styles/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHairStyles(ulong id, HairStyles hairStyles)
+        public async Task<IActionResult> PutHairStyles(ulong id, [FromBody] HairStyles hairStyles)
         {
             if (id != hairStyles.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(hairStyles).State = EntityState.Modified;
@@ -79,17 +79,22 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/HairStyles
+        // POST: api/hair_styles
         [HttpPost]
-        public async Task<ActionResult<HairStyles>> PostHairStyles(HairStyles hairStyles)
+        public async Task<ActionResult<HairStyles>> PostHairStyles([FromBody] HairStyles hairStyles)
         {
+            if (hairStyles.Id != null)
+            {
+                hairStyles.Id = null;
+            }
+
             _context.HairStyles.Add(hairStyles);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHairStyles", new { id = hairStyles.Id }, hairStyles);
         }
 
-        // DELETE: api/HairStyles/5
+        // DELETE: api/hair_styles/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairStyles>> DeleteHairStyles(ulong id)
         {

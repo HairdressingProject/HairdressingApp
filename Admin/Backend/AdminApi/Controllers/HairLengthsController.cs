@@ -29,7 +29,7 @@ namespace AdminApi.Controllers
             _context = context;
         }
 
-        // GET: api/HairLengths
+        // GET: api/hair_lengths
         [EnableCors("Policy1")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairLengths>>> GetHairLengths()
@@ -37,7 +37,7 @@ namespace AdminApi.Controllers
             return await _context.HairLengths.ToListAsync();
         }
 
-        // GET: api/HairLengths/5
+        // GET: api/hair_lengths/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HairLengths>> GetHairLengths(ulong id)
         {
@@ -51,13 +51,13 @@ namespace AdminApi.Controllers
             return hairLengths;
         }
 
-        // PUT: api/HairLengths/5
+        // PUT: api/hair_lengths/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHairLengths(ulong id, HairLengths hairLengths)
+        public async Task<IActionResult> PutHairLengths(ulong id, [FromBody] HairLengths hairLengths)
         {
             if (id != hairLengths.Id)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
             }
 
             _context.Entry(hairLengths).State = EntityState.Modified;
@@ -81,17 +81,22 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-        // POST: api/HairLengths
+        // POST: api/hair_lengths
         [HttpPost]
-        public async Task<ActionResult<HairLengths>> PostHairLengths(HairLengths hairLengths)
+        public async Task<ActionResult<HairLengths>> PostHairLengths([FromBody] HairLengths hairLengths)
         {
+            if (hairLengths.Id != null)
+            {
+                hairLengths.Id = null;
+            }
+
             _context.HairLengths.Add(hairLengths);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetHairLengths", new { id = hairLengths.Id }, hairLengths);
         }
 
-        // DELETE: api/HairLengths/5
+        // DELETE: api/hair_lengths/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairLengths>> DeleteHairLengths(ulong id)
         {

@@ -18,15 +18,17 @@ export const Alert = ({ show, type, message, dismiss }) => {
 
     return (
         <Row className={alertContainerClasses.join(' ')} expanded>
-            <Column small={10}>
-                <p className={classes["alert-text"]}>
-                    {message}
+            <Column small={12}>
+                <p className={classes["alert-message-container"]}>
+                    <span className={classes["alert-message-text"]}>
+                        {message}
+                    </span>
+
+                    <button onClick={dismiss} className={classes["close-alert-button"]}>
+                        <img src={close} alt="Close alert" className={classes["close-alert-img"]} />
+                    </button>
+
                 </p>
-            </Column>
-            <Column small={2} className={classes["close-alert-container"]}>
-                <button onClick={dismiss} className={classes["close-alert-button"]}>
-                    <img src={close} alt="Close alert" className={classes["close-alert-img"]} />
-                </button>
             </Column>
         </Row>
     )

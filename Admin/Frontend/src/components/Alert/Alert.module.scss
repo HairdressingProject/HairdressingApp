@@ -16,28 +16,29 @@
         }
     }
 
-    &-text {
-        font-size: 1rem;
-        letter-spacing: .1rem;
-        margin: 0;
-        padding: 2rem 0;
-        color: #FFF;
-        text-align: right;
+    &-message {
+        &-container {
+            padding: 2rem 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        &-text {
+            font-size: 1rem;
+            letter-spacing: .1rem;
+            color: #FFF;
+        }
     }
+    
 }
 
 .close-alert {
-    &-container {
-        position: absolute;
-        left: 100%;
-        top: 50%;
-        transform: translateX(-100%) translateY(-50%);
-    }
-
     &-button {
         position: relative;
         outline: none;
         border: none;
+        left: 10%;
+        cursor: pointer;
     }
 
     &-img {
@@ -58,15 +59,36 @@
 
 /* iPad and bigger */
 @media only screen and (min-width: 768px) {
+    .close-alert {
+        &-button {
+            left: 30%;
+        }
+    }
+}
 
+/* iPad Pro and bigger */
+@media only screen and (min-width: 1024px) {
+    .close-alert {
+        &-button {
+            left: 35%;
+        }
+    }
 }
 
 /* Common laptops */
 @media only screen and (min-width: 1366px) {
-
+    .close-alert {
+        &-button {
+            left: 40%;
+        }
+    }
 }
 
 /* Desktop */
 @media only screen and (min-width: 1920px) {
-
+.close-alert {
+        &-button {
+            left: 42%;
+        }
+    }
 }

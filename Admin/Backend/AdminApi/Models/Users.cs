@@ -1,5 +1,8 @@
-﻿using System;
+﻿using AdminApi.Models.Validation;
+using AdminApi.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AdminApi.Models
@@ -31,27 +34,38 @@ namespace AdminApi.Models
          * 
          */
         [JsonPropertyName("id")]
-        public ulong Id { get; set; }
+        public ulong? Id { get; set; }
 
-        //[Required] // Throw status 400 error. If not, throws mysql error
+        [Required(ErrorMessage = "Username is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Username should not be empty or white space")]
+        [MaxLength(32)]
         [JsonPropertyName("user_name")]
         public string UserName { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Password is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Password should not be empty or white space")]
+        [MinLength(6, ErrorMessage = "Password should contain at least 6 characters")]
+        [MaxLength(512, ErrorMessage = "Password cannot exceed 512 characters")]
         [JsonPropertyName("user_password")]
         public string UserPassword { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Email is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Email should not be empty or white space")]
+        [MaxLength(512)]
         [JsonPropertyName("user_email")]
         public string UserEmail { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "First name is required", AllowEmptyStrings = false)]
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"First name should not be empty or white space")]
+        [MaxLength(128)]
         [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
 
         [JsonPropertyName("last_name")]
         public string LastName { get; set; }
 
+        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"User role should not be empty or white space")]
+        [RequiredUserRole(AllowEmptyStrings = false, ErrorMessage = "Invalid user role.")]
         [JsonPropertyName("user_role")]
         public string UserRole { get; set; }
 
