@@ -3,13 +3,13 @@ const cloneDeep = require('lodash.clonedeep');
 
 /**
  * The user information stored in the browser through localStorage, if available
- * @var {Object || null} user
+ * @type {Object | null}
  */
 let user = JSON.parse(localStorage.getItem('user'));
 
 /**
  * The initial state provided for authentication reducers
- * @var {Object} initialState
+ * @type {Object}
  */
 const initialState = user ? { loggedIn: true, user } : {};
 

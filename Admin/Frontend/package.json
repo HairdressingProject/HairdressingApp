@@ -32,6 +32,7 @@
     "start:frontend": "set \"REACT_APP_PUBLIC_URL=https://localhost:3000\" && react-scripts start",
     "start:backend": "cd ../Backend/AdminApi/ && dotnet watch run",
     "start": "concurrently \"yarn start:backend\" \"yarn start:frontend\"",
+    "docs": "jsdoc src -r -c jsdoc.json -d docs",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,5 +51,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
