@@ -10,7 +10,7 @@ import { errorMessageAction, successMessageAction, clearMessageAction } from './
 export const userActions = {
     login,
     logout,
-    authenticate,
+    // authenticate,
     changeUserRole,
     getAll
 };
@@ -70,7 +70,7 @@ const authenticateFailure = createAction('AUTHENTICATE_FAILURE');
  * @param {string} token 
  * @param {string} URL - Optional request URL (defaults to "https://localhost:5000")
  */
-function authenticate(token, URL = `https://localhost:5000`) {
+/* function authenticate(token, URL = `https://localhost:5000`) {
     return dispatch => {
         dispatch(clearMessageAction());
         dispatch(authenticateRequest({ token }));
@@ -84,7 +84,7 @@ function authenticate(token, URL = `https://localhost:5000`) {
                     dispatch(authenticateFailure({ errors }));
                 })
     }
-}
+} */
 
 const changeUserRoleRequest = createAction("CHANGE_ROLE_REQUEST");
 const changeUserRoleSuccess = createAction("CHANGE_ROLE_SUCCESS");

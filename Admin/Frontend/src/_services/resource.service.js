@@ -1,5 +1,5 @@
 import { createRequestHeader } from '../_helpers/';
-import { resourceNames } from '../_constants';
+import { userService } from './user.service';
 
 export const resourceServices = {
     getAll,
@@ -17,7 +17,7 @@ export const resourceServices = {
  * @param {string | undefined} token - JWT token used for authentication 
  */
 async function getAll(resourceName, URL, token) {
-    const requestOptions = createRequestHeader('GET', null, URL, token);
+    const requestOptions = createRequestHeader('GET');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -34,7 +34,7 @@ async function getAll(resourceName, URL, token) {
  * @param {string | undefined} token - JWT token used for authentication
  */
 async function get(resourceName, id, URL, token) {
-    const requestOptions = createRequestHeader('GET', null, URL, token);
+    const requestOptions = createRequestHeader('GET');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -51,7 +51,7 @@ async function get(resourceName, id, URL, token) {
  * @param {string | undefined} token - JWT token used for authentication
  */
 async function post(resourceName, resource, URL, token) {
-    const requestOptions = createRequestHeader('POST', resource, URL, token);
+    const requestOptions = createRequestHeader('POST', resource);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -72,7 +72,7 @@ async function post(resourceName, resource, URL, token) {
  * @param {string | undefined} token - JWT token used for authentication
  */
 async function put(resourceName, id, resource, URL, token) {
-    const requestOptions = createRequestHeader('PUT', resource, URL, token);
+    const requestOptions = createRequestHeader('PUT', resource);
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -89,7 +89,7 @@ async function put(resourceName, id, resource, URL, token) {
  * @param {string | undefined} token - JWT token used for authentication
  */
 async function deleteResource(resourceName, id, URL, token) {
-    const requestOptions = createRequestHeader('DELETE', null, URL, token);
+    const requestOptions = createRequestHeader('DELETE');
 
     const normalisedResourceName = resourceName.trim().toLowerCase();
 
@@ -107,12 +107,13 @@ async function handleResponse(response) {
     if (!response.ok) {
         // user isn't authenticated/authorised
         if (response.status === 401) {
+            userService.logout();
         }
         // bad request
         if (response.status === 400) {
         }
-        const error = (data && data.error) || response.statusText;
-        return Promise.reject(error);
+        const errors = (data && data.errors) || response.statusText;
+        return Promise.reject(errors);
     }
     return data;
 }

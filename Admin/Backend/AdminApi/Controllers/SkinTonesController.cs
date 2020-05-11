@@ -14,19 +14,20 @@ namespace AdminApi.Controllers
     /**
      * SkinTonesController
      * This controller handles all routes in the format: "/api/skin_tones/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/skin_tones")]
     [ApiController]
     public class SkinTonesController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public SkinTonesController(hair_project_dbContext context)
+        public SkinTonesController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/skin_tones
@@ -34,6 +35,11 @@ namespace AdminApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkinTones>>> GetSkinTones()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.SkinTones.ToListAsync();
         }
 
@@ -41,6 +47,11 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SkinTones>> GetSkinTones(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var skinTones = await _context.SkinTones.FindAsync(id);
 
             if (skinTones == null)
@@ -55,6 +66,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSkinTones(ulong id, [FromBody] SkinTones skinTones)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != skinTones.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -85,6 +101,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<SkinTones>> PostSkinTones([FromBody] SkinTones skinTones)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (skinTones.Id != null)
             {
                 skinTones.Id = null;
@@ -100,6 +121,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<SkinTones>> DeleteSkinTones(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var skinTones = await _context.SkinTones.FindAsync(id);
             if (skinTones == null)
             {

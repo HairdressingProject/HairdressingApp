@@ -13,25 +13,31 @@ namespace AdminApi.Controllers
     /**
      * HairLengthLinksController
      * This controller handles all routes in the format: "/api/hair_length_links/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/hair_length_links")]
     [ApiController]
     public class HairLengthLinksController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public HairLengthLinksController(hair_project_dbContext context)
+        public HairLengthLinksController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/hair_length_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairLengthLinks>>> GetHairLengthLinks()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.HairLengthLinks.ToListAsync();
         }
 
@@ -39,6 +45,11 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<HairLengthLinks>> GetHairLengthLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var hairLengthLinks = await _context.HairLengthLinks.FindAsync(id);
 
             if (hairLengthLinks == null)
@@ -53,6 +64,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHairLengthLinks(ulong id, [FromBody] HairLengthLinks hairLengthLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != hairLengthLinks.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -90,6 +106,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<HairLengthLinks>> PostHairLengthLinks([FromBody] HairLengthLinks hairLengthLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var correspondingHairLength = await _context.HairLengths.FirstOrDefaultAsync(h => h.Id == hairLengthLinks.HairLengthId);
 
             if (correspondingHairLength == null)
@@ -112,6 +133,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairLengthLinks>> DeleteHairLengthLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var hairLengthLinks = await _context.HairLengthLinks.FindAsync(id);
             if (hairLengthLinks == null)
             {

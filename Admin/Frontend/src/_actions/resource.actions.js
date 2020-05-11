@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { resourceServices } from '../_services/resource.service';
 import { errorMessageAction } from '../_actions'
-import { resourceNames } from '../_constants';
+import { userActions } from './user.actions';
 
 export const resourceActions = {
     getAll,
@@ -39,28 +39,15 @@ function getAll(resourceName, URL = `https://localhost:5000`, token) {
             getAllFailure
         } = getAllActionGenerator(resourceName);
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(getAllFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(getAllRequest());
 
-        resourceServices.getAll(resourceName, URL, token)
+        resourceServices.getAll(resourceName, URL)
             .then(
                 resource => {
                     dispatch(getAllSuccess({ resource }));
                 },
                 error => {
+                    dispatch(userActions.logout());
                     dispatch(getAllFailure({ error }));
                     dispatch(errorMessageAction({ message: error }));
                 }
@@ -98,23 +85,9 @@ function get(resourceName, id, URL = `https://localhost:5000`, token) {
             getFailure
         } = getActionGenerator(resourceName);
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(getFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(getRequest());
 
-        resourceServices.get(resourceName, id, URL, token)
+        resourceServices.get(resourceName, id, URL)
             .then(
                 resource => {
                     dispatch(getSuccess({ resource }));
@@ -156,23 +129,9 @@ function post(resourceName, resource, URL = `https://localhost:5000`, token) {
             postFailure
         } = postActionGenerator(resourceName);
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(postFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(postRequest());
 
-        resourceServices.post(resourceName, resource, URL, token)
+        resourceServices.post(resourceName, resource, URL)
             .then(
                 resource => {
                     dispatch(postSuccess({ resource }));
@@ -216,23 +175,9 @@ function put(resourceName, id, resource, URL = `https://localhost:5000`, token) 
             putFailure
         } = putActionGenerator(resourceName);
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(putFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(putRequest());
 
-        resourceServices.put(resourceName, id, resource, URL, token)
+        resourceServices.put(resourceName, id, resource, URL)
             .then(
                 resource => {
                     dispatch(putSuccess({ resource }));
@@ -275,23 +220,9 @@ function deleteResource(resourceName, id, URL = `https://localhost:5000`, token)
             deleteFailure
         } = deleteActionGenerator(resourceName);
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(deleteFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(deleteRequest());
 
-        resourceServices.deleteResource(resourceName, id, URL, token)
+        resourceServices.deleteResource(resourceName, id, URL)
             .then(
                 resource => {
                     dispatch(deleteSuccess({ resource }));

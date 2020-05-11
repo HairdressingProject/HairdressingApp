@@ -1,4 +1,4 @@
-import { authHeader, createRequestHeader } from '../_helpers';
+import { createRequestHeader } from '../_helpers';
 
 /**
  * @var {Object} userService - This object contains functions responsible for handling user-submitted actions, i.e. login, logout and get all users
@@ -79,19 +79,7 @@ async function changeUserRole(updatedUser, token, URL) {
  * @param {string} URL - Request URL
  */
 async function getAll(URL) {
-    const user = localStorage.getItem("user");
-    let options;
-
-    if (user) {
-        const { token } = JSON.parse(user);
-
-        if (token) {
-            options = createRequestHeader("GET", null, token);
-        }
-    }
-    else {
-        options = createRequestHeader("GET");
-    }
+    const options = createRequestHeader("GET");
 
     const response = await fetch(`${URL}/api/users`, options);
     return handleResponse(response);
@@ -116,7 +104,7 @@ function handleResponse(response) {
             // one or more fields are invalid (e.g. did not meet minimum length requirements)
             if (response.status === 400) {
                 // TODO: handle this case
-                // logout();
+                logout();
             }
 
             const errors = ((data && data.error) || (data && data.errors)) || response.statusText;

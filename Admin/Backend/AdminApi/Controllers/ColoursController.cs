@@ -5,31 +5,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdminApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using AdminApi.Services;
 
 namespace AdminApi.Controllers
 {
     /**
      * ColoursController
      * This controller handles all routes in the format: "/api/colours/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/colours")]
     [ApiController]
     public class ColoursController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public ColoursController(hair_project_dbContext context)
+        public ColoursController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/colours
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Colours>>> GetColours()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.Colours.ToListAsync();
         }
 
@@ -37,6 +44,11 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Colours>> GetColours(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var colours = await _context.Colours.FindAsync(id);
 
             if (colours == null)
@@ -51,6 +63,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutColours(ulong id, [FromBody] Colours colours)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != colours.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -81,6 +98,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Colours>> PostColours([FromBody] Colours colours)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (colours.Id != null)
             {
                 colours.Id = null;
@@ -96,6 +118,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Colours>> DeleteColours(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var colours = await _context.Colours.FindAsync(id);
             if (colours == null)
             {

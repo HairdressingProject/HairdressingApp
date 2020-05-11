@@ -13,25 +13,31 @@ namespace AdminApi.Controllers
     /**
      * HairStyleLinksController
      * This controller handles all routes in the format: "/api/hair_style_links/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/hair_style_links")]
     [ApiController]
     public class HairStyleLinksController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public HairStyleLinksController(hair_project_dbContext context)
+        public HairStyleLinksController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/hair_style_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HairStyleLinks>>> GetHairStyleLinks()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.HairStyleLinks.ToListAsync();
         }
 
@@ -39,6 +45,11 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<HairStyleLinks>> GetHairStyleLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var hairStyleLinks = await _context.HairStyleLinks.FindAsync(id);
 
             if (hairStyleLinks == null)
@@ -53,6 +64,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHairStyleLinks(ulong id, [FromBody] HairStyleLinks hairStyleLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != hairStyleLinks.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -90,6 +106,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<HairStyleLinks>> PostHairStyleLinks([FromBody] HairStyleLinks hairStyleLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var correspondingHairStyle = await _context.HairStyles.FirstOrDefaultAsync(h => h.Id == hairStyleLinks.HairStyleId);
 
             if (correspondingHairStyle == null)
@@ -112,6 +133,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<HairStyleLinks>> DeleteHairStyleLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var hairStyleLinks = await _context.HairStyleLinks.FindAsync(id);
             if (hairStyleLinks == null)
             {

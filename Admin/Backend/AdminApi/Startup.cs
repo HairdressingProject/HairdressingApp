@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using AdminApi.Helpers;
 using AdminApi.Models;
 using AdminApi.Services;
@@ -10,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
@@ -55,16 +55,24 @@ namespace AdminApi
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidAudience = "https://localhost:3000",
+                    ValidIssuer = "https://localhost:5000"
                 };
             })
-            .AddCookie();
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/api/users/sign_in";
+                options.Events.OnRedirectToLogin = (context) =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
 
             // Configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
 
             // Register DB Context
             services.AddDbContext<hair_project_dbContext>(options =>
@@ -86,11 +94,9 @@ namespace AdminApi
                     {
                         builder.AllowCredentials()
                                 .WithOrigins("https://localhost:3000")
-                                .AllowAnyHeader();
+                                .WithHeaders("Origin", "Content-Type");
                     });
             });
-
-            // services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

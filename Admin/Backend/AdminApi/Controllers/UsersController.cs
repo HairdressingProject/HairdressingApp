@@ -21,18 +21,19 @@ namespace AdminApi.Controllers
      * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
     [ApiController]
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
-        private IUserService _userService;
+        private readonly Services.IAuthorizationService _authorizationService;
+        private readonly IUserService _userService;
 
-        public UsersController(hair_project_dbContext context, IUserService userService)
+        public UsersController(hair_project_dbContext context, IUserService userService, Services.IAuthorizationService authorizationService)
         {
             _context = context;
             _userService = userService;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/users
@@ -40,6 +41,11 @@ namespace AdminApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var mappedUsers = await MapFeaturesToUsers();
             var mappedUsersWithoutPasswords = mappedUsers.WithoutPasswords();
 
@@ -48,20 +54,18 @@ namespace AdminApi.Controllers
                 users = mappedUsersWithoutPasswords
             };
 
-            var auth = Request.Cookies["auth"];
-
-            Console.WriteLine("Got auth cookie (GET /api/users:");
-            Console.WriteLine(auth);
-
             return Ok(usersResponse);
-
-            // return await _context.Users.ToListAsync();
         }
 
         // GET: api/users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Users>> GetUser(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -77,11 +81,6 @@ namespace AdminApi.Controllers
                     user = userWithoutPassword
                 };
 
-                var auth = Request.Cookies["auth"];
-
-                Console.WriteLine("Got auth cookie (GET /api/users/id:");
-                Console.WriteLine(auth);
-
                 return Ok(userResponse);
             }
 
@@ -93,6 +92,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(ulong id, [FromBody] Users users)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != users.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -140,6 +144,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}/change_password")]
         public async Task<IActionResult> SetNewPassword(ulong id, [FromBody] Users users)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != users.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -179,6 +188,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}/change_role")]
         public async Task<IActionResult> ChangeUserRole(ulong id, [FromBody] ValidatedUserRoleModel user)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != user.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -216,11 +230,15 @@ namespace AdminApi.Controllers
 
 // ********************************************************************************************************************************************        
         // POST api/users
-        [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers([FromBody] Users users)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var existingUser = await _context.Users.AnyAsync(u => u.Id == users.Id || u.UserName == users.UserName || u.UserEmail == users.UserEmail);
 
             if (!existingUser)
@@ -240,7 +258,6 @@ namespace AdminApi.Controllers
         }
 
         // POST api/users/sign_up
-        [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_up")]
         public async Task<IActionResult> SignUp([FromBody] Users users)
@@ -275,7 +292,6 @@ namespace AdminApi.Controllers
         }
 
         // POST: api/users/sign_in
-        [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("sign_in")]
         public async Task<IActionResult> SignIn([FromBody] AuthenticatedUserModel user)
@@ -289,50 +305,39 @@ namespace AdminApi.Controllers
                 return Unauthorized(new { error = "Invalid username, email and/or password" });
             }
 
-            // Return JSON response with token
+            // Return 200 OK with token in cookie
             var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == authenticatedUser.Id);
             var mappedExistingUser = await MapFeaturesToUsers(existingUser);
             authenticatedUser.BaseUser = mappedExistingUser;
+        
+            _authorizationService.SetAuthCookie(Request, Response, authenticatedUser.Token);
 
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTimeOffset.UtcNow.AddDays(7),
-                Path = "/",
-                SameSite = SameSiteMode.Strict,
-                Domain = "localhost",
-                Secure = true
-            };
-
-            Response.Cookies.Append("auth", authenticatedUser.Token, cookieOptions);
-
-            Response.Headers.Append("Access-Control-Allow-Credentials", "true");
-            Response.Headers.Append("Access-Control-Allow-Origin", "https://localhost:3000");
-
-            return Ok(authenticatedUser);
+            return Ok();
         }
 
         // POST: api/users/authenticate
         // This method is an alternative to sign in that validates the token directly
-        [AllowAnonymous]
         [EnableCors("Policy1")]
         [HttpPost("authenticate")]
-        public IActionResult AuthenticateUser([FromBody] Token token)
+        public IActionResult AuthenticateUser()
         {
-            var isTokenValid = _userService.ValidateUserToken(token.UserToken);
-
-            if (isTokenValid)
+            if (!_authorizationService.ValidateJWTCookie(Request))
             {
-                return Ok(token);
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
             }
 
-            return Unauthorized(new { errors = new { UserToken = new string[] { "Invalid token" } }, status = 401 });
+            return Ok();
         }
 
         // DELETE: api/users/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Users>> DeleteUsers(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var users = await _context.Users.FindAsync(id);
             if (users == null)
             {

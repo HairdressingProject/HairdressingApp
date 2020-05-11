@@ -52,7 +52,9 @@ namespace AdminApi.Services
                     new Claim(ClaimTypes.Name, entityUser.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = "https://localhost:5000",
+                Audience = "https://localhost:3000"                
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             entityUser.Token = tokenHandler.WriteToken(token);           
@@ -77,8 +79,10 @@ namespace AdminApi.Services
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidIssuer = "https://localhost:5000",
+                    ValidateAudience = true,
+                    ValidAudience = "https://localhost:3000"
                 }, out SecurityToken validatedToken);
             }
             catch
