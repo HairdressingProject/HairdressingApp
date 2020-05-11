@@ -94,6 +94,7 @@ namespace AdminApi
                     {
                         builder.AllowCredentials()
                                 .WithOrigins("https://localhost:3000")
+                                .WithMethods("GET", "POST", "PUT", "DELETE")
                                 .WithHeaders("Origin", "Content-Type");
                     });
             });
