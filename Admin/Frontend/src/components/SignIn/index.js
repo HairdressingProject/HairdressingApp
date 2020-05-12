@@ -89,6 +89,8 @@ const SignIn = () => {
                 }
             ]
         },
+
+        // to be implemented, but not needed for now
         {
             label: 'Remember Me',
             input: false,

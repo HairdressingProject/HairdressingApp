@@ -15,8 +15,12 @@ import password from '../../img/icons/password.svg';
 
 import classes from './SignUp.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../_actions';
 
 export const SignUp = () => {
+    const dispatch = useDispatch();
+
     const initialFormFields = [
         {
             label: 'Given name',
@@ -145,6 +149,13 @@ export const SignUp = () => {
                 },
                 {
                     error: false,
+                    errorMessage: 'Minimum 6 characters required',
+                    check: (input) => {
+                        return input.length < 6;
+                    }
+                },
+                {
+                    error: false,
                     errorMessage: 'Maximum 512 characters allowed',
                     check: (input) => {
                         return input.length > 512;
@@ -152,6 +163,7 @@ export const SignUp = () => {
                 }
             ]
         },
+        // to be implemented
         {
             label: 'I agree with Privacy Policy',
             input: false,
@@ -182,11 +194,13 @@ export const SignUp = () => {
                     <FormWithValidation
                         initialFormFields={initialFormFields}
                         handleSubmit={(e, isFormValid, formFields) => {
-                            // handle form submission here
                             e.preventDefault();
                             console.log('sign up form submitted');
                             console.log(isFormValid);
                             console.dir(formFields);
+
+                            // call dispatch to sign up action here
+                            // dispatch(userActions.signUp());
                         }}
                         fields={(
                             formFields,

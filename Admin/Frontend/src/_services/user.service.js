@@ -7,6 +7,7 @@ import { createRequestHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
+    signUp,
     changeUserRole,
     getAll
 };
@@ -42,6 +43,20 @@ async function logout(URL) {
     // send logout request
     const options = createRequestHeader("GET");
     const response = await fetch(`${URL}/api/users/logout`, options);
+    return handleResponse(response);
+}
+
+/**
+ * Sends a POST request to register a new user
+ * @function signUp
+ * @param {Object} user - User object passed to sign up request body
+ * @param {string} URL - Request URL
+ */
+async function signUp(user, URL) {
+    const options = createRequestHeader('POST', user);
+
+    // send sign up request
+    const response = await fetch(`${URL}/api/users/sign_up`, options);
     return handleResponse(response);
 }
 

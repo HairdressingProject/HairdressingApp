@@ -61,6 +61,7 @@ namespace AdminApi.Models
         [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
 
+        [MaxLength(128)]
         [JsonPropertyName("last_name")]
         public string LastName { get; set; }
 

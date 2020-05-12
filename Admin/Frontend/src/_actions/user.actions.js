@@ -10,6 +10,7 @@ import { errorMessageAction, successMessageAction, clearMessageAction } from './
 export const userActions = {
     login,
     logout,
+    signUp,
     changeUserRole,
     getAll
 };
@@ -66,6 +67,37 @@ function logout(URL = `https://localhost:5000`) {
                 },
                 errors => {
                     dispatch(logoutFailure({ errors }));
+                }
+            )
+    }
+}
+
+const signUpRequest = createAction('SIGNUP_REQUEST');
+const signUpSuccess = createAction('SIGNUP_SUCCESS');
+const signUpFailure = createAction('SIGNUP_FAILURE');
+
+/**
+ * Dispatches actions to register a new user
+ * @function signUp
+ * @param {Object} user - User object to be send in the request body
+ * @param {string} URL - URL of the request
+ */
+function signUp(user, URL = `https://localhost:5000`) {
+    return dispatch => {
+        dispatch(signUpRequest());
+
+        // basic checks to avoid submitting HTTP requests unnecessarily
+        if (!user || !user.FirstName || !user.UserEmail || !user.UserPassword || !user.UserRole) {
+            return dispatch(signUpFailure({ errors: ['Invalid user'] }));
+        }
+
+        userService.signUp(user, URL)
+            .then(
+                newUser => {
+                    dispatch(signUpSuccess({ newUser }));
+                },
+                errors => {
+                    dispatch(signUpFailure({ errors }));
                 }
             )
     }

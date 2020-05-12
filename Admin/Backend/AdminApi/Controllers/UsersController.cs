@@ -296,6 +296,9 @@ namespace AdminApi.Controllers
 
                 authenticatedUser.BaseUser = baseUser.WithoutPassword();
 
+                // Send cookie with fresh token
+                _authorizationService.SetAuthCookie(Request, Response, authenticatedUser.Token);
+
                 // Send back newly created user with token
                 return CreatedAtAction(nameof(GetUser), new { authenticatedUser.Id }, authenticatedUser);
             }
