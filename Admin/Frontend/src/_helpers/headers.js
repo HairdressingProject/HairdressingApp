@@ -3,16 +3,15 @@
  * @param {"GET" | "POST" | "PUT" | "DELETE"} method - The standard HTTP method to be used in the request
  * @param {Object | undefined} body - Optional request body* 
  * @param {string | undefined} URL - Optional URL (defaults to "https://localhost:5000")
- * @param {string | null} token - Optional JWT token (if authentication is required)
  * @returns {Object} requestHeader
  */
-export function createRequestHeader(method, body = {}, token = null) {
+export function createRequestHeader(method, body = {}) {
     const normalisedMethod = method ? method.trim().toUpperCase() : null;
     if (!normalisedMethod) {
         throw 'Invalid request method';
     }
 
-    const baseOptionsNoToken = {
+    const baseOptions = {
         method,
         mode: 'cors',
         credentials: 'include',
@@ -21,38 +20,14 @@ export function createRequestHeader(method, body = {}, token = null) {
         }
     };
 
-    // Will be deprecated in the future, because tokens will not be accessible through javascript anymore
-    const baseOptionsWithToken = {
-        method,
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-            'Origin': baseOptionsNoToken.headers['Origin'],
-            'Authorization': `Bearer ${token}`
-        }
-    };
-
-    if (!token) {
-        return normalisedMethod === 'GET' ?
-            baseOptionsNoToken :
-            ({
-                ...baseOptionsNoToken,
-                headers: {
-                    ...baseOptionsNoToken.headers,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            })
-    }
-
     return normalisedMethod === 'GET' ?
-        baseOptionsWithToken :
+        baseOptions :
         ({
-            ...baseOptionsWithToken,
+            ...baseOptions,
             headers: {
-                ...baseOptionsWithToken.headers,
+                ...baseOptions.headers,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-        })
+        });
 }

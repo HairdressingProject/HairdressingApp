@@ -29,9 +29,8 @@ function getAllActionGenerator(resourceName) {
  * @see {@link resourceName}
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName 
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
- * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function getAll(resourceName, URL = `https://localhost:5000`, token) {
+function getAll(resourceName, URL = `https://localhost:5000`) {
     return dispatch => {
         const {
             getAllRequest,
@@ -75,9 +74,8 @@ function getActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
- * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function get(resourceName, id, URL = `https://localhost:5000`, token) {
+function get(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
         const {
             getRequest,
@@ -119,9 +117,8 @@ function postActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
- * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function post(resourceName, resource, URL = `https://localhost:5000`, token) {
+function post(resourceName, resource, URL = `https://localhost:5000`) {
     return dispatch => {
         const {
             postRequest,
@@ -165,9 +162,8 @@ function putActionGenerator(resourceName) {
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {Object} resource - The resource object to be sent in the request body (IMPORTANT: property names must be in PascalCase, as established in the backend)
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
- * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function put(resourceName, id, resource, URL = `https://localhost:5000`, token) {
+function put(resourceName, id, resource, URL = `https://localhost:5000`) {
     return dispatch => {
         const {
             putRequest,
@@ -210,9 +206,8 @@ function deleteActionGenerator(resourceName) {
  * @param {"USERS" | "COLOURS" | "FACE_SHAPES" | "FACE_SHAPE_LINKS" | "HAIR_LENGTHS" | "HAIR_LENGTH_LINKS" | "HAIR_STYLE" | "HAIR_STYLE_LINKS" | "SKIN_TONES" | "SKIN_TONE_LINKS" | "USER_FEATURES"}  resourceName
  * @param {string | number} id - The ID of the resource to be used in the request
  * @param {string | undefined} URL - An optional URL to be used in the request (defaults to "https://localhost:5000")
- * @param {string | undefined} token - Optional JWT token used for authentication (if not passed to the function, it will be searched in localStorage)
  */
-function deleteResource(resourceName, id, URL = `https://localhost:5000`, token) {
+function deleteResource(resourceName, id, URL = `https://localhost:5000`) {
     return dispatch => {
         const {
             deleteRequest,

@@ -5,12 +5,11 @@ import { errorMessageAction, successMessageAction, clearMessageAction } from './
 
 /**
  * This object lists users-related actions
- * @var {Object} userActions
+ * @type {Object}
  */
 export const userActions = {
     login,
     logout,
-    // authenticate,
     changeUserRole,
     getAll
 };
@@ -53,7 +52,7 @@ const logoutFailure = createAction('LOGOUT_FAILURE');
 /**
  * Issues a logout action
  * @function logout
- * @param {string} URL
+ * @param {string} URL - Request URL
  * @returns {ActionCreatorWithPayload} logoutAction
  */
 function logout(URL = `https://localhost:5000`) {
@@ -72,34 +71,6 @@ function logout(URL = `https://localhost:5000`) {
     }
 }
 
-const authenticateRequest = createAction('AUTHENTICATE_REQUEST');
-const authenticateSuccess = createAction('AUTHENTICATE_SUCCESS');
-const authenticateFailure = createAction('AUTHENTICATE_FAILURE');
-
-/**
- * Dispatches actions to send a POST request to /api/users/authenticate
- * Updates the Redux store with the token, if valid
- * If not, an array of errors is added to the store instead
- * @function authenticate
- * @param {string} token 
- * @param {string} URL - Optional request URL (defaults to "https://localhost:5000")
- */
-/* function authenticate(token, URL = `https://localhost:5000`) {
-    return dispatch => {
-        dispatch(clearMessageAction());
-        dispatch(authenticateRequest({ token }));
-
-        userService.authenticate(token, URL)
-            .then(
-                data => {
-                    dispatch(authenticateSuccess({ token: data.userToken }));
-                },
-                errors => {
-                    dispatch(authenticateFailure({ errors }));
-                })
-    }
-} */
-
 const changeUserRoleRequest = createAction("CHANGE_ROLE_REQUEST");
 const changeUserRoleSuccess = createAction("CHANGE_ROLE_SUCCESS");
 const changeUserRoleFailure = createAction("CHANGE_ROLE_FAILURE");
@@ -108,10 +79,9 @@ const changeUserRoleFailure = createAction("CHANGE_ROLE_FAILURE");
  * Dispatches actions to handle changing a user's role
  * @function changeUserRole
  * @param {Object} updatedUser - User with all required fields and updated UserRole
- * @param {string} token - Optional token for authentication (defaults to the one saved in localStorage, if present)
  * @param {string} URL - Optional request URL (defaults to "https://localhost:5000")
  */
-function changeUserRole(updatedUser, token = null, URL = `https://localhost:5000`) {
+function changeUserRole(updatedUser, URL = `https://localhost:5000`) {
 
     return dispatch => {
         if (!updatedUser) {
@@ -119,24 +89,10 @@ function changeUserRole(updatedUser, token = null, URL = `https://localhost:5000
             dispatch(changeUserRoleFailure({ error: "Invalid user to change role" }));
         }
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(changeUserRoleFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(clearMessageAction());
         dispatch(changeUserRoleRequest({ updatedUser }));
 
-        userService.changeUserRole(updatedUser, token, URL)
+        userService.changeUserRole(updatedUser, URL)
             .then(
                 data => {
                     dispatch(changeUserRoleSuccess({ updatedUser: data.updatedUser }));

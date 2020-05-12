@@ -23,6 +23,11 @@ export const User = ({ isSidebarOpen }) => {
         userImgClasses.push('user-img-closed');
     }
 
+    /**
+     * Dispatches a logout action. Redirects user to /sign_in.
+     * @function handleLogout
+     * @param {Object} e 
+     */
     const handleLogout = e => {
         dispatch(userActions.logout());
         setLoggedIn(false);
