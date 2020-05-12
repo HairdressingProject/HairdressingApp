@@ -46,16 +46,30 @@ function login(usernameOrEmail, password, URL = `https://localhost:5000`) {
     };
 }
 
-const logoutAction = createAction('LOGOUT');
+const logoutRequest = createAction('LOGOUT_REQUEST');
+const logoutSuccess = createAction('LOGOUT_SUCCESS');
+const logoutFailure = createAction('LOGOUT_FAILURE');
 
 /**
  * Issues a logout action
  * @function logout
+ * @param {string} URL
  * @returns {ActionCreatorWithPayload} logoutAction
  */
-function logout() {
-    userService.logout();
-    return logoutAction();
+function logout(URL = `https://localhost:5000`) {
+    return dispatch => {
+        dispatch(logoutRequest());
+
+        userService.logout(URL)
+            .then(
+                data => {
+                    dispatch(logoutSuccess({ data }));
+                },
+                errors => {
+                    dispatch(logoutFailure({ errors }));
+                }
+            )
+    }
 }
 
 const authenticateRequest = createAction('AUTHENTICATE_REQUEST');

@@ -33,11 +33,17 @@ async function login(usernameOrEmail, password, URL) {
 
 /**
  * @function logout - Deletes user info stored in local storage (including token)
+ * @param {string} URL - Request URL
  * @returns {void}
  */
-function logout() {
+async function logout(URL) {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+
+    // send logout request
+    const options = createRequestHeader("GET");
+    const response = await fetch(`${URL}/api/users/logout`, options);
+    return handleResponse(response);
 }
 
 /**

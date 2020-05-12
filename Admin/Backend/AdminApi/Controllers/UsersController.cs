@@ -58,7 +58,7 @@ namespace AdminApi.Controllers
         }
 
         // GET: api/users/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:long}")]
         public async Task<ActionResult<Users>> GetUser(ulong id)
         {
             if (!_authorizationService.ValidateJWTCookie(Request))
@@ -85,6 +85,20 @@ namespace AdminApi.Controllers
             }
 
             // return users;
+        }
+
+        // GET: /api/users/logout
+        [HttpGet("logout")]
+        public IActionResult LogoutUser()
+        {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
+            // Invalidate token/cookie
+            Response.Cookies.Delete("auth");
+            return Ok(new { message = "Logout successful" });
         }
 
 // ********************************************************************************************************************************************        

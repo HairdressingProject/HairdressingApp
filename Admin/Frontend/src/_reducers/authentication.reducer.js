@@ -83,15 +83,29 @@ export const authenticationReducer = createReducer(initialState, {
     });
   },
 
-  LOGOUT: (state, action) => {
+  LOGOUT_REQUEST: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: null,
-      user: null,
-      errors: null,
-      signInError: null,
-      loggedIn: false,
-      loggingIn: false
+      loggingOut: true,
+      loggedOut: false
+    });
+  },
+
+  LOGOUT_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      loggingOut: false,
+      loggedOut: true,
+      message: action.payload.data
+    });
+  },
+
+  LOGOUT_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      loggingOut: false,
+      loggedOut: false,
+      errors: action.payload.errors
     });
   }
 });

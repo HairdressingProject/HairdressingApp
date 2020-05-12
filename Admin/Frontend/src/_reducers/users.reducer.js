@@ -1,16 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 const cloneDeep = require('lodash.clonedeep');
 
-const obj = {
-  name: 'diego',
-  address: {
-    street: "23 fictional st.",
-    postcode: 6001
-  }
-};
-
 /**
- * @var {Object} usersReducer - Creates a "root" reducer that handles fetching all users
+ * Creates a "root" reducer that handles fetching all users
+ * @type {Object}
  */
 export const usersReducer = createReducer({}, {
   CHANGE_ROLE_REQUEST: (state, action) => {
