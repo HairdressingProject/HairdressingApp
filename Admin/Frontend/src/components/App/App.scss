@@ -17,12 +17,14 @@
     }
 }
 
-.sidebar-container {
-    position: relative;
-    transition: width 200ms ease;
-    width: 58.3333% !important;
+.sidebar {
+    &-container {
+        position: relative;
+        transition: width 200ms ease;
+        width: 58.3333% !important;
 
-    &-closed {
-        width: 20% !important;
+        &-closed {
+            width: 20% !important;
+        }
     }
 }

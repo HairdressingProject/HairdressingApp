@@ -265,7 +265,7 @@ namespace AdminApi.Controllers
                 _context.Users.Add(users);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+                return CreatedAtAction("GetUsers", new { id = users.Id }, users.WithoutPassword());
             }
 
             return Conflict(new { error = "User already exists" });
@@ -299,13 +299,15 @@ namespace AdminApi.Controllers
                 // Send cookie with fresh token
                 _authorizationService.SetAuthCookie(Request, Response, authenticatedUser.Token);
 
-                // Send back newly created user with token
+                authenticatedUser.Token = null;
+
+                // Send back newly created user without token
                 return CreatedAtAction(nameof(GetUser), new { authenticatedUser.Id }, authenticatedUser);
             }
 
             // Existing user, return 409 (Conflict)
             // Alternatively, refresh this user's token
-            return Conflict(new { error = "User already registered" });
+            return Conflict(new { errors = new { Users = new string[] { "User already registered" } }, status = 409 });
         }
 
         // POST: api/users/sign_in
@@ -319,7 +321,7 @@ namespace AdminApi.Controllers
             if (authenticatedUser == null)
             {
                 // User isn't registered
-                return Unauthorized(new { error = "Invalid username, email and/or password" });
+                return Unauthorized(new { errors = new { Authentication = new string[] { "Invalid username, email and/or password" } }, status = 401 });
             }
 
             // Return 200 OK with token in cookie

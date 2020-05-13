@@ -26,14 +26,6 @@ export const PrivateRoute = ({ children, ...props }) => {
             setAuthenticating(false);
             return;
         }
-
-        /*  user = JSON.parse(user);
- 
-         if (user.token) {
-             const { token } = user;
-             dispatch(userActions.authenticate(token));
-             return;
-         } */
     }, []);
 
     useEffect(() => {

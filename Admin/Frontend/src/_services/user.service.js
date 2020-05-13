@@ -26,9 +26,10 @@ async function login(usernameOrEmail, password, URL) {
     });
 
     const response = await fetch(`${URL}/api/users/sign_in`, options);
-    const user = await handleResponse(response);
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+    if (response.ok) {
+        localStorage.setItem("user", true);
+    }
+    return handleResponse(response);
 }
 
 /**
@@ -92,23 +93,35 @@ async function getAll(URL) {
  */
 function handleResponse(response) {
     return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            // login details are wrong
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                // window.location.reload();
-            }
+        let data;
 
-            // one or more fields are invalid (e.g. did not meet minimum length requirements)
-            if (response.status === 400) {
-                // TODO: handle this case
-                logout();
-            }
+        try {
+            data = JSON.parse(text);
 
-            const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
-            return Promise.reject(errors);
+            if (!response.ok) {
+                // login details are wrong
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    // window.location.reload();
+                }
+
+                // one or more fields are invalid (e.g. did not meet minimum length requirements)
+                if (response.status === 400) {
+                    // TODO: handle this case
+                    logout();
+                }
+
+                const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
+                return Promise.reject(errors);
+            }
+        }
+        catch (err) {
+            data = {
+                errors: {
+                    exception: err.message
+                }
+            }
         }
 
         return data;

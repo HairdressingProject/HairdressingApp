@@ -5,13 +5,13 @@ const cloneDeep = require('lodash.clonedeep');
  * The user information stored in the browser through localStorage, if available
  * @type {Object | null}
  */
-let user = JSON.parse(localStorage.getItem('user'));
+let user = localStorage.getItem('user');
 
 /**
  * The initial state provided for authentication reducers
  * @type {Object}
  */
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = user ? { loggedIn: true, user: JSON.parse(user) } : {};
 
 /**
  * This function is the entry point of all reducers related to authentication, i.e. those that are triggered by actions such as LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE and LOGOUT
@@ -25,7 +25,7 @@ export const authenticationReducer = createReducer(initialState, {
     return ({
       ...cloneDeep(state),
       token: null,
-      signInError: null,
+      signInErrors: null,
       loggingIn: true,
       loggedIn: false,
       user: null
@@ -35,8 +35,8 @@ export const authenticationReducer = createReducer(initialState, {
   LOGIN_SUCCESS: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: action.payload.user.token,
-      signInError: null,
+      token: null,
+      signInErrors: null,
       loggingIn: false,
       loggedIn: true,
       user: action.payload.user
@@ -47,7 +47,7 @@ export const authenticationReducer = createReducer(initialState, {
     return ({
       ...cloneDeep(state),
       token: null,
-      signInError: action.payload.error,
+      signInErrors: action.payload.error,
       loggingIn: false,
       loggedIn: false
     });

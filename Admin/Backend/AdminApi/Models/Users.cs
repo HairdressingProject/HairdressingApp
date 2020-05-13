@@ -1,4 +1,5 @@
-﻿using AdminApi.Models.Validation;
+﻿using AdminApi.Helpers;
+using AdminApi.Models.Validation;
 using AdminApi.Validation;
 using System;
 using System.Collections.Generic;
@@ -65,10 +66,10 @@ namespace AdminApi.Models
         [JsonPropertyName("last_name")]
         public string LastName { get; set; }
 
-        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"User role should not be empty or white space")]
-        [RequiredUserRole(AllowEmptyStrings = false, ErrorMessage = "Invalid user role.")]
+        // [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"User role should not be empty or white space")]
+        // [RequiredUserRole(AllowEmptyStrings = false, ErrorMessage = "Invalid user role.")]
         [JsonPropertyName("user_role")]
-        public string UserRole { get; set; }
+        public string UserRole { get; set; } = Enum.GetName(typeof(UserRoles), UserRoles.USER).ToLower();
 
         [JsonPropertyName("date_created")]
         public DateTime DateCreated { get; set; }

@@ -40,7 +40,7 @@ function login(usernameOrEmail, password, URL = `https://localhost:5000`) {
                 },
                 error => {
                     dispatch(loginFailure({ error }));
-                    dispatch(errorMessageAction({ message: error }));
+                    // dispatch(errorMessageAction({ message: error }));
                 }
             );
     };
@@ -87,7 +87,7 @@ function signUp(user, URL = `https://localhost:5000`) {
         dispatch(signUpRequest());
 
         // basic checks to avoid submitting HTTP requests unnecessarily
-        if (!user || !user.FirstName || !user.UserEmail || !user.UserPassword || !user.UserRole) {
+        if (!user || !user.FirstName || !user.UserEmail || !user.UserPassword) {
             return dispatch(signUpFailure({ errors: ['Invalid user'] }));
         }
 
@@ -95,6 +95,7 @@ function signUp(user, URL = `https://localhost:5000`) {
             .then(
                 newUser => {
                     dispatch(signUpSuccess({ newUser }));
+                    history.push('/');
                 },
                 errors => {
                     dispatch(signUpFailure({ errors }));
