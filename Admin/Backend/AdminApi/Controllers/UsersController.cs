@@ -28,12 +28,17 @@ namespace AdminApi.Controllers
         private readonly hair_project_dbContext _context;
         private readonly Services.IAuthorizationService _authorizationService;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
-        public UsersController(hair_project_dbContext context, IUserService userService, Services.IAuthorizationService authorizationService)
+        public UsersController(hair_project_dbContext context,
+            IUserService userService,
+            Services.IAuthorizationService authorizationService,
+            IEmailService emailService)
         {
             _context = context;
             _userService = userService;
             _authorizationService = authorizationService;
+            _emailService = emailService;
         }
 
         // GET: api/users
@@ -346,6 +351,42 @@ namespace AdminApi.Controllers
             }
 
             return Ok();
+        }
+
+        // POST: api/users/forgot_password
+        [EnableCors("Policy1")]
+        [HttpPost("forgot_password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ValidatedUserEmailModel user)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserEmail);
+
+            if (existingUser == null)
+            {
+                return NotFound(new { errors = new { UserEmail = new string[] { "Invalid user email" } }, status = 404 });
+            }
+
+            var emailBody = $@"Hi {existingUser.UserName},
+
+It seems that you have requested to recover your password @HairdressingProject Admin Portal. If you have not, please ignore this email.
+
+Use this link to do so:
+
+Regards,
+
+HairdressingProject Admin.
+";
+            try
+            {
+                _emailService.SendEmail(existingUser.UserEmail, existingUser.UserName, "Recover Password", emailBody);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Failed to send email:");
+                Console.WriteLine(ex);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { errors = new { Email = new string[] { ex.Message } } });
+            }
         }
 
         // DELETE: api/users/5

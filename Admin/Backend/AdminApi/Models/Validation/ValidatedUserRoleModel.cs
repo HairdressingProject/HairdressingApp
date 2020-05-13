@@ -10,8 +10,6 @@ namespace AdminApi.Models.Validation
 {
     public class ValidatedUserRoleModel
     {
-        [Required(ErrorMessage = "Skin tone ID is required", AllowEmptyStrings = false)]
-        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Skin tone ID should not be empty or white space")]
         [RegularExpression(@"^[1-9]{1}$|^[1-9][0-9]+$", ErrorMessage = @"Skin tone ID must only contain numbers (0 is not allowed)")]
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
