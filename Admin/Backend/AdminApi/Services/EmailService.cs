@@ -26,6 +26,11 @@ namespace AdminApi.Services
             var adminEmail = _configuration["Admin:Email"];
             var adminPassword = _configuration["Admin:Password"];
 
+            Console.WriteLine("Sending email...");
+            Console.WriteLine(adminUsername);
+            Console.WriteLine(adminEmail);
+            Console.WriteLine(adminPassword);
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(adminUsername, adminEmail));
             message.To.Add(new MailboxAddress(to, toEmail));
@@ -39,9 +44,9 @@ namespace AdminApi.Services
             try
             {
                 using var client = new SmtpClient();
-                client.Connect("smtp.yandex.com", 465, SecureSocketOptions.SslOnConnect);
+                client.Connect("smtp.yandex.com", 587, SecureSocketOptions.Auto);
 
-                client.Authenticate(adminUsername, adminPassword);
+                client.Authenticate(adminEmail, adminPassword);
 
                 client.Send(message);
                 client.Disconnect(true);

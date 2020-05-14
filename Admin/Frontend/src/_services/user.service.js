@@ -9,11 +9,13 @@ export const userService = {
     logout,
     signUp,
     changeUserRole,
-    getAll
+    getAll,
+    forgotPassword
 };
 
 /**
- * @function login - Handles user login (submitted in the sign in form)
+ * Handles user login (submitted in the sign in form)
+ * @function login
  * @param {string} usernameOrEmail - Username or email submitted in the form
  * @param {string} password - Password submitted in the form
  * @param {string} URL - Request URL
@@ -33,7 +35,8 @@ async function login(usernameOrEmail, password, URL) {
 }
 
 /**
- * @function logout - Deletes user info stored in localStorage and requests cookie with token to be deleted
+ * Deletes user info stored in localStorage and requests cookie with token to be deleted
+ * @function logout
  * @param {string} URL - Request URL
  * @returns {void}
  */
@@ -76,13 +79,29 @@ async function changeUserRole(updatedUser, URL) {
 }
 
 /**
- * @function getAll - Fetches all users from the backend (currently not being used)
+ * Fetches all users from the backend
+ * @function getAll
  * @param {string} URL - Request URL
  */
 async function getAll(URL) {
     const options = createRequestHeader("GET");
 
     const response = await fetch(`${URL}/api/users`, options);
+    return handleResponse(response);
+}
+
+/**
+ * Sends a POST request to deliver an email with instructions to the registered user
+ * @function forgotPassword
+ * @param {string} usernameOrEmail - Registered username or email to recover password
+ * @param {string} URL - URL of the request
+ */
+async function forgotPassword(usernameOrEmail, URL) {
+    const options = createRequestHeader('POST', {
+        UserNameOrEmail: usernameOrEmail
+    });
+
+    const response = await fetch(`${URL}/api/users/forgot_password`, options);
     return handleResponse(response);
 }
 

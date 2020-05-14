@@ -43,5 +43,35 @@ export const usersReducer = createReducer({}, {
       ...cloneDeep(state),
       error: action.payload.error
     })
-  }
+  },
+
+  FORGOT_PASSWORD_REQUEST: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      forgotPasswordData: null,
+      forgotPasswordErrors: null,
+      requestingRecoverPassword: true,
+      processedRecoverPassword: false
+    })
+  },
+
+  FORGOT_PASSWORD_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      forgotPasswordData: action.payload.forgotPasswordData,
+      forgotPasswordErrors: null,
+      requestingRecoverPassword: false,
+      processedRecoverPassword: true
+    })
+  },
+
+  FORGOT_PASSWORD_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      forgotPasswordData: null,
+      forgotPasswordErrors: action.payload.forgotPasswordErrors,
+      requestingRecoverPassword: false,
+      processedRecoverPassword: true
+    })
+  },
 });

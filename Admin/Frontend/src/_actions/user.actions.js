@@ -12,7 +12,8 @@ export const userActions = {
     logout,
     signUp,
     changeUserRole,
-    getAll
+    getAll,
+    forgotPassword
 };
 
 const loginRequest = createAction('LOGIN_REQUEST');
@@ -157,4 +158,34 @@ function getAll(URL = `https://localhost:5000`) {
                 error => dispatch(getAllFailure({ error }))
             );
     };
+}
+
+const forgotPasswordRequest = createAction('FORGOT_PASSWORD_REQUEST');
+const forgotPasswordSuccess = createAction('FORGOT_PASSWORD_SUCCESS');
+const forgotPasswordFailure = createAction('FORGOT_PASSWORD_FAILURE');
+
+/**
+ * Dispatches actions to begin the process of recovering a user's password
+ * @function forgotPassword
+ * @param {string} usernameOrEmail - Registered username/email
+ * @param {string} URL - Request URL (defaults to "https://localhost:5000")
+ */
+function forgotPassword(usernameOrEmail, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (!usernameOrEmail || !usernameOrEmail.trim()) {
+            return dispatch(forgotPasswordFailure(
+                {
+                    forgotPasswordErrors: {
+                        UsernameOrEmail: ['Please enter a valid username/email']
+                    }
+                }));
+        }
+        dispatch(forgotPasswordRequest({ usernameOrEmail }));
+
+        userService.forgotPassword(usernameOrEmail, URL)
+            .then(
+                data => dispatch(forgotPasswordSuccess({ forgotPasswordData: data })),
+                forgotPasswordErrors => dispatch(forgotPasswordFailure({ forgotPasswordErrors }))
+            );
+    }
 }

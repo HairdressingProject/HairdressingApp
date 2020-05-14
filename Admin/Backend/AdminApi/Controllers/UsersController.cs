@@ -358,11 +358,11 @@ namespace AdminApi.Controllers
         [HttpPost("forgot_password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ValidatedUserEmailModel user)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserEmail);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserNameOrEmail || u.UserName == user.UserNameOrEmail);
 
             if (existingUser == null)
             {
-                return NotFound(new { errors = new { UserEmail = new string[] { "Invalid user email" } }, status = 404 });
+                return NotFound(new { errors = new { UserNameOrEmail = new string[] { "Username/email is not registered" } }, status = 404 });
             }
 
             var emailBody = $@"Hi {existingUser.UserName},
