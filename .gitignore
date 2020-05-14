@@ -41,3 +41,6 @@ msbuild.wrn
 
 AdminApi/bin/Debug
 AdminApi/obj/Debug
+
+# credentials
+credentials.json
