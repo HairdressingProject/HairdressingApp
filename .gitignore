@@ -44,3 +44,5 @@ AdminApi/obj/Debug
 
 # credentials
 credentials.json
+token.*/
+client_id.json
