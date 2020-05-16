@@ -3,15 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Validation;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
 using AdminApi.Helpers;
-using AdminApi.Models.Validation;
 using Microsoft.AspNetCore.Http;
 using System;
+using AdminApi.Models_v2.Validation;
 
 namespace AdminApi.Controllers
 {

@@ -10,7 +10,7 @@ using AdminApi.Entities;
 using AdminApi.Helpers;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 
 namespace AdminApi.Services
 {

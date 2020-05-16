@@ -1,8 +1,7 @@
 ﻿using AdminApi.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
-namespace AdminApi.Models.Validation
+namespace AdminApi.Models_v2.Validation
 {
     public class ValidatedUserEmailModel
     {
