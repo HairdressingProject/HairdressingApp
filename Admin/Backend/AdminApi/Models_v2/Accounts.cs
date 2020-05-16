@@ -10,11 +10,11 @@ namespace AdminApi.Models_v2
     {
         [Key]
         [Column("user_id")]
-        public ulong UserId { get; set; }
-
-        [Column("recover_password_token")]
+        public ulong? UserId { get; set; }
+        
         [MaxLength(16)]
         [MinLength(16)]
+        [Column("recover_password_token", TypeName = "binary(16)")]
         public byte[] RecoverPasswordToken { get; set; }
 
         [Column("account_confirmed")]

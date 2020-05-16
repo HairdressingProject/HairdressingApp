@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
 import {
@@ -12,10 +12,10 @@ import {
 import mail from '../../img/icons/mail.svg';
 import password from '../../img/icons/password.svg';
 
-import classes from './NewPassword.module.scss';
+import classes from './ResetPassword.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
 
-export const NewPassword = ({ userEmail }) => {
+export const ResetPassword = ({ userEmail }) => {
     const initialFormFields = [
         {
             label: userEmail || 'user@mail.com',
@@ -106,6 +106,16 @@ export const NewPassword = ({ userEmail }) => {
             ]
         }
     ];
+
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+
+    const query = useQuery();
+
+    useEffect(() => {
+        console.log(`token from query params: ${query.get("token")}`);
+    }, []);
 
     return (
         <div className={[classes["newpassword-container"], "text-center"].join(' ')}>

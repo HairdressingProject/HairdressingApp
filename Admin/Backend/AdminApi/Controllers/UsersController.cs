@@ -25,13 +25,13 @@ namespace AdminApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
-        private readonly Services.IAuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
 
         public UsersController(hair_project_dbContext context,
             IUserService userService,
-            Services.IAuthorizationService authorizationService,
+            IAuthorizationService authorizationService,
             IEmailService emailService)
         {
             _context = context;
@@ -293,12 +293,24 @@ namespace AdminApi.Controllers
                 }
 
                 _context.Users.Add(users);
+
                 await _context.SaveChangesAsync();
 
-                var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
-                var baseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+                // Get newly created user from database to create a new account record
+                // Stored procedures would be preferred in this case in order to avoid making so many calls to the database
+                var savedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == users.UserName);
 
-                authenticatedUser.BaseUser = baseUser.WithoutPassword();
+                // TODO: Handle the opposite case
+                if (savedUser != null)
+                {
+                    _context.Accounts.Add(new Accounts { UserId = savedUser.Id });
+                    await _context.SaveChangesAsync();
+                }
+
+                var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
+                // var baseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+
+                authenticatedUser.BaseUser = savedUser.WithoutPassword();
 
                 // Send cookie with fresh token
                 _authorizationService.SetAuthCookie(Request, Response, authenticatedUser.Token);
@@ -364,11 +376,36 @@ namespace AdminApi.Controllers
                 return NotFound(new { errors = new { UserNameOrEmail = new string[] { "Username/email is not registered" } }, status = 404 });
             }
 
+            var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId == existingUser.Id);
+
+            if (existingAccount == null)
+            {
+                return NotFound(new { errors = new { Account = new string[] { "Unable to retrieve account details" } }, status = 404 });
+            }
+
+            var recoverPasswordToken = Guid.NewGuid();
+
+            // Manipulate Guid (as an array of bytes) to store it correctly in the database as BINARY(16)
+            var tokenBytes = recoverPasswordToken.ToByteArray();
+
+            Array.Reverse(tokenBytes, 0, 4);
+            Array.Reverse(tokenBytes, 4, 2);
+            Array.Reverse(tokenBytes, 6, 2);
+
+            existingAccount.RecoverPasswordToken = tokenBytes;
+
+            _context.Entry(existingAccount).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            // TODO: Find out how to avoid hard-coding this link's domain/path
+            var recoverPasswordLink = $@"https://localhost:3000/reset_password?token={recoverPasswordToken}";
+
             var emailBody = $@"Hi {existingUser.UserName},
 
 It seems that you have requested to recover your password @HairdressingProject Admin Portal. If you have not, please ignore this email.
 
-Use this link to do so:
+Use this link to do so: {recoverPasswordLink}
 
 Regards,
 
