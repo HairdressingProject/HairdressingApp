@@ -14,6 +14,8 @@ import password from '../../img/icons/password.svg';
 
 import classes from './ResetPassword.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../_actions/index';
 
 export const ResetPassword = ({ userEmail }) => {
     const initialFormFields = [
@@ -107,6 +109,8 @@ export const ResetPassword = ({ userEmail }) => {
         }
     ];
 
+    const dispatch = useDispatch();
+
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
@@ -115,6 +119,13 @@ export const ResetPassword = ({ userEmail }) => {
 
     useEffect(() => {
         console.log(`token from query params: ${query.get("token")}`);
+
+        const token = query.get("token");
+
+        if (!token) {
+
+        }
+
     }, []);
 
     return (

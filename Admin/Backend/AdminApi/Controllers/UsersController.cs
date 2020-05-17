@@ -11,6 +11,7 @@ using AdminApi.Helpers;
 using Microsoft.AspNetCore.Http;
 using System;
 using AdminApi.Models_v2.Validation;
+using Microsoft.Data.SqlClient;
 
 namespace AdminApi.Controllers
 {
@@ -105,7 +106,7 @@ namespace AdminApi.Controllers
             return Ok(new { message = "Logout successful" });
         }
 
-// ********************************************************************************************************************************************        
+        // ********************************************************************************************************************************************        
         // PUT: api/users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(ulong id, [FromBody] Users users)
@@ -155,11 +156,45 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-// ********************************************************************************************************************************************
+        // ********************************************************************************************************************************************
 
+        // PUT: api/users/{guid}/change_password : Method to change user password (based on user's recover password token).
+        [HttpPut("{token:guid}/change_password")]
+        public async Task<IActionResult> SetNewPassword(Guid token, [FromBody] AuthenticatedUserModel user)
+        {
+            var existingToken = await _context.Accounts.FromSqlInterpolated($"SELECT * FROM accounts WHERE recover_password_token = UNHEX(REPLACE({token}, {"-"}, {""}))").ToListAsync();
 
-        // PUT: api/users/5/change_password : Method to change user password. ToDo: Must be authorized
-        [HttpPut("{id}/change_password")]
+            if (existingToken.Count > 0)
+            {
+                // token was found, get user id and change their password
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == existingToken[0].UserId);
+
+                if (existingUser != null)
+                {
+                    existingUser.UserPassword = user.UserPassword;
+                    _context.Entry(existingUser).State = EntityState.Modified;
+
+                    // invalidate token, now that the password has changed
+                    var accountEntry = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId == existingUser.Id);
+                    if (accountEntry != null)
+                    {
+                        accountEntry.RecoverPasswordToken = null;
+                        _context.Entry(accountEntry).State = EntityState.Modified;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    return NoContent();
+                }
+
+                return NotFound(new { errors = new { Token = new string[] { "User not found" } }, status = 404 });
+            }
+
+            return NotFound(new { errors = new { Token = new string[] { "Token not found" } }, status = 404 });
+        }
+
+        // PUT: api/users/5/change_password : Method to change user password (based on user's ID).
+        [HttpPut("{id:long}/change_password")]
         public async Task<IActionResult> SetNewPassword(ulong id, [FromBody] Users users)
         {
             if (!_authorizationService.ValidateJWTCookie(Request))
@@ -369,6 +404,13 @@ namespace AdminApi.Controllers
         [HttpPost("forgot_password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ValidatedUserEmailModel user)
         {
+            var origin = Request.Headers["Origin"];
+
+            if (string.IsNullOrEmpty(origin))
+            {
+                return BadRequest(new { errors = new { Origin = new string[] { "Request origin was not supplied" } }, status = 400 });
+            }
+
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserNameOrEmail || u.UserName == user.UserNameOrEmail);
 
             if (existingUser == null)
@@ -385,21 +427,11 @@ namespace AdminApi.Controllers
 
             var recoverPasswordToken = Guid.NewGuid();
 
-            // Manipulate Guid (as an array of bytes) to store it correctly in the database as BINARY(16)
-            var tokenBytes = recoverPasswordToken.ToByteArray();
+            await _context.Database.ExecuteSqlInterpolatedAsync($"UPDATE accounts SET recover_password_token = UNHEX(REPLACE({recoverPasswordToken}, {"-"}, {""})) WHERE user_id = {existingAccount.UserId}");            
 
-            Array.Reverse(tokenBytes, 0, 4);
-            Array.Reverse(tokenBytes, 4, 2);
-            Array.Reverse(tokenBytes, 6, 2);
+            await _context.SaveChangesAsync();           
 
-            existingAccount.RecoverPasswordToken = tokenBytes;
-
-            _context.Entry(existingAccount).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            // TODO: Find out how to avoid hard-coding this link's domain/path
-            var recoverPasswordLink = $@"https://localhost:3000/reset_password?token={recoverPasswordToken}";
+            var recoverPasswordLink = $@"{origin}/reset_password?token={recoverPasswordToken}";
 
             var emailBody = $@"Hi {existingUser.UserName},
 
