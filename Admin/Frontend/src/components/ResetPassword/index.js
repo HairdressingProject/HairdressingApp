@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { Button } from 'react-foundation-components/lib/button';
@@ -15,13 +15,42 @@ import password from '../../img/icons/password.svg';
 import classes from './ResetPassword.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../_actions/index';
+import { userActions, resourceActions } from '../../_actions/index';
+import { resourceNames } from '../../_constants';
+import { useSelector } from 'react-redux';
 
-export const ResetPassword = ({ userEmail }) => {
+export const ResetPassword = () => {
+
+    const [token, setToken] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
+    const resources = useSelector(state => state.resources);
+
+    const dispatch = useDispatch();
+
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+
+    const query = useQuery();
+
+    useEffect(() => {
+        const token = query.get("token");
+        setToken(token);
+
+        dispatch(resourceActions.get(resourceNames.USERS, token));
+    }, []);
+
+    useEffect(() => {
+        if (resources && resources.users && resources.users.item && resources.users.item.userEmail) {
+            setUserEmail(resources.users.item.userEmail);
+        }
+    }, [resources]);
+
     const initialFormFields = [
         {
-            label: userEmail || 'user@mail.com',
-            type: 'text',
+            label: 'Email',
+            input: 'user@mail.com',
+            type: 'email',
             icon: mail,
             disabled: true
         },
@@ -45,6 +74,13 @@ export const ResetPassword = ({ userEmail }) => {
                     errorMessage: 'Spaces are not allowed in this field',
                     check: (input) => {
                         return /\s/g.test(input.trim());
+                    }
+                },
+                {
+                    error: false,
+                    errorMessage: 'Minimum 6 characters required',
+                    check: (input) => {
+                        return input.trim().length < 6;
                     }
                 },
                 {
@@ -90,6 +126,13 @@ export const ResetPassword = ({ userEmail }) => {
                 },
                 {
                     error: false,
+                    errorMessage: 'Minimum 6 characters required',
+                    check: (input) => {
+                        return input.trim().length < 6;
+                    }
+                },
+                {
+                    error: false,
                     errorMessage: 'Maximum 512 characters allowed',
                     check: (input) => {
                         return input.length > 512;
@@ -109,24 +152,11 @@ export const ResetPassword = ({ userEmail }) => {
         }
     ];
 
-    const dispatch = useDispatch();
-
-    function useQuery() {
-        return new URLSearchParams(useLocation().search);
-    }
-
-    const query = useQuery();
-
     useEffect(() => {
-        console.log(`token from query params: ${query.get("token")}`);
-
-        const token = query.get("token");
-
-        if (!token) {
-
+        if (userEmail) {
+            initialFormFields[0].input = userEmail;
         }
-
-    }, []);
+    }, [userEmail]);
 
     return (
         <div className={[classes["newpassword-container"], "text-center"].join(' ')}>
@@ -152,9 +182,11 @@ export const ResetPassword = ({ userEmail }) => {
                         handleSubmit={(e, isFormValid, formFields) => {
                             // handle form submission here
                             e.preventDefault();
-                            console.log('new password form submitted');
-                            console.log(isFormValid);
-                            console.dir(formFields);
+
+                            if (isFormValid) {
+                                const newPassword = formFields[1].input;
+                                dispatch(userActions.setNewPassword(userEmail, newPassword, token));
+                            }
                         }}
                         fields={(
                             formFields,
@@ -178,17 +210,48 @@ export const ResetPassword = ({ userEmail }) => {
                                                             <FormFieldLabel className={classes["newpassword-form-label"]}>
                                                                 <img src={field.icon} alt={field.label} className={classes["newpassword-form-mail"]} />
                                                             </FormFieldLabel>
-                                                            <FormFieldInput
-                                                                type={field.type}
-                                                                value={field.input}
-                                                                required={field.required}
-                                                                disabled={field.disabled}
-                                                                onChange={e => setInputValue(field, e)}
-                                                                onFocus={() => setFieldTouched(field)}
-                                                                onBlur={e => handleBlur(field, e)}
-                                                                className={classes["newpassword-form-input-field"]}
-                                                                placeholder={field.label}
-                                                            />
+                                                            {
+                                                                field.label === 'Email' ?
+                                                                    userEmail ?
+
+
+                                                                        (
+                                                                            <FormFieldInput
+                                                                                type={field.type}
+                                                                                value={userEmail}
+                                                                                required={field.required}
+                                                                                disabled={field.disabled}
+                                                                                className={classes["newpassword-form-input-field"]}
+                                                                                placeholder={userEmail}
+                                                                            />
+                                                                        )
+                                                                        :
+                                                                        (
+                                                                            <FormFieldInput
+                                                                                type={field.type}
+                                                                                value={field.input}
+                                                                                required={field.required}
+                                                                                disabled={field.disabled}
+                                                                                className={classes["newpassword-form-input-field"]}
+                                                                                placeholder={field.input}
+                                                                            />
+                                                                        )
+                                                                    :
+                                                                    (
+                                                                        <FormFieldInput
+                                                                            type={field.type}
+                                                                            value={field.input}
+                                                                            required={field.required}
+                                                                            disabled={field.disabled}
+                                                                            onChange={e => setInputValue(field, e)}
+                                                                            onFocus={() => setFieldTouched(field)}
+                                                                            onBlur={e => handleBlur(field, e)}
+                                                                            className={classes["newpassword-form-input-field"]}
+                                                                            placeholder={field.label}
+                                                                        />
+                                                                    )
+                                                            }
+
                                                         </FormFieldInline>
                                                         {
                                                             field.validation ?

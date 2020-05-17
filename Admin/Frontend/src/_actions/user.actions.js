@@ -13,7 +13,8 @@ export const userActions = {
     signUp,
     changeUserRole,
     getAll,
-    forgotPassword
+    forgotPassword,
+    setNewPassword
 };
 
 const loginRequest = createAction('LOGIN_REQUEST');
@@ -186,6 +187,47 @@ function forgotPassword(usernameOrEmail, URL = `https://localhost:5000`) {
             .then(
                 data => dispatch(forgotPasswordSuccess({ forgotPasswordData: data })),
                 forgotPasswordErrors => dispatch(forgotPasswordFailure({ forgotPasswordErrors }))
+            );
+    }
+}
+
+const setNewPasswordRequest = createAction('SET_NEW_PASSWORD_REQUEST');
+const setNewPasswordSuccess = createAction('SET_NEW_PASSWORD_SUCCESS');
+const setNewPasswordFailure = createAction('SET_NEW_PASSWORD_FAILURE');
+
+function setNewPassword(userNameOrEmail, password, token, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (
+            !userNameOrEmail ||
+            !userNameOrEmail.trim() ||
+            !password ||
+            !password.trim()
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Fields: ['Invalid username, email or password']
+                }
+            }));
+        }
+
+        if (
+            !token ||
+            !token.trim() ||
+            !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(token)
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Token: ['Invalid token format']
+                }
+            }));
+        }
+
+        dispatch(setNewPasswordRequest());
+
+        userService.setNewPassword(userNameOrEmail, password, token, URL)
+            .then(
+                () => dispatch(setNewPasswordSuccess()),
+                setNewPasswordErrors => dispatch(setNewPasswordFailure({ setNewPasswordErrors }))
             );
     }
 }

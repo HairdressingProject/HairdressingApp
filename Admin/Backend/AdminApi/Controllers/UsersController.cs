@@ -92,6 +92,36 @@ namespace AdminApi.Controllers
             // return users;
         }
 
+        // GET: api/users/{guid} - Can be used to get user details based on their recover password token (if valid)
+        [HttpGet("{token:guid}")]
+        public async Task<ActionResult<Users>> GetUser(Guid token)
+        {
+            if (token == null || token == Guid.Empty)
+            {
+                return BadRequest(new { errors = new { Token = new string[] { "Invalid token" } }, status = 400 });
+            }
+
+            var associatedAccount = await _context.Accounts.FromSqlInterpolated($"SELECT * FROM accounts WHERE recover_password_token = UNHEX(REPLACE({token}, {"-"}, {""}))").ToListAsync();
+
+            if (associatedAccount.Count > 0)
+            {
+                var userId = associatedAccount[0].UserId;
+                var associatedUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (associatedUser != null)
+                {
+                    return Ok(new {
+                        associatedUser.UserEmail
+                    });
+                }
+
+                return NotFound(new { errors = new { Account = new string[] { "No user associated with the token provided was found" } }, status = 404 });
+            }
+
+            return NotFound(new { errors = new { Account = new string[] { "No account associated with the token provided was found" } }, status = 404 });
+        }
+
+
         // GET: /api/users/logout
         [HttpGet("logout")]
         public IActionResult LogoutUser()
