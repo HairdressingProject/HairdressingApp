@@ -3,15 +3,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Validation;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
 using AdminApi.Services;
 using AdminApi.Helpers;
-using AdminApi.Models.Validation;
 using Microsoft.AspNetCore.Http;
 using System;
+using AdminApi.Models_v2.Validation;
+using Microsoft.Data.SqlClient;
 
 namespace AdminApi.Controllers
 {
@@ -26,14 +26,19 @@ namespace AdminApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
-        private readonly Services.IAuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
-        public UsersController(hair_project_dbContext context, IUserService userService, Services.IAuthorizationService authorizationService)
+        public UsersController(hair_project_dbContext context,
+            IUserService userService,
+            IAuthorizationService authorizationService,
+            IEmailService emailService)
         {
             _context = context;
             _userService = userService;
             _authorizationService = authorizationService;
+            _emailService = emailService;
         }
 
         // GET: api/users
@@ -87,6 +92,36 @@ namespace AdminApi.Controllers
             // return users;
         }
 
+        // GET: api/users/{guid} - Can be used to get user details based on their recover password token (if valid)
+        [HttpGet("{token:guid}")]
+        public async Task<ActionResult<Users>> GetUser(Guid token)
+        {
+            if (token == null || token == Guid.Empty)
+            {
+                return BadRequest(new { errors = new { Token = new string[] { "Invalid token" } }, status = 400 });
+            }
+
+            var associatedAccount = await _context.Accounts.FromSqlInterpolated($"SELECT * FROM accounts WHERE recover_password_token = UNHEX(REPLACE({token}, {"-"}, {""}))").ToListAsync();
+
+            if (associatedAccount.Count > 0)
+            {
+                var userId = associatedAccount[0].UserId;
+                var associatedUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (associatedUser != null)
+                {
+                    return Ok(new {
+                        associatedUser.UserEmail
+                    });
+                }
+
+                return NotFound(new { errors = new { Account = new string[] { "No user associated with the token provided was found" } }, status = 404 });
+            }
+
+            return NotFound(new { errors = new { Account = new string[] { "No account associated with the token provided was found" } }, status = 404 });
+        }
+
+
         // GET: /api/users/logout
         [HttpGet("logout")]
         public IActionResult LogoutUser()
@@ -101,7 +136,7 @@ namespace AdminApi.Controllers
             return Ok(new { message = "Logout successful" });
         }
 
-// ********************************************************************************************************************************************        
+        // ********************************************************************************************************************************************        
         // PUT: api/users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(ulong id, [FromBody] Users users)
@@ -151,11 +186,67 @@ namespace AdminApi.Controllers
             return NoContent();
         }
 
-// ********************************************************************************************************************************************
+        // ********************************************************************************************************************************************
 
+        // PUT: api/users/{guid}/change_password : Method to change user password (based on user's recover password token).
+        [HttpPut("{token:guid}/change_password")]
+        public async Task<IActionResult> SetNewPassword(Guid token, [FromBody] AuthenticatedUserModel user)
+        {
+            var existingToken = await _context.Accounts.FromSqlInterpolated($"SELECT * FROM accounts WHERE recover_password_token = UNHEX(REPLACE({token}, {"-"}, {""}))").ToListAsync();
 
-        // PUT: api/users/5/change_password : Method to change user password. ToDo: Must be authorized
-        [HttpPut("{id}/change_password")]
+            if (existingToken.Count > 0)
+            {
+                // token was found, get user id and change their password
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == existingToken[0].UserId);
+
+                if (existingUser != null)
+                {
+                    existingUser.UserPassword = user.UserPassword;
+                    _context.Entry(existingUser).State = EntityState.Modified;
+
+                    // invalidate token, now that the password has changed
+                    var accountEntry = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId == existingUser.Id);
+                    if (accountEntry != null)
+                    {
+                        accountEntry.RecoverPasswordToken = null;
+                        _context.Entry(accountEntry).State = EntityState.Modified;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    var origin = Request.Headers["Origin"];
+                    var forgotPasswordLink = $@"{origin}/forgot_password";
+
+                    var emailBody = $@"Hi {existingUser.UserName},
+
+Your password has been reset @HairdressingProject Admin Portal. If you have not made this request, please contact us or navigate to the page below to reset it again:
+
+{forgotPasswordLink}
+
+Regards,
+
+HairdressingProject Admin.
+";
+                    try
+                    {
+                        _emailService.SendEmail(existingUser.UserEmail, existingUser.UserName, "Password successfully reset", emailBody);
+                        return NoContent();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed to send email:");
+                        Console.WriteLine(ex);
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { errors = new { Email = new string[] { ex.Message } } });
+                    }
+                }
+                return NotFound(new { errors = new { Token = new string[] { "User not found" } }, status = 404 });
+            }
+            return NotFound(new { errors = new { Token = new string[] { "Token not found" } }, status = 404 });
+        }
+
+        // PUT: api/users/5/change_password : Method to change user password (based on user's ID).
+        [HttpPut("{id:long}/change_password")]
         public async Task<IActionResult> SetNewPassword(ulong id, [FromBody] Users users)
         {
             if (!_authorizationService.ValidateJWTCookie(Request))
@@ -289,12 +380,24 @@ namespace AdminApi.Controllers
                 }
 
                 _context.Users.Add(users);
+
                 await _context.SaveChangesAsync();
 
-                var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
-                var baseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+                // Get newly created user from database to create a new account record
+                // Stored procedures would be preferred in this case in order to avoid making so many calls to the database
+                var savedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == users.UserName);
 
-                authenticatedUser.BaseUser = baseUser.WithoutPassword();
+                // TODO: Handle the opposite case
+                if (savedUser != null)
+                {
+                    _context.Accounts.Add(new Accounts { UserId = savedUser.Id });
+                    await _context.SaveChangesAsync();
+                }
+
+                var authenticatedUser = await _userService.Authenticate(users.UserName, users.UserPassword);
+                // var baseUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == authenticatedUser.Id);
+
+                authenticatedUser.BaseUser = savedUser.WithoutPassword();
 
                 // Send cookie with fresh token
                 _authorizationService.SetAuthCookie(Request, Response, authenticatedUser.Token);
@@ -346,6 +449,64 @@ namespace AdminApi.Controllers
             }
 
             return Ok();
+        }
+
+        // POST: api/users/forgot_password
+        [EnableCors("Policy1")]
+        [HttpPost("forgot_password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ValidatedUserEmailModel user)
+        {
+            var origin = Request.Headers["Origin"];
+
+            if (string.IsNullOrEmpty(origin))
+            {
+                return BadRequest(new { errors = new { Origin = new string[] { "Request origin was not supplied" } }, status = 400 });
+            }
+
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserNameOrEmail || u.UserName == user.UserNameOrEmail);
+
+            if (existingUser == null)
+            {
+                return NotFound(new { errors = new { UserNameOrEmail = new string[] { "Username/email is not registered" } }, status = 404 });
+            }
+
+            var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId == existingUser.Id);
+
+            if (existingAccount == null)
+            {
+                return NotFound(new { errors = new { Account = new string[] { "Unable to retrieve account details" } }, status = 404 });
+            }
+
+            var recoverPasswordToken = Guid.NewGuid();
+
+            await _context.Database.ExecuteSqlInterpolatedAsync($"UPDATE accounts SET recover_password_token = UNHEX(REPLACE({recoverPasswordToken}, {"-"}, {""})) WHERE user_id = {existingAccount.UserId}");            
+
+            await _context.SaveChangesAsync();           
+
+            var recoverPasswordLink = $@"{origin}/reset_password?token={recoverPasswordToken}";
+
+            var emailBody = $@"Hi {existingUser.UserName},
+
+It seems that you have requested to recover your password @HairdressingProject Admin Portal. If you have not, please ignore this email.
+
+Use this link to do so: {recoverPasswordLink}
+
+Regards,
+
+HairdressingProject Admin.
+";
+            try
+            {
+                _emailService.SendEmail(existingUser.UserEmail, existingUser.UserName, "Recover Password", emailBody);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Failed to send email:");
+                Console.WriteLine(ex);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { errors = new { Email = new string[] { ex.Message } } });
+            }
         }
 
         // DELETE: api/users/5

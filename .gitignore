@@ -36,9 +36,7 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
-
-#
-
-AdminApi/bin/Debug
-AdminApi/obj/Debug
-token.json
+# credentials
+credentials.json
+token.*/
+client_id.json

@@ -12,7 +12,9 @@ export const userActions = {
     logout,
     signUp,
     changeUserRole,
-    getAll
+    getAll,
+    forgotPassword,
+    setNewPassword
 };
 
 const loginRequest = createAction('LOGIN_REQUEST');
@@ -157,4 +159,83 @@ function getAll(URL = `https://localhost:5000`) {
                 error => dispatch(getAllFailure({ error }))
             );
     };
+}
+
+const forgotPasswordRequest = createAction('FORGOT_PASSWORD_REQUEST');
+const forgotPasswordSuccess = createAction('FORGOT_PASSWORD_SUCCESS');
+const forgotPasswordFailure = createAction('FORGOT_PASSWORD_FAILURE');
+
+/**
+ * Dispatches actions to begin the process of recovering a user's password
+ * @function forgotPassword
+ * @param {string} usernameOrEmail - Registered username/email
+ * @param {string} URL - Request URL (defaults to "https://localhost:5000")
+ */
+function forgotPassword(usernameOrEmail, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (!usernameOrEmail || !usernameOrEmail.trim()) {
+            return dispatch(forgotPasswordFailure(
+                {
+                    forgotPasswordErrors: {
+                        UsernameOrEmail: ['Please enter a valid username/email']
+                    }
+                }));
+        }
+        dispatch(forgotPasswordRequest({ usernameOrEmail }));
+
+        userService.forgotPassword(usernameOrEmail, URL)
+            .then(
+                data => dispatch(forgotPasswordSuccess({ forgotPasswordData: data })),
+                forgotPasswordErrors => dispatch(forgotPasswordFailure({ forgotPasswordErrors }))
+            );
+    }
+}
+
+const setNewPasswordRequest = createAction('SET_NEW_PASSWORD_REQUEST');
+const setNewPasswordSuccess = createAction('SET_NEW_PASSWORD_SUCCESS');
+const setNewPasswordFailure = createAction('SET_NEW_PASSWORD_FAILURE');
+
+/**
+ * Dispatches actions to reset a user's password
+ * @function setPassword
+ * @param {string} userNameOrEmail 
+ * @param {string} password - New password
+ * @param {string} token - GUID token present in the query parameters of the requested URL
+ * @param {string} URL 
+ */
+function setNewPassword(userNameOrEmail, password, token, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (
+            !userNameOrEmail ||
+            !userNameOrEmail.trim() ||
+            !password ||
+            !password.trim()
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Fields: ['Invalid username, email or password']
+                }
+            }));
+        }
+
+        if (
+            !token ||
+            !token.trim() ||
+            !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(token)
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Token: ['Invalid token format']
+                }
+            }));
+        }
+
+        dispatch(setNewPasswordRequest());
+
+        userService.setNewPassword(userNameOrEmail, password, token, URL)
+            .then(
+                () => dispatch(setNewPasswordSuccess()),
+                payload => dispatch(setNewPasswordFailure({ setNewPasswordErrors: payload.errors }))
+            );
+    }
 }

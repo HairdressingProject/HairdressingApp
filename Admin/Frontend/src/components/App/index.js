@@ -7,7 +7,7 @@ import { Dashboard } from '../Dashboard';
 import { SignIn } from '../SignIn';
 import { SignUp } from '../SignUp';
 import { ForgotPassword } from '../ForgotPassword';
-import { NewPassword } from '../NewPassword';
+import { ResetPassword } from '../ResetPassword';
 import { MyAccount } from '../MyAccount';
 import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
@@ -39,8 +39,8 @@ const routes = [
         content: () => <ForgotPassword />
     },
     {
-        path: "/new_password",
-        content: () => <NewPassword />
+        path: "/reset_password",
+        content: () => <ResetPassword />
     },
     {
         path: "/dashboard",
@@ -277,7 +277,7 @@ const App = () => {
         location.pathname !== '/sign_in' &&
         location.pathname !== '/sign_up' &&
         location.pathname !== '/forgot_password' &&
-        location.pathname !== '/new_password'
+        location.pathname !== '/reset_password'
     ) {
         return (
             MainApp

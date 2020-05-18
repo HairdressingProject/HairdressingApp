@@ -1,4 +1,4 @@
-﻿using AdminApi.Models;
+﻿using AdminApi.Models_v2;
 
 namespace AdminApi.Entities
 {

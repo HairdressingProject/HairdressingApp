@@ -3,11 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Helpers;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.AccessControl;
 
 namespace AdminApi.Controllers
 {

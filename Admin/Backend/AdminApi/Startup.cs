@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using AdminApi.Helpers;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -73,6 +73,7 @@ namespace AdminApi
             // Configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             // Register DB Context
             services.AddDbContext<hair_project_dbContext>(options =>
