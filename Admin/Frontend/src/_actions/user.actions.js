@@ -235,7 +235,7 @@ function setNewPassword(userNameOrEmail, password, token, URL = `https://localho
         userService.setNewPassword(userNameOrEmail, password, token, URL)
             .then(
                 () => dispatch(setNewPasswordSuccess()),
-                setNewPasswordErrors => dispatch(setNewPasswordFailure({ setNewPasswordErrors }))
+                payload => dispatch(setNewPasswordFailure({ setNewPasswordErrors: payload.errors }))
             );
     }
 }

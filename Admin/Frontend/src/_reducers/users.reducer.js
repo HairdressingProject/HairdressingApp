@@ -74,4 +74,31 @@ export const usersReducer = createReducer({}, {
       processedRecoverPassword: true
     })
   },
+
+  SET_NEW_PASSWORD_REQUEST: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      requestingSetNewPassword: true,
+      processedSetNewPassword: false,
+      setNewPasswordErrors: null
+    })
+  },
+
+  SET_NEW_PASSWORD_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      requestingSetNewPassword: false,
+      processedSetNewPassword: true,
+      setNewPasswordErrors: null
+    })
+  },
+
+  SET_NEW_PASSWORD_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      requestingSetNewPassword: false,
+      processedSetNewPassword: false,
+      setNewPasswordErrors: action.payload.setNewPasswordErrors
+    })
+  }
 });

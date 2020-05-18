@@ -18,13 +18,19 @@ import { useDispatch } from 'react-redux';
 import { userActions, resourceActions } from '../../_actions/index';
 import { resourceNames } from '../../_constants';
 import { useSelector } from 'react-redux';
+import { Alert } from '../Alert';
+import { TailSpin } from 'svg-loaders-react';
+import { useHistory } from 'react-router-dom';
 
 export const ResetPassword = () => {
-
     const [token, setToken] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
     const resources = useSelector(state => state.resources);
+    const users = useSelector(state => state.users);
 
+    const history = useHistory();
     const dispatch = useDispatch();
 
     function useQuery() {
@@ -35,16 +41,76 @@ export const ResetPassword = () => {
 
     useEffect(() => {
         const token = query.get("token");
+
+        if (!token || !token.trim()) {
+            // no token, redirect to /sign_in
+            history.push('/sign_in');
+            return;
+        }
+
         setToken(token);
 
         dispatch(resourceActions.get(resourceNames.USERS, token));
     }, []);
 
     useEffect(() => {
+        console.log("Resources updated:");
+        console.dir(resources);
+
         if (resources && resources.users && resources.users.item && resources.users.item.userEmail) {
             setUserEmail(resources.users.item.userEmail);
         }
+
+        if (resources && resources.users && resources.users.error) {
+            const errors = Object
+                .values(resources.users.error)
+                .reduce((acc, err) => {
+                    err.forEach(e => acc.push(e));
+                    return acc;
+                }, [])
+                .map(err => ({
+                    type: 'danger',
+                    message: err
+                }));
+
+            setErrors(errors);
+        }
     }, [resources]);
+
+    useEffect(() => {
+        // Processing set new password...
+        if (users.requestingSetNewPassword && !users.processedSetNewPassword) {
+            setLoading(true);
+        }
+
+        // Successfully set new password
+        else if (!users.requestingSetNewPassword && users.processedSetNewPassword) {
+            setLoading(false);
+            history.push('/');
+        }
+
+        // Something went wrong
+        else if (!users.requestingSetNewPassword && !users.processedSetNewPassword && users.setNewPasswordErrors) {
+            setLoading(false);
+            const errors = Object
+                .values(users.setNewPasswordErrors)
+                .reduce((acc, err) => {
+                    err.forEach(e => acc.push(e));
+                    return acc;
+                }, [])
+                .map(err => ({
+                    type: 'danger',
+                    message: err
+                }));
+
+            setErrors(errors);
+        }
+
+        // Request hasn't been made yet
+        else {
+            setLoading(false);
+        }
+    }, [users]);
 
     const initialFormFields = [
         {
@@ -158,73 +224,112 @@ export const ResetPassword = () => {
         }
     }, [userEmail]);
 
+    const dismissError = err => {
+        if (errors && errors.length) {
+            const updatedErrors = errors.filter(error => error.message !== err.message);
+            setErrors(updatedErrors);
+            return;
+        }
+        setErrors(null);
+    }
+
     return (
-        <div className={[classes["newpassword-container"], "text-center"].join(' ')}>
-            <Row>
-                <Column small={12} medium={6} mediumCentered="centered" className={classes["newpassword-form"]}>
-                    <Row className={classes["newpassword-title-container"]}>
-                        <Column small={12}>
-                            <h1>
-                                Hairdressing Application - Admin Portal
+        <div className={classes["main-container"]}>
+            <Alert
+                show={loading}
+                message="Processing...do not close this tab"
+                type="warning"
+            />
+            {
+                !loading && errors && errors.length ?
+                    errors.map((err, i) => (
+                        <Alert
+                            key={i}
+                            show={true}
+                            type={err.type}
+                            message={err.message}
+                            dismiss={() => dismissError(err)}
+                        />
+                    )) : ''
+            }
+
+            <div className={[classes["newpassword-container"], "text-center"].join(' ')}>
+                <Row>
+                    <Column small={12} medium={6} mediumCentered="centered" className={classes["newpassword-form"]}>
+                        <Row className={classes["newpassword-title-container"]}>
+                            <Column small={12}>
+                                <h1>
+                                    Hairdressing Application - Admin Portal
                         </h1>
-                        </Column>
-                    </Row>
-                    <Row className={classes["newpassword-subtitle-container"]}>
-                        <Column small={12}>
-                            <h2>
-                                Enter your new password below:
+                            </Column>
+                        </Row>
+                        <Row className={classes["newpassword-subtitle-container"]}>
+                            <Column small={12}>
+                                <h2>
+                                    Enter your new password below:
                         </h2>
-                        </Column>
-                    </Row>
+                            </Column>
+                        </Row>
 
-                    <FormWithValidation
-                        initialFormFields={initialFormFields}
-                        handleSubmit={(e, isFormValid, formFields) => {
-                            // handle form submission here
-                            e.preventDefault();
+                        <FormWithValidation
+                            initialFormFields={initialFormFields}
+                            handleSubmit={(e, isFormValid, formFields) => {
+                                // handle form submission here
+                                e.preventDefault();
 
-                            if (isFormValid) {
-                                const newPassword = formFields[1].input;
-                                dispatch(userActions.setNewPassword(userEmail, newPassword, token));
-                            }
-                        }}
-                        fields={(
-                            formFields,
-                            setInputValue,
-                            setFieldTouched,
-                            isFormValid,
-                            handleBlur) => (
-                                <>
-                                    {
-                                        formFields.map((field, index) => (
-                                            <Row className={classes["newpassword-form-row"]} key={index}>
-                                                <Column small={8} smallCentered="centered">
-                                                    <FormField
-                                                        key={index}
-                                                        id={field.label.toLowerCase().split(' ').join('-')}
-                                                        className={[classes["newpassword-form-field"], classes["newpassword-form-field-text-input"]].join(' ')}
-                                                        error={field.validation?.some(v => v.error)}
-                                                    >
-                                                        <FormFieldLabel></FormFieldLabel>
-                                                        <FormFieldInline>
-                                                            <FormFieldLabel className={classes["newpassword-form-label"]}>
-                                                                <img src={field.icon} alt={field.label} className={classes["newpassword-form-mail"]} />
-                                                            </FormFieldLabel>
-                                                            {
-                                                                field.label === 'Email' ?
-                                                                    userEmail ?
+                                if (isFormValid) {
+                                    const newPassword = formFields[1].input;
+                                    dispatch(userActions.setNewPassword(userEmail, newPassword, token));
+                                }
+                            }}
+                            fields={(
+                                formFields,
+                                setInputValue,
+                                setFieldTouched,
+                                isFormValid,
+                                handleBlur) => (
+                                    <>
+                                        {
+                                            formFields.map((field, index) => (
+                                                <Row className={classes["newpassword-form-row"]} key={index}>
+                                                    <Column small={8} smallCentered="centered">
+                                                        <FormField
+                                                            key={index}
+                                                            id={field.label.toLowerCase().split(' ').join('-')}
+                                                            className={[classes["newpassword-form-field"], classes["newpassword-form-field-text-input"]].join(' ')}
+                                                            error={field.validation?.some(v => v.error)}
+                                                        >
+                                                            <FormFieldLabel></FormFieldLabel>
+                                                            <FormFieldInline>
+                                                                <FormFieldLabel className={classes["newpassword-form-label"]}>
+                                                                    <img src={field.icon} alt={field.label} className={classes["newpassword-form-mail"]} />
+                                                                </FormFieldLabel>
+                                                                {
+                                                                    field.label === 'Email' ?
+                                                                        userEmail ?
 
 
-                                                                        (
-                                                                            <FormFieldInput
-                                                                                type={field.type}
-                                                                                value={userEmail}
-                                                                                required={field.required}
-                                                                                disabled={field.disabled}
-                                                                                className={classes["newpassword-form-input-field"]}
-                                                                                placeholder={userEmail}
-                                                                            />
-                                                                        )
+                                                                            (
+                                                                                <FormFieldInput
+                                                                                    type={field.type}
+                                                                                    value={userEmail}
+                                                                                    required={field.required}
+                                                                                    disabled={field.disabled}
+                                                                                    className={classes["newpassword-form-input-field"]}
+                                                                                    placeholder={userEmail}
+                                                                                />
+                                                                            )
+                                                                            :
+                                                                            (
+                                                                                <FormFieldInput
+                                                                                    type={field.type}
+                                                                                    value={field.input}
+                                                                                    required={field.required}
+                                                                                    disabled={field.disabled}
+                                                                                    className={classes["newpassword-form-input-field"]}
+                                                                                    placeholder={field.input}
+                                                                                />
+                                                                            )
                                                                         :
                                                                         (
                                                                             <FormFieldInput
@@ -232,81 +337,75 @@ export const ResetPassword = () => {
                                                                                 value={field.input}
                                                                                 required={field.required}
                                                                                 disabled={field.disabled}
+                                                                                onChange={e => setInputValue(field, e)}
+                                                                                onFocus={() => setFieldTouched(field)}
+                                                                                onBlur={e => handleBlur(field, e)}
                                                                                 className={classes["newpassword-form-input-field"]}
-                                                                                placeholder={field.input}
+                                                                                placeholder={field.label}
                                                                             />
                                                                         )
-                                                                    :
-                                                                    (
-                                                                        <FormFieldInput
-                                                                            type={field.type}
-                                                                            value={field.input}
-                                                                            required={field.required}
-                                                                            disabled={field.disabled}
-                                                                            onChange={e => setInputValue(field, e)}
-                                                                            onFocus={() => setFieldTouched(field)}
-                                                                            onBlur={e => handleBlur(field, e)}
-                                                                            className={classes["newpassword-form-input-field"]}
-                                                                            placeholder={field.label}
-                                                                        />
-                                                                    )
+                                                                }
+
+                                                            </FormFieldInline>
+                                                            {
+                                                                field.validation ?
+                                                                    field
+                                                                        .validation
+                                                                        .filter(v => v.error)
+                                                                        .map(v => v.errorMessage)
+                                                                        .map((msg, i) => (
+                                                                            <FormFieldError
+                                                                                key={i}
+                                                                                className={classes["newpassword-form-input-field-error"]}
+                                                                            >
+                                                                                {msg}
+                                                                            </FormFieldError>
+                                                                        )) : ''
                                                             }
 
-                                                        </FormFieldInline>
-                                                        {
-                                                            field.validation ?
-                                                                field
-                                                                    .validation
-                                                                    .filter(v => v.error)
-                                                                    .map(v => v.errorMessage)
-                                                                    .map((msg, i) => (
-                                                                        <FormFieldError
-                                                                            key={i}
-                                                                            className={classes["newpassword-form-input-field-error"]}
-                                                                        >
-                                                                            {msg}
-                                                                        </FormFieldError>
-                                                                    )) : ''
-                                                        }
-
-                                                    </FormField>
-                                                </Column>
-                                            </Row>
-                                        ))
-                                    }
-                                    <Row className={classes["newpassword-form-submit"]}>
-                                        <Column small={12} className={classes["newpassword-form-submit-container"]}>
-                                            <Button
-                                                type="submit"
-                                                className={
-                                                    isFormValid ?
-                                                        classes["newpassword-form-submit-button"] :
-                                                        [classes["newpassword-form-submit-button"], classes["newpassword-form-submit-button-invalid"]].join(' ')
-                                                }
-                                                disabled={!isFormValid}
-                                            >
-                                                Change password
-                                        </Button>
-                                        </Column>
-                                    </Row>
-                                </>
-                            )
-                        }
-                    />
-                </Column>
-            </Row>
-            <Row className={classes["links-container"]}>
-                <Column small={12} className={classes["signin-container"]}>
-                    <p className={classes["signin-text"]}>
-                        Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signin-link"]}>Sign In</Link></span>
-                    </p>
-                </Column>
-                <Column small={12} className={classes["signup-container"]}>
-                    <p className={classes["signup-text"]}>
-                        New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
-                    </p>
-                </Column>
-            </Row>
+                                                        </FormField>
+                                                    </Column>
+                                                </Row>
+                                            ))
+                                        }
+                                        <Row className={classes["newpassword-form-submit"]}>
+                                            <Column small={12} className={classes["newpassword-form-submit-container"]}>
+                                                <Button
+                                                    type="submit"
+                                                    className={
+                                                        isFormValid ?
+                                                            classes["newpassword-form-submit-button"] :
+                                                            [classes["newpassword-form-submit-button"], classes["newpassword-form-submit-button-invalid"]].join(' ')
+                                                    }
+                                                    disabled={!isFormValid || loading}
+                                                >
+                                                    {
+                                                        loading ?
+                                                            <TailSpin />
+                                                            : 'Change password'
+                                                    }
+                                                </Button>
+                                            </Column>
+                                        </Row>
+                                    </>
+                                )
+                            }
+                        />
+                    </Column>
+                </Row>
+                <Row className={classes["links-container"]}>
+                    <Column small={12} className={classes["signin-container"]}>
+                        <p className={classes["signin-text"]}>
+                            Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signin-link"]}>Sign In</Link></span>
+                        </p>
+                    </Column>
+                    <Column small={12} className={classes["signup-container"]}>
+                        <p className={classes["signup-text"]}>
+                            New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
+                        </p>
+                    </Column>
+                </Row>
+            </div>
         </div>
     )
 }

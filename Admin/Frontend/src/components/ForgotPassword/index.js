@@ -98,13 +98,6 @@ export const ForgotPassword = () => {
         setErrors(null);
     }
 
-    useEffect(() => {
-        setSuccess({
-            type: 'success',
-            message: 'Instructions to recover your password have been sent to your email.'
-        });
-    }, []);
-
     return (
         <div className={classes["main-container"]}>
 

@@ -214,12 +214,34 @@ namespace AdminApi.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    return NoContent();
-                }
+                    var origin = Request.Headers["Origin"];
+                    var forgotPasswordLink = $@"{origin}/forgot_password";
 
+                    var emailBody = $@"Hi {existingUser.UserName},
+
+Your password has been reset @HairdressingProject Admin Portal. If you have not made this request, please contact us or navigate to the page below to reset it again:
+
+{forgotPasswordLink}
+
+Regards,
+
+HairdressingProject Admin.
+";
+                    try
+                    {
+                        _emailService.SendEmail(existingUser.UserEmail, existingUser.UserName, "Password successfully reset", emailBody);
+                        return NoContent();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed to send email:");
+                        Console.WriteLine(ex);
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { errors = new { Email = new string[] { ex.Message } } });
+                    }
+                }
                 return NotFound(new { errors = new { Token = new string[] { "User not found" } }, status = 404 });
             }
-
             return NotFound(new { errors = new { Token = new string[] { "Token not found" } }, status = 404 });
         }
 
