@@ -41,3 +41,4 @@ msbuild.wrn
 
 AdminApi/bin/Debug
 AdminApi/obj/Debug
+token.json
