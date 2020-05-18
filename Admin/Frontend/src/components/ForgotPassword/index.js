@@ -16,6 +16,7 @@ import classes from './ForgotPassword.module.scss';
 import { FormWithValidation } from '../Forms/FormWithValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../_actions/user.actions';
+import { TailSpin } from 'svg-loaders-react';
 
 export const ForgotPassword = () => {
     const initialFormFields = [
@@ -55,9 +56,11 @@ export const ForgotPassword = () => {
     const users = useSelector(state => state.users);
     const [errors, setErrors] = useState(null);
     const [success, setSuccess] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (users && users.processedRecoverPassword && users.forgotPasswordErrors) {
+            setLoading(false);
             setErrors(
                 Object
                     .values(users.forgotPasswordErrors)
@@ -73,6 +76,7 @@ export const ForgotPassword = () => {
         }
 
         if (users && users.processedRecoverPassword && !users.forgotPasswordErrors) {
+            setLoading(false);
             setSuccess({
                 type: 'success',
                 message: 'Instructions to recover your password have been sent to your email.'
@@ -80,9 +84,9 @@ export const ForgotPassword = () => {
         }
 
         // Show loading spinner or something in this case
-        /* if (users && users.requestingRecoverPassword) {
-
-        } */
+        if (users && users.requestingRecoverPassword) {
+            setLoading(true);
+        }
     }, [users]);
 
     const dismissError = err => {
@@ -94,11 +98,31 @@ export const ForgotPassword = () => {
         setErrors(null);
     }
 
+    useEffect(() => {
+        setSuccess({
+            type: 'success',
+            message: 'Instructions to recover your password have been sent to your email.'
+        });
+    }, []);
+
     return (
         <div className={classes["main-container"]}>
 
             {
-                errors && errors.length ?
+                loading ?
+                    (
+                        <Alert
+                            message="Processing...do not close this tab"
+                            show={true}
+                            type="warning"
+                        />
+                    )
+                    :
+                    ''
+            }
+
+            {
+                !loading && errors && errors.length ?
                     errors.map((err, i) => (
                         <Alert
                             key={i}
@@ -113,7 +137,7 @@ export const ForgotPassword = () => {
             }
 
             {
-                success ?
+                !loading && success ?
                     <Alert
                         show={true}
                         type={success.type}
@@ -151,6 +175,7 @@ export const ForgotPassword = () => {
                                 if (isFormValid) {
                                     const usernameOrEmail = formFields[0].input;
                                     dispatch(userActions.forgotPassword(usernameOrEmail));
+                                    // setLoading(true);
                                 }
                             }}
                             fields={(
@@ -215,10 +240,15 @@ export const ForgotPassword = () => {
                                                             classes["forgotpassword-form-submit-button"] :
                                                             [classes["forgotpassword-form-submit-button"], classes["forgotpassword-form-submit-button-invalid"]].join(' ')
                                                     }
-                                                    disabled={!isFormValid}
+                                                    disabled={!isFormValid || loading}
                                                 >
-                                                    Recover password
-                                        </Button>
+                                                    {
+                                                        loading ?
+                                                            <TailSpin />
+                                                            :
+                                                            'Recover password'
+                                                    }
+                                                </Button>
                                             </Column>
                                         </Row>
                                     </>

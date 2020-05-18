@@ -6,6 +6,10 @@
             background-color: #10A033;
         }
 
+        &-warning {
+            background-color: #8dab1a;
+        }
+
         &-danger {
             background-color: #B71C1C;
         }
@@ -24,9 +28,17 @@
         }
 
         &-text {
-            font-size: 1rem;
+            font-size: 1.2rem;
             letter-spacing: .1rem;
-            color: #FFF;
+            font-weight: bold;
+
+            &-white {
+                color: #FFF;
+            }
+
+            &-black {
+                color: #000;
+            }
         }
     }
     
@@ -58,37 +70,37 @@
 }
 
 /* iPad and bigger */
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
     .close-alert {
         &-button {
             left: 30%;
         }
     }
-}
+} */
 
 /* iPad Pro and bigger */
-@media only screen and (min-width: 1024px) {
+/* @media only screen and (min-width: 1024px) {
     .close-alert {
         &-button {
             left: 35%;
         }
     }
-}
+} */
 
 /* Common laptops */
-@media only screen and (min-width: 1366px) {
+/* @media only screen and (min-width: 1366px) {
     .close-alert {
         &-button {
-            left: 40%;
+            left: 30%;
         }
     }
-}
+} */
 
 /* Desktop */
-@media only screen and (min-width: 1920px) {
+/* @media only screen and (min-width: 1920px) {
 .close-alert {
         &-button {
             left: 42%;
         }
     }
-}
+} */

@@ -195,6 +195,14 @@ const setNewPasswordRequest = createAction('SET_NEW_PASSWORD_REQUEST');
 const setNewPasswordSuccess = createAction('SET_NEW_PASSWORD_SUCCESS');
 const setNewPasswordFailure = createAction('SET_NEW_PASSWORD_FAILURE');
 
+/**
+ * Dispatches actions to reset a user's password
+ * @function setPassword
+ * @param {string} userNameOrEmail 
+ * @param {string} password - New password
+ * @param {string} token - GUID token present in the query parameters of the requested URL
+ * @param {string} URL 
+ */
 function setNewPassword(userNameOrEmail, password, token, URL = `https://localhost:5000`) {
     return dispatch => {
         if (
