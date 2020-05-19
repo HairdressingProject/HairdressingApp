@@ -1,17 +1,11 @@
 ﻿using AdminApi.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace AdminApi.Models.Validation
+namespace AdminApi.Models_v2.Validation
 {
     public class ValidatedUserRoleModel
     {
-        [Required(ErrorMessage = "Skin tone ID is required", AllowEmptyStrings = false)]
-        [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Skin tone ID should not be empty or white space")]
         [RegularExpression(@"^[1-9]{1}$|^[1-9][0-9]+$", ErrorMessage = @"Skin tone ID must only contain numbers (0 is not allowed)")]
         [JsonPropertyName("id")]
         public ulong Id { get; set; }

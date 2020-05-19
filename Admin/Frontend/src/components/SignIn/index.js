@@ -89,6 +89,8 @@ const SignIn = () => {
                 }
             ]
         },
+
+        // to be implemented, but not needed for now
         {
             label: 'Remember Me',
             input: false,
@@ -99,27 +101,51 @@ const SignIn = () => {
 
     const dispatch = useDispatch();
     const authentication = useSelector(state => state.authentication);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState(null);
 
     useEffect(() => {
-        if (authentication.signInError) {
-            setError({
-                type: "danger",
-                message: authentication.signInError
-            });
+        if (authentication.signInErrors) {
+
+            const errors = Object
+                .values(authentication.signInErrors)
+                .reduce((acc, err) => {
+                    err.forEach(e => {
+                        acc.push(e);
+                    });
+                    return acc;
+                }, [])
+                .map(msg => ({
+                    type: "danger",
+                    message: msg
+                }));
+
+            setErrors(errors);
         }
     }, [authentication]);
+
+    const dismissError = err => {
+        if (errors && errors.length) {
+            const updatedErrors = errors.filter(error => error.message !== err.message);
+            setErrors(updatedErrors);
+            return;
+        }
+        setErrors(null);
+    }
 
     return (
         <div className={[classes["main-container"], "text-center"].join(' ')}>
             {
-                error ?
-                    <Alert
-                        show={true}
-                        type={error.type}
-                        message={error.message}
-                        dismiss={() => setError(null)}
-                    /> :
+                errors ?
+                    errors.map((err, i) => (
+                        <Alert
+                            key={i}
+                            show={true}
+                            type={err.type}
+                            message={err.message}
+                            dismiss={() => dismissError(err)}
+                        />
+                    ))
+                    :
                     ''
             }
             <div className={[classes["signin-container"], "text-center"].join(' ')}>

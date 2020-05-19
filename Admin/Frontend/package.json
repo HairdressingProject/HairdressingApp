@@ -26,12 +26,14 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "redux-logger": "^3.0.6",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "svg-loaders-react": "^2.2.1"
   },
   "scripts": {
-    "start:frontend": "react-scripts start",
+    "start:frontend": "set \"REACT_APP_PUBLIC_URL=https://localhost:3000\" && react-scripts start",
     "start:backend": "cd ../Backend/AdminApi/ && dotnet watch run",
     "start": "concurrently \"yarn start:backend\" \"yarn start:frontend\"",
+    "docs": "jsdoc src -r -c jsdoc.json -d docs",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,5 +52,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

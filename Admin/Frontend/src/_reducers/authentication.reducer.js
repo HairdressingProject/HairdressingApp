@@ -3,15 +3,15 @@ const cloneDeep = require('lodash.clonedeep');
 
 /**
  * The user information stored in the browser through localStorage, if available
- * @var {Object || null} user
+ * @type {Object | null}
  */
-let user = JSON.parse(localStorage.getItem('user'));
+let user = localStorage.getItem('user');
 
 /**
  * The initial state provided for authentication reducers
- * @var {Object} initialState
+ * @type {Object}
  */
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = user ? { loggedIn: true, user: JSON.parse(user) } : {};
 
 /**
  * This function is the entry point of all reducers related to authentication, i.e. those that are triggered by actions such as LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE and LOGOUT
@@ -25,7 +25,7 @@ export const authenticationReducer = createReducer(initialState, {
     return ({
       ...cloneDeep(state),
       token: null,
-      signInError: null,
+      signInErrors: null,
       loggingIn: true,
       loggedIn: false,
       user: null
@@ -35,8 +35,8 @@ export const authenticationReducer = createReducer(initialState, {
   LOGIN_SUCCESS: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: action.payload.user.token,
-      signInError: null,
+      token: null,
+      signInErrors: null,
       loggingIn: false,
       loggedIn: true,
       user: action.payload.user
@@ -47,51 +47,63 @@ export const authenticationReducer = createReducer(initialState, {
     return ({
       ...cloneDeep(state),
       token: null,
-      signInError: action.payload.error,
+      signInErrors: action.payload.error,
       loggingIn: false,
       loggedIn: false
     });
   },
 
-  AUTHENTICATE_REQUEST: (state, action) => {
+  SIGNUP_REQUEST: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: null,
-      loggingIn: true,
-      loggedIn: false,
-      errors: null,
+      signUpErrors: null,
+      signingUp: true,
+      signedUp: false
+    })
+  },
+
+  SIGNUP_SUCCESS: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      signUpErrors: null,
+      signingUp: false,
+      signedUp: true,
+      newUser: action.payload.newUser
+    })
+  },
+
+  SIGNUP_FAILURE: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      signUpErrors: action.payload.errors,
+      signingUp: false,
+      signedUp: false
+    })
+  },
+
+  LOGOUT_REQUEST: (state, action) => {
+    return ({
+      ...cloneDeep(state),
+      loggingOut: true,
+      loggedOut: false
     });
   },
 
-  AUTHENTICATE_SUCCESS: (state, action) => {
+  LOGOUT_SUCCESS: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: action.payload.token,
-      loggingIn: false,
-      loggedIn: true,
-      errors: null
+      loggingOut: false,
+      loggedOut: true,
+      message: action.payload.data
     });
   },
 
-  AUTHENTICATE_FAILURE: (state, action) => {
+  LOGOUT_FAILURE: (state, action) => {
     return ({
       ...cloneDeep(state),
-      token: null,
-      loggedIn: false,
-      loggingIn: false,
+      loggingOut: false,
+      loggedOut: false,
       errors: action.payload.errors
-    });
-  },
-
-  LOGOUT: (state, action) => {
-    return ({
-      ...cloneDeep(state),
-      token: null,
-      user: null,
-      errors: null,
-      signInError: null,
-      loggedIn: false,
-      loggingIn: false
     });
   }
 });

@@ -9,16 +9,15 @@
   * [API Reference](#api-reference)
     + [`resourceNames`](#resourcenames-object)
     + [`resourceActions`](#resourceactions-object)
-    + [`getAll(resourceName, URL, token)`](#getallresourcename-resourcenames-url-string--httpslocalhost5000-token-string)
-    + [`get(resourceName, id, URL, token)`](#getresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000-token-string)
-    + [`post(resourceName, resource, URL, token)`](#postresourcename-resourcenames-resource-object-url-string--httpslocalhost5000-token-string)
-    + [`put(resourceName, id, resource, URL, token)`](#putresourcename-resourcenames-id-string--number-resource-object-url-string--httpslocalhost5000-token-string)
-    + [`deleteResource(resourceName, id, URL, token)`](#deleteresourceresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000-token-string)
+    + [`getAll(resourceName, URL)`](#getallresourcename-resourcenames-url-string--httpslocalhost5000)
+    + [`get(resourceName, id, URL)`](#getresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000)
+    + [`post(resourceName, resource, URL)`](#postresourcename-resourcenames-resource-object-url-string--httpslocalhost5000)
+    + [`put(resourceName, id, resource, URL)`](#putresourcename-resourcenames-id-string--number-resource-object-url-string--httpslocalhost5000)
+    + [`deleteResource(resourceName, id, URL)`](#deleteresourceresourcename-resourcenames-id-string--number-url-string--httpslocalhost5000)
     + [`userActions`](#useractions-object)
     + [`login(usernameOrEmail, password, URL)`](#loginusernameoremail-string-password-string-url-string--httpslocalhost5000)
     + [`logout()`](#logout)
-    + [`authenticate(token, URL)`](#authenticatetoken-string-url-string--httpslocalhost5000)
-    + [`changeUserRole(updatedUser, token, URL)`](#changeuserroleupdateduser-object-token-string--null-url-string--httpslocalhost5000)
+    + [`changeUserRole(updatedUser, URL)`](#changeuserroleupdateduser-object-url-string--httpslocalhost5000)
   * [Cheat Sheet](#cheat-sheet)
     + [Imports](#imports)
     + [Initial set up](#initial-set-up)
@@ -178,8 +177,8 @@ const resourceActions = {
     deleteResource
 };
 ```
-#### `getAll(resourceName: resourceNames, URL: string | "https://localhost:5000", token: string)`
-Thunk middleware that dispatches actions to `GET` all resource of type `resourceName` from the database. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+#### `getAll(resourceName: resourceNames, URL: string | "https://localhost:5000")`
+Thunk middleware that dispatches actions to `GET` all resource of type `resourceName` from the database. `URL` is an optional parameter, if you are authenticated and working locally (in `localhost`) you do not need to pass it. 
 
 Accessed from `resourceActions`.
 
@@ -189,8 +188,8 @@ Accessed from `resourceActions`.
 dispatch(resourceActions.getAll(resourceNames.FACE_SHAPES));
 ```
 
-#### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)` 
-Thunk middleware that dispatches actions to `GET` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+#### `get(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000")` 
+Thunk middleware that dispatches actions to `GET` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` is an optional parameter, if you are authenticated and working locally (in `localhost`) you do not need to pass it. 
 
 ```js
 // Dispatch an action to GET a FACE_SHAPE with id = 3 from the database
@@ -198,8 +197,8 @@ Thunk middleware that dispatches actions to `GET` a resource of type `resourceNa
 dispatch(resourceActions.get(resourceNames.FACE_SHAPES, 3));
 ```
 
-#### `post(resourceName: resourceNames, resource: Object, URL: string | "https://localhost:5000", token: string)` 
-Thunk middleware that dispatches actions to `POST` a `resource` of type `resourceName` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+#### `post(resourceName: resourceNames, resource: Object, URL: string | "https://localhost:5000")` 
+Thunk middleware that dispatches actions to `POST` a `resource` of type `resourceName` from the database. Accessed from `resourceActions`. `URL` is an optional parameter, if you are authenticated and working locally (in `localhost`) you do not need to pass it. 
 
 __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
 
@@ -211,8 +210,8 @@ __NOTE 2__: The `resource` object should not have `Id`, `DateCreated` and `DateM
 dispatch(resourceActions.post(resourceNames.FACE_SHAPES, { ShapeName: "square" }));
 ```
 
-#### `put(resourceName: resourceNames, id: string | number, resource: Object, URL: string | "https://localhost:5000", token: string)`
-Thunk middleware that dispatches actions to `PUT` a `resource` of type `resourceName` with a given `id` in the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+#### `put(resourceName: resourceNames, id: string | number, resource: Object, URL: string | "https://localhost:5000")`
+Thunk middleware that dispatches actions to `PUT` a `resource` of type `resourceName` with a given `id` in the database. Accessed from `resourceActions`. `URL` is an optional parameter, if you are authenticated and working locally (in `localhost`) you do not need to pass it. 
 
 __NOTE__: All properties of the `resource` object should be in _PascalCase_ (to match the ones in the backend).
 
@@ -224,8 +223,8 @@ __NOTE 2__: Since ASP.NET Core closely follows the HTTP specification, the `reso
 dispatch(resourceActions.put(resourceNames.FACE_SHAPES, 3, { Id: 3, ShapeName: "square", DateCreated: dateCreated, FaceShapeLinks: faceShapeLinks }));
 ```
 
-#### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000", token: string)`
-Thunk middleware that dispatches actions to `DELETE` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` and `token` are optional parameters with default values, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
+#### `deleteResource(resourceName: resourceNames, id: string | number, URL: string | "https://localhost:5000")`
+Thunk middleware that dispatches actions to `DELETE` a resource of type `resourceName` with a given `id` from the database. Accessed from `resourceActions`. `URL` is an optional parameter, if you are authenticated and working locally (in `localhost`) you do not need to pass them. 
 
 ```js
 // Dispatch an action to DELETE a FACE_SHAPE with id = 3 from the database
@@ -240,7 +239,6 @@ Contains functions that handle user-related actions.
 const userActions = {
     login,
     logout,
-    authenticate,
     changeUserRole,
     getAll
 };
@@ -257,24 +255,14 @@ dispatch(userActions.login("username", "password"));
 ```
 
 #### `logout()`
-Dispatches logout action to delete token stored locally.
+Dispatches logout action to delete any local user data and cookie with token.
 
 ```js
 // Example usage
 dispatch(userActions.logout());
 ```
 
-#### `authenticate(token: string, URL: string | "https://localhost:5000")`
-Dispatches actions to validate the locally stored token.
-
-URL is optional (defaults to [localhost](https://localhost:5000 "localhost")).
-
-```js
-// Example usage
-dispatch(userActions.authenticate("your-token-string"));
-```
-
-#### `changeUserRole(updatedUser: Object, token: string | null, URL: string | "https://localhost:5000")`
+#### `changeUserRole(updatedUser: Object, URL: string | "https://localhost:5000")`
 Dispatches actions to change a user's role. 
 
 - `updatedUser`: User object with new `UserRole` to be sent in the request body. The following format is required:
@@ -287,7 +275,6 @@ Dispatches actions to change a user's role.
     UserRole: "user" | "developer" | "admin"
 }
 ```
-- `token`: Optional token to validate the request. If not passed, the function will try to retrieve it from `localStorage`.
 - `URL`: Optional request URL (defaults to [localhost](https://localhost:5000 "localhost")).
 
 ```js

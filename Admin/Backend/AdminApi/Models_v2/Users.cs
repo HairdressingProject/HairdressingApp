@@ -3,10 +3,11 @@ using AdminApi.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AdminApi.Models
+namespace AdminApi.Models_v2
 {
+    [Table("users")]
     public partial class Users
     {
         public Users()
@@ -14,69 +15,52 @@ namespace AdminApi.Models
             UserFeatures = new HashSet<UserFeatures>();
         }
 
-        /**
-         * JsonPropertyNames are important to map each property from JSON POST/PUT requests to the corresponding column name in the database
-         * Otherwise an exception may be thrown
-         * An alternative is to import NewtonSoftJson and add this code to the ConfigureServices method in the Startup.cs file:
-         * 
-         * services
-         * .AddControllers()
-         * .AddNewtonsoftJson(options => 
-         *                      options
-         *                      .SerializerSettings
-         *                      .ContractResolver = new DefaultContractResolver() 
-         *                      { 
-         *                          NamingStrategy = new SnakeCaseNamingStrategy() 
-         *                      })
-         * 
-         * However, the solution in place uses the native System.Text.Json module
-         * See: https://github.com/dotnet/runtime/issues/782
-         * 
-         */
-        [JsonPropertyName("id")]
+        [Key]
+        [Column("id")]
         public ulong? Id { get; set; }
 
         [Required(ErrorMessage = "Username is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Username should not be empty or white space")]
         [MaxLength(32)]
-        [JsonPropertyName("user_name")]
+        [Column("user_name", TypeName = "varchar(32)")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Password is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Password should not be empty or white space")]
         [MinLength(6, ErrorMessage = "Password should contain at least 6 characters")]
         [MaxLength(512, ErrorMessage = "Password cannot exceed 512 characters")]
-        [JsonPropertyName("user_password")]
+        [Column("user_password", TypeName = "varchar(512)")]
         public string UserPassword { get; set; }
 
         [Required(ErrorMessage = "Email is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"Email should not be empty or white space")]
         [MaxLength(512)]
-        [JsonPropertyName("user_email")]
+        [Column("user_email", TypeName = "varchar(512)")]
         public string UserEmail { get; set; }
 
         [Required(ErrorMessage = "First name is required", AllowEmptyStrings = false)]
         [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"First name should not be empty or white space")]
         [MaxLength(128)]
-        [JsonPropertyName("first_name")]
+        [Column("first_name", TypeName = "varchar(128)")]
         public string FirstName { get; set; }
 
         [MaxLength(128)]
-        [JsonPropertyName("last_name")]
+        [Column("last_name", TypeName = "varchar(128)")]
         public string LastName { get; set; }
 
-        // [NotNullOrEmptyOrWhiteSpace(ErrorMessage = @"User role should not be empty or white space")]
-        // [RequiredUserRole(AllowEmptyStrings = false, ErrorMessage = "Invalid user role.")]
-        [JsonPropertyName("user_role")]
+        [Required]
+        [Column("user_role", TypeName = "enum('admin','developer','user')")]
         public string UserRole { get; set; } = Enum.GetName(typeof(UserRoles), UserRoles.USER).ToLower();
 
-        [JsonPropertyName("date_created")]
-        public DateTime DateCreated { get; set; }
+        [Column("date_created", TypeName = "datetime")]
+        public DateTime? DateCreated { get; set; }
 
-        [JsonPropertyName("date_modified")]
+        [Column("date_modified", TypeName = "datetime")]
         public DateTime? DateModified { get; set; }
 
-        [JsonPropertyName("user_features")]
+        [InverseProperty("User")]
+        public virtual Accounts Accounts { get; set; }
+        [InverseProperty("User")]
         public virtual ICollection<UserFeatures> UserFeatures { get; set; }
     }
 }
