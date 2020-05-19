@@ -57,11 +57,14 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
       selRow.map(row =>{
         switch (tableTitle) {
           case "Users":
+            if (window.confirm(`Are you sure you want to delete:\r ${row.id} ${row.userName}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.USERS, row.id));
-              //window.location.reload();
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300)
+
+            };
+            //window.alert(`Are you sure you want to delete:\r ${row.id} ${row.userName}?`);
           break;
       
           case "User Features":
