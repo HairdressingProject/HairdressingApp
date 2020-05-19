@@ -1,57 +1,67 @@
-import { authHeader, createRequestHeader } from '../_helpers';
+import { createRequestHeader } from '../_helpers';
 
 /**
- * @var {Object} userService - This object contains functions responsible for handling user-submitted actions, i.e. login, logout and get all users
+ * This object contains functions responsible for handling user-submitted actions, i.e. login, logout and get all users
+ * @type {Object}
  */
 export const userService = {
     login,
     logout,
-    authenticate,
+    signUp,
     changeUserRole,
-    getAll
+    getAll,
+    forgotPassword,
+    setNewPassword
 };
 
 /**
- * @function login - Handles user login (submitted in the sign in form)
+ * Handles user login (submitted in the sign in form)
+ * @function login
  * @param {string} usernameOrEmail - Username or email submitted in the form
  * @param {string} password - Password submitted in the form
  * @param {string} URL - Request URL
- * @returns {Object} user - This represents the JSON response from the server, containing user info and token to be saved in local storage
+ * @returns {Object} user - This represents the JSON response from the server
  */
 async function login(usernameOrEmail, password, URL) {
     const options = createRequestHeader("POST", {
         UserNameOrEmail: usernameOrEmail,
         UserPassword: password
-    }, URL);
+    });
 
     const response = await fetch(`${URL}/api/users/sign_in`, options);
-    const user = await handleResponse(response);
-    // store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+    if (response.ok) {
+        localStorage.setItem("user", true);
+    }
+    return handleResponse(response);
 }
 
 /**
- * @function logout - Deletes user info stored in local storage (including token)
+ * Deletes user info stored in localStorage and requests cookie with token to be deleted
+ * @function logout
+ * @param {string} URL - Request URL
  * @returns {void}
  */
-function logout() {
+async function logout(URL) {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+
+    // send logout request
+    const options = createRequestHeader("GET");
+    const response = await fetch(`${URL}/api/users/logout`, options);
+    return handleResponse(response);
 }
 
 /**
- * Validates a token to authenticate a user
- * @function authenticate
- * @param {string} token - Token to be validated in the backend
+ * Sends a POST request to register a new user
+ * @function signUp
+ * @param {Object} user - User object passed to sign up request body
  * @param {string} URL - Request URL
  */
-async function authenticate(token, URL) {
-    const options = createRequestHeader("POST", {
-        UserToken: token
-    }, URL);
+async function signUp(user, URL) {
+    const options = createRequestHeader('POST', user);
 
-    const response = await fetch(`${URL}/api/users/authenticate`, options);
+    // send sign up request
+    const response = await fetch(`${URL}/api/users/sign_up`, options);
     return handleResponse(response);
 }
 
@@ -59,15 +69,10 @@ async function authenticate(token, URL) {
  * Sends a PUT request to change a user's role
  * @function changeUserRole
  * @param {object} updatedUser - Updated user with new role
- * @param {string} token - Token used in the Authorization HTTP header 
  * @param {string} URL - Request URL
  */
-async function changeUserRole(updatedUser, token, URL) {
-    if (!token) {
-        throw new Error('Invalid token passed to changeUserRole');
-    }
-
-    const options = createRequestHeader("PUT", updatedUser, URL, token);
+async function changeUserRole(updatedUser, URL) {
+    const options = createRequestHeader("PUT", updatedUser);
 
     const response = await fetch(`${URL}/api/users/${updatedUser.Id}/change_role`, options);
 
@@ -75,16 +80,47 @@ async function changeUserRole(updatedUser, token, URL) {
 }
 
 /**
- * @function getAll - Fetches all users from the backend (currently not being used)
+ * Fetches all users from the backend
+ * @function getAll
  * @param {string} URL - Request URL
  */
 async function getAll(URL) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
+    const options = createRequestHeader("GET");
 
-    const response = await fetch(`${URL}/api/users`, requestOptions);
+    const response = await fetch(`${URL}/api/users`, options);
+    return handleResponse(response);
+}
+
+/**
+ * Sends a POST request to deliver an email with instructions to the registered user
+ * @function forgotPassword
+ * @param {string} usernameOrEmail - Registered username or email to recover password
+ * @param {string} URL - URL of the request
+ */
+async function forgotPassword(usernameOrEmail, URL) {
+    const options = createRequestHeader('POST', {
+        UserNameOrEmail: usernameOrEmail
+    });
+
+    const response = await fetch(`${URL}/api/users/forgot_password`, options);
+    return handleResponse(response);
+}
+
+/**
+ * Sends a PUT request to change a user's password
+ * @function setNewPassword
+ * @param {string} userNameOrEmail
+ * @param {string} password - New user password
+ * @param {string} token - GUID token generated by the server, present in the query parameters of the requested URL
+ * @param {string} URL
+ */
+async function setNewPassword(userNameOrEmail, password, token, URL) {
+    const options = createRequestHeader('PUT', {
+        UserNameOrEmail: userNameOrEmail,
+        UserPassword: password
+    });
+
+    const response = await fetch(`${URL}/api/users/${token}/change_password`, options);
     return handleResponse(response);
 }
 
@@ -95,23 +131,35 @@ async function getAll(URL) {
  */
 function handleResponse(response) {
     return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            // login details are wrong
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                // window.location.reload();
-            }
+        let data;
 
-            // one or more fields are invalid (e.g. did not meet minimum length requirements)
-            if (response.status === 400) {
-                // TODO: handle this case
-                // logout();
-            }
+        try {
+            data = JSON.parse(text);
 
-            const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
-            return Promise.reject(errors);
+            if (!response.ok) {
+                // login details are wrong
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    // window.location.reload();
+                }
+
+                // one or more fields are invalid (e.g. did not meet minimum length requirements)
+                if (response.status === 400) {
+                    // TODO: handle this case
+                    logout();
+                }
+
+                const errors = ((data && data.error) || (data && data.errors)) || response.statusText;
+                return Promise.reject(errors);
+            }
+        }
+        catch (err) {
+            data = {
+                errors: {
+                    exception: err.message
+                }
+            }
         }
 
         return data;

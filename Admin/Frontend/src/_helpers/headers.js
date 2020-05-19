@@ -3,50 +3,31 @@
  * @param {"GET" | "POST" | "PUT" | "DELETE"} method - The standard HTTP method to be used in the request
  * @param {Object | undefined} body - Optional request body* 
  * @param {string | undefined} URL - Optional URL (defaults to "https://localhost:5000")
- * @param {string | null} token - Optional JWT token (if authentication is required)
  * @returns {Object} requestHeader
  */
-export function createRequestHeader(method, body = {}, URL = 'https://localhost:5000', token = null) {
+export function createRequestHeader(method, body = {}) {
     const normalisedMethod = method ? method.trim().toUpperCase() : null;
     if (!normalisedMethod) {
         throw 'Invalid request method';
     }
 
-    if (!token) {
-        return normalisedMethod === 'GET' ?
-            ({
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': URL
-                }
-            }) :
-            ({
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': URL
-                },
-                body: JSON.stringify(body)
-            })
-    }
+    const baseOptions = {
+        method,
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            'Origin': process.env.REACT_APP_PUBLIC_URL || "https://localhost:3000"
+        }
+    };
 
     return normalisedMethod === 'GET' ?
+        baseOptions :
         ({
-            method,
+            ...baseOptions,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                'Access-Control-Allow-Origin': URL
-            }
-        }) :
-        ({
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                'Access-Control-Allow-Origin': URL
+                ...baseOptions.headers,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-        })
+        });
 }

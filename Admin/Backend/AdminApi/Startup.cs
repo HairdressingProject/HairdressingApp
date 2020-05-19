@@ -1,7 +1,8 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using AdminApi.Helpers;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,8 +17,15 @@ using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace AdminApi
 {
+    public interface IAppSettings
+    {
+        AppSettings ApplicationSettings { get; set; }
+    };
+
     public class Startup
     {
+        private readonly string AllowedOriginsConf = "Policy1";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,19 +51,29 @@ namespace AdminApi
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidAudience = "https://localhost:3000",
+                    ValidIssuer = "https://localhost:5000"
+                };
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/api/users/sign_in";
+                options.Events.OnRedirectToLogin = (context) =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
                 };
             });
 
             // Configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             // Register DB Context
             services.AddDbContext<hair_project_dbContext>(options =>
@@ -72,15 +90,15 @@ namespace AdminApi
             // CORS Policy
             services.AddCors(options =>
             {
-                options.AddPolicy("Policy1",
+                options.AddPolicy(name: AllowedOriginsConf,
                     builder =>
                     {
-                        builder.AllowAnyOrigin()
-                                .AllowAnyHeader();
+                        builder.AllowCredentials()
+                                .WithOrigins("https://localhost:3000")
+                                .WithMethods("GET", "POST", "PUT", "DELETE")
+                                .WithHeaders("Origin", "Content-Type");
                     });
             });
-
-            // services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,12 +114,7 @@ namespace AdminApi
             app.UseRouting();
 
             // Global CORS
-            app.UseCors(options =>
-                options
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-            );
+            app.UseCors(AllowedOriginsConf);
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -3,30 +3,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
+using AdminApi.Models_v2;
 using AdminApi.Helpers;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.AccessControl;
 
 namespace AdminApi.Controllers
 {
     /**
      * UserFeaturesController
      * This controller handles all routes in the format: "/api/user_features/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/user_features")]
     [ApiController]
     public class UserFeaturesController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public UserFeaturesController(hair_project_dbContext context)
+        public UserFeaturesController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/user_features
@@ -34,6 +33,11 @@ namespace AdminApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserFeatures>>> GetUserFeatures()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.UserFeatures.ToListAsync();
         }
 
@@ -41,6 +45,10 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserFeatures>> GetUserFeatures(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
             var userFeatures = await _context.UserFeatures.FindAsync(id);
 
             if (userFeatures == null)
@@ -55,6 +63,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserFeatures(ulong id, [FromBody] UserFeatures userFeatures)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != userFeatures.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -93,6 +106,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<UserFeatures>> PostUserFeatures(UserFeatures userFeatures)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (userFeatures.Id != null)
             {
                 userFeatures.Id = null;
@@ -116,6 +134,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserFeatures>> DeleteUserFeatures(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var userFeatures = await _context.UserFeatures.FindAsync(id);
             if (userFeatures == null)
             {

@@ -5,14 +5,16 @@ import { errorMessageAction, successMessageAction, clearMessageAction } from './
 
 /**
  * This object lists users-related actions
- * @var {Object} userActions
+ * @type {Object}
  */
 export const userActions = {
     login,
     logout,
-    authenticate,
+    signUp,
     changeUserRole,
-    getAll
+    getAll,
+    forgotPassword,
+    setNewPassword
 };
 
 const loginRequest = createAction('LOGIN_REQUEST');
@@ -40,49 +42,67 @@ function login(usernameOrEmail, password, URL = `https://localhost:5000`) {
                 },
                 error => {
                     dispatch(loginFailure({ error }));
-                    dispatch(errorMessageAction({ message: error }));
+                    // dispatch(errorMessageAction({ message: error }));
                 }
             );
     };
 }
 
-const logoutAction = createAction('LOGOUT');
+const logoutRequest = createAction('LOGOUT_REQUEST');
+const logoutSuccess = createAction('LOGOUT_SUCCESS');
+const logoutFailure = createAction('LOGOUT_FAILURE');
 
 /**
  * Issues a logout action
  * @function logout
+ * @param {string} URL - Request URL
  * @returns {ActionCreatorWithPayload} logoutAction
  */
-function logout() {
-    userService.logout();
-    return logoutAction();
-}
-
-const authenticateRequest = createAction('AUTHENTICATE_REQUEST');
-const authenticateSuccess = createAction('AUTHENTICATE_SUCCESS');
-const authenticateFailure = createAction('AUTHENTICATE_FAILURE');
-
-/**
- * Dispatches actions to send a POST request to /api/users/authenticate
- * Updates the Redux store with the token, if valid
- * If not, an array of errors is added to the store instead
- * @function authenticate
- * @param {string} token 
- * @param {string} URL - Optional request URL (defaults to "https://localhost:5000")
- */
-function authenticate(token, URL = `https://localhost:5000`) {
+function logout(URL = `https://localhost:5000`) {
     return dispatch => {
-        dispatch(clearMessageAction());
-        dispatch(authenticateRequest({ token }));
+        dispatch(logoutRequest());
 
-        userService.authenticate(token, URL)
+        userService.logout(URL)
             .then(
                 data => {
-                    dispatch(authenticateSuccess({ token: data.userToken }));
+                    dispatch(logoutSuccess({ data }));
                 },
                 errors => {
-                    dispatch(authenticateFailure({ errors }));
-                })
+                    dispatch(logoutFailure({ errors }));
+                }
+            )
+    }
+}
+
+const signUpRequest = createAction('SIGNUP_REQUEST');
+const signUpSuccess = createAction('SIGNUP_SUCCESS');
+const signUpFailure = createAction('SIGNUP_FAILURE');
+
+/**
+ * Dispatches actions to register a new user
+ * @function signUp
+ * @param {Object} user - User object to be send in the request body
+ * @param {string} URL - URL of the request
+ */
+function signUp(user, URL = `https://localhost:5000`) {
+    return dispatch => {
+        dispatch(signUpRequest());
+
+        // basic checks to avoid submitting HTTP requests unnecessarily
+        if (!user || !user.FirstName || !user.UserEmail || !user.UserPassword) {
+            return dispatch(signUpFailure({ errors: ['Invalid user'] }));
+        }
+
+        userService.signUp(user, URL)
+            .then(
+                newUser => {
+                    dispatch(signUpSuccess({ newUser }));
+                    history.push('/');
+                },
+                errors => {
+                    dispatch(signUpFailure({ errors }));
+                }
+            )
     }
 }
 
@@ -94,10 +114,9 @@ const changeUserRoleFailure = createAction("CHANGE_ROLE_FAILURE");
  * Dispatches actions to handle changing a user's role
  * @function changeUserRole
  * @param {Object} updatedUser - User with all required fields and updated UserRole
- * @param {string} token - Optional token for authentication (defaults to the one saved in localStorage, if present)
  * @param {string} URL - Optional request URL (defaults to "https://localhost:5000")
  */
-function changeUserRole(updatedUser, token = null, URL = `https://localhost:5000`) {
+function changeUserRole(updatedUser, URL = `https://localhost:5000`) {
 
     return dispatch => {
         if (!updatedUser) {
@@ -105,24 +124,10 @@ function changeUserRole(updatedUser, token = null, URL = `https://localhost:5000
             dispatch(changeUserRoleFailure({ error: "Invalid user to change role" }));
         }
 
-        if (!token) {
-            // If no token was passed to the action, try to retrieve from localStorage
-            const storedUserInfo = JSON.parse(localStorage.getItem('user'));
-
-            if (!storedUserInfo || !storedUserInfo.token) {
-                dispatch(errorMessageAction({ message: "Error: Invalid token" }));
-                dispatch(changeUserRoleFailure({ error: "Invalid token" }));
-
-                return;
-            }
-
-            token = storedUserInfo.token;
-        }
-
         dispatch(clearMessageAction());
         dispatch(changeUserRoleRequest({ updatedUser }));
 
-        userService.changeUserRole(updatedUser, token, URL)
+        userService.changeUserRole(updatedUser, URL)
             .then(
                 data => {
                     dispatch(changeUserRoleSuccess({ updatedUser: data.updatedUser }));
@@ -154,4 +159,83 @@ function getAll(URL = `https://localhost:5000`) {
                 error => dispatch(getAllFailure({ error }))
             );
     };
+}
+
+const forgotPasswordRequest = createAction('FORGOT_PASSWORD_REQUEST');
+const forgotPasswordSuccess = createAction('FORGOT_PASSWORD_SUCCESS');
+const forgotPasswordFailure = createAction('FORGOT_PASSWORD_FAILURE');
+
+/**
+ * Dispatches actions to begin the process of recovering a user's password
+ * @function forgotPassword
+ * @param {string} usernameOrEmail - Registered username/email
+ * @param {string} URL - Request URL (defaults to "https://localhost:5000")
+ */
+function forgotPassword(usernameOrEmail, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (!usernameOrEmail || !usernameOrEmail.trim()) {
+            return dispatch(forgotPasswordFailure(
+                {
+                    forgotPasswordErrors: {
+                        UsernameOrEmail: ['Please enter a valid username/email']
+                    }
+                }));
+        }
+        dispatch(forgotPasswordRequest({ usernameOrEmail }));
+
+        userService.forgotPassword(usernameOrEmail, URL)
+            .then(
+                data => dispatch(forgotPasswordSuccess({ forgotPasswordData: data })),
+                forgotPasswordErrors => dispatch(forgotPasswordFailure({ forgotPasswordErrors }))
+            );
+    }
+}
+
+const setNewPasswordRequest = createAction('SET_NEW_PASSWORD_REQUEST');
+const setNewPasswordSuccess = createAction('SET_NEW_PASSWORD_SUCCESS');
+const setNewPasswordFailure = createAction('SET_NEW_PASSWORD_FAILURE');
+
+/**
+ * Dispatches actions to reset a user's password
+ * @function setPassword
+ * @param {string} userNameOrEmail 
+ * @param {string} password - New password
+ * @param {string} token - GUID token present in the query parameters of the requested URL
+ * @param {string} URL 
+ */
+function setNewPassword(userNameOrEmail, password, token, URL = `https://localhost:5000`) {
+    return dispatch => {
+        if (
+            !userNameOrEmail ||
+            !userNameOrEmail.trim() ||
+            !password ||
+            !password.trim()
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Fields: ['Invalid username, email or password']
+                }
+            }));
+        }
+
+        if (
+            !token ||
+            !token.trim() ||
+            !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(token)
+        ) {
+            return dispatch(setNewPasswordFailure({
+                setNewPasswordErrors: {
+                    Token: ['Invalid token format']
+                }
+            }));
+        }
+
+        dispatch(setNewPasswordRequest());
+
+        userService.setNewPassword(userNameOrEmail, password, token, URL)
+            .then(
+                () => dispatch(setNewPasswordSuccess()),
+                payload => dispatch(setNewPasswordFailure({ setNewPasswordErrors: payload.errors }))
+            );
+    }
 }

@@ -16,22 +16,14 @@ export const PrivateRoute = ({ children, ...props }) => {
             setAuthenticated(false);
             setAuthenticating(false);
 
-            // Invalidate user token
-            dispatch(userActions.authenticate(""));
+            // Invalidate user
+            dispatch(userActions.logout());
             return;
         }
 
         if (authentication.loggedIn) {
             setAuthenticated(true);
             setAuthenticating(false);
-            return;
-        }
-
-        user = JSON.parse(user);
-
-        if (user.token) {
-            const { token } = user;
-            dispatch(userActions.authenticate(token));
             return;
         }
     }, []);

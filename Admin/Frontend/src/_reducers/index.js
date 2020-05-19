@@ -6,7 +6,8 @@ import { alertReducer } from './alert.reducer';
 import { resourcesReducer } from './resource.reducer';
 
 /**
- * @var {Object} rootReducer - A combined reducer that maps the state of all elements to each reducer
+ * A combined reducer that maps the state of all elements to each reducer
+ * @type {Object}
  */
 const rootReducer = combineReducers({
   authentication: authenticationReducer,

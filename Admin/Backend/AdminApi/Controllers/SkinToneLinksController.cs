@@ -1,37 +1,40 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AdminApi.Models;
-using Microsoft.AspNetCore.Authorization;
+using AdminApi.Models_v2;
 
 namespace AdminApi.Controllers
 {
     /**
      * SkinToneLinksController
      * This controller handles all routes in the format: "/api/skin_tone_links/"
-     * To disable authentication, simply comment out the [Authorize] annotation
      * 
     **/
-    [Authorize]
+    // [Authorize]
     [Route("api/skin_tone_links")]
     [ApiController]
     public class SkinToneLinksController : ControllerBase
     {
         private readonly hair_project_dbContext _context;
+        private readonly Services.IAuthorizationService _authorizationService;
 
-        public SkinToneLinksController(hair_project_dbContext context)
+        public SkinToneLinksController(hair_project_dbContext context, Services.IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: api/skin_tone_links
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkinToneLinks>>> GetSkinToneLinks()
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             return await _context.SkinToneLinks.ToListAsync();
         }
 
@@ -39,6 +42,11 @@ namespace AdminApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SkinToneLinks>> GetSkinToneLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var skinToneLinks = await _context.SkinToneLinks.FindAsync(id);
 
             if (skinToneLinks == null)
@@ -53,6 +61,11 @@ namespace AdminApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSkinToneLinks(ulong id, [FromBody] SkinToneLinks skinToneLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             if (id != skinToneLinks.Id)
             {
                 return BadRequest(new { errors = new { Id = new string[] { "ID sent does not match the one in the endpoint" } }, status = 400 });
@@ -90,6 +103,11 @@ namespace AdminApi.Controllers
         [HttpPost]
         public async Task<ActionResult<SkinToneLinks>> PostSkinToneLinks(SkinToneLinks skinToneLinks)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var correspondingSkinTone = await _context.SkinTones.FirstOrDefaultAsync(h => h.Id == skinToneLinks.SkinToneId);
 
             if (correspondingSkinTone == null)
@@ -112,6 +130,11 @@ namespace AdminApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<SkinToneLinks>> DeleteSkinToneLinks(ulong id)
         {
+            if (!_authorizationService.ValidateJWTCookie(Request))
+            {
+                return Unauthorized(new { errors = new { Token = new string[] { "Invalid token" } }, status = 401 });
+            }
+
             var skinToneLinks = await _context.SkinToneLinks.FindAsync(id);
             if (skinToneLinks == null)
             {

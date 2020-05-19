@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import "./App.scss";
-import { Switch, Route, Router, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { Sidebar } from '../Navigation/Sidebar';
 import { Topbar } from '../Navigation/Topbar';
 import { Dashboard } from '../Dashboard';
 import { SignIn } from '../SignIn';
 import { SignUp } from '../SignUp';
 import { ForgotPassword } from '../ForgotPassword';
-import { NewPassword } from '../NewPassword';
+import { ResetPassword } from '../ResetPassword';
 import { MyAccount } from '../MyAccount';
 import { Databases } from '../Databases';
 import { Traffic } from '../Traffic';
@@ -18,11 +18,12 @@ import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';
-import { clearMessageAction, resourceActions } from '../../_actions';
-import { resourceNames } from '../../_constants';
+import { clearMessageAction } from '../../_actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { DummyComponent } from '../DummyComponent';
 import { PrivateRoute } from '../PrivateRoute';
+import { Alert } from '../Alert';
+import { Column } from 'react-foundation-components/lib/grid';
 
 const routes = [
     {
@@ -38,8 +39,8 @@ const routes = [
         content: () => <ForgotPassword />
     },
     {
-        path: "/new_password",
-        content: () => <NewPassword />
+        path: "/reset_password",
+        content: () => <ResetPassword />
     },
     {
         path: "/dashboard",
@@ -81,11 +82,10 @@ const routes = [
 const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
 
-    const alert = useSelector(state => state.alert);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        history.listen((location, action) => {
+        history.listen(() => {
             // clear alert on location change
             dispatch(clearMessageAction);
         })
@@ -147,18 +147,44 @@ const App = () => {
 
     // End of modal set up
 
-    const sidebarContainerClasses = ['cell', 'small-7', 'large-2', 'sidebar-container'];
-    const topbarContainerClasses = ['grid-x', 'small-5', 'right-container'];
+    const sidebarContainerClasses = ['cell', 'small-7', 'large-2', "sidebar-container"];
+    const topbarContainerClasses = ['grid-x', 'small-5', "right-container"];
 
     if (!isSidebarOpen) {
-        sidebarContainerClasses.push('sidebar-container-closed');
-        topbarContainerClasses.push('right-container-closed');
+        sidebarContainerClasses.push("sidebar-container-closed");
+        topbarContainerClasses.push("right-container-closed");
     }
 
     const location = useLocation();
 
+    const authentication = useSelector(state => state.authentication);
+    const [newUser, setNewUser] = useState(null);
+
+    useEffect(() => {
+        if (authentication.newUser && authentication.newUser.baseUser) {
+            setNewUser(authentication.newUser.baseUser);
+        }
+    }, [authentication]);
+
+    const dismissNewUser = () => {
+        setNewUser(null);
+    }
+
     const MainApp = (
         <div className="grid-x">
+            {
+                newUser ?
+                    (
+                        <Column className={"alert-container"}>
+                            <Alert
+                                show={true}
+                                type="success"
+                                message={`Welcome, ${newUser.firstName} ${newUser.lastName}!`}
+                                dismiss={dismissNewUser}
+                            />
+                        </Column>
+                    ) : ''
+            }
             <div className={sidebarContainerClasses.join(' ')}>
                 <Sidebar
                     isOpen={isSidebarOpen}
@@ -178,11 +204,11 @@ const App = () => {
             </div>
 
             <div className={topbarContainerClasses.join(' ')}>
-                <div className="cell small-auto right-container-topbar">
+                <div className={["cell", "small-auto", "right-container-topbar"].join(' ')}>
                     <Topbar />
                 </div>
 
-                <div className="cell small-auto right-container-content">
+                <div className={["cell", "small-auto", "right-container-content"].join(' ')}>
 
                     {/* Testing menu modal outside of the sidebar */}
                     <Modal
@@ -251,7 +277,7 @@ const App = () => {
         location.pathname !== '/sign_in' &&
         location.pathname !== '/sign_up' &&
         location.pathname !== '/forgot_password' &&
-        location.pathname !== '/new_password'
+        location.pathname !== '/reset_password'
     ) {
         return (
             MainApp
