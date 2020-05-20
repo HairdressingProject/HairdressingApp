@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { userActions, errorMessageAction } from '../../_actions';
+import { userActions } from '../../_actions';
+import { useHistory } from 'react-router-dom';
+import { TailSpin } from 'svg-loaders-react';
 
 export const PrivateRoute = ({ children, ...props }) => {
-    const [authenticating, setAuthenticating] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
+    const [authenticating, setAuthenticating] = useState(true);
     const dispatch = useDispatch();
+    const history = useHistory();
     const authentication = useSelector(state => state.authentication);
 
     useEffect(() => {
+        console.log('authentication:');
+        console.dir(authentication);
+
         let user = localStorage.getItem("user");
 
         if (!user) {
@@ -18,6 +24,7 @@ export const PrivateRoute = ({ children, ...props }) => {
 
             // Invalidate user
             dispatch(userActions.logout());
+            history.push('/sign_in');
             return;
         }
 
@@ -41,17 +48,17 @@ export const PrivateRoute = ({ children, ...props }) => {
             }
             setAuthenticating(false);
         }
+
     }, [authentication]);
 
     return (
-        // TODO: Show loading spinner if authenticating
-        authenticating ?
-            <h1>Loading...</h1> :
+        authentication.loggingIn ?
+            <TailSpin /> :
             (
                 <Route
                     {...props}
                     render={({ location }) =>
-                        authenticated ? (
+                        authentication.loggedIn ? (
                             children
                         ) : (
                                 <Redirect
