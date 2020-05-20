@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../_actions';
@@ -15,7 +15,6 @@ export const User = ({ isSidebarOpen }) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [loggedIn, setLoggedIn] = useState(true);
 
     if (!isSidebarOpen) {
         userNameClasses.push('user-sidebar-closed');
@@ -28,17 +27,10 @@ export const User = ({ isSidebarOpen }) => {
      * @function handleLogout
      * @param {Object} e 
      */
-    const handleLogout = e => {
+    const handleLogout = () => {
         dispatch(userActions.logout());
-        setLoggedIn(false);
+        history.replace('/sign_in');
     }
-
-    useEffect(() => {
-        if (!loggedIn) {
-            history.replace('/sign_in');
-        }
-    }, [loggedIn]);
-
     return (
         <div className="user-container grid-container">
 

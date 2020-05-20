@@ -13,9 +13,6 @@ export const PrivateRoute = ({ children, ...props }) => {
     const authentication = useSelector(state => state.authentication);
 
     useEffect(() => {
-        console.log('authentication:');
-        console.dir(authentication);
-
         let user = localStorage.getItem("user");
 
         if (!user) {
