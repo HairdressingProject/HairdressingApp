@@ -170,6 +170,12 @@ const App = () => {
         setNewUser(null);
     }
 
+    useEffect(() => {
+        if (!localStorage.getItem("user")) {
+            history.push('/sign_in');
+        }
+    }, []);
+
     const MainApp = (
         <div className="grid-x">
             {
