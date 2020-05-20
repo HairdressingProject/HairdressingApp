@@ -54,7 +54,7 @@ namespace AdminApi.Models_v2
                 entity.HasOne(d => d.User)
                     .WithOne(p => p.Accounts)
                     .HasForeignKey<Accounts>(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade) // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_user_id");
             });
 
