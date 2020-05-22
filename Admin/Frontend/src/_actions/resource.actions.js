@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { resourceServices } from '../_services/resource.service';
 import { errorMessageAction } from '../_actions'
 import { userActions } from './user.actions';
+import { history } from '../_helpers';
 
 export const resourceActions = {
     getAll,
@@ -132,6 +133,7 @@ function post(resourceName, resource, URL = `https://localhost:5000`) {
             .then(
                 resource => {
                     dispatch(postSuccess({ resource }));
+                    history.push('/databases');
                 },
                 error => {
                     dispatch(postFailure({ error }));
