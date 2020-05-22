@@ -57,39 +57,49 @@ export const DBTable = ({tableTitle, openAddModal, openEditModal, tableData, tab
       selRow.map(row =>{
         switch (tableTitle) {
           case "Users":
+            if (window.confirm(`Are you sure you want to delete:\r Id: ${row.id} \r UserName: ${row.userName}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.USERS, row.id));
-              //window.location.reload();
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300)
+
+            };
           break;
       
           case "User Features":
+            if (window.confirm(`Are you sure you want to delete:\r Id: ${row.id} \r UserId: ${row.userId}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.USER_FEATURES, row.id));
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300);
+            };
           break;
       
           case "Skin Tones":
+            if (window.confirm(`Are you sure you want to delete:\r Id: ${row.id} \r SkinToneName: ${row.skinToneName}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.SKIN_TONES, row.id));
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300);
+            };
           break;
       
           case "Face Shapes":
+            if (window.confirm(`Are you sure you want to delete:\r Id: ${row.id} \r ShapeName: ${row.shapeName}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.FACE_SHAPES, row.id));
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300);
+            };
           break;
       
           case "Hair Lengths":
+            if (window.confirm(`Are you sure you want to delete:\r Id: ${row.id} \r HairLengthName: ${row.hairLengthName}?`)) {
               dispatch(resourceActions.deleteResource(resourceNames.HAIR_LENGTHS, row.id));
               setTimeout(() => {
                 setDeleted(true);
-            }, 300);
+              }, 300);
+            };
           break;
       
           default:
