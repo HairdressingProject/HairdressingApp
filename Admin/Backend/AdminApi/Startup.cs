@@ -99,14 +99,14 @@ namespace AdminApi
                                 .WithHeaders("Origin", "Content-Type");
                     });
 
-                options.AddPolicy(name: AllowedOriginsConf,
+                /*options.AddPolicy(name: AllowedOriginsConf,
                     builder =>
                     {
                         builder.AllowCredentials()
                                 .WithOrigins("http://localhost:3000")
                                 .WithMethods("GET", "POST", "PUT", "DELETE")
                                 .WithHeaders("Origin", "Content-Type");
-                    });
+                    });*/
             });
         }
 

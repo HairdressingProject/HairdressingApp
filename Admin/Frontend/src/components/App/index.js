@@ -14,7 +14,7 @@ import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
 import { MenuItem } from '../Navigation/Menu/MenuItem';
-import Modal from 'react-foundation-modal';
+// import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';
@@ -24,6 +24,8 @@ import { DummyComponent } from '../DummyComponent';
 import { PrivateRoute } from '../PrivateRoute';
 import { Alert } from '../Alert';
 import { Column } from 'react-foundation-components/lib/grid';
+import { PortalWrapper } from '../Modal/PortalWrapper';
+import { Modal } from '../Modal';
 
 const routes = [
     {
@@ -177,91 +179,133 @@ const App = () => {
     }, []);
 
     const MainApp = (
-        <div className="grid-x">
-            {
-                newUser ?
-                    (
-                        <Column className={"alert-container"}>
-                            <Alert
-                                show={true}
-                                type="success"
-                                message={`Welcome, ${newUser.firstName} ${newUser.lastName}!`}
-                                dismiss={dismissNewUser}
-                            />
-                        </Column>
-                    ) : ''
-            }
-            <div className={sidebarContainerClasses.join(' ')}>
-                <Sidebar
-                    isOpen={isSidebarOpen}
-                    setOpen={setSidebarOpen}
-                    isMenuOpen={isMenuOpen}
-                    setMenuOpen={showMenu}
-                    routes={
-                        routes.filter(route =>
-                            route.path.includes('dashboard') ||
-                            route.path.includes('databases') ||
-                            route.path.includes('traffic') ||
-                            route.path.includes('permissions') ||
-                            route.path.includes('pictures')
-                        )
-                    }
-                />
-            </div>
+        <>
+            {/**
+             * This is the menu modal (it opens when you click on the "Menu" button in the sidebar)
+             * The same logic can be reused in any component,
+             * because portals are detatched from the "root" div in index.html
+             * while still having access to other components and props
+             */}
+            <PortalWrapper>
+                <Modal
+                    active={isMenuOpen}
+                >
+                    <div>
+                        <button
+                            style={{
+                                position: 'absolute',
+                                color: 'red',
+                                fontSize: '5rem',
+                                top: '10%',
+                                left: '90%',
+                                cursor: 'pointer'
+                            }}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            X
+                        </button>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            {
+                                menuItems.map((item, index) => (
+                                    <MenuItem
+                                        key={index}
+                                        text={item.text}
+                                        icon={item.icon}
+                                        subItems={item.subItems}
+                                    />
+                                ))
+                            }
+                        </div>
+                    </div>
+                </Modal>
+            </PortalWrapper>
 
-            <div className={topbarContainerClasses.join(' ')}>
-                <div className={["cell", "small-auto", "right-container-topbar"].join(' ')}>
-                    <Topbar />
+            <div className="grid-x">
+                {
+                    newUser ?
+                        (
+                            <Column className={"alert-container"}>
+                                <Alert
+                                    show={true}
+                                    type="success"
+                                    message={`Welcome, ${newUser.firstName} ${newUser.lastName}!`}
+                                    dismiss={dismissNewUser}
+                                />
+                            </Column>
+                        ) : ''
+                }
+                <div className={sidebarContainerClasses.join(' ')}>
+                    <Sidebar
+                        isOpen={isSidebarOpen}
+                        setOpen={setSidebarOpen}
+                        isMenuOpen={isMenuOpen}
+                        setMenuOpen={showMenu}
+                        routes={
+                            routes.filter(route =>
+                                route.path.includes('dashboard') ||
+                                route.path.includes('databases') ||
+                                route.path.includes('traffic') ||
+                                route.path.includes('permissions') ||
+                                route.path.includes('pictures')
+                            )
+                        }
+                    />
                 </div>
 
-                <div className={["cell", "small-auto", "right-container-content"].join(' ')}>
+                <div className={topbarContainerClasses.join(' ')}>
+                    <div className={["cell", "small-auto", "right-container-topbar"].join(' ')}>
+                        <Topbar />
+                    </div>
 
-                    {/* Testing menu modal outside of the sidebar */}
-                    <Modal
-                        open={isMenuOpen}
-                        closeModal={setMenuOpen}
-                        isModal={true}
-                        size="full"
-                        overlayStyle={overlayStyle}
-                        revealStyle={revealStyle}
-                    >
-                        {
-                            menuItems.map((item, index) => (
-                                <MenuItem
-                                    key={index}
-                                    text={item.text}
-                                    icon={item.icon}
-                                    subItems={item.subItems}
-                                />
-                            ))
-                        }
-                    </Modal>
+                    <div className={["cell", "small-auto", "right-container-content"].join(' ')}>
 
-                    <Switch>
-                        {
-                            routes.map((route, index) => {
-                                return route.private ? (
-                                    <PrivateRoute
+                        {/* Testing menu modal outside of the sidebar */}
+                        {/* <Modal
+                            open={isMenuOpen}
+                            closeModal={setMenuOpen}
+                            isModal={true}
+                            size="full"
+                            overlayStyle={overlayStyle}
+                            revealStyle={revealStyle}
+                        >
+                            {
+                                menuItems.map((item, index) => (
+                                    <MenuItem
                                         key={index}
-                                        path={route.path}
-                                        exact={route.exact}
-                                    >
-                                        <route.content />
-                                    </PrivateRoute>
-                                ) : (
-                                        <Route
+                                        text={item.text}
+                                        icon={item.icon}
+                                        subItems={item.subItems}
+                                    />
+                                ))
+                            }
+                        </Modal> */}
+
+                        <Switch>
+                            {
+                                routes.map((route, index) => {
+                                    return route.private ? (
+                                        <PrivateRoute
                                             key={index}
                                             path={route.path}
                                             exact={route.exact}
-                                            children={<route.content />}
-                                        />
-                                    )
-                            })
-                        }
-                    </Switch>
+                                        >
+                                            <route.content />
+                                        </PrivateRoute>
+                                    ) : (
+                                            <Route
+                                                key={index}
+                                                path={route.path}
+                                                exact={route.exact}
+                                                children={<route.content />}
+                                            />
+                                        )
+                                })
+                            }
+                        </Switch>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 
     const LandingPages = (
