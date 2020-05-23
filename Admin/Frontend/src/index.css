@@ -7,3 +7,12 @@ body {
     overflow-x: hidden;
     background: #71A2B6;
 }
+
+#modal-root {
+    position: relative;
+    z-index: 1000;
+}
+
+#root {
+    overflow: hidden;
+}
