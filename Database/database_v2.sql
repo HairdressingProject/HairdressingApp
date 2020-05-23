@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS hair_project_db.accounts (
     `unusual_activity` BOOL DEFAULT FALSE,
     `date_created` DATETIME DEFAULT NOW(),
     `date_modified` DATETIME DEFAULT NULL ON UPDATE NOW(),
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_general_ci

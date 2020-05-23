@@ -15,6 +15,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../../_actions';
 import { resourceNames } from '../../../_constants';
 
+import { Alert } from '../../Alert';
+import { history } from '../../../_helpers';
+
+
 // ToDo: Validation | fix add users
 
 
@@ -23,6 +27,40 @@ import { resourceNames } from '../../../_constants';
 export const AddEntry = ({title, initialFormFields, close}) => {
 
     const [formSubmitted, setFormSubmitted] = useState(false);
+
+    const submission = useSelector(state => state.resources);
+    const [errors, setErrors] = useState(null);
+
+    useEffect(() => {
+        if(submission.users.error) {
+            console.dir(submission)
+
+            const errors = Object
+                .values(submission.users.error)
+                .reduce((acc, err) => {
+                    err.forEach(e => {
+                        acc.push(e);
+                    });
+                    return acc;
+                }, [])
+
+                .map(msg => ({
+                    type: "danger",
+                    message: msg
+                }));
+            
+            setErrors(errors);
+        }
+    }, [submission]);
+
+    const dismissError = () => {
+        // if (errors && errors.length) {
+        //     const updatedErrors = errors.filter(error => error.message !== err.message);
+        //     setErrors(updatedErrors);
+        //     return;
+        // }
+        setErrors(null);
+    };
 
     // dispatch is a function that will be called with a resourceAction to send HTTP requests
     const dispatch = useDispatch();
@@ -44,7 +82,29 @@ export const AddEntry = ({title, initialFormFields, close}) => {
     }, [formSubmitted]);
 
     return (
+        <>
+        
         <div className={[classes["add-form-container"], "text-center"].join(' ')}>
+
+            {
+                errors ?
+                    errors.map((err, i) => (
+                        <Alert
+                        key={i}
+                        show={true}
+                        type={err.type}
+                        message={err.message}
+                        dismiss={() => dismissError()}
+                        />
+
+                    ))
+                    
+                :
+                ''
+            }
+
+            
+
             <Row>
                 <Column small={12} medium={6} mediumCentered="centered" className={classes["add-form"]}>
                     <Row className={classes["add-form-title-container"]}>
@@ -79,13 +139,17 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                             }
                             
                             console.log("inputs", inputs);
+                             if (isFormValid) { 
+                                 dispatch(resourceActions.post(resourceNames.USERS, inputs));
+                                 //history.push('/databases');
+                            } 
 
-                            dispatch(resourceActions.post(resourceNames.USERS, inputs));
+                            //dispatch(resourceActions.post(resourceNames.USERS, inputs));
                             //window.location.reload();
-                            setTimeout(() => {
-                                setFormSubmitted(true);
-                                close(false);
-                            }, 300);
+                            // setTimeout(() => {
+                            //     setFormSubmitted(true);
+                            //     close(false);
+                            // }, 300);
 
                         break;
 
@@ -175,6 +239,7 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                                             key={index}
                                             id={field.label.toLowerCase().split(' ').join('-')}
                                             className={[classes["add-form-field"], classes["add-form-field-text-input"]].join(' ')}
+                                            error={field.validation?.some(v => v.error)}
                                         >
                                             <FormFieldLabel></FormFieldLabel>
                                             <FormFieldInline>
@@ -192,6 +257,20 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                                                 placeholder={field.label}
                                             />                                                    
                                             </FormFieldInline>
+                                            {
+                                                field
+                                                    .validation
+                                                    .filter(v => v.error)
+                                                    .map(v => v.errorMessage)
+                                                    .map((msg, i) => (
+                                                        <FormFieldError
+                                                            key={i}
+                                                            className={classes["signin-form-input-field-error"]}
+                                                        >
+                                                            {msg}
+                                                        </FormFieldError>
+                                                    ))
+                                            }
 
                                             </FormField>                                        
                                         </Column>
@@ -217,6 +296,7 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                     )}
             />
         </div>
+        </>
         
     )
 

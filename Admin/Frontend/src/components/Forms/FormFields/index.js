@@ -18,6 +18,20 @@ export const userInitialFields = [
                 check: (input) => {
                     return !input || !input.trim();
                 }
+            },
+            {
+                error: false,
+                errorMessage: 'Spaces are not allowed in this field',
+                check: (input) => {
+                    return /\s/g.test(input.trim());
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Maximum 32 characters allowed',
+                check: (input) => {
+                    return input.length > 32;
+                }
             }
         ]
     },
@@ -28,15 +42,29 @@ export const userInitialFields = [
         type: 'text',
         touched: false,
         required: true,
-        // validation: [
-        //     {
-        //         error: false,
-        //         errorMessage: 'This field is required',
-        //         check: (input) => {
-        //             return !input || !input.trim();
-        //         }
-        //     }
-        //]
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Spaces are not allowed in this field',
+                check: (input) => {
+                    return /\s/g.test(input.trim());
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Maximum 512 characters allowed',
+                check: (input) => {
+                    return input.length > 512;
+                }
+            }
+        ]
     },
     {
         label: 'User Password',
@@ -45,15 +73,36 @@ export const userInitialFields = [
         type: 'text',
         touched: false,
         required: true,
-        // validation: [
-        //     {
-        //         error: false,
-        //         errorMessage: 'This field is required',
-        //         check: (input) => {
-        //             return !input || !input.trim();
-        //         }
-        //     }
-        //]
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Spaces are not allowed in this field',
+                check: (input) => {
+                    return /\s/g.test(input.trim());
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Minimum 6 characters required',
+                check: (input) => {
+                    return input.length < 6;
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Maximum 512 characters allowed',
+                check: (input) => {
+                    return input.length > 512;
+                }
+            }
+        ]
     },
     {
         label: 'First Name',
@@ -62,15 +111,22 @@ export const userInitialFields = [
         type: 'text',
         touched: false,
         required: true,
-        // validation: [
-        //     {
-        //         error: false,
-        //         errorMessage: 'This field is required',
-        //         check: (input) => {
-        //             return !input || !input.trim();
-        //         }
-        //     }
-        //]
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            },
+            {
+                error: false,
+                errorMessage: 'Maximum 128 characters allowed',
+                check: (input) => {
+                    return input.length > 128;
+                }
+            }
+        ]
     },
     {
         label: 'Last Name',
@@ -78,16 +134,16 @@ export const userInitialFields = [
         icon: user,
         type: 'text',
         touched: false,
-        required: true,
-        // validation: [
-        //     {
-        //         error: false,
-        //         errorMessage: 'This field is required',
-        //         check: (input) => {
-        //             return !input || !input.trim();
-        //         }
-        //     }
-        //]
+        required: false,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'Maximum 128 characters allowed',
+                check: (input) => {
+                    return input.length > 128;
+                }
+            }
+        ]
     },
     {
         label: 'User Role',
@@ -96,15 +152,15 @@ export const userInitialFields = [
         type: 'text',
         touched: false,
         required: true,
-        // validation: [
-        //     {
-        //         error: false,
-        //         errorMessage: 'This field is required',
-        //         check: (input) => {
-        //             return !input || !input.trim();
-        //         }
-        //     }
-        //]
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     },
 ]
 

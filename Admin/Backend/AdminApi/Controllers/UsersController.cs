@@ -354,7 +354,8 @@ HairdressingProject Admin.
                 return CreatedAtAction("GetUsers", new { id = users.Id }, users.WithoutPassword());
             }
 
-            return Conflict(new { error = "User already exists" });
+            // return Conflict(new { errors =  "User already exists" });
+            return Conflict(new { errors = new { Users = new string[] { "User already exists" } }, status = 409 });
         }
 
         // POST api/users/sign_up
@@ -362,7 +363,7 @@ HairdressingProject Admin.
         [HttpPost("sign_up")]
         public async Task<IActionResult> SignUp([FromBody] Users users)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == users.Id || u.UserName == users.UserName || u.UserEmail == users.UserEmail);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == users.Id || u.UserName == users.UserName || u.UserEmail == users.UserEmail);
 
             if (user == null)
             {
