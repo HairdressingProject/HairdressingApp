@@ -313,31 +313,81 @@ export const userFeaturesAddInitialFormFields = [
         label: 'User Id',
         input: '',
         type: 'text',
-        touched: false
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     },
     {
         label: 'FaceShape Id',
         input: '',
         type: 'text',
-        touched: false
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     },
     {
         label: 'Skin Tone Id',
         input: '',
         type: 'text',
-        touched: false
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     },
     {
         label: 'Hair Style Id',
         input: '',
         type: 'text',
-        touched: false
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     },
     {
         label: 'Hair Length Id',
         input: '',
         type: 'text',
-        touched: false
+        touched: false,
+        required: true,
+        validation: [
+            {
+                error: false,
+                errorMessage: 'This field is required',
+                check: (input) => {
+                    return !input || !input.trim();
+                }
+            }
+        ]
     }
 
 ];
