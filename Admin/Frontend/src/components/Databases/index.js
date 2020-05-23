@@ -325,14 +325,19 @@ export const Databases = () =>
                     null
                     }
 
-                    <ModalForm
+                    {(isAddUserModalOpen || isEditUserModalOpen) ?
+                        <ModalForm
                         tableSource="Users"
                         openAddModal={isAddUserModalOpen}
                         openEditModal={isEditUserModalOpen}
                         closeAddModal={setAddUserModalOpen}
                         closeEditModal={setEditUserModalOpen}
                         editObject={objToEdit}
-                    />   
+                        />
+                    :
+                    null}
+
+                       
 
                 {/* end of Users ********************************************** */}
                 
@@ -353,6 +358,7 @@ export const Databases = () =>
                     null
                 }
 
+                    {(isAddUserFeaturesModalOpen || isEditUserFeaturesModalOpen) ?
                     <ModalForm
                         tableSource="User Features"
                         openAddModal={isAddUserFeaturesModalOpen}
@@ -360,7 +366,9 @@ export const Databases = () =>
                         closeAddModal={showAddUserFeaturesModal}
                         closeEditModal={showEditUserFeaturesModal}
                         editObject={objToEdit}
-                    />   
+                    />
+                    :
+                    null}
                 {/* end of Users Features ********************************************** */}                    
                 
 
@@ -380,6 +388,7 @@ export const Databases = () =>
                     :
                     null}
 
+                    {(isAddSkinTonesModalOpen || isEditSkinTonesModalOpen) ?
                     <ModalForm
                         tableSource="Skin Tones"
                         openAddModal={isAddSkinTonesModalOpen}
@@ -387,7 +396,9 @@ export const Databases = () =>
                         closeAddModal={showAddSkinTonesModal}
                         closeEditModal={showEditSkinTonesModal}
                         editObject={objToEdit}
-                    />   
+                    />
+                    :
+                    null}
                 {/* End of skin tones ********************************************** */}
                 
 
@@ -407,6 +418,7 @@ export const Databases = () =>
                     :
                     null}
 
+                    {(isAddHairLengthsModalOpen || isEditHairLengthsModalOpen) ?
                     <ModalForm
                         tableSource="Hair Lengths"
                         openAddModal={isAddHairLengthsModalOpen}
@@ -415,6 +427,8 @@ export const Databases = () =>
                         closeEditModal={showEditHairLengthsModal}
                         editObject={objToEdit}
                     />
+                    :
+                    null}
                 {/* End of Hair Lengths ********************************************** */}                    
 
 
@@ -434,6 +448,8 @@ export const Databases = () =>
                     :
                     null
                 }
+
+                {(isAddFaceShapesModalOpen || isEditFaceShapesModalOpen) ?
                 <ModalForm
                     tableSource="Face Shapes"
                     openAddModal={isAddFaceShapesModalOpen}
@@ -441,7 +457,9 @@ export const Databases = () =>
                     closeAddModal={showAddFaceShapesModal}
                     closeEditModal={showEditFaceShapesModal}
                     editObject={objToEdit}
-                />                
+                />
+                :
+                null}
                 {/* end of FaceShapes ******************************** */}
 
 

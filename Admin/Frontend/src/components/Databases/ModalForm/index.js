@@ -1,8 +1,10 @@
 import React from 'react';
-import Modal from 'react-foundation-modal';
+//import Modal from 'react-foundation-modal';
 import { AddEntry } from '../../Databases/AddEntry';
 import { EditEntry } from '../../Databases/EditEntry';
 import * as FormFields from '../../Forms/FormFields';
+import { PortalWrapper } from '../../Modal/PortalWrapper';
+import { Modal } from '../../Modal';
 
 export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddModal, closeEditModal, editObject}) => {
 
@@ -14,6 +16,8 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
     };
 
     var formFields = [];
+    console.log("openAddmodal", openAddModal);
+    console.log("openEditmodal", openEditModal);
 
     switch (tableSource) {
         case "Users":
@@ -87,32 +91,62 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
 
     return (
         <div>
-
-
-            <Modal
-                open={openAddModal}
-                closeModal={closeAddModal}
-                isModal={true}
-                size="full"
-                revealStyle={revealStyle}
+            <PortalWrapper>
+                {openAddModal ?
+                <Modal
+                active={openAddModal}
                 >
+                    <div>
+                    <button
+                        style={{
+                            position: 'absolute',
+                            color: 'red',
+                            fontSize: '5rem',
+                            top: '10%',
+                            left: '90%',
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => closeAddModal(false)}
+                    >
+                        X
+                    </button>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {console.log("table source", tableSource)}
+                        {console.log("ffields", formFields)}
                     <AddEntry
                         title={tableSource}
                         initialFormFields={formFields}
                         close={closeAddModal}
                     />
-            </Modal>
+                    </div>
+                </div>
+                </Modal>
+                :
+                null
+                }
+                
+            </PortalWrapper>
 
-
-
-
-            <Modal
-                open={openEditModal}
-                closeModal={closeEditModal}
-                isModal={true}
-                size="full"
-                revealStyle={revealStyle}
+            <PortalWrapper>
+                {openEditModal?
+                <Modal
+                active={openEditModal}
                 >
+                    <div>
+                    <button
+                        style={{
+                            position: 'absolute',
+                            color: 'red',
+                            fontSize: '5rem',
+                            top: '10%',
+                            left: '90%',
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => closeEditModal(false)}
+                    >
+                        X
+                    </button>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}></div>
                     <EditEntry
                         tableSource={tableSource} //users, userFeatures, faceShapes, etc...
                         title={tableSource}
@@ -120,11 +154,12 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
                         close={closeEditModal}
                         editObject={editObject}
                     />
-            </Modal>
-
-
-
-
+                    </div>
+                </Modal>
+                :
+                null
+                }
+            </PortalWrapper>
         </div>
     );
 }
