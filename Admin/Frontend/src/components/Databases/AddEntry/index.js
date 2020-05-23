@@ -16,9 +16,6 @@ import { resourceActions } from '../../../_actions';
 import { resourceNames } from '../../../_constants';
 
 import { Alert } from '../../Alert';
-import { history } from '../../../_helpers';
-
-
 // ToDo: Validation | fix add users
 
 
@@ -32,8 +29,11 @@ export const AddEntry = ({title, initialFormFields, close}) => {
     const [errors, setErrors] = useState(null);
 
     useEffect(() => {
+        console.log("Submission object:"); //debug
+        console.dir(submission); //debug
+
         if(submission.users.error) {
-            console.dir(submission)
+            console.dir(submission) //debug
 
             const errors = Object
                 .values(submission.users.error)
@@ -53,12 +53,16 @@ export const AddEntry = ({title, initialFormFields, close}) => {
         }
     }, [submission]);
 
-    const dismissError = () => {
-        // if (errors && errors.length) {
-        //     const updatedErrors = errors.filter(error => error.message !== err.message);
-        //     setErrors(updatedErrors);
-        //     return;
-        // }
+    const dismissError = (err) => {
+        console.log("errors", errors); //debug
+        console.log("err", err); //debug
+
+        if (errors && errors.length) {
+            const updatedErrors = errors.filter(error => error.message !== err.message);
+            setErrors(updatedErrors);
+            console.log('updated errors: ', updatedErrors); //debug
+            return;
+        }
         setErrors(null);
     };
 
@@ -94,7 +98,7 @@ export const AddEntry = ({title, initialFormFields, close}) => {
                         show={true}
                         type={err.type}
                         message={err.message}
-                        dismiss={() => dismissError()}
+                        dismiss={() => dismissError(err)}
                         />
 
                     ))
