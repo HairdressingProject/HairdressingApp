@@ -6,7 +6,14 @@ import * as FormFields from '../../Forms/FormFields';
 import { PortalWrapper } from '../../Modal/PortalWrapper';
 import { Modal } from '../../Modal';
 
+
+import { useDispatch, useSelector } from 'react-redux';
+import { resourceActions } from '../../../_actions';
+import { resourceNames } from '../../../_constants';
+
 export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddModal, closeEditModal, editObject}) => {
+
+    const dispatch = useDispatch();
 
 /** @constant
  * @type {object} revealStyle - css style of the modal
@@ -16,8 +23,8 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
     };
 
     var formFields = [];
-    console.log("openAddmodal", openAddModal);
-    console.log("openEditmodal", openEditModal);
+    console.log("openAddmodal", openAddModal); //debug
+    console.log("openEditmodal", openEditModal); //debug
 
     switch (tableSource) {
         case "Users":
@@ -106,7 +113,7 @@ export const ModalForm = ({tableSource, openAddModal, openEditModal, closeAddMod
                             left: '90%',
                             cursor: 'pointer'
                         }}
-                        onClick={() => closeAddModal(false)}
+                        onClick={() => {closeAddModal(false); /*dispatch(resourceActions.getAll(resourceNames.USERS));*/ /*window.location.reload(false);*/}}
                     >
                         X
                     </button>

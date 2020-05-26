@@ -133,7 +133,7 @@ function post(resourceName, resource, URL = `https://localhost:5000`) {
             .then(
                 resource => {
                     dispatch(postSuccess({ resource }));
-                    history.push('/databases');
+                    //history.push('/databases');
                 },
                 error => {
                     dispatch(postFailure({ error }));

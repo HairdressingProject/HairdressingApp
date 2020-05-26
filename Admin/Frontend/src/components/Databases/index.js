@@ -66,6 +66,7 @@ export const Databases = () =>
 
         const showAddUserModal = status => {
             setAddUserModalOpen(status);
+            //dispatch(resourceActions.getAll(resourceNames.USERS)); // reload when closing modal
         }
 
         const showEditUserModal = status => {
