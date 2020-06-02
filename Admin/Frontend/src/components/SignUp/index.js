@@ -155,12 +155,12 @@ export const SignUp = () => {
             ]
         },
         // to be implemented
-        {
+        /* {
             label: 'I agree with Privacy Policy',
             input: false,
             defaultChecked: false,
             type: 'checkbox'
-        }
+        } */
     ];
 
     const dispatch = useDispatch();
@@ -215,7 +215,7 @@ export const SignUp = () => {
 
             <div className={[classes['signup-container'], "text-center"].join(' ')}>
                 <div className="grid-x">
-                    <div className={[classes['signup-form'], "cell", "small-12", "medium-6", "text-center"].join(' ')}>
+                    <div className={[classes['signup-form'], "cell", "small-12", "medium-6", "text-center", "medium-offset-3"].join(' ')}>
                         <div className={classes['signup-title-container']}>
                             <div className="cell text-center">
                                 <h1>
@@ -265,7 +265,7 @@ export const SignUp = () => {
                                                             className={classes["signup-form-field"]}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
                                                         >
-                                                            <div className={classes["signup-form-checkbox-container"]}>
+                                                            <div className={[classes["signup-form-checkbox-container"], "grid-x"].join(' ')}>
                                                                 <div
                                                                     className={[classes["signup-form-input"], "cell", "small-1"].join(' ')}
                                                                 >
@@ -298,11 +298,9 @@ export const SignUp = () => {
                                                                     key={index}
                                                                     id={field.label.toLowerCase().split(' ').join('-')}
                                                                     className={[classes["signup-form-field"], classes["signup-form-field-text-input"]].join(' ')}
-                                                                    error={field.validation?.some(v => v.error)}
                                                                 >
-                                                                    <label></label>
-                                                                    <div>
-                                                                        <label className={classes["signup-form-label"]}>
+                                                                    <div className="grid-x medium-offset-3">
+                                                                        <label className={[classes["signup-form-label"], "cell", "small-1"].join(' ')}>
                                                                             <img src={field.icon} alt={field.label} className={classes["signup-form-mail"]} />
                                                                         </label>
                                                                         <input
@@ -312,26 +310,25 @@ export const SignUp = () => {
                                                                             onChange={e => setInputValue(field, e)}
                                                                             onFocus={() => setFieldTouched(field)}
                                                                             onBlur={e => handleBlur(field, e)}
-                                                                            className={classes["signup-form-input-field"]}
+                                                                            className={[classes["signup-form-input-field"], "cell", "small-11", "medium-6"].join(' ')}
                                                                             placeholder={field.label}
                                                                         />
                                                                     </div>
-                                                                    {
-                                                                        field
-                                                                            .validation
-                                                                            .filter(v => v.error)
-                                                                            .map(v => v.errorMessage)
-                                                                            .map((msg, i) => (
-                                                                                <p
-                                                                                    key={i}
-                                                                                    className={classes["signup-form-input-field-error"]}
-                                                                                >
-                                                                                    {msg}
-                                                                                </p>
-                                                                            ))
-                                                                    }
-
                                                                 </div>
+                                                                {
+                                                                    field
+                                                                        .validation
+                                                                        .filter(v => v.error)
+                                                                        .map(v => v.errorMessage)
+                                                                        .map((msg, i) => (
+                                                                            <p
+                                                                                key={i}
+                                                                                className={classes["signup-form-input-field-error"]}
+                                                                            >
+                                                                                {msg}
+                                                                            </p>
+                                                                        ))
+                                                                }
                                                             </div>
                                                         </div>
                                                     )

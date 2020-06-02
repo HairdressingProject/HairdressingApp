@@ -24,7 +24,7 @@ export const Alert = ({ show, type, message, dismiss }) => {
     }
 
     return (
-        <div className={alertContainerClasses.join(' ')} expanded>
+        <div className={alertContainerClasses.join(' ')} expanded="true">
             <div className="cell small-12">
                 <p className={classes["alert-message-container"]}>
                     <span className={alertMessageClasses.join(' ')}>

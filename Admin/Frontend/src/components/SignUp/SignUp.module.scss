@@ -59,9 +59,8 @@
         }
 
         & &-label {
+            position: relative;
             padding: 0;
-            width: 17%;
-            height: 100%;
             border: 0;
             background-color: lighten($color: #000000, $amount: 85%);
             border-radius: 2px;
@@ -82,7 +81,9 @@
 
         &-mail, &-password {
             position: relative;
-            width: 50%;
+            // width: 50%;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         &-checkbox-label {
@@ -100,9 +101,13 @@
             box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
 
             &-error {
+                position: relative;
+                top: -2rem;
                 margin-top: 1.5rem;
-                text-align: left;
+                text-align: center;
                 font-size: 1.2rem;
+                color: red;
+                font-weight: bold;
             }
 
             &::placeholder {
@@ -145,6 +150,7 @@
                 background-color: #11CDEF;
                 border-radius: 5px;
                 padding: 1.5rem 4rem;
+                color: white;
 
                 &-invalid {
                     background-color: lighten($color: #000000, $amount: 50%);
