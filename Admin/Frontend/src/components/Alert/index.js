@@ -1,10 +1,9 @@
 import React from 'react';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 import classes from './Alert.module.scss';
 import close from '../../img/icons/close.svg';
 
 export const Alert = ({ show, type, message, dismiss }) => {
-    const alertContainerClasses = [classes["alert-container"]];
+    const alertContainerClasses = [classes["alert-container", "grid-x"]];
     const alertMessageClasses = [classes["alert-message-text"]];
 
     if (!show) {
@@ -25,8 +24,8 @@ export const Alert = ({ show, type, message, dismiss }) => {
     }
 
     return (
-        <Row className={alertContainerClasses.join(' ')} expanded>
-            <Column small={12}>
+        <div className={alertContainerClasses.join(' ')} expanded>
+            <div className="cell small-12">
                 <p className={classes["alert-message-container"]}>
                     <span className={alertMessageClasses.join(' ')}>
                         {message}
@@ -37,7 +36,7 @@ export const Alert = ({ show, type, message, dismiss }) => {
                     </button>
 
                 </p>
-            </Column>
-        </Row>
+            </div>
+        </div>
     )
 }

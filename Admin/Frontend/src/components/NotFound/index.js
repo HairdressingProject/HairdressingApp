@@ -1,12 +1,11 @@
 import React from 'react';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
 export const NotFound = () => {
     return (
-        <Row>
-            <Column>
+        <div className="grid-x">
+            <div className="cell">
                 Not found
-            </Column>
-        </Row>
+            </div>
+        </div>
     )
 }

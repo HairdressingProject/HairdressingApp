@@ -1,12 +1,10 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 
 import differenceBy from 'lodash/differenceBy';
-import { Button } from 'react-foundation-components/lib/button';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const UserFeaturesTable = ({openAddModal, openEditModal, tableData}) => {
+export const UserFeaturesTable = ({ openAddModal, openEditModal, tableData }) => {
     const columns = [
         {
             name: 'Id',
@@ -47,16 +45,16 @@ export const UserFeaturesTable = ({openAddModal, openEditModal, tableData}) => {
     const handleSort = (column, sortDirection) => {
         // simulate server sort
         setLoading(true);
-                
+
         // instead of setTimeout this is where you would handle your API call.
         setTimeout(() => {
-          setData(orderBy(data, column.selector, sortDirection));
-          setLoading(false);
+            setData(orderBy(data, column.selector, sortDirection));
+            setLoading(false);
         }, 100);
-      };
+    };
 
-      
-// End of DataTable settings
+
+    // End of DataTable settings
 
     const [selectedRows, setSelectedRows] = useState([]);
     const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -68,9 +66,9 @@ export const UserFeaturesTable = ({openAddModal, openEditModal, tableData}) => {
         setSelectedRows(state.selectedRows);
         console.log("state.selectedRows: ", state.selectedRows);
         console.log("selectedRows: ", selectedRows);
-  
-  
-  
+
+
+
         if (state.selectedRows.length === 0 || state.selectedRows.length === 1) {
             setToggleEditBtn(true);
             console.log("Should be true")
@@ -79,54 +77,54 @@ export const UserFeaturesTable = ({openAddModal, openEditModal, tableData}) => {
             console.log("should be false")
         }
         console.log(toggleEditBtn);
-  
-      }, [selectedRows, toggleEditBtn]);
 
-      const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
+    }, [selectedRows, toggleEditBtn]);
+
+    const actions = <div key="add" onClick={() => openAddModal(true)}>Add</div>;
 
 
-      const contextActions = React.useMemo(() => { //useState() ?
+    const contextActions = React.useMemo(() => { //useState() ?
 
 
         const handleDelete = () => {
-  
+
             // console.log("handleDelete row: ", selectedRows);
             // selectedRows.map(item => {
             //     console.log(item);
             // })
-  
-            
+
+
             if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.id)}?`)) {
-            setToggleCleared(!toggleCleared);
-            setData(differenceBy(data, selectedRows, 'id'));
-            // DELETE Method API
-            // ...
+                setToggleCleared(!toggleCleared);
+                setData(differenceBy(data, selectedRows, 'id'));
+                // DELETE Method API
+                // ...
             }
         };
-  
 
-    
+
+
         return (
             <div>
-                <Row className="table-btn-container">
-                    <Column small={6} className="edit-container">
-                        { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
-                        :
-                        null}
-                    </Column>
-  
-                    <Column small={6} className="delete-container">
-                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
-                    </Column>
-                
-                </Row>
-                
+                <div className="table-btn-container grid-x">
+                    <div className="edit-container cell small-6">
+                        {toggleEditBtn ?
+                            <button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</button>
+                            :
+                            null}
+                    </div>
+
+                    <div className="delete-container cell small-6">
+                        <button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</button>
+                    </div>
+
+                </div>
+
             </div>
-            
+
         );
-  
-        }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
+
+    }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
 
@@ -146,6 +144,6 @@ export const UserFeaturesTable = ({openAddModal, openEditModal, tableData}) => {
             sortServer
             progressPending={loading}
             persistTableHead
-            />
+        />
     );
 }

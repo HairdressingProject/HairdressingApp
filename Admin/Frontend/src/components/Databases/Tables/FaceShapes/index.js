@@ -1,43 +1,41 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import DataTable from 'react-data-table-component'
 import { orderBy } from 'lodash';
 import differenceBy from 'lodash/differenceBy';
-import { Button } from 'react-foundation-components/lib/button';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
-export const FaceShapesTable = ({openAddModal, openEditModal, tableData}) => {
+export const FaceShapesTable = ({ openAddModal, openEditModal, tableData }) => {
 
     const columns = [
         {
             name: 'Id',
             selector: 'id',
             sortable: true,
-          },
-          {
+        },
+        {
             name: 'Shape Name',
             selector: 'shapeName',
             sortable: true,
-          },
+        },
     ];
 
 
-// DataTable settings
+    // DataTable settings
     const [loading, setLoading] = useState(false);
 
     // Logic to handle tabel sorting
     const handleSort = (column, sortDirection) => {
         // simulate server sort
         setLoading(true);
-                
+
         // instead of setTimeout this is where you would handle your API call.
         setTimeout(() => {
-          setData(orderBy(data, column.selector, sortDirection));
-          setLoading(false);
+            setData(orderBy(data, column.selector, sortDirection));
+            setLoading(false);
         }, 100);
-      };
+    };
 
 
-// End of DataTable settings
+    // End of DataTable settings
 
     const [selectedRows, setSelectedRows] = useState([]);
     const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -63,9 +61,9 @@ export const FaceShapesTable = ({openAddModal, openEditModal, tableData}) => {
         }
         console.log(toggleEditBtn);
 
-      }, [selectedRows, toggleEditBtn]);
+    }, [selectedRows, toggleEditBtn]);
 
-    const actions = <Button key="add" onClick={() => openAddModal(true)}>Add</Button>;
+    const actions = <button key="add" onClick={() => openAddModal(true)}>Add</button>;
 
     // const handleAdd = () => {
     //     // Show add form
@@ -95,12 +93,12 @@ export const FaceShapesTable = ({openAddModal, openEditModal, tableData}) => {
             // })
 
             // state.selectedRows.map(r => console.log("selected rows 2: ", r.id));
-            
+
             if (window.confirm(`Are you sure you want to delete:\r ${selectedRows.map(r => r.shapeName)}?`)) {
-            setToggleCleared(!toggleCleared);
-            setData(differenceBy(data, selectedRows, 'id'));
-            // DELETE Method API
-            // ...
+                setToggleCleared(!toggleCleared);
+                setData(differenceBy(data, selectedRows, 'id'));
+                // DELETE Method API
+                // ...
             }
         };
 
@@ -113,54 +111,54 @@ export const FaceShapesTable = ({openAddModal, openEditModal, tableData}) => {
         //     // POST Method API
         //     // ...
         // };
-    
+
         return (
             <div>
-                <Row className="table-btn-container">
-                    <Column small={6} className="edit-container">
-                        { toggleEditBtn ? 
-                        <Button key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</Button>
-                        :
-                        null}
-                    </Column>
+                <div className="table-btn-container">
+                    <div className="edit-container cell small-6">
+                        {toggleEditBtn ?
+                            <div key="edit" onClick={() => openEditModal(true)} style={{ backgroundColor: 'yellow', color: 'black' }}>Edit</div>
+                            :
+                            null}
+                    </div>
 
-                    <Column small={6} className="delete-container">
-                        <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</Button>
-                    </Column>
-                
-                </Row>
-                
+                    <div className="delete-container cell small-6">
+                        <div key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete</div>
+                    </div>
+
+                </div>
+
             </div>
-            
+
         );
 
-        }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
+    }, [data, selectedRows, toggleCleared, openEditModal, toggleEditBtn]
     );
 
 
     return (
         <>
-        <DataTable
-            title="Face Shapes"
-            columns={columns}
-            data={tableData}
-            onSort={handleSort}
-            selectableRows
-            actions={actions}
-            onSelectedRowsChange={handleRowSelected}
-            contextActions={contextActions}
-            clearSelectedRows={toggleCleared}
-            sortServer
-            progressPending={loading}
-            persistTableHead
+            <DataTable
+                title="Face Shapes"
+                columns={columns}
+                data={tableData}
+                onSort={handleSort}
+                selectableRows
+                actions={actions}
+                onSelectedRowsChange={handleRowSelected}
+                contextActions={contextActions}
+                clearSelectedRows={toggleCleared}
+                sortServer
+                progressPending={loading}
+                persistTableHead
             />
-            <Row className="btn-container">
-                <Column small={12} className="btn-add">
+            <div className="btn-container">
+                <div className="btn-add cell small-12">
                     {/* <Button onClick={handleAdd}>Add</Button> */}
                     {/* <Button onClick={() => setAddModalOpen(true)}>Add</Button> */}
 
-                </Column>
-            </Row>
-            </>
+                </div>
+            </div>
+        </>
     );
 }

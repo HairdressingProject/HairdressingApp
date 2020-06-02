@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Column } from 'react-foundation-components/lib/grid';
-import { Button } from 'react-foundation-components/lib/button';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
 import user from '../../img/icons/user.svg';
 import mail from '../../img/icons/mail.svg';
 import password from '../../img/icons/password.svg';
@@ -223,22 +214,22 @@ export const SignUp = () => {
             }
 
             <div className={[classes['signup-container'], "text-center"].join(' ')}>
-                <Row>
-                    <Column small={12} medium={6} mediumCentered="centered" className={classes['signup-form']}>
-                        <Row className={classes['signup-title-container']}>
-                            <Column small={12} smallCentered="centered">
+                <div className="grid-x">
+                    <div className={[classes['signup-form'], "cell", "small-12", "medium-6", "text-center"].join(' ')}>
+                        <div className={classes['signup-title-container']}>
+                            <div className="cell text-center">
                                 <h1>
                                     Hairdressing Application - Admin Portal
                         </h1>
-                            </Column>
-                        </Row>
-                        <Row className={classes["signup-subtitle-container"]}>
-                            <Column small={12}>
+                            </div>
+                        </div>
+                        <div className={classes["signup-subtitle-container"]}>
+                            <div className="cell text-center">
                                 <h2>
                                     Welcome back! Please login to continue.
                         </h2>
-                            </Column>
-                        </Row>
+                            </div>
+                        </div>
 
                         <FormWithValidation
                             initialFormFields={initialFormFields}
@@ -269,53 +260,52 @@ export const SignUp = () => {
 
                                                 if (field.type === 'checkbox') {
                                                     return (
-                                                        <FormField
+                                                        <div
                                                             key={index}
                                                             className={classes["signup-form-field"]}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
                                                         >
-                                                            <Row className={classes["signup-form-checkbox-container"]}>
-                                                                <Column
-                                                                    small={1}
-                                                                    className={classes["signup-form-input"]}
+                                                            <div className={classes["signup-form-checkbox-container"]}>
+                                                                <div
+                                                                    className={[classes["signup-form-input"], "cell", "small-1"].join(' ')}
                                                                 >
-                                                                    <FormFieldInput
+                                                                    <input
                                                                         type={field.type}
                                                                         defaultChecked={field.type === 'checkbox' && field.defaultChecked}
                                                                         value={field.input}
                                                                         onChange={e => setInputValue(field, e)}
                                                                         className={[classes["signup-form-input-field"], classes["sign-form-input-checkbox"]].join(' ')}
                                                                     />
-                                                                </Column>
-                                                                <Column small={11}>
-                                                                    <FormFieldLabel
+                                                                </div>
+                                                                <div className="cell small-11">
+                                                                    <label
                                                                         className={classes["signup-form-checkbox-label"]}
                                                                     >
                                                                         <span>
                                                                             I agree with <Link to="/privacy_policy">Privacy Policy</Link>
                                                                         </span>
-                                                                    </FormFieldLabel>
-                                                                </Column>
-                                                            </Row>
-                                                        </FormField>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     )
                                                 }
                                                 else {
                                                     return (
-                                                        <Row className={classes["signup-form-row"]} key={index}>
-                                                            <Column small={8} smallCentered="centered">
-                                                                <FormField
+                                                        <div className={classes["signup-form-row"]} key={index}>
+                                                            <div className="cell small-8 text-center">
+                                                                <div
                                                                     key={index}
                                                                     id={field.label.toLowerCase().split(' ').join('-')}
                                                                     className={[classes["signup-form-field"], classes["signup-form-field-text-input"]].join(' ')}
                                                                     error={field.validation?.some(v => v.error)}
                                                                 >
-                                                                    <FormFieldLabel></FormFieldLabel>
-                                                                    <FormFieldInline>
-                                                                        <FormFieldLabel className={classes["signup-form-label"]}>
+                                                                    <label></label>
+                                                                    <div>
+                                                                        <label className={classes["signup-form-label"]}>
                                                                             <img src={field.icon} alt={field.label} className={classes["signup-form-mail"]} />
-                                                                        </FormFieldLabel>
-                                                                        <FormFieldInput
+                                                                        </label>
+                                                                        <input
                                                                             type={field.type}
                                                                             value={field.input}
                                                                             required={field.required}
@@ -325,32 +315,32 @@ export const SignUp = () => {
                                                                             className={classes["signup-form-input-field"]}
                                                                             placeholder={field.label}
                                                                         />
-                                                                    </FormFieldInline>
+                                                                    </div>
                                                                     {
                                                                         field
                                                                             .validation
                                                                             .filter(v => v.error)
                                                                             .map(v => v.errorMessage)
                                                                             .map((msg, i) => (
-                                                                                <FormFieldError
+                                                                                <p
                                                                                     key={i}
                                                                                     className={classes["signup-form-input-field-error"]}
                                                                                 >
                                                                                     {msg}
-                                                                                </FormFieldError>
+                                                                                </p>
                                                                             ))
                                                                     }
 
-                                                                </FormField>
-                                                            </Column>
-                                                        </Row>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     )
                                                 }
                                             })
                                         }
-                                        <Row className={classes["signup-form-submit"]}>
-                                            <Column small={12} className={classes["signup-form-submit-container"]}>
-                                                <Button
+                                        <div className={classes["signup-form-submit"]}>
+                                            <div className={[classes["signup-form-submit-container"], "cell", "small-12"].join(' ')}>
+                                                <button
                                                     type="submit"
                                                     className={
                                                         isFormValid ?
@@ -360,22 +350,22 @@ export const SignUp = () => {
                                                     disabled={!isFormValid}
                                                 >
                                                     Sign up
-                                        </Button>
-                                            </Column>
-                                        </Row>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }
                         />
-                    </Column>
-                </Row>
-                <Row className={classes["signin"]}>
-                    <Column small={12} className={classes["signin-container"]}>
+                    </div>
+                </div>
+                <div className={classes["signin"]}>
+                    <div className={[classes["signin-container"], "cell", "small-12"].join(' ')}>
                         <p className={classes["signin-text"]}>
                             Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signin-link"]}>Sign In</Link></span>
                         </p>
-                    </Column>
-                </Row>
+                    </div>
+                </div>
             </div>
         </div>
     )

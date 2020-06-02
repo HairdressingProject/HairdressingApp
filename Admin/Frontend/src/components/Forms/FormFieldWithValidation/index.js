@@ -1,13 +1,4 @@
 import React from 'react';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline,
-    FormFieldButton,
-    FormFieldHelp
-} from 'react-foundation-components/lib/forms';
 
 export const FormFieldWithValidation = props => {
     const {
@@ -26,18 +17,18 @@ export const FormFieldWithValidation = props => {
     } = props;
 
     return (
-        <FormField
+        <div
             key={props.key}
             id={id}
             className="signin-form-field signin-form-field-text-input"
             error={error}
         >
-            <FormFieldLabel></FormFieldLabel>
-            <FormFieldInline>
-                <FormFieldLabel className="signin-form-label">
+            <label></label>
+            <div>
+                <label className="signin-form-label">
                     <img src={labelIcon} alt={labelName} className="signin-form-mail" />
-                </FormFieldLabel>
-                <FormFieldInput
+                </label>
+                <input
                     type={type}
                     value={value}
                     required={required}
@@ -47,22 +38,22 @@ export const FormFieldWithValidation = props => {
                     className="signin-form-input-field"
                     placeholder={field.label}
                 />
-            </FormFieldInline>
+            </div>
             {
                 field
                     .validation
                     .filter(v => v.error)
                     .map(v => v.errorMessage)
                     .map((msg, i) => (
-                        <FormFieldError
+                        <p
                             key={i}
                             className="signin-form-input-field-error"
                         >
                             {msg}
-                        </FormFieldError>
+                        </p>
                     ))
             }
 
-        </FormField>
+        </div>
     )
 }

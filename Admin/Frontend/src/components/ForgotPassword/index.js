@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Column } from 'react-foundation-components/lib/grid';
-import { Button } from 'react-foundation-components/lib/button';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
 import { Alert } from '../Alert';
 import mail from '../../img/icons/mail.svg';
 
@@ -141,23 +132,23 @@ export const ForgotPassword = () => {
             }
 
             <div className={[classes["forgotpassword-container"], "text-center"].join(' ')}>
-                <Row>
-                    <Column small={12} medium={8} mediumCentered="centered" className={classes["forgotpassword-form"]}>
-                        <Row className={classes["forgotpassword-title-container"]}>
-                            <Column small={12}>
+                <div className="grid-x">
+                    <div className={[classes["forgotpassword-form"], "cell", "small-12", "medium-8"].join(' ')}>
+                        <div className={classes["forgotpassword-title-container"]}>
+                            <div className="cell small-12">
                                 <h1>
                                     Hairdressing Application - Admin Portal
                         </h1>
-                            </Column>
-                        </Row>
-                        <Row className={classes["forgotpassword-subtitle-container"]}>
-                            <Column small={12}>
+                            </div>
+                        </div>
+                        <div className={[classes["forgotpassword-subtitle-container"], "grid-x"].join(' ')}>
+                            <div className="cell small-12">
                                 <h2>
                                     Enter your registered username or email below to
                                     recover your password.
-                        </h2>
-                            </Column>
-                        </Row>
+                                </h2>
+                            </div>
+                        </div>
 
                         <FormWithValidation
                             initialFormFields={initialFormFields}
@@ -180,20 +171,20 @@ export const ForgotPassword = () => {
                                     <>
                                         {
                                             formFields.map((field, index) => (
-                                                <Row className={classes["forgotpassword-form-row"]} key={index}>
-                                                    <Column small={8} smallCentered="centered">
-                                                        <FormField
+                                                <div className={classes["forgotpassword-form-row"]} key={index}>
+                                                    <div className="cell small-8 text-center">
+                                                        <div
                                                             key={index}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
                                                             className={[classes["forgotpassword-form-field"], classes["forgotpassword-form-field-text-input"]].join(' ')}
                                                             error={field.validation?.some(v => v.error)}
                                                         >
-                                                            <FormFieldLabel></FormFieldLabel>
-                                                            <FormFieldInline>
-                                                                <FormFieldLabel className={classes["forgotpassword-form-label"]}>
+                                                            <label></label>
+                                                            <div>
+                                                                <label className={classes["forgotpassword-form-label"]}>
                                                                     <img src={mail} alt="Email" className={classes["forgotpassword-form-mail"]} />
-                                                                </FormFieldLabel>
-                                                                <FormFieldInput
+                                                                </label>
+                                                                <input
                                                                     type={field.type}
                                                                     value={field.input}
                                                                     required={field.required}
@@ -203,30 +194,30 @@ export const ForgotPassword = () => {
                                                                     className={classes["forgotpassword-form-input-field"]}
                                                                     placeholder={field.label}
                                                                 />
-                                                            </FormFieldInline>
+                                                            </div>
                                                             {
                                                                 field
                                                                     .validation
                                                                     .filter(v => v.error)
                                                                     .map(v => v.errorMessage)
                                                                     .map((msg, i) => (
-                                                                        <FormFieldError
+                                                                        <p
                                                                             key={i}
                                                                             className={classes["forgotpassword-form-input-field-error"]}
                                                                         >
                                                                             {msg}
-                                                                        </FormFieldError>
+                                                                        </p>
                                                                     ))
                                                             }
 
-                                                        </FormField>
-                                                    </Column>
-                                                </Row>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             ))
                                         }
-                                        <Row className={classes["forgotpassword-form-submit"]}>
-                                            <Column small={12} className={classes["forgotpassword-form-submit-container"]}>
-                                                <Button
+                                        <div className={classes["forgotpassword-form-submit"]}>
+                                            <div className={[classes["forgotpassword-form-submit-container"], "cell", "small-12"].join(' ')}>
+                                                <button
                                                     type="submit"
                                                     className={
                                                         isFormValid ?
@@ -241,27 +232,27 @@ export const ForgotPassword = () => {
                                                             :
                                                             'Recover password'
                                                     }
-                                                </Button>
-                                            </Column>
-                                        </Row>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }
                         />
-                    </Column>
-                </Row>
-                <Row className={classes["links-container"]}>
-                    <Column small={12} className={classes["signin-container"]}>
+                    </div>
+                </div>
+                <div className={classes["links-container"]}>
+                    <div className={[classes["signin-container"], "cell", "small-12"].join(' ')}>
                         <p className={classes["signin-text"]}>
                             Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signup-link"]}>Sign In</Link></span>
                         </p>
-                    </Column>
-                    <Column small={12} className={classes["signup-container"]}>
+                    </div>
+                    <div className={[classes["signup-container"], "cell", "small-12"].join(' ')}>
                         <p className={classes["signup-text"]}>
                             New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
                         </p>
-                    </Column>
-                </Row>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -1,23 +1,15 @@
-import React, { useState, useEffect, useMemo} from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import DataTable from 'react-data-table-component'
-import { orderBy } from 'lodash';
-import classes from './Permissions.module.scss';
 
 import { userActions } from '../../_actions';
-import { Button } from 'react-foundation-components/lib/button';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import * as DataColumns from '../Databases/Tables/DBTable/DataColumns';
 
 import Modal from 'react-foundation-modal';
-import { FormWithValidation } from '../Forms/FormWithValidation';
-import { FormField, FormFieldLabel, FormFieldInput, FormFieldError } from 'react-foundation-components/lib/forms';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { resourceActions } from '../../_actions';
-import { resourceNames } from '../../_constants';
 
 /**
  * Permissions page is where the Administrator can change users role.
@@ -28,13 +20,12 @@ import { resourceNames } from '../../_constants';
 export const Permissions = () => {
 
     const [isModalOpen, setModalOpen] = useState(false);
-    const [tableData, setTableData] = useState([]);
     const [toggleBtn, setToggleBtn] = useState(true);
     const [selectedRow, setSelectedRow] = useState(null);
     const [isChecked, setChecked] = useState(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [objToEdit, setObjToEdit] = useState(null);
-    
+
 
     /**
      * Function to open and close a <Modal/> component
@@ -45,13 +36,13 @@ export const Permissions = () => {
         setModalOpen(status);
     }
 
-        // Refresh the list of items from the database whenever the form is submitted
-        useEffect(() => {
-            if (formSubmitted) {
-                dispatch(userActions.getAll())
-                setFormSubmitted(false);
-            }
-        }, [formSubmitted]);
+    // Refresh the list of items from the database whenever the form is submitted
+    useEffect(() => {
+        if (formSubmitted) {
+            dispatch(userActions.getAll())
+            setFormSubmitted(false);
+        }
+    }, [formSubmitted]);
 
 
 
@@ -64,7 +55,7 @@ export const Permissions = () => {
     const handleSelectedrow = (row) => {
         console.log("Selected row: ", row)
         setSelectedRow(row); // update selectedRow state variable
-        if(row.selectedCount > 1) // if more than one element is selected, then disable the button
+        if (row.selectedCount > 1) // if more than one element is selected, then disable the button
         {
             setToggleBtn(false);
         }
@@ -72,7 +63,7 @@ export const Permissions = () => {
         {
             setToggleBtn(true);
         }
-        console.log("Toggle button ",toggleBtn);
+        console.log("Toggle button ", toggleBtn);
     }
 
     /**
@@ -104,10 +95,10 @@ export const Permissions = () => {
         const requestMethod = 'PUT';
 
         const body = {
-            Id:objToEdit.id,
+            Id: objToEdit.id,
             UserName: objToEdit.userName,
             UserEmail: objToEdit.userEmail,
-            UserRole:isChecked.toLowerCase()
+            UserRole: isChecked.toLowerCase()
         };
 
         console.log("submitting form:");
@@ -147,7 +138,7 @@ export const Permissions = () => {
     useEffect(() => {
     }, [localUsers]);
 
-    if(localUsers && localUsers.users && localUsers.users.items && localUsers.users.items.users) {
+    if (localUsers && localUsers.users && localUsers.users.items && localUsers.users.items.users) {
         console.log("localUSers");
         console.dir(localUsers.users.items.users);
         //setTableData(localUsers.users.items.users)
@@ -164,11 +155,11 @@ export const Permissions = () => {
 
         }
 
-        return(
-            <div>
-                <Column small={6} className="delete-container">
-                    <Button key="action" onClick={handleAction} primary disabled={!toggleBtn}>Change Role</Button>
-                </Column>
+        return (
+            <div className="grid-x">
+                <div className="delete-container cell small-6">
+                    <button key="action" onClick={handleAction} disabled={!toggleBtn}>Change Role</button>
+                </div>
             </div>
         );
     });
@@ -194,36 +185,36 @@ export const Permissions = () => {
                 isModal={true}
                 size="full">
 
-                    Change role
+                Change role
                     <>
                     <form onSubmit={handleSubmit}>
-                        <Column>
-                            <Row>
-                            <input type="radio" value="Admin" name="userRole" checked={isChecked === "Admin"} onChange={handleChange}/>
-                            <label for="Admin">Admin</label>
-                            </Row>
-                            <Row>
-                            <input type="radio" value="Developer" name="userRole" checked={isChecked === "Developer"} onChange={handleChange}/>
-                            <label for="Developer">Developer</label>
-                            </Row>
-                            <Row>
-                            <input type="radio" value="User" name="userRole" checked={isChecked === "User"} onChange={handleChange}/>
-                            <label for="User">User</label>
-                            </Row>
-                        </Column>
+                        <div className="cell">
+                            <div className="grid-x">
+                                <input type="radio" value="Admin" name="userRole" checked={isChecked === "Admin"} onChange={handleChange} />
+                                <label for="Admin">Admin</label>
+                            </div>
+                            <div className="grid-x">
+                                <input type="radio" value="Developer" name="userRole" checked={isChecked === "Developer"} onChange={handleChange} />
+                                <label for="Developer">Developer</label>
+                            </div>
+                            <div className="grid-x">
+                                <input type="radio" value="User" name="userRole" checked={isChecked === "User"} onChange={handleChange} />
+                                <label for="User">User</label>
+                            </div>
+                        </div>
 
-                        <Column>
-                        <Row>
-                        <Button type="submit" disabled={isChecked === null}>Submit</Button>
-                        </Row>
-                        </Column>
+                        <div className="cell">
+                            <div className="grid-x">
+                                <button type="submit" disabled={isChecked === null}>Submit</button>
+                            </div>
+                        </div>
 
-                        <Column>
-                        Selected option is : {isChecked}
-                        </Column>
-                        
-                        
-                        
+                        <div className="cell">
+                            Selected option is : {isChecked}
+                        </div>
+
+
+
                     </form>
 
 
@@ -317,10 +308,10 @@ export const Permissions = () => {
                             }
                         />
                     </Row> */}
-                    </>
+                </>
 
             </Modal>
-         
+
         </div>
     );
 

@@ -3,17 +3,14 @@ import classes from './DummyComponent.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../_actions';
 import { resourceNames } from '../../_constants';
-import { Row, Column } from 'react-foundation-components/lib/grid';
-import { Table } from 'react-foundation-components/lib/table';
-import { FormField, FormFieldLabel, FormFieldInput, FormFieldError } from 'react-foundation-components/lib/forms';
-import { Button } from 'react-foundation-components/lib/button';
+
 import { FormWithValidation } from '../Forms/FormWithValidation';
 
 export const DummyComponent = () => {
 
     // localResources will be used to store resources fetched from the backend in this component
     // setLocalResources is a function that is roughly equivalent to setState in a class component
-    const [localResources, setLocalResources] = useState(null);
+    // const [localResources, setLocalResources] = useState(null);
 
     // You can use the same technique above for any kind of resource
     const [localHairStyles, setLocalHairStyles] = useState(null);
@@ -24,7 +21,7 @@ export const DummyComponent = () => {
     const dispatch = useDispatch();
 
     // resources is a "slice" of Redux store's state that contains items from all tables in the database
-    const resources = useSelector(state => state.resources);
+    // const resources = useSelector(state => state.resources);
 
     // You can use the same approach to access any specific table, like hairStyles
     const hairStyles = useSelector(state => state.resources.hairStyles);
@@ -139,14 +136,14 @@ export const DummyComponent = () => {
 
     return (
         <div className={[classes["dummy-container"], "text-center"].join(' ')}>
-            <Row>
-                <Column small={12}>
+            <div className="grid-x">
+                <div className="cell small-12">
                     <h1 className={classes["dummy-title"]}>
                         Fill in the form below to update or add a new <b>hair style</b>:
                     </h1>
-                </Column>
-            </Row>
-            <Row className={classes["dummy-form-container"]}>
+                </div>
+            </div>
+            <div className={[classes["dummy-form-container"], "grid-x"].join(' ')}>
                 <FormWithValidation
                     initialFormFields={initialFormFields}
                     handleSubmit={(e, isFormValid, formFields) => {
@@ -220,28 +217,30 @@ export const DummyComponent = () => {
                                         (field, index) => {
                                             if (field.type === 'select') {
                                                 return (
-                                                    <FormField
+                                                    <div
                                                         className={classes["dummy-form-field"]}
                                                         key={index}
                                                         id={field.label.toLowerCase().split(' ').join('-')}
                                                     >
-                                                        <Row>
-                                                            <Column
-                                                                small={12}
+                                                        <div className="grid-x">
+                                                            <div
+                                                                className="cell small-12"
                                                                 smallCentered="centered"
                                                             >
-                                                                <FormFieldLabel className={classes["dummy-form-label"]}>
+                                                                <div className={classes["dummy-form-label"]}>
                                                                     {field.label}
-                                                                </FormFieldLabel>
-                                                            </Column>
-                                                        </Row>
-                                                        <Row>
-                                                            <Column
-                                                                small={12}
-                                                                large={3}
-                                                                smallCentered="centered"
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="grid-x">
+                                                            <div
+                                                                className="cell small-12 large-3"
                                                             >
-                                                                <FormFieldInput
+                                                                {/*  <fieldset>
+                                                                    <legend>Choose</legend>
+
+                                                                </fieldset> */}
+                                                                {/*  <input
                                                                     type={field.type}
                                                                     onChange={e => setInputValue(field, e)}
                                                                     className={classes["dummy-form-option"]}
@@ -256,35 +255,32 @@ export const DummyComponent = () => {
                                                                             </option>
                                                                         ))
                                                                     }
-                                                                </FormFieldInput>
-                                                            </Column>
-                                                        </Row>
-                                                    </FormField>
+                                                                </FormFieldInput> */}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 )
                                             }
                                             else {
                                                 return (
-                                                    <FormField
+                                                    <div
                                                         className={classes["dummy-form-field"]}
                                                         key={index}
                                                         id={field.label.toLowerCase().split(' ').join('-')}
                                                         error={field.validation?.some(v => v.error) ? "true" : "false"}
                                                     >
-                                                        <Row>
-                                                            <Column>
-                                                                <FormFieldLabel className={classes["dummy-form-label"]}>
+                                                        <div className="grid-x">
+                                                            <div className="cell">
+                                                                <label className={classes["dummy-form-label"]}>
                                                                     {field.label}
-                                                                </FormFieldLabel>
-                                                            </Column>
-                                                        </Row>
-                                                        <Row>
-                                                            <Column
-                                                                small={12}
-                                                                large={4}
-                                                                smallCentered="centered"
-                                                                className={classes["dummy-form-input-container"]}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="grid-x">
+                                                            <div
+                                                                className={[classes["dummy-form-input-container"], "cell", "small-12", "large-4", "text-center"].join(' ')}
                                                             >
-                                                                <FormFieldInput
+                                                                <input
                                                                     type={field.type}
                                                                     value={field.input}
                                                                     required={field.required}
@@ -300,8 +296,8 @@ export const DummyComponent = () => {
                                                                             formFields[0].input === 'DELETE')
                                                                     }
                                                                 />
-                                                            </Column>
-                                                        </Row>
+                                                            </div>
+                                                        </div>
                                                         {
                                                             field.validation &&
                                                             field
@@ -309,41 +305,41 @@ export const DummyComponent = () => {
                                                                 .filter(v => v.error)
                                                                 .map(v => v.errorMessage)
                                                                 .map((msg, i) => (
-                                                                    <Row key={i}>
-                                                                        <Column>
-                                                                            <FormFieldError
+                                                                    <div key={i} className="grid-x">
+                                                                        <div className="cell">
+                                                                            <p
                                                                             >
                                                                                 {msg}
-                                                                            </FormFieldError>
-                                                                        </Column>
-                                                                    </Row>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 ))
                                                         }
-                                                    </FormField>
+                                                    </div>
                                                 )
                                             }
                                         }
                                     )
 
                                 }
-                                <Button
+                                <button
                                     color="success"
                                     type="submit"
                                     className={classes["dummy-form-submit"]}
                                     disabled={formSubmitted}
                                 >
                                     Submit
-                                </Button>
+                                </button>
                             </>
                         )}
                 />
-            </Row>
-            <Row>
+            </div>
+            <div className="grid-x">
                 <h2 className={classes["dummy-table-title"]}>
                     Hair styles from <code>localHairStyles</code>:
                 </h2>
-            </Row>
-            <Table scroll={true} className={classes["dummy-table"]}>
+            </div>
+            <table className={classes["dummy-table"]}>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -382,7 +378,7 @@ export const DummyComponent = () => {
                             ))
                     }
                 </tbody>
-            </Table>
+            </table>
         </div>
     )
 }

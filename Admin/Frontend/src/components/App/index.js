@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DummyComponent } from '../DummyComponent';
 import { PrivateRoute } from '../PrivateRoute';
 import { Alert } from '../Alert';
-import { Column } from 'react-foundation-components/lib/grid';
 import { PortalWrapper } from '../Modal/PortalWrapper';
 import { Modal } from '../Modal';
 
@@ -224,14 +223,14 @@ const App = () => {
                 {
                     newUser ?
                         (
-                            <Column className={"alert-container"}>
+                            <div className={"alert-container"}>
                                 <Alert
                                     show={true}
                                     type="success"
                                     message={`Welcome, ${newUser.firstName} ${newUser.lastName}!`}
                                     dismiss={dismissNewUser}
                                 />
-                            </Column>
+                            </div>
                         ) : ''
                 }
                 <div className={sidebarContainerClasses.join(' ')}>
@@ -258,27 +257,6 @@ const App = () => {
                     </div>
 
                     <div className={["cell", "small-auto", "right-container-content"].join(' ')}>
-
-                        {/* Testing menu modal outside of the sidebar */}
-                        {/* <Modal
-                            open={isMenuOpen}
-                            closeModal={setMenuOpen}
-                            isModal={true}
-                            size="full"
-                            overlayStyle={overlayStyle}
-                            revealStyle={revealStyle}
-                        >
-                            {
-                                menuItems.map((item, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        text={item.text}
-                                        icon={item.icon}
-                                        subItems={item.subItems}
-                                    />
-                                ))
-                            }
-                        </Modal> */}
 
                         <Switch>
                             {

@@ -1,21 +1,11 @@
-import React, { useEffect, useState} from 'react';
-
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
+import React, { useEffect, useState } from 'react';
 import { FormWithValidation } from '../../Forms/FormWithValidation';
-import { Button } from 'react-foundation-components/lib/button';
-import { Row, Column } from 'react-foundation-components/lib/grid';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { resourceActions } from '../../../_actions';
 import { resourceNames } from '../../../_constants';
 
-export const EditEntry = ({title, initialFormFields, objectToEdit, close, editObject}) => {
+export const EditEntry = ({ title, initialFormFields, objectToEdit, close, editObject }) => {
     const dispatch = useDispatch();
     console.log("edit this: ", editObject);
 
@@ -34,7 +24,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
         }
     }, [formSubmitted]);
 
-    
+
 
     return (
         <div className="edit-form-container">
@@ -53,13 +43,13 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                     console.log("Inputs object: ");
                     console.log(formFields);
 
-                    
+
 
                     // Create a resource objecte
 
 
                     switch (title) {
-                        
+
                         case "Users": {
                             //const selectedHairStyle = localHairStyles.hairStyles.items.find(h => h.id == body.Id);
 
@@ -74,7 +64,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                                 UserRole: formFields[5].input
                             };
                             console.log("resourceObject");
-                            console.dir(resourceObject);                          
+                            console.dir(resourceObject);
                             dispatch(resourceActions.put(resourceNames.USERS, editObject.id, resourceObject));
                             setTimeout(() => {
                                 setFormSubmitted(true);
@@ -84,7 +74,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                         }
 
                         case "User Features": {
-                            
+
                             var resourceObject = {
                                 Id: editObject.id,
                                 UserId: editObject.userId,
@@ -104,7 +94,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                         }
 
                         case "Skin Tones": {
-                            
+
                             var resourceObject = {
                                 Id: editObject.id,
                                 SkinToneName: formFields[0].input,
@@ -120,7 +110,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                         }
 
                         case "Face Shapes": {
-                            
+
                             var resourceObject = {
                                 Id: editObject.id,
                                 FaceShapeName: formFields[0].input,
@@ -136,7 +126,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                         }
 
                         case "Hair Lengths": {
-                            
+
                             var resourceObject = {
                                 Id: editObject.id,
                                 HairLengthName: formFields[0].input,
@@ -150,7 +140,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                             }, 300);
                             break;
                         }
-                        
+
                         default: {
                             break;
                         }
@@ -158,7 +148,7 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
 
                     }
 
-                    }
+                }
                 }
 
                 fields={(
@@ -168,53 +158,53 @@ export const EditEntry = ({title, initialFormFields, objectToEdit, close, editOb
                     isFormValid,
                     handleBlur) => (
                         <>
-                        {
-                            formFields.map((field, index) => {
-                                return(
-                                    <>
-                                    <FormField
-                                        key={index}
-                                        id={field.label.toLowerCase().split(' ').join('-')}
-                                        className="edit-form-field edit-form-field-text-input"
-                                    >
-                                        <FormFieldInline>
-                                            <FormFieldLabel className="edit-form-label">
-                                                {field.label}
-                                            </FormFieldLabel>
-                                            <FormFieldInput
-                                                type={field.type}
-                                                value={field.input}
-                                                required={field.required}
-                                                onChange={e => setInputValue(field, e)}
-                                                onFocus={() => setFieldTouched(field)}
-                                                onBlur={e => handleBlur(field, e)}
-                                                className="signin-form-input-field"
-                                                placeholder={field.label}
-                                            />                                                    
-                                        </FormFieldInline>
+                            {
+                                formFields.map((field, index) => {
+                                    return (
+                                        <>
+                                            <div
+                                                key={index}
+                                                id={field.label.toLowerCase().split(' ').join('-')}
+                                                className="edit-form-field edit-form-field-text-input"
+                                            >
+                                                <div>
+                                                    <label className="edit-form-label">
+                                                        {field.label}
+                                                    </label>
+                                                    <input
+                                                        type={field.type}
+                                                        value={field.input}
+                                                        required={field.required}
+                                                        onChange={e => setInputValue(field, e)}
+                                                        onFocus={() => setFieldTouched(field)}
+                                                        onBlur={e => handleBlur(field, e)}
+                                                        className="signin-form-input-field"
+                                                        placeholder={field.label}
+                                                    />
+                                                </div>
 
-                                    </FormField>
-                                    </>
-                                );
-                            })
-                        }
-                        <Row>
-                            <Column small={4}>
-                            <Button onClick={() => close(false)} key="cancel" style={{ backgroundColor: 'red' }}>Cancel</Button>
-                            </Column>
-                            <Column small={4}>
-                                <Button type="submit">Submit</Button>
-                            </Column>
-                            <Column small={4}>
-                            <Button key="clear" style={{ backgroundColor: 'yellow', color: 'black' }}>Clear</Button>
-                            </Column>
-                        </Row>
-                        
+                                            </div>
+                                        </>
+                                    );
+                                })
+                            }
+                            <div className="grid-x">
+                                <div className="cell small-4">
+                                    <button onClick={() => close(false)} key="cancel" style={{ backgroundColor: 'red' }}>Cancel</button>
+                                </div>
+                                <div className="cell small-4">
+                                    <button type="submit">Submit</button>
+                                </div>
+                                <div className="cell small-4">
+                                    <button key="clear" style={{ backgroundColor: 'yellow', color: 'black' }}>Clear</button>
+                                </div>
+                            </div>
+
                         </>
                     )}
             />
         </div>
-        
+
     )
 
 };

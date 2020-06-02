@@ -8,7 +8,7 @@
 export function createRequestHeader(method, body = {}) {
     const normalisedMethod = method ? method.trim().toUpperCase() : null;
     if (!normalisedMethod) {
-        throw 'Invalid request method';
+        throw new Error('Invalid request method');
     }
 
     const baseOptions = {

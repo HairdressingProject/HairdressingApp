@@ -6,8 +6,6 @@ import "./User.scss";
 import user from '../../../img/icons/user.svg';
 import userSettings from '../../../img/icons/caret-down.svg';
 
-import { LinkWithDropdown } from 'react-foundation-components';
-
 export const User = ({ isSidebarOpen }) => {
     const userNameClasses = ['user-name'];
     const userSettingsClasses = ['user-settings'];
@@ -34,8 +32,56 @@ export const User = ({ isSidebarOpen }) => {
     return (
         <div className="user-container grid-container">
 
+            <button class="button" type="button" data-toggle="example-dropdown2">Dropdown</button>
 
-            <LinkWithDropdown
+            <div class="dropdown-pane top" id="example-dropdown2" data-dropdown>
+                <button className="user-btn grid-x">
+                    <div className="cell small-4">
+                        <img src={user} alt="User" className={userImgClasses.join(' ')} />
+                    </div>
+                    <div className="cell small-4">
+                        <span className={userNameClasses.join(' ')}>
+                            User
+                    </span>
+                    </div>
+                    <div className="cell small-4">
+                        <img
+                            src={userSettings}
+                            alt="User settings"
+                            className={userSettingsClasses.join(' ')}
+                        />
+                    </div>
+                </button>
+
+                {
+                    <div className="user-dropdown-container">
+                        <button className="user-dropdown-btn grid-x">
+                            <div className="cell small-12">
+                                <span className="menu-item-name">
+                                    My Account
+                        </span>
+                            </div>
+                        </button>
+
+                        <button
+                            className="user-dropdown-btn grid-x"
+                            onClick={e => handleLogout(e)}
+                        >
+                            <div className="cell small-12">
+                                <span
+                                    className="menu-item-name"
+                                >
+                                    Logout
+                                </span>
+                            </div>
+                        </button>
+
+
+                    </div>
+                }
+            </div>
+
+            {/* <LinkWithDropdown
                 closeOnClickOutside
                 dropdownStyle={{
                     zIndex: 10000,
@@ -90,7 +136,7 @@ export const User = ({ isSidebarOpen }) => {
                         />
                     </div>
                 </button>
-            </LinkWithDropdown>
+            </LinkWithDropdown> */}
         </div>
     )
 }

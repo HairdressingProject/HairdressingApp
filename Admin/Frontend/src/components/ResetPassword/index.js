@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Row, Column } from 'react-foundation-components/lib/grid';
-import { Button } from 'react-foundation-components/lib/button';
-import {
-    FormField,
-    FormFieldInput,
-    FormFieldLabel,
-    FormFieldError,
-    FormFieldInline
-} from 'react-foundation-components/lib/forms';
 import mail from '../../img/icons/mail.svg';
 import password from '../../img/icons/password.svg';
 
@@ -51,7 +42,7 @@ export const ResetPassword = () => {
         setToken(token);
 
         dispatch(resourceActions.get(resourceNames.USERS, token));
-    }, []);
+    }, [dispatch, history, query]);
 
     useEffect(() => {
         console.log("Resources updated:");
@@ -110,7 +101,7 @@ export const ResetPassword = () => {
         else {
             setLoading(false);
         }
-    }, [users]);
+    }, [users, history]);
 
     const initialFormFields = [
         {
@@ -222,7 +213,7 @@ export const ResetPassword = () => {
         if (userEmail) {
             initialFormFields[0].input = userEmail;
         }
-    }, [userEmail]);
+    }, [userEmail, initialFormFields]);
 
     const dismissError = err => {
         if (errors && errors.length) {
@@ -254,22 +245,22 @@ export const ResetPassword = () => {
             }
 
             <div className={[classes["newpassword-container"], "text-center"].join(' ')}>
-                <Row>
-                    <Column small={12} medium={6} mediumCentered="centered" className={classes["newpassword-form"]}>
-                        <Row className={classes["newpassword-title-container"]}>
-                            <Column small={12}>
+                <div className="grid-x">
+                    <div className={[classes["newpassword-form"], "cell", "small-12", "medium-6", "text-center"].join(' ')}>
+                        <div className={classes["newpassword-title-container"]}>
+                            <div className="cell small-12">
                                 <h1>
                                     Hairdressing Application - Admin Portal
                         </h1>
-                            </Column>
-                        </Row>
-                        <Row className={classes["newpassword-subtitle-container"]}>
-                            <Column small={12}>
+                            </div>
+                        </div>
+                        <div className={classes["newpassword-subtitle-container"]}>
+                            <div className="cell small-12">
                                 <h2>
                                     Enter your new password below:
                         </h2>
-                            </Column>
-                        </Row>
+                            </div>
+                        </div>
 
                         <FormWithValidation
                             initialFormFields={initialFormFields}
@@ -291,26 +282,26 @@ export const ResetPassword = () => {
                                     <>
                                         {
                                             formFields.map((field, index) => (
-                                                <Row className={classes["newpassword-form-row"]} key={index}>
-                                                    <Column small={8} smallCentered="centered">
-                                                        <FormField
+                                                <div className={classes["newpassword-form-row"]} key={index}>
+                                                    <div className="cell small-8 text-center">
+                                                        <div
                                                             key={index}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
                                                             className={[classes["newpassword-form-field"], classes["newpassword-form-field-text-input"]].join(' ')}
                                                             error={field.validation?.some(v => v.error)}
                                                         >
-                                                            <FormFieldLabel></FormFieldLabel>
-                                                            <FormFieldInline>
-                                                                <FormFieldLabel className={classes["newpassword-form-label"]}>
+                                                            <label></label>
+                                                            <div>
+                                                                <label className={classes["newpassword-form-label"]}>
                                                                     <img src={field.icon} alt={field.label} className={classes["newpassword-form-mail"]} />
-                                                                </FormFieldLabel>
+                                                                </label>
                                                                 {
                                                                     field.label === 'Email' ?
                                                                         userEmail ?
 
 
                                                                             (
-                                                                                <FormFieldInput
+                                                                                <input
                                                                                     type={field.type}
                                                                                     value={userEmail}
                                                                                     required={field.required}
@@ -321,7 +312,7 @@ export const ResetPassword = () => {
                                                                             )
                                                                             :
                                                                             (
-                                                                                <FormFieldInput
+                                                                                <input
                                                                                     type={field.type}
                                                                                     value={field.input}
                                                                                     required={field.required}
@@ -332,7 +323,7 @@ export const ResetPassword = () => {
                                                                             )
                                                                         :
                                                                         (
-                                                                            <FormFieldInput
+                                                                            <input
                                                                                 type={field.type}
                                                                                 value={field.input}
                                                                                 required={field.required}
@@ -346,7 +337,7 @@ export const ResetPassword = () => {
                                                                         )
                                                                 }
 
-                                                            </FormFieldInline>
+                                                            </div>
                                                             {
                                                                 field.validation ?
                                                                     field
@@ -354,23 +345,23 @@ export const ResetPassword = () => {
                                                                         .filter(v => v.error)
                                                                         .map(v => v.errorMessage)
                                                                         .map((msg, i) => (
-                                                                            <FormFieldError
+                                                                            <p
                                                                                 key={i}
                                                                                 className={classes["newpassword-form-input-field-error"]}
                                                                             >
                                                                                 {msg}
-                                                                            </FormFieldError>
+                                                                            </p>
                                                                         )) : ''
                                                             }
 
-                                                        </FormField>
-                                                    </Column>
-                                                </Row>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             ))
                                         }
-                                        <Row className={classes["newpassword-form-submit"]}>
-                                            <Column small={12} className={classes["newpassword-form-submit-container"]}>
-                                                <Button
+                                        <div className={classes["newpassword-form-submit"]}>
+                                            <div className={[classes["newpassword-form-submit-container"], "cell", "small-12"].join(' ')}>
+                                                <button
                                                     type="submit"
                                                     className={
                                                         isFormValid ?
@@ -384,27 +375,27 @@ export const ResetPassword = () => {
                                                             <TailSpin />
                                                             : 'Change password'
                                                     }
-                                                </Button>
-                                            </Column>
-                                        </Row>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }
                         />
-                    </Column>
-                </Row>
-                <Row className={classes["links-container"]}>
-                    <Column small={12} className={classes["signin-container"]}>
+                    </div>
+                </div>
+                <div className={classes["links-container"]}>
+                    <div className={[classes["signin-container"], "cell", "small-12"].join(' ')}>
                         <p className={classes["signin-text"]}>
                             Returning user? <span className={classes["signin-span"]}><Link to="/sign_in" className={classes["signin-link"]}>Sign In</Link></span>
                         </p>
-                    </Column>
-                    <Column small={12} className={classes["signup-container"]}>
+                    </div>
+                    <div className={[classes["signup-container"], "cell small-12"]}>
                         <p className={classes["signup-text"]}>
                             New user? <span className={classes["signup-span"]}><Link to="/sign_up" className={classes["signup-link"]}>Sign Up</Link></span>
                         </p>
-                    </Column>
-                </Row>
+                    </div>
+                </div>
             </div>
         </div>
     )
