@@ -177,13 +177,13 @@ export const Databases = () => {
         var tablesToShow = row.selectedRows;
 
 
-        console.log("Selected tables: ");
-        console.log(tablesToShow);
+        /* console.log("Selected tables: ");
+        console.log(tablesToShow); */
 
 
         if (tablesToShow.length > 0) {
             tablesToShow.forEach((item) => {
-                console.log(item.tableId);
+                // console.log(item.tableId);
                 tablesI[item.tableId] = 1;
             });
         } else {
@@ -281,7 +281,7 @@ export const Databases = () => {
 
     return (
         <div>
-            databases
+            <h1 className={["text-center", classes["databases-title"]].join(' ')}>Databases</h1>
 
             {/* Table that shows all tables on the database */}
             <div className={classes["db-table-container"]}>

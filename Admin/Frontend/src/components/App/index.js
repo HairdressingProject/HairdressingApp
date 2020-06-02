@@ -14,7 +14,6 @@ import { Traffic } from '../Traffic';
 import { Permissions } from '../Permissions';
 import { Pictures } from '../Pictures';
 import { MenuItem } from '../Navigation/Menu/MenuItem';
-// import Modal from 'react-foundation-modal';
 import settingsDark from '../../img/icons/settings-dark.svg';
 import notificationsDark from '../../img/icons/notifications-dark.svg';
 import { history } from '../../_helpers';

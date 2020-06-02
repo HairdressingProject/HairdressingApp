@@ -6,10 +6,10 @@ import { userActions } from '../../_actions';
 
 import * as DataColumns from '../Databases/Tables/DBTable/DataColumns';
 
-import Modal from 'react-foundation-modal';
-
 
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from '../Modal';
+import { PortalWrapper } from '../Modal/PortalWrapper';
 
 /**
  * Permissions page is where the Administrator can change users role.
@@ -179,139 +179,61 @@ export const Permissions = () => {
                 contextActions={contextActions}
             />
 
-            <Modal
-                open={isModalOpen}
-                closeModal={showModal}
-                isModal={true}
-                size="full">
-
-                Change role
-                    <>
-                    <form onSubmit={handleSubmit}>
-                        <div className="cell">
-                            <div className="grid-x">
-                                <input type="radio" value="Admin" name="userRole" checked={isChecked === "Admin"} onChange={handleChange} />
-                                <label for="Admin">Admin</label>
-                            </div>
-                            <div className="grid-x">
-                                <input type="radio" value="Developer" name="userRole" checked={isChecked === "Developer"} onChange={handleChange} />
-                                <label for="Developer">Developer</label>
-                            </div>
-                            <div className="grid-x">
-                                <input type="radio" value="User" name="userRole" checked={isChecked === "User"} onChange={handleChange} />
-                                <label for="User">User</label>
-                            </div>
-                        </div>
-
-                        <div className="cell">
-                            <div className="grid-x">
-                                <button type="submit" disabled={isChecked === null}>Submit</button>
-                            </div>
-                        </div>
-
-                        <div className="cell">
-                            Selected option is : {isChecked}
-                        </div>
-
-
-
-                    </form>
-
-
-                    {/* <Row className={classes["change-rol-form-container"]}>
-                        <FormWithValidation
-                            initialFormFields={initialFormFields}
-                            handleSubmit={(e) => {
-                                e.preventDefault();
-
-                                const requestMethod = 'PUT';
-
-                                const body = {
-                                    Id:1, //objToEdit
-                                    UserRole:'admin' //formFields[1].input
-                                };
-
-                                console.log("submitting form:");
-                                console.log(objToEdit);
-                                console.log(requestMethod);
-                                console.dir(body);
-
-                                // Submit
-                                const selectedUser = localUsers.users.items.find(uid => uid.id == body.Id);
-
-                                // For PUT requests, don't forget to pass the entire resource object
-                                // Except for DateModified, since it's automatically set by the database
-                                // This is required by ASP.NET Core, because it strictly follows
-                                // The HTTP specification
-
-                                // var resourceObject = {
-                                //     Id: objToEdit.id,
-                                //     UserName: objToEdit.userName,
-                                //     UserEmail: objToEdit.userEmail,
-                                //     UserPassword: formFields[2].input, //ToDO: remove this field
-                                //     FirstName: objToEdit.firstName,
-                                //     LastName: objToEdit.LastName,
-                                //     UserRole: formFields[0].input
-                                // };
-
-                                // dispatch(resourceActions.put(resourceNames.USERS, body.Id, {
-                                //     Id: body.Id,
-                                //     UserName: body.HairStyleName,
-                                //     HairStyleLinks: selectedHairStyle.hairStyleLinks,
-                                //     DateCreated: selectedHairStyle.dateCreated
-                                // }));
+            <PortalWrapper>
+                <Modal
+                    active={isModalOpen}
+                >
+                    <div>
+                        <button
+                            style={{
+                                position: 'absolute',
+                                color: 'red',
+                                fontSize: '5rem',
+                                top: '10%',
+                                left: '90%',
+                                cursor: 'pointer'
                             }}
-                            fields ={(
-                                formFields,
-                                setInputValue,
-                                setFieldTouched,
-                                isFormValid,
-                                handleBlur
-                            ) => (
+                            onClick={() => showModal(false)}
+                        >
+                            X
+                        </button>
+                        <div>
+                            Change role
                                 <>
-                                {
-                                    formFields.map(
-                                        (field, index) => {
-                                            return(
-                                                <FormField
-                                                    className={classes["form-field"]}
-                                                    key={index}
-                                                    id={field.label.toLowerCase().split(' ').join('-')}
+                                <form onSubmit={handleSubmit}>
+                                    <div className="cell">
+                                        <div className="grid-x">
+                                            <input type="radio" value="Admin" name="userRole" checked={isChecked === "Admin"} onChange={handleChange} />
+                                            <label htmlFor="Admin">Admin</label>
+                                        </div>
+                                        <div className="grid-x">
+                                            <input type="radio" value="Developer" name="userRole" checked={isChecked === "Developer"} onChange={handleChange} />
+                                            <label htmlFor="Developer">Developer</label>
+                                        </div>
+                                        <div className="grid-x">
+                                            <input type="radio" value="User" name="userRole" checked={isChecked === "User"} onChange={handleChange} />
+                                            <label htmlFor="User">User</label>
+                                        </div>
+                                    </div>
 
-                                                >
-                                                    <Row>
-                                                        <Column
-                                                            small={12}
-                                                            large={4}
-                                                        >
-                                                            <FormFieldLabel className={classes["form-label"]}>
-                                                                {field.label}
-                                                            </FormFieldLabel>
-                                                        </Column>
-                                                        <Column>
-                                                            <FormFieldInput
-                                                                type={field.type}
-                                                                value={field.value}
-                                                                onChange={e => setChecked(field, e)}
-                                                                className={classes["form-radio"]}
-                                                            />
-                                                        </Column>
-                                                    </Row>
+                                    <div className="cell">
+                                        <div className="grid-x">
+                                            <button type="submit" disabled={isChecked === null}>Submit</button>
+                                        </div>
+                                    </div>
 
-                                                </FormField>
-                                            )                                            
-                                        }
-                                    )
-                                }
-                                </>
-                            )
-                            }
-                        />
-                    </Row> */}
-                </>
+                                    <div className="cell">
+                                        Selected option is : {isChecked}
+                                    </div>
 
-            </Modal>
 
+
+                                </form>
+                            </>
+                        </div>
+                    </div>
+                </Modal>
+            </PortalWrapper>
         </div>
     );
 

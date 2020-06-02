@@ -1,3 +1,8 @@
+.databases-title {
+    color: whitesmoke;
+    margin: 2rem 0 6rem 0;
+}
+
 .db-table-container {
     position: relative;
     //width: 100%;
@@ -154,7 +159,6 @@
 
 .data-table {
     position: relative;
-    background-color: red;
 
     & .rdt_Table {
         min-width: 500px;
@@ -163,6 +167,5 @@
     & header {
         position: relative;
         min-width: 500px;
-        background-color: blue;
     }
 }

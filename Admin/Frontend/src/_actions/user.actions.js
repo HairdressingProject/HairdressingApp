@@ -38,7 +38,7 @@ function login(usernameOrEmail, password, URL = `https://localhost:5000`) {
             .then(
                 user => {
                     dispatch(loginSuccess({ user }));
-                    history.push('/');
+                    history.push('/databases');
                 },
                 error => {
                     dispatch(loginFailure({ error }));
