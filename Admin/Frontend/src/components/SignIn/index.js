@@ -78,14 +78,6 @@ const SignIn = () => {
                     }
                 }
             ]
-        },
-
-        // to be implemented, but not needed for now
-        {
-            label: 'Remember Me',
-            input: false,
-            defaultChecked: false,
-            type: 'checkbox'
         }
     ];
 
@@ -140,7 +132,7 @@ const SignIn = () => {
             }
             <div className={[classes["signin-container"], "text-center"].join(' ')}>
                 <div className="grid-x">
-                    <div className={[classes["signin-form"], "cell", "small-12", "medium-6", "text-center"].join(' ')}>
+                    <div className={[classes["signin-form"], "cell", "small-12", "medium-6", "text-center", "medium-offset-3"].join(' ')}>
                         <div className={classes["signin-title-container"]}>
                             <div className="cell small-12">
                                 <h1>
@@ -165,7 +157,6 @@ const SignIn = () => {
                                 const inputs = {
                                     usernameOrEmail: formFields[0].input,
                                     password: formFields[1].input,
-                                    rememberMe: formFields[2].input
                                 };
 
                                 if (isFormValid) {
@@ -212,9 +203,6 @@ const SignIn = () => {
                                                                         {field.label}
                                                                     </label>
                                                                 </div>
-                                                                <div className="cell small-5">
-                                                                    <Link to="/forgot_password">Forgot Password?</Link>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     )
@@ -226,11 +214,10 @@ const SignIn = () => {
                                                                 <div
                                                                     key={index}
                                                                     id={field.label.toLowerCase().split(' ').join('-')}
-                                                                    className={[classes["signin-form-field"], classes["signin-form-field-text-input"]].join(' ')}
+                                                                    className={[classes["signin-form-field"], classes["signin-form-field-text-input"], "grid-x"].join(' ')}
                                                                 >
-                                                                    <label></label>
-                                                                    <div>
-                                                                        <label className={classes["signin-form-label"]}>
+                                                                    <div className={["cell", "small-12", "medium-6", "medium-offset-3", "grid-x", classes["field-container"]].join(' ')}>
+                                                                        <label className={["cell", "small-1", classes["label-icon"]].join(' ')}>
                                                                             {
                                                                                 field.label === 'Username or email' ?
                                                                                     <img src={mail} alt="Email" className={classes["signin-form-icon"]} /> :
@@ -244,32 +231,34 @@ const SignIn = () => {
                                                                             onChange={e => setInputValue(field, e)}
                                                                             onFocus={() => setFieldTouched(field)}
                                                                             onBlur={e => handleBlur(field, e)}
-                                                                            className={classes["signin-form-input-field"]}
+                                                                            className={[classes["signin-form-input-field"], "cell", "small-11"].join(' ')}
                                                                             placeholder={field.label}
                                                                         />
                                                                     </div>
-                                                                    {
-                                                                        field
-                                                                            .validation
-                                                                            .filter(v => v.error)
-                                                                            .map(v => v.errorMessage)
-                                                                            .map((msg, i) => (
-                                                                                <p
-                                                                                    key={i}
-                                                                                    className={classes["signin-form-input-field-error"]}
-                                                                                >
-                                                                                    {msg}
-                                                                                </p>
-                                                                            ))
-                                                                    }
-
                                                                 </div>
+                                                                {
+                                                                    field
+                                                                        .validation
+                                                                        .filter(v => v.error)
+                                                                        .map(v => v.errorMessage)
+                                                                        .map((msg, i) => (
+                                                                            <p
+                                                                                key={i}
+                                                                                className={classes["signin-form-input-field-error"]}
+                                                                            >
+                                                                                {msg}
+                                                                            </p>
+                                                                        ))
+                                                                }
                                                             </div>
                                                         </div>
                                                     )
                                                 }
                                             })
                                         }
+                                        <div className="cell">
+                                            <Link to="/forgot_password">Forgot Password?</Link>
+                                        </div>
                                         <div className={classes["signin-form-submit"]}>
                                             <div className={["cell", classes["signin-form-submit-container"]].join(' ')}>
                                                 <button

@@ -55,7 +55,7 @@
             margin-bottom: 0rem;
 
             &-text-input {
-                margin-bottom: 3rem;
+                margin-bottom: 5rem;
             }
         }
 
@@ -100,9 +100,13 @@
             box-shadow: 0 0 4px 0 rgba(23, 23, 23, .18);
 
             &-error {
-                margin-top: 1.5rem;
-                text-align: left;
+                position: relative;
+                top: -3.5rem;
                 font-size: 1.2rem;
+                color: red;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 1.5rem;
             }
 
             &::placeholder {
@@ -146,6 +150,7 @@
                 background-color: #11CDEF;
                 border-radius: 5px;
                 padding: 1.5rem 4rem;
+                color: white;
 
                 &-invalid {
                     background-color: lighten($color: #000000, $amount: 50%);
@@ -176,6 +181,15 @@
         font-size: 1.4rem;
         letter-spacing: .05rem;
     }
+}
+
+.field-container {
+    position: relative;
+}
+
+.label-icon {
+    position: relative;
+    padding-top: 10px;
 }
 
 
