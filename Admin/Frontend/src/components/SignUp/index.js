@@ -226,8 +226,8 @@ export const SignUp = () => {
                         <div className={classes["signup-subtitle-container"]}>
                             <div className="cell text-center">
                                 <h2>
-                                    Welcome back! Please login to continue.
-                        </h2>
+                                    Welcome! Enter your details below to register a new account.
+                                </h2>
                             </div>
                         </div>
 

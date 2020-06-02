@@ -133,7 +133,7 @@ export const ForgotPassword = () => {
 
             <div className={[classes["forgotpassword-container"], "text-center"].join(' ')}>
                 <div className="grid-x">
-                    <div className={[classes["forgotpassword-form"], "cell", "small-12", "medium-8"].join(' ')}>
+                    <div className={[classes["forgotpassword-form"], "cell", "small-12", "medium-8", "medium-offset-2"].join(' ')}>
                         <div className={classes["forgotpassword-title-container"]}>
                             <div className="cell small-12">
                                 <h1>
@@ -176,13 +176,11 @@ export const ForgotPassword = () => {
                                                         <div
                                                             key={index}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
-                                                            className={[classes["forgotpassword-form-field"], classes["forgotpassword-form-field-text-input"]].join(' ')}
-                                                            error={field.validation?.some(v => v.error)}
+                                                            className={[classes["forgotpassword-form-field"], classes["forgotpassword-form-field-text-input"], "grid-x"].join(' ')}
                                                         >
-                                                            <label></label>
-                                                            <div>
+                                                            <div className="grid-x cell medium-offset-3 large-offset-4">
                                                                 <label className={classes["forgotpassword-form-label"]}>
-                                                                    <img src={mail} alt="Email" className={classes["forgotpassword-form-mail"]} />
+                                                                    <img src={mail} alt="Email" className={[classes["forgotpassword-form-mail"], "cell", "small-2"].join(' ')} />
                                                                 </label>
                                                                 <input
                                                                     type={field.type}
@@ -191,26 +189,25 @@ export const ForgotPassword = () => {
                                                                     onChange={e => setInputValue(field, e)}
                                                                     onFocus={() => setFieldTouched(field)}
                                                                     onBlur={e => handleBlur(field, e)}
-                                                                    className={classes["forgotpassword-form-input-field"]}
+                                                                    className={[classes["forgotpassword-form-input-field"], "cell", "small-10", "medium-6", "large-4"].join(' ')}
                                                                     placeholder={field.label}
                                                                 />
                                                             </div>
-                                                            {
-                                                                field
-                                                                    .validation
-                                                                    .filter(v => v.error)
-                                                                    .map(v => v.errorMessage)
-                                                                    .map((msg, i) => (
-                                                                        <p
-                                                                            key={i}
-                                                                            className={classes["forgotpassword-form-input-field-error"]}
-                                                                        >
-                                                                            {msg}
-                                                                        </p>
-                                                                    ))
-                                                            }
-
                                                         </div>
+                                                        {
+                                                            field
+                                                                .validation
+                                                                .filter(v => v.error)
+                                                                .map(v => v.errorMessage)
+                                                                .map((msg, i) => (
+                                                                    <p
+                                                                        key={i}
+                                                                        className={classes["forgotpassword-form-input-field-error"]}
+                                                                    >
+                                                                        {msg}
+                                                                    </p>
+                                                                ))
+                                                        }
                                                     </div>
                                                 </div>
                                             ))

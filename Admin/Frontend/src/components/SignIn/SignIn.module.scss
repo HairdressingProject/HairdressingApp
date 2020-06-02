@@ -61,8 +61,6 @@
 
         & &-label {
             padding: 0;
-            width: 17%;
-            height: 100%;
             border: 0;
             background-color: lighten($color: #000000, $amount: 85%);
             border-radius: 2px;
@@ -83,6 +81,8 @@
 
         &-icon {
             position: relative;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         &-checkbox-label {
@@ -189,7 +189,11 @@
 
 .label-icon {
     position: relative;
-    padding-top: 10px;
+    padding: 0;
+    border: 0;
+    background-color: lighten($color: #000000, $amount: 85%);
+    border-radius: 2px;
+    box-shadow: 0 0 5px 0 rgba(23, 23, 23, .3);
 }
 
 

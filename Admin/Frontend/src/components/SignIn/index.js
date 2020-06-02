@@ -217,7 +217,7 @@ const SignIn = () => {
                                                                     className={[classes["signin-form-field"], classes["signin-form-field-text-input"], "grid-x"].join(' ')}
                                                                 >
                                                                     <div className={["cell", "small-12", "medium-6", "medium-offset-3", "grid-x", classes["field-container"]].join(' ')}>
-                                                                        <label className={["cell", "small-1", classes["label-icon"]].join(' ')}>
+                                                                        <label className={["cell", "small-2", "medium-1", classes["label-icon"]].join(' ')}>
                                                                             {
                                                                                 field.label === 'Username or email' ?
                                                                                     <img src={mail} alt="Email" className={classes["signin-form-icon"]} /> :
@@ -231,7 +231,7 @@ const SignIn = () => {
                                                                             onChange={e => setInputValue(field, e)}
                                                                             onFocus={() => setFieldTouched(field)}
                                                                             onBlur={e => handleBlur(field, e)}
-                                                                            className={[classes["signin-form-input-field"], "cell", "small-11"].join(' ')}
+                                                                            className={[classes["signin-form-input-field"], "cell", "small-10", "medium-11"].join(' ')}
                                                                             placeholder={field.label}
                                                                         />
                                                                     </div>
