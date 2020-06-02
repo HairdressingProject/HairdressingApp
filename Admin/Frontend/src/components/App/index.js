@@ -80,6 +80,8 @@ const routes = [
     }
 ];
 
+const $ = window.$;
+
 const App = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(true); // Declares 'isSideBarOpen' as a state variable. (https://reactjs.org/docs/hooks-state.html)
 
@@ -90,6 +92,10 @@ const App = () => {
             // clear alert on location change
             dispatch(clearMessageAction);
         })
+    }, []);
+
+    useEffect(() => {
+        $(document).foundation();
     }, []);
 
     // Modal set up

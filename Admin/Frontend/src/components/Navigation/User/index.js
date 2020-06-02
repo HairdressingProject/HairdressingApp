@@ -30,32 +30,30 @@ export const User = ({ isSidebarOpen }) => {
         history.replace('/sign_in');
     }
     return (
-        <div className="user-container grid-container">
+        <div className="user-container">
 
-            <button class="button" type="button" data-toggle="example-dropdown2">Dropdown</button>
-
-            <div class="dropdown-pane top" id="example-dropdown2" data-dropdown>
-                <button className="user-btn grid-x">
-                    <div className="cell small-4">
-                        <img src={user} alt="User" className={userImgClasses.join(' ')} />
-                    </div>
-                    <div className="cell small-4">
-                        <span className={userNameClasses.join(' ')}>
-                            User
+            <button className="user-btn grid-x" data-toggle="dropdown">
+                <div className="cell small-4">
+                    <img src={user} alt="User" className={userImgClasses.join(' ')} />
+                </div>
+                <div className="cell small-4">
+                    <span className={userNameClasses.join(' ')}>
+                        User
                     </span>
-                    </div>
-                    <div className="cell small-4">
-                        <img
-                            src={userSettings}
-                            alt="User settings"
-                            className={userSettingsClasses.join(' ')}
-                        />
-                    </div>
-                </button>
+                </div>
+                <div className="cell small-4">
+                    <img
+                        src={userSettings}
+                        alt="User settings"
+                        className={userSettingsClasses.join(' ')}
+                    />
+                </div>
+            </button>
 
+            <div className="dropdown-pane" id="dropdown" data-position="bottom" data-alignment="center" data-dropdown>
                 {
                     <div className="user-dropdown-container">
-                        <button className="user-dropdown-btn grid-x">
+                        <button className="user-dropdown-btn grid-x margin-bottom-5">
                             <div className="cell small-12">
                                 <span className="menu-item-name">
                                     My Account

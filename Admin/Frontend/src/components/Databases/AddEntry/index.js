@@ -222,14 +222,13 @@ export const AddEntry = ({ title, initialFormFields, close }) => {
                                 {
                                     formFields.map((field, index) => {
                                         return (
-                                            <>
+                                            <div key={index}>
                                                 <div className="grid-x">
                                                     <div className="cell">
                                                         <div
                                                             key={index}
                                                             id={field.label.toLowerCase().split(' ').join('-')}
                                                             className={[classes["add-form-field"], classes["add-form-field-text-input"]].join(' ')}
-                                                            error={field.validation?.some(v => v.error)}
                                                         >
                                                             <label></label>
                                                             <div>
@@ -266,7 +265,7 @@ export const AddEntry = ({ title, initialFormFields, close }) => {
                                                     </div>
                                                 </div>
 
-                                            </>
+                                            </div>
                                         );
                                     })
                                 }

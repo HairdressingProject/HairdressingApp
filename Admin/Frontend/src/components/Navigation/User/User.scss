@@ -31,6 +31,14 @@
             transform: translateX(100%);
         }
     }
+
+    &-dropdown-btn {
+        cursor: pointer;
+
+        &:first-child {
+            margin-bottom: 2rem;
+        }
+    }
 }
 
 .dropdown {
