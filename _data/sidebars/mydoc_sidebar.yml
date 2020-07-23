@@ -96,13 +96,13 @@ entries:
       url: /mydoc_api.html
       output: web, pdf
 
-  # - title: Authoring
-  #   output: web, pdf
+  - title: Sample
+    output: sample
 
-  #   folderitems:
-  #   - title: Pages
-  #     url: /mydoc_pages.html
-  #     output: web, pdf
+    folderitems:
+    - title: Sample page
+      url: /mydoc_sample.html
+      output: sample
 
   #   - title: Posts
   #     url: /mydoc_posts.html
