@@ -19,3 +19,5 @@ We will keep it as simple as possible this time, using:
 - Zurb Foundation
 
 The previously built back-end uses ASP.NET Core with JWT authentication (works with cookies and Authorization headers) and MySQL (though it also works with MariaDB).
+
+<sup> Private GitHub Source: https://github.com/HairdressingProject/Admin-Portal-v2 </sup>
