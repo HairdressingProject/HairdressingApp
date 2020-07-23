@@ -20,9 +20,12 @@ entries:
       type: frontmatter
 
   - title: Overview
-    url: /index.html
     output: web, pdf
-#     folderitems:
+    folderitems:
+    
+    - title: Introduction
+      url: /index.html
+      output: web, pdf
 
     # - title: Introduction
     #   url: /mydoc_introduction.html
@@ -80,14 +83,13 @@ entries:
       url: /mydoc_admin_functions.html
       output: web, pdf
 
-  - title: Database Design
-    url: /mydoc_database_design.html
+  - title: Database
     output: web, pdf
-#     folderitems:
-#
-#     - title: Design
-#       url: /mydoc_database_design.html
-#       output: web, pdf
+    folderitems:
+
+    - title: Design (MySQL)
+      url: /mydoc_database_design.html
+      output: web, pdf
 
   - title: API
     output: web, pdf
