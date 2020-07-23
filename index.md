@@ -1,11 +1,24 @@
 ---
-title: "Documentation for the Hairdress App project"
+title: "Documentation for the Hairdressing App Project"
 keywords: homepage
 tags: [getting_started]
 sidebar: mydoc_sidebar
 permalink: index.html
 ---
-Welcome to documentation site for the Hairdress App Project.
+Welcome to the documentation site for the Hairdressing App Project.
+
+# Documentation Layout
+* Overview
+    * Introduction
+* Admin Portal
+    * Setup
+    * Guide
+    * Design (Wireframes)
+* Database
+    * Design (MySQL)
+* API
+    * Setup
+    * Build Instructions (Advanced)
 
 # Project Overview
 ## Hairdressing Project - Admin Portal v2
