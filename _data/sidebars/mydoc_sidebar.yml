@@ -71,16 +71,16 @@ entries:
     output: web, pdf
     folderitems:
     
-    - title: Design (Wireframes)
+    - title: Setup
       url: /mydoc_admin_setup.html
-      output: web, pdf
-
-    - title: Design (Wireframes)
-      url: /mydoc_admin_wireframes.html
       output: web, pdf
 
     - title: Guide
       url: /mydoc_admin_functions.html
+      output: web, pdf
+      
+    - title: Design (Wireframes)
+      url: /mydoc_admin_wireframes.html
       output: web, pdf
 
   - title: Database
