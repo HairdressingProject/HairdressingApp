@@ -20,13 +20,9 @@ entries:
       type: frontmatter
 
   - title: Overview
+    url: /index.html
     output: web, pdf
-    folderitems:
-
-    - title: Get started
-      url: /index.html
-      output: web, pdf
-      type: homepage
+#     folderitems:
 
     # - title: Introduction
     #   url: /mydoc_introduction.html
@@ -44,13 +40,13 @@ entries:
     #   url: /mydoc_support.html
     #   output: web, pdf
 
-  - title: Release Notes
-    output: web, pdf
-    folderitems:
+#   - title: Release Notes
+#     output: web, pdf
+#     folderitems:
 
-    - title: 1.0 Release notes
-      url: /
-      output: web, pdf
+#     - title: 1.0 Release notes
+#       url: /
+#       output: web, pdf
 
   # - title: Installation
   #   output: web, pdf
@@ -71,29 +67,38 @@ entries:
   - title: Admin Portal
     output: web, pdf
     folderitems:
-
-    - title: Wireframes
-      url: /mydoc_wireframes.html
+    
+    - title: Design (Wireframes)
+      url: /mydoc_admin_setup.html
       output: web, pdf
 
-    - title: Admin Functions
+    - title: Design (Wireframes)
+      url: /mydoc_admin_wireframes.html
+      output: web, pdf
+
+    - title: Guide
       url: /mydoc_admin_functions.html
       output: web, pdf
 
-  - title: Database
+  - title: Database Design
+    url: /mydoc_database_design.html
+    output: web, pdf
+#     folderitems:
+#
+#     - title: Design
+#       url: /mydoc_database_design.html
+#       output: web, pdf
+
+  - title: API
     output: web, pdf
     folderitems:
 
-    - title: Design
-      url: /mydoc_database_design.html
+    - title: Setup
+      url: /mydoc_api_setup.html
       output: web, pdf
-
-  - title: Api
-    output: web, pdf
-    folderitems:
-
-    - title: Guide
-      url: /mydoc_api.html
+      
+    - title: Build Instructions (Advanced)
+      url: /mydoc_api_build_instructions.html
       output: web, pdf
 
   - title: Sample
