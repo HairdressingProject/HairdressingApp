@@ -97,12 +97,12 @@ entries:
       output: web, pdf
 
   - title: Sample
-    output: sample
+    output: web, pdf
 
     folderitems:
     - title: Sample page
       url: /mydoc_sample.html
-      output: sample
+      output: web, pdf
 
   #   - title: Posts
   #     url: /mydoc_posts.html
